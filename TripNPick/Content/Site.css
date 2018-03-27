@@ -1,24 +1,150 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 30px;
 }
 
-/* Set padding to keep content from hitting the edges */
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.homeBG {
+    background-image: url('../images/homeBG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 1199.98px) {
+    .space-xlg {
+        padding-top: 4.5rem;
+        padding-bottom: 4.5rem
+    }
+}
+
+.bg-dark {
+    background-color: #212529 !important
+}
+
+.text-white {
+    color: #fff !important
+}
+
+section {
+    padding: 3rem 0;
+    display: block;
+    position: relative
+}
+
+.container {
+    width: 100%;
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: auto;
+    margin-left: auto
+}
+
+.section-intro {
+    margin-bottom: 1.5rem
+}
+
+.text-center {
+    text-align: center !important
+}
+
+.justify-content-center {
+    -webkit-box-pack: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -12px;
+    margin-left: -12px
+}
+
+@media (max-width: 575.98px) {
+    .card {
+        margin-bottom: 0.75rem
+    } 
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e9ecef;
+    border-radius: 0.25rem
+}
+
+.card-sm .card-body {
+    padding: 0.75rem 1.5rem
+}
+
+.align-items-center {
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important
+}
+
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.5rem
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0
+}
+
+.dropdown-btn {
+    margin-left:12px;
+    margin-right:12px;
+    width:90%
+}
+
+.dropdown-cb {
+    position: relative;
+    margin-left: 12px;
+    margin-bottom: 6px
 }
