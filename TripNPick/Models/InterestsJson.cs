@@ -8,11 +8,11 @@ namespace TripNPick.Models
     public class InterestsJson
     {
         public List<string> html_attributions { get; set; }
-        public List<Results> results { get; set; }
+        public List<IntResults> results { get; set; }
         public string status { get; set; }
     }
 
-    public class Results
+    public class IntResults
     {
         public string formatted_address { get; set; }
         public Geometry geometry { get; set; }

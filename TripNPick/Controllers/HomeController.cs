@@ -14,34 +14,42 @@ namespace TripNPick.Controllers
         public ActionResult Index()
         {
             List<Interests> inte = new List<Interests>();
-            inte.Add(new Interests() { interestsID = 1, interestsName = "Camping", ischecked = false });
-            inte.Add(new Interests() { interestsID = 2, interestsName = "Hiking", ischecked = false });
-            inte.Add(new Interests() { interestsID = 3, interestsName = "Skiing", ischecked = false });
-            inte.Add(new Interests() { interestsID = 4, interestsName = "Surfing", ischecked = false });
+            inte.Add(new Interests() { interestsID = 0, interestsName = "Camping", ischecked = false });
+            inte.Add(new Interests() { interestsID = 1, interestsName = "Hiking", ischecked = false });
+            inte.Add(new Interests() { interestsID = 2, interestsName = "Skiing", ischecked = false });
+            inte.Add(new Interests() { interestsID = 3, interestsName = "Surfing", ischecked = false });
 
             List<States> state = new List<States>();
-            state.Add(new States() { statesID = 1, statesShortName = "ACT", statesName = "Australian Capital Territory", ischecked = false });
-            state.Add(new States() { statesID = 2, statesShortName = "NSW", statesName = "New South Wales", ischecked = false });
-            state.Add(new States() { statesID = 3, statesShortName = "NT", statesName = "Northern Territory", ischecked = false });
-            state.Add(new States() { statesID = 4, statesShortName = "QLD", statesName = "Queensland", ischecked = false });
-            state.Add(new States() { statesID = 5, statesShortName = "SA", statesName = "South Australia", ischecked = false });
-            state.Add(new States() { statesID = 6, statesShortName = "TAS", statesName = "Tasmania", ischecked = false });
-            state.Add(new States() { statesID = 7, statesShortName = "VIC", statesName = "Victoria", ischecked = false });
-            state.Add(new States() { statesID = 8, statesShortName = "WA", statesName = "Western Australia", ischecked = false });
+            state.Add(new States() { statesID = 0, statesShortName = "ACT", statesName = "Australian Capital Territory", ischecked = false });
+            state.Add(new States() { statesID = 1, statesShortName = "NSW", statesName = "New South Wales", ischecked = false });
+            state.Add(new States() { statesID = 2, statesShortName = "NT", statesName = "Northern Territory", ischecked = false });
+            state.Add(new States() { statesID = 3, statesShortName = "QLD", statesName = "Queensland", ischecked = false });
+            state.Add(new States() { statesID = 4, statesShortName = "SA", statesName = "South Australia", ischecked = false });
+            state.Add(new States() { statesID = 5, statesShortName = "TAS", statesName = "Tasmania", ischecked = false });
+            state.Add(new States() { statesID = 6, statesShortName = "VIC", statesName = "Victoria", ischecked = false });
+            state.Add(new States() { statesID = 7, statesShortName = "WA", statesName = "Western Australia", ischecked = false });
 
             DropdownList ddList = new DropdownList();
             ddList.interests = inte;
             ddList.states = state;
-
+            
             return View(ddList);
         }
 
-        public ActionResult About()
+        public ActionResult About(string InteString, string StatString)
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = InteString + StatString;
+            System.Diagnostics.Debug.WriteLine(InteString + StatString);
 
             return View();
         }
+
+        public ActionResult Results()
+        {
+            return View();
+        }
+
+
 
         public ActionResult Contact()
         {
@@ -55,7 +63,7 @@ namespace TripNPick.Controllers
             var client = new WebClient();
             string myKey = "AIzaSyC1IPf50kkZ5oZy0uQmLHyobjd7MF5ugsA";
             string returnType = "json";
-            interest = "skiing";
+            interest = "camping";
             state = "Victoria";
             string searchUrl = string.Format("https://maps.googleapis.com/maps/api/place/textsearch/" + returnType + "?query=" + interest + "+in+" + state + "Australia&key=" + myKey);
             var json_data = string.Empty;
