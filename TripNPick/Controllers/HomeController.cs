@@ -99,7 +99,7 @@ namespace TripNPick.Controllers
             var client = new WebClient();
             string myKey = "AIzaSyC1IPf50kkZ5oZy0uQmLHyobjd7MF5ugsA";
             string returnType = "json";
-            radius = 20000;
+            radius = 10000;
             string searchUrl = string.Format("https://maps.googleapis.com/maps/api/place/nearbysearch/" + returnType + "?location=" + lat + "," + lng + "&radius=" + radius + "&type=&keyword=farm&key=" + myKey);
             var json_data = string.Empty;
             json_data = client.DownloadString(searchUrl);
