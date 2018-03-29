@@ -29,15 +29,33 @@ textarea {
     background-repeat: no-repeat;
 }
 
-@media (max-width: 1199.98px) {
-    .space-xlg {
-        padding-top: 4.5rem;
-        padding-bottom: 4.5rem
-    }
+.paymentBG {
+    background-image: url('../images/paymentBG.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 400px;
+}
+
+.rightsBG {
+    background-image: url('../images/rightsBG.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 400px;
+}
+
+.taxBG {
+    background-image: url('../images/taxBG.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 400px;
 }
 
 .bg-dark {
     background-color: #212529 !important
+}
+
+.bg-gray {
+    background-color: #cfcece !important
 }
 
 .text-white {
@@ -137,4 +155,28 @@ section {
     position: relative;
     margin-left: 12px;
     margin-bottom: 6px
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.col-container {
+    display: table;
+    width: 90%;
+}
+.col {
+    display: table-cell;
+    padding: 16px;
+}
+
+@media only screen and (max-width: 500px) {
+    .col { 
+        display: block;
+        width: 100%;
+    }
+}
+
+.resutlTable {
+    margin-top:50px;
 }

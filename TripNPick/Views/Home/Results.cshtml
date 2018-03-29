@@ -1,1 +1,68 @@
-﻿
+﻿@model TripNPick.Models.FarmsJson
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table style="width:100%" class="resutlTable">
+            <tr>
+                <th>Name</th>
+                <th>Details</th>
+                <th>Interets</th>
+                <th>More</th>
+            </tr>
+                @foreach (var farm in Model.results)
+                {
+                    <tr>
+                        @if (farm.name != null & !farm.name.Equals(""))
+                        {
+                            <td width="25%">
+                                <p>@farm.name</p>
+                                @if (farm.rating != null)
+                                {
+                                    <p>Rating: @farm.rating</p>
+                                } else
+                                {
+                                    <p>Rating: Unknow</p>
+                                }
+                            </td>
+                        } else
+                        {
+                            <td width="25%">Unknow</td>
+                        }
+                        @if (farm.vicinity != null & !farm.vicinity.Equals(""))
+                        {
+                            <td width="25%">
+                                <p>Address: @farm.vicinity</p>
+                            </td>
+                        } else
+                        {
+                            <td width="25%">Unknow</td>
+                        }
+                        @*@if (farm.interest.name != null & farm)*@
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+        </table>
+    </div>
+
+</body>
+</html>

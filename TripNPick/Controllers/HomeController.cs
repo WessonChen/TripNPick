@@ -46,7 +46,13 @@ namespace TripNPick.Controllers
 
         public ActionResult Results()
         {
-            return View();
+            InterestsJson interets = getInterests("a", "a");
+            FarmsJson farms = new FarmsJson();
+            foreach (var interest in interets.results)
+            {
+                farms = getFarms(interest.geometry.location.lat, interest.geometry.location.lng, 25000, interest);
+            }
+            return View(farms);
         }
 
 
@@ -63,12 +69,29 @@ namespace TripNPick.Controllers
             var client = new WebClient();
             string myKey = "AIzaSyC1IPf50kkZ5oZy0uQmLHyobjd7MF5ugsA";
             string returnType = "json";
-            interest = "camping";
+            interest = "surfing";
             state = "Victoria";
             string searchUrl = string.Format("https://maps.googleapis.com/maps/api/place/textsearch/" + returnType + "?query=" + interest + "+in+" + state + "Australia&key=" + myKey);
             var json_data = string.Empty;
             json_data = client.DownloadString(searchUrl);
             return JsonConvert.DeserializeObject<InterestsJson>(json_data);
+        }
+
+        public FarmsJson getFarms(double lat, double lng, int radius, IntResults interest)
+        {
+            var client = new WebClient();
+            string myKey = "AIzaSyC1IPf50kkZ5oZy0uQmLHyobjd7MF5ugsA";
+            string returnType = "json";
+            radius = 25000;
+            string searchUrl = string.Format("https://maps.googleapis.com/maps/api/place/nearbysearch/" + returnType + "?location=" + lat + "," + lng + "&radius=" + radius + "&type=&keyword=farm&key=" + myKey);
+            var json_data = string.Empty;
+            json_data = client.DownloadString(searchUrl);
+            FarmsJson newFarmJson = JsonConvert.DeserializeObject<FarmsJson>(json_data);
+            foreach (var farm in newFarmJson.results)
+            {
+                farm.interest = interest;
+            }
+            return newFarmJson;
         }
     }
 }
