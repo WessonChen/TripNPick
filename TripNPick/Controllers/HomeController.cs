@@ -48,11 +48,23 @@ namespace TripNPick.Controllers
         {
             InterestsJson interets = getInterests("a", "a");
             FarmsJson farms = new FarmsJson();
+            FarmsJson farmsList = new FarmsJson();
+            List<string> s = new List<string>();
+            s.Add("");
+            farmsList.html_attributions = s;
+            farmsList.status = "";
+            List<FarmResults> re = new List<FarmResults>();
+            farmsList.results = re;
+
             foreach (var interest in interets.results)
             {
                 farms = getFarms(interest.geometry.location.lat, interest.geometry.location.lng, 25000, interest);
+                foreach (var item in farms.results)
+                {
+                    farmsList.results.Add(item);
+                }
             }
-            return View(farms);
+            return View(farmsList);
         }
 
 
@@ -69,12 +81,17 @@ namespace TripNPick.Controllers
             var client = new WebClient();
             string myKey = "AIzaSyC1IPf50kkZ5oZy0uQmLHyobjd7MF5ugsA";
             string returnType = "json";
-            interest = "surfing";
+            interest = "Surfing";
             state = "Victoria";
             string searchUrl = string.Format("https://maps.googleapis.com/maps/api/place/textsearch/" + returnType + "?query=" + interest + "+in+" + state + "Australia&key=" + myKey);
             var json_data = string.Empty;
             json_data = client.DownloadString(searchUrl);
-            return JsonConvert.DeserializeObject<InterestsJson>(json_data);
+            InterestsJson interets = JsonConvert.DeserializeObject<InterestsJson>(json_data);
+            foreach (var item in interets.results)
+            {
+                item.actualType = interest;
+            }
+            return interets;
         }
 
         public FarmsJson getFarms(double lat, double lng, int radius, IntResults interest)
@@ -82,7 +99,7 @@ namespace TripNPick.Controllers
             var client = new WebClient();
             string myKey = "AIzaSyC1IPf50kkZ5oZy0uQmLHyobjd7MF5ugsA";
             string returnType = "json";
-            radius = 25000;
+            radius = 20000;
             string searchUrl = string.Format("https://maps.googleapis.com/maps/api/place/nearbysearch/" + returnType + "?location=" + lat + "," + lng + "&radius=" + radius + "&type=&keyword=farm&key=" + myKey);
             var json_data = string.Empty;
             json_data = client.DownloadString(searchUrl);

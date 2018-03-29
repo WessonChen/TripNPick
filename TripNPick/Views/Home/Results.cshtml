@@ -33,7 +33,7 @@
                     <tr>
                         @if (farm.name != null & !farm.name.Equals(""))
                         {
-                            <td width="25%">
+                            <td width="30%">
                                 <p>@farm.name</p>
                                 @if (farm.rating != null)
                                 {
@@ -47,18 +47,35 @@
                         {
                             <td width="25%">Unknow</td>
                         }
+                        <td width="30%">
                         @if (farm.vicinity != null & !farm.vicinity.Equals(""))
                         {
-                            <td width="25%">
-                                <p>Address: @farm.vicinity</p>
-                            </td>
+                            <p>Address: @farm.vicinity</p>
                         } else
                         {
-                            <td width="25%">Unknow</td>
+                            <p>Address: Unknow</p>
                         }
-                        @*@if (farm.interest.name != null & farm)*@
-                        <td></td>
-                        <td></td>
+                        </td>
+                        <td width="30%">
+                            @if (farm.interest.name != null & !farm.interest.name.Equals(""))
+                            {
+                                <p>Interest: @farm.interest.name</p>
+                            } else
+                            {
+                                <p>Interst: Unknow</p>
+                            }
+                            <p>Type: @farm.interest.actualType</p>
+                            @if (farm.interest.rating != null)
+                            {
+                                <p>Rating: @farm.interest.rating</p>
+                            } else
+                            {
+                                <p>Rating: Unknow</p>
+                            }
+                        </td>
+                        <td>
+                            <button>More Details</button>
+                        </td>
                     </tr>
                 }
         </table>

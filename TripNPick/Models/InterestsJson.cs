@@ -25,6 +25,7 @@ namespace TripNPick.Models
         public string rating { get; set; }
         public string reference { get; set; }
         public List<string> types { get; set; }
+        public string actualType { get; set; }
     }
 
     public class Geometry
