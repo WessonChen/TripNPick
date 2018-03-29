@@ -59,7 +59,11 @@ textarea {
 }
 
 .text-white {
-    color: #fff !important
+    color: #fff
+}
+
+.text-black {
+    color: #000000 !important
 }
 
 section {
@@ -180,3 +184,4 @@ section {
 .resutlTable {
     margin-top:50px;
 }
+

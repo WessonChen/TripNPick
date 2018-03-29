@@ -239,6 +239,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Results.cshtml" />
+    <Content Include="Views\Home\Payments.cshtml" />
+    <Content Include="Views\Home\Taxs.cshtml" />
+    <Content Include="Views\Home\Rights.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

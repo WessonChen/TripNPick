@@ -23,12 +23,18 @@
                         Based on your interests,
                         we will help you to find the most suitable farm.
                     </span>
+                    <br />
+                    <br />
+                    <br />
+                    <form action="/Home/Results" method="post">
+                        <input type="text" name="yourInte" placeholder="Enter your interest here..." />
+                        <input type="submit" value="Search" />
+                    </form>
                 </div>
-            </div>
+            </div>   
 
-            <div class="row justify-content-center">
-
-                @*<div class="col-12 col-md-10 col-lg-8">
+            @*<div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
                     <form class="card card-sm">
                         <div class="card-body row no-gutters align-items-center">
                             <div class="col-sm-5">
@@ -72,8 +78,8 @@
                             </div>
                         </div>
                     </form>
-                </div>*@
-            </div>
+                </div>
+            </div>*@
         </div>
     </section>
 
@@ -93,28 +99,30 @@
 
             <div class="row justify-content-center">
                 <div class="col-container">
-                    <div class="col text-white">
+                    <div class="col-sm-4 text-white">
                         <div class="paymentBG">
-                            <h2>Column 1</h2>
-                            <p>Hello World</p>
+                            <h1>Payments</h1>
+                            <p>Make sure you are getting paid properly. Know what your the minimum wage is and what you are supposed to be
+                            be paid.</p>
+                            <button class="dropdown-cb" onclick="location.href='@Url.Action("Payments", "Home")'">Learn More</button>
                         </div>
                     </div>
 
-                    <div class="col text-white">
+                    <div class="col-sm-4 text-white">
                         <div class="taxBG">
-                            <h2>Column 2</h2>
-                            <p>Hello World!</p>
-                            <p>Hello World!</p>
-                            <p>Hello World!</p>
-                            <p>Hello World!</p>
+                            <h1>Taxs</h1>
+                            <p>You are eligible to pay tax as well as tax return. Know how much tax you have to pay and how much can you get back
+                            after a year.</p>
+                            <button class="dropdown-cb" onclick="location.href='@Url.Action("Payments", "Home")'">Learn More</button>
                         </div>
                     </div>
 
-                    <div class="col text-white">
+                    <div class="col-sm-4 text-white">
                         <div class="rightsBG">
-                            <h2>Column 3</h2>
-                            <p>Some other text..</p>
-                            <p>Some other text..</p>
+                            <h1>Rights</h1>
+                            <p>You have the right to question and say no whenever you feel uncomfortable. Do not let your ignorance exploit you. There are always ways to seek help.</p>
+
+                            <button class="dropdown-cb" onclick="location.href='@Url.Action("Rights", "Home")'">Learn More</button>
                         </div>
                     </div>
                 </div>

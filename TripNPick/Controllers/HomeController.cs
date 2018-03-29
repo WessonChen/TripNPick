@@ -31,7 +31,7 @@ namespace TripNPick.Controllers
 
             DropdownList ddList = new DropdownList();
             ddList.interests = inte;
-            ddList.states = state;
+            //ddList.states = state;
             
             return View(ddList);
         }
@@ -44,9 +44,9 @@ namespace TripNPick.Controllers
             return View();
         }
 
-        public ActionResult Results()
+        public ActionResult Results(string yourInte)
         {
-            InterestsJson interets = getInterests("a", "a");
+            InterestsJson interets = getInterests(yourInte, "a");
             FarmsJson farms = new FarmsJson();
             FarmsJson farmsList = new FarmsJson();
             List<string> s = new List<string>();
@@ -76,12 +76,29 @@ namespace TripNPick.Controllers
             return View();
         }
 
+        public ActionResult Payments()
+        {
+
+            return View();
+        }
+
+        public ActionResult Taxs()
+        {
+
+            return View();
+        }
+
+        public ActionResult Rights()
+        {
+
+            return View();
+        }
+
         public InterestsJson getInterests(string interest, string state)
         {
             var client = new WebClient();
             string myKey = "AIzaSyC1IPf50kkZ5oZy0uQmLHyobjd7MF5ugsA";
             string returnType = "json";
-            interest = "Surfing";
             state = "Victoria";
             string searchUrl = string.Format("https://maps.googleapis.com/maps/api/place/textsearch/" + returnType + "?query=" + interest + "+in+" + state + "Australia&key=" + myKey);
             var json_data = string.Empty;

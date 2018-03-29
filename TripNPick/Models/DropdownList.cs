@@ -22,7 +22,7 @@ namespace TripNPick.Models
 
     public class DropdownList
     {
-        public List<States> states { get; set; }
+        //public List<States> states { get; set; }
         public List<Interests> interests { get; set; }
     }
 }
