@@ -1,0 +1,21 @@
+﻿#farms {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#farms td, #farms th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#farms tr:nth-child(even){background-color: #f2f2f2;}
+
+#farms tr:hover {background-color: #ddd;}
+
+#farms th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}

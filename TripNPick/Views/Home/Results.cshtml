@@ -7,32 +7,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-#farms {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-#farms td, #farms th {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-#farms tr:nth-child(even){background-color: #f2f2f2;}
-
-#farms tr:hover {background-color: #ddd;}
-
-#farms th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-}
-    </style>
+    <link rel="stylesheet" type="text/css" href="~/Content/results.css" />
 </head>
 <body>
-    <div class="container" style="overflow-x:auto;">
+    <div class="container" style="overflow-x:auto; padding: 100px 0;">
         <table style="width:100%" class="resutlTable" id="farms">
             <tr>
                 <th>Name</th>
@@ -67,6 +45,14 @@
                         {
                             <p>Address: Unknow</p>
                         }
+                        @*@if (farm.geometry != null & farm.geometry.location != null & farm.interest.geometry != null & farm.interest.geometry.location != null)
+                        {
+                            <p>Address: </p>
+                        }
+                        else
+                        {
+                            <p>Distance: Unknow</p>
+                        }*@
                         </td>
                         <td width="30%">
                             @if (farm.interest.name != null & !farm.interest.name.Equals(""))

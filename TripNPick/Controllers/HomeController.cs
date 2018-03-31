@@ -36,14 +36,6 @@ namespace TripNPick.Controllers
             return View(ddList);
         }
 
-        public ActionResult About(string InteString, string StatString)
-        {
-            ViewBag.Message = InteString + StatString;
-            System.Diagnostics.Debug.WriteLine(InteString + StatString);
-
-            return View();
-        }
-
         public ActionResult Results(string yourInte)
         {
             InterestsJson interets = getInterests(yourInte, "a");
@@ -65,15 +57,6 @@ namespace TripNPick.Controllers
                 }
             }
             return View(farmsList);
-        }
-
-
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         public ActionResult Payments()

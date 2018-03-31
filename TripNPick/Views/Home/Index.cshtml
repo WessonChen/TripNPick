@@ -5,132 +5,93 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>@ViewData["Title"] - Trip&Pick</title>
-
 </head>
-
 <body>
-    <section id="home" class="container-fluid homeBG text-white space-xlg" style="padding-top:200px;padding-bottom:400px">
+    <a name="about"></a>
+    <div class="intro-header">
         <div class="container">
-            <div class="row text-center justify-content-center section-intro">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <h1 class="display-3" style="font-variant: small-caps; font-size: 400%;">Trip & Pick</h1>
-                    <span class="lead">
-                        Based on your interests,
-                        we will help you to find the most suitable farm.
-                    </span>
-                    <br />
-                    <br />
-                    <br />
-                    <form action="/Home/Results" method="post">
-                        <input type="text" name="yourInte" placeholder="Enter your interest here..." />
-                        <input type="submit" value="Search" />
-                    </form>
-                </div>
-            </div>   
-
-            @*<div class="row justify-content-center">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <form class="card card-sm">
-                        <div class="card-body row no-gutters align-items-center">
-                            <div class="col-sm-5">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-btn" data-toggle="dropdown">
-                                        Interests
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-btn" id="interestList">
-                                        @foreach (var i in Model.interests)
-                                        {
-                                            <li class="dropdown-cb">
-                                                <div class="checkbox">
-                                                    <input type="checkbox" id="@i.interestsID" checked="@i.ischecked" />
-                                                    <label for="@i.interestsID">@i.interestsName</label>
-                                                </div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-btn" data-toggle="dropdown">
-                                        States
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-btn" id="statesList">
-                                        @foreach (var i in Model.states)
-                                        {
-                                            <li class="dropdown-cb">
-                                                <div class="checkbox">
-                                                    <input type="checkbox" id="@i.statesID" checked="@i.ischecked" />
-                                                    <label for="@i.statesID">@i.statesName | (@i.statesShortName)</label>
-                                                </div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <button class="btn btn-success dropdown-btn" onclick="QuestResults()">Search</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>*@
-        </div>
-    </section>
-
-    <section id="info" class="container-fluid bg-gray" style="padding-top:120px;padding-bottom:250px">
-        <div class="container">
-            <div class="row text-center justify-content-center section-intro">
-                <div class="col-12 col-md-10 col-lg-8">
-                    <div style="margin-bottom:75px">
-                        <h1 class="display-3">Info U May Want To Know</h1>
-                        <br />
-                        <span class="lead">
-                            May force be with you!
-                        </span>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1 class="display-3" style="font-variant: small-caps; font-size: 400%;">Trip & Pick</h1>
+                        <h3>Based on your interests, we will help you to find the most suitable farm.</h3>
+                        <hr class="intro-divider">
+                        <form action="/Home/Results" class="form-inline" method="post" style="color: black">
+                            <input type="text" class="form-control" name="yourInte" placeholder="Enter your interest here..." />
+                            <input type="submit" class="btn" value="Search" />
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <div class="row justify-content-center">
-                <div class="col-container">
-                    <div class="col-sm-4 text-white">
-                        <div class="paymentBG">
-                            <h1 style="text-align:center">Payments</h1>
-                            <p style="margin: 20px">Make sure you are getting paid properly. <br/><br />Know what your the minimum wage is and what you are supposed to be
-                            be paid.</p>
-                            <button class="dropdown-cb" onclick="location.href='@Url.Action("Payments", "Home")'">Learn More</button>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 text-white">
-                        <div class="taxBG">
-                            <h1 style="text-align:center">Taxs</h1>
-                            <p style="margin: 20px">You are eligible to pay tax as well as tax return. <br /><br />Know how much tax you have to pay and how much can you get back
-                            after a year.</p>
-                            <button class="dropdown-cb" onclick="location.href='@Url.Action("Payments", "Home")'">Learn More</button>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 text-white">
-                        <div class="rightsBG">
-                            <h1 style="text-align:center">Rights</h1>
-                            <p style="margin: 20px">You have the right to question and say no whenever you feel uncomfortable.<br/><br /> Do not let your ignorance exploit you. <br /><br />There are always ways to seek help.</p>
-
-                            <button class="dropdown-cb" onclick="location.href='@Url.Action("Rights", "Home")'">Learn More</button>
-                        </div>
-                    </div>
+        </div>
+    </div>
+    <a name="services"></a>
+    <div class="content-section-a">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Payments</h2>
+                    <p class="lead">Make sure you are getting paid properly.
+                    <br />
+                        Know what your the minimum wage is and what you are supposed to be
+                        be paid.
+                    </p>
+                    <h3 class="section-heading">@Html.ActionLink("Learn More", "Payments", "Home")</h3>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="~/img/paymentBG.v1.jpg" alt="">
                 </div>
             </div>
-
         </div>
-</section>
+    </div>
+    <div class="content-section-b">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Taxes</h2>
+                    <p class="lead">You are eligible to pay tax as well as tax return.
+                    <br />
+                    Know how much tax you have to pay and how much can you get back after a year.
+                    </p>
+                    <h3 class="section-heading">@Html.ActionLink("Learn More", "Taxs", "Home")</h3>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="~/img/taxBG.v1.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-section-a">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Working Rights</h2>
+                    <p class="lead">You have the right to question and say no whenever you feel uncomfortable.
+                    <br />
+                    Do not let your ignorance exploit you.
+                    <br />
+                    There are always ways to seek help.
+                    </p>
+                    <h3 class="section-heading">@Html.ActionLink("Learn More", "Rights", "Home")</h3>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive" src="~/img/rightsBG.v1.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-
-
 </html>
