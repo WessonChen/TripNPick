@@ -186,17 +186,5 @@ section {
 }
 
 .resutlTable {
-    margin-top:50px;
-}
-
-.messageList {
-    border-left: 5px solid #2e5fff;
-    background-color: #f3f3f3;
-    list-style-type: none;
-    padding: 8px 16px;
-}
-
-.message {
-    padding: 10px 0;
-    font-size: 140%;
+    margin-top:32px;
 }
