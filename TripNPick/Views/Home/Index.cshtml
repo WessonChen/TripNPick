@@ -23,8 +23,12 @@
                         <h1 class="display-3" style="font-variant: small-caps; font-size: 400%;">Trip & Pick</h1>
                         <h3>Based on your interests, we will help you to find the most suitable farm.</h3>
                         <hr class="intro-divider">
-                        <form action="/Home/Results" class="form-inline" method="post" style="color: black">
-                            <input type="text" class="form-control" name="yourInte" placeholder="Enter your interest here..." />
+                        <form action="/Home/ExpResults" class="form-inline" method="post" style="color: black; background-color: white; width: 350px; margin: auto; padding: 8px 0;">
+                            <input type="radio" name="yourInte" value="camping" checked> Camping
+                            <input type="radio" name="yourInte" value="hiking"> Hiking
+                            <input type="radio" name="yourInte" value="skiing"> Skiing
+                            <input type="radio" name="yourInte" value="surfing"> Surfing
+                            @*<input type="text" class="form-control" name="yourInte" placeholder="Enter your interest here..." />*@
                             <input type="submit" class="btn" value="Search" />
                         </form>
                     </div>

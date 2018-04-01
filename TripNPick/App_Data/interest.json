@@ -1,0 +1,68 @@
+{
+   "a": [
+      {
+         "Interest_place_ID": 1,
+         "place_of_interest": "Black Hill Conservation Park",
+         "rating": 4.6,
+         "location": "lat: -34.8843782,\nlng: 138.7009898",
+         "interest_type": "hiking",
+         "suburb": "Adelaide Hills"
+      },
+      {
+         "Interest_place_ID": 2,
+         "place_of_interest": "Beechworth Historic Park",
+         "rating": 4.5,
+         "location": "lat: -36.346747,\nlng: 146.6772695",
+         "interest_type": "hiking",
+         "suburb": "Beechworth"
+      },
+      {
+         "Interest_place_ID": 3,
+         "place_of_interest": "Big D Ski Centre",
+         "rating": 4.2,
+         "location": "lat: -36.9919196,\nlng: 147.1484953",
+         "interest_type": "skiing",
+         "suburb": "Hotham Heights"
+      },
+      {
+         "Interest_place_ID": 4,
+         "place_of_interest": "Mount Buller",
+         "rating": 4,
+         "location": "lat: -37.1467949,\nlng: 146.4489704",
+         "interest_type": "skiing",
+         "suburb": "Victoria"
+      },
+      {
+         "Interest_place_ID": 5,
+         "place_of_interest": "AAOK Riverdale Caravan Park",
+         "rating": 3.8,
+         "location": "lat: -24.860419,\nlng: 152.349688",
+         "interest_type": "camping",
+         "suburb": "Bundaberg"
+      },
+      {
+         "Interest_place_ID": 6,
+         "place_of_interest": "Bundaberg East Cabin & Tourist Park",
+         "rating": 3.9,
+         "location": "lat: -24.8551515,\nlng: 152.3749337",
+         "interest_type": "camping",
+         "suburb": "Bundaberg"
+      },
+      {
+         "Interest_place_ID": 7,
+         "place_of_interest": "Bridgewater Bay",
+         "rating": 4.8,
+         "location": "lat: -38.374061,\nlng: 144.7669433",
+         "interest_type": "surfing",
+         "suburb": "Victoria"
+      },
+      {
+         "Interest_place_ID": 8,
+         "place_of_interest": "Squeaky Beach",
+         "rating": 4.7,
+         "location": "lat: -39.0249839,\nlng: 146.3053161",
+         "interest_type": "surfing",
+         "suburb": "victoria "
+      }
+   ]
+}

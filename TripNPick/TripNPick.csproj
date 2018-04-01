@@ -176,6 +176,11 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DropdownList.cs" />
+    <Compile Include="Models\ExpFarm.cs" />
+    <Compile Include="Models\ExpHarvest.cs" />
+    <Compile Include="Models\ExpInterest.cs" />
+    <Compile Include="Models\ExpList.cs" />
+    <Compile Include="Models\ExpWeather.cs" />
     <Compile Include="Models\FarmsJson.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestsJson.cs" />
@@ -239,9 +244,7 @@
     <Content Include="Views\Home\Taxs.cshtml" />
     <Content Include="Views\Home\Rights.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -278,7 +281,14 @@
     <Content Include="font-awesome\scss\_spinning.scss" />
     <Content Include="font-awesome\scss\_stacked.scss" />
     <Content Include="font-awesome\scss\_variables.scss" />
+    <Content Include="App_Data\farm.json" />
+    <Content Include="App_Data\harvest.json" />
+    <Content Include="App_Data\interest.json" />
+    <Content Include="App_Data\weather.json" />
     <None Include="Project_Readme.html" />
+    <Content Include="Views\Home\FarmDetails.cshtml" />
+    <Content Include="Views\Home\expResults.cshtml" />
+    <Content Include="Views\Home\ExpDetails.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
