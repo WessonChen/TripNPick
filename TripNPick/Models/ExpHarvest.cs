@@ -9,7 +9,7 @@ namespace TripNPick.Models
     {
         public int suburbID { get; set; }
         public string crop { get; set; }
-        public string Jan { get; set; }
+        public string Fan { get; set; }
         public string Feb { get; set; }
         public string Mar { get; set; }
         public string Apr { get; set; }

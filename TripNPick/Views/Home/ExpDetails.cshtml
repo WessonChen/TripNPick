@@ -13,50 +13,399 @@
     <div class="container" style="overflow-x:auto; padding: 100px 0;">
         <table style="width:100%" class="resutlTable" id="farms">
             <tr>
-                <th>Name</th>
-                <th>Details</th>
-                <th>Interets</th>
-                <th>More</th>
+                <th>January</th>
+                <th>February</th>
+                <th>March</th>
+                <th>April</th>
             </tr>
             @foreach (var farm in Model.farms.a)
             {
                 <tr>
-                    @if (farm.farm_name != null & !farm.farm_name.Equals(""))
-                    {
-                        <td width="30%">
-                            <p>@farm.farm_name</p>
-                            <p>Rating: @farm.rating</p>
-                        </td>
-                    }
-                    else
-                    {
-                        <td width="25%">Unknow</td>
-                    }
-                    <td width="30%">
-                        @if (farm.address != null & !farm.address.Equals(""))
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
                         {
-                            <p>Address: @farm.address</p>
-                        }
-                        else
-                        {
-                            <p>Address: Unknow</p>
-                        }
-                        <p>Address: @farm.distance Km</p>
-                    </td>
-                    <td width="30%">
-                        @for (int i = 0; i < Model.intersts.a.Count; i++)
-                        {
-                            if (farm.Interest_place_ID == Model.intersts.a[i].Interest_place_ID)
+                            if (item.Fan.Trim().Equals(""))
                             {
-                                <p>Interest Address: @Model.intersts.a[i].place_of_interest</p>
-                                <p>Interest Type: @Model.intersts.a[i].interest_type</p>
-                                <p>Interest Rating: @Model.intersts.a[i].rating</p>
-                                i += 9999;
+                                <p>@item.crop :  No</p>
+                            } else
+                            {
+                                <p>@item.crop :  @item.Fan.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.January days(s)</p>
+                            } else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.January day(s)</p>
+                            } else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.January day(s)</p>
                             }
                         }
                     </td>
-                    <td>
-                        <button>More Details</button>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Feb.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Feb.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.February days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.February day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.February day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Mar.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Mar.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.March days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.March day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.March day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Apr.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Apr.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.April days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.April day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.April day(s)</p>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <table style="width:100%" class="resutlTable" id="farms">
+            <tr>
+                <th>May</th>
+                <th>June</th>
+                <th>July</th>
+                <th>August</th>
+            </tr>
+            @foreach (var farm in Model.farms.a)
+            {
+                <tr>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.May == null)
+                            {
+                                <p>@item.crop :  No</p>
+                            } else if (item.May.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.May.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.May days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.May day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.May day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Jun.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Jun.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.June days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.June day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.June day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Jul.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Jul.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.July days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.July day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.July day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Aug.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Aug.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.August days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.August day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.August day(s)</p>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <table style="width:100%" class="resutlTable" id="farms">
+            <tr>
+                <th>September</th>
+                <th>October</th>
+                <th>November</th>
+                <th>December</th>
+            </tr>
+            @foreach (var farm in Model.farms.a)
+            {
+                <tr>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Sep.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Sep.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.September days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.September day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.September day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Oct.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Oct.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.October days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.October day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.October day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Nov.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Nov.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.November days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.November day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.November day(s)</p>
+                            }
+                        }
+                    </td>
+                    <td width="25%">
+                        <p>Labor demands for each fruits: </p>
+                        @foreach (var item in Model.harvests.a)
+                        {
+                            if (item.Dec.Trim().Equals(""))
+                            {
+                                <p>@item.crop :  No</p>
+                            }
+                            else
+                            {
+                                <p>@item.crop :  @item.Dec.Trim()</p>
+                            }
+                        }
+                        <br />
+                        @foreach (var item in Model.weathers.a)
+                        {
+                            if (item.statistic_element.Equals("Mean number of days >= 30 Degrees C"))
+                            {
+                                <p>Above 30 degree days:  @item.December days(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days <= 2 Degrees C"))
+                            {
+                                <p>Below 2 degree days:  @item.December day(s)</p>
+                            }
+                            else if (item.statistic_element.Equals("Mean number of days of rain >= 1 mm"))
+                            {
+                                <p>Raining days:  @item.December day(s)</p>
+                            }
+                        }
                     </td>
                 </tr>
             }

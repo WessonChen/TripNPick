@@ -56,7 +56,10 @@
                         }
                     </td>
                     <td>
-                        <input type="submit" class="btn" value="Details" style="background-color: #4CAF50; color: white"/>
+                        <form action="/Home/ExpDetails" class="form-inline" method="post">
+                            <input type="radio" name="farmName" value="@farm.farm_name" style="display: none" checked>
+                            <input type="submit" class="btn" value="Details" style="background-color: #4CAF50; color: white"/>
+                        </form>
                     </td>
                 </tr>
             }

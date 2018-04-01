@@ -111,9 +111,52 @@ namespace TripNPick.Controllers
             return expList;
         }
 
-        public ActionResult ExpDetails (int i)
+        public ActionResult ExpDetails (string farmName)
         {
             ExpList theList = getLocalJson();
+            List<ExpFarm> farms = new List<ExpFarm>();
+            ExpFarmList far = new ExpFarmList();
+            ExpFarm farm = new ExpFarm();
+            for (int i = 0; i < theList.farms.a.Count; i++)
+            {
+                if (farmName.Equals(theList.farms.a[i].farm_name))
+                {
+                    farm = theList.farms.a[i];
+                    int a = farm.suburbID;
+                    int b = theList.farms.a[i].suburbID;
+                    i += 9999;
+                }
+            }
+            farms.Add(farm);
+            far.a = farms;
+            theList.farms = far;
+
+            ExpHarvestList harv = new ExpHarvestList();
+            List<ExpHarvest> harvests = new List<ExpHarvest>();
+            foreach (var item in theList.harvests.a)
+            {
+                if (item.suburbID == farm.suburbID)
+                {
+                    ExpHarvest harvest = item;
+                    harvests.Add(harvest);
+                }
+            }
+            harv.a = harvests;
+            theList.harvests = harv;
+
+            ExpWeatherList weath = new ExpWeatherList();
+            List<ExpWeather> weathers = new List<ExpWeather>();
+            foreach (var item in theList.weathers.a)
+            {
+                if (item.stationID == farm.stationID)
+                {
+                    ExpWeather weahter = item;
+                    weathers.Add(weahter);
+                }
+            }
+            weath.a = weathers;
+            theList.weathers = weath;
+
             return View(theList);
         }
 
