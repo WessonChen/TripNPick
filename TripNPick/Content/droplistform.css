@@ -1,0 +1,105 @@
+﻿
+.dropbtn {
+    background-color: #374954;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+    border: none;
+    width: 200px;
+}
+
+.submitbtn {
+    background-color: #32CD32;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+    border: none;
+    width: 100px;
+}
+
+.submitbtn:hover {
+    background-color: #2E8B57;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content input:hover {background-color: #ddd}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #4682B4;
+}
+
+.content {
+    text-align: left;
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.content input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #C0C0C0;
+}
+
+.content:hover input ~ .checkmark {
+    background-color: #808080;
+}
+
+.content input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.content input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.content .checkmark:after {
+    left: 4px;
+    top: 3px;
+    width: 7px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

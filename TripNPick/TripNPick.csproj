@@ -193,6 +193,7 @@
     <Content Include="Content\404.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\droplistform.css" />
     <Content Include="Content\landing-page.css" />
     <Content Include="Content\PaymentTaxRight.css" />
     <Content Include="Content\results.css" />

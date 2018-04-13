@@ -11,6 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link href="~/Content/droplistform.css" rel="stylesheet">
+
     <title>@ViewData["Title"] - Trip&Pick</title>
 </head>
 <body>
@@ -20,16 +22,115 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1 class="display-3" style="font-variant: small-caps; font-size: 400%;">Trip & Pick</h1>
+                        <h1 class="display-3" style="font-variant: small-caps; font-size: 400%; margin-top: -16px">Trip & Pick</h1>
                         <h3>Based on your interests, we will help you to find the most suitable farm.</h3>
-                        <hr class="intro-divider">
-                        <form action="/Home/ExpResults" class="form-inline" method="post" style="color: black; background-color: white; width: 350px; margin: auto; padding: 8px 0;">
-                            <input type="radio" name="yourInte" value="camping" checked> Camping
-                            <input type="radio" name="yourInte" value="hiking"> Hiking
-                            <input type="radio" name="yourInte" value="skiing"> Skiing
-                            <input type="radio" name="yourInte" value="surfing"> Surfing
-                            @*<input type="text" class="form-control" name="yourInte" placeholder="Enter your interest here..." />*@
-                            <input type="submit" class="btn" value="Search" />
+                        <form @*action="/Home/ExpResults"*@ class="form-inline" method="post" style="color: black; background-color: white; width: 550px; margin: 32px auto auto auto; padding: 8px 0;">
+                            <div class="dropdown">
+                                <button class="dropbtn" disabled>When You Wanna Go</button>
+                                <div class="dropdown-content">
+                                    <label class="content">
+                                        January
+                                        <input type="checkbox" name="yourInte" value="January">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        February
+                                        <input type="checkbox" name="yourInte" value="February">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        March
+                                        <input type="checkbox" name="yourInte" value="March">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        April
+                                        <input type="checkbox" name="yourInte" value="April">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        May
+                                        <input type="checkbox" name="yourInte" value="May">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        June
+                                        <input type="checkbox" name="yourInte" value="June">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        July
+                                        <input type="checkbox" name="yourInte" value="July">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        Auguest
+                                        <input type="checkbox" name="yourInte" value="Auguest">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        September
+                                        <input type="checkbox" name="yourInte" value="September">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        October
+                                        <input type="checkbox" name="yourInte" value="October">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        Novenmber
+                                        <input type="checkbox" name="yourInte" value="Novenmber">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        December
+                                        <input type="checkbox" name="yourInte" value="December">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="dropbtn" disabled>Where You Wanna Go</button>
+                                <div class="dropdown-content">
+                                    <label class="content">
+                                        New South Wales
+                                        <input type="checkbox" name="yourState" value="NSW">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        Northern Territory
+                                        <input type="checkbox" name="yourState" value="NT">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        Queensland
+                                        <input type="checkbox" name="yourState" value="QLD">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        South Australia
+                                        <input type="checkbox" name="yourState" value="SA">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        Tasmania
+                                        <input type="checkbox" name="yourState" value="TAS">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        Victoria
+                                        <input type="checkbox" name="yourState" value="VIC">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="content">
+                                        Western Australia
+                                        <input type="checkbox" name="yourState" value="WA">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="submit" class="submitbtn" value="Search" />
                         </form>
                     </div>
                 </div>
