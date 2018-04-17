@@ -172,6 +172,7 @@
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -204,9 +205,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="img\homeBG.png" />
-    <Content Include="img\paymentBG.v1.jpg" />
     <Content Include="img\rightsBG.v1.jpg" />
-    <Content Include="img\taxBG.v1.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery.js" />
@@ -243,9 +242,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Results.cshtml" />
-    <Content Include="Views\Home\Payments.cshtml" />
-    <Content Include="Views\Home\Taxs.cshtml" />
-    <Content Include="Views\Home\Rights.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -293,6 +289,9 @@
     <Content Include="Views\Home\expResults.cshtml" />
     <Content Include="Views\Home\ExpDetails.cshtml" />
     <Content Include="Views\ErrorPage\ErrorMessage.cshtml" />
+    <Content Include="Views\Home\Information.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
+    <Content Include="Views\Home\AboutUS.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

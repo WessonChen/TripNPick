@@ -40,26 +40,18 @@ namespace TripNPick.Controllers
             return View(farmsList);
         }
 
-        public ActionResult Payments()
-        {
-
-            return View();
-        }
-
         public ActionResult FarmDetails()
         {
             return View();
         }
 
-        public ActionResult Taxs()
+        public ActionResult Information()
         {
-
             return View();
         }
 
-        public ActionResult Rights()
+        public ActionResult AboutUS()
         {
-
             return View();
         }
 
