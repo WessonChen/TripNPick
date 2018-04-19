@@ -29,6 +29,7 @@
             mapTypeControl: false,
             labels: true
         };
+        var infoWindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById("content"), mapOptions);
         map.setTilt(50);
 
@@ -43,29 +44,22 @@
                     label: markerLabel,
                     map: map
                   });
-                  infowindow = new google.maps.InfoWindow({
-                      content: infoWindowContent
-                  });
-                  google.maps.event.addListener(marker, 'mouseover', (function (marker, i) {
-                      return function () {
-                          infowindow.open(map, marker);
-                      }
-                  })(marker, i));
-                  google.maps.event.addListener(marker, 'mouseout', (function (marker, i) {
-                      return function () {
+                  (function (marker, infoWindowContent) {
+                      google.maps.event.addListener(marker, 'mouseover', function (e) {
+                          infoWindow.setContent(infoWindowContent);
+                          infoWindow.open(map, marker);
+                      });
+                  })(marker, infoWindowContent);
+                  (function (marker, infoWindowContent) {
+                      google.maps.event.addListener(marker, 'mouseout', function (e) {
                           infowindow.close();
-                      }
-                  })(marker, i));
-
-
-                // Center the map to fit all markers on the screen
-                //map.fitBounds(bounds);
+                      });
+                  })(marker, infoWindowContent);
 
             }
         })
        
     }
-    // Load initialize function
 
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_HGUZ-hvy730lBns4WKZxkhzMzm0UJU&region=AU&language=en-AU&callback=initMap" async defer></script>
