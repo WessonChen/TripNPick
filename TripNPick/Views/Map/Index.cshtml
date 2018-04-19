@@ -20,7 +20,9 @@
             zoom: 3.9,
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             mapTypeControl: false,
-            labels: true
+            labels: true,
+            gestureHandling: 'none',
+            zoomControl: false
         };
         var infoWindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
@@ -31,11 +33,17 @@
               var infowindow = [];
             for (i = 0; i < data.length; i++) {
                 var markerLabel = String(data[i].numberOfFarms);
-                //var numberOfFarmsString = (String)data.numberOfFarms;
-                var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
-                    '<br/>' + '<h4>Number of Farms with jobs in your selected month/months: <b>' + String(data[i].numberOfFarms) + '</b></h4>';
+                if (data[i].stateName === "QSL") {
+                    var infoWindowContent = '<h3>QLD</h3>' +
+                        '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>';
+                }
+                else {
+                    var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
+                        '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>';
+                }
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
+                    icon: 'https://png.icons8.com/office/32/000000/farm.png',
                     label: markerLabel,
                     map: map
                 });
@@ -54,6 +62,20 @@
             }
         })
     }
+
+    $(document).ready(function () {
+        $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map", new { combinedString = Model.combinedString })", function (data, status) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].stateName === "QSL") {
+                    $("#theList").append('<h3>QLD</h3>');
+                }
+                else
+                {
+                    $("#theList").append('<h3>' + data[i].stateName + '</h3>');
+                }
+            }
+        });
+    });
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_HGUZ-hvy730lBns4WKZxkhzMzm0UJU&region=AU&language=en-AU&callback=initMap" async defer></script>
 
@@ -347,11 +369,11 @@
             </table>
         </form>
 
-        <div class="col-lg-4" style="background-color: #808080; margin-top: 16px; padding-bottom: 500px;">
+        <div id="theList" class="col-lg-4" style="background-color: #B0E0E6; margin-top: 16px; height: 500px">
 
         </div>
 
-        <div id ="mapCanvas"class="col-lg-8" style="margin-top: 16px; padding-bottom: 500px;">
+        <div id ="mapCanvas" class="col-lg-8" style="margin-top: 16px; height: 500px">
 
         </div>
     </div>
