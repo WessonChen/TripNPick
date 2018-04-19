@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "MultipleMarkersMap";
+}
+
+<h2>MultipleMarkersMap</h2>
+
+<div id="wrapper">
+    <main>
+        <div id="content" style="height:600px">
+            <div class="innertube">
+                <h1>Heading</h1>
+                <div id="dvMap"></div>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+    var map;
+
+    function initMap() {
+        var markers = [
+            ['NSW', -31.840233, 145.612793],
+            ['NT', -19.491411, 132.550964],
+            ['QLD', -20.917574, 142.702789],
+            ['SA', -30.000233, 136.209152],
+            ['TAS', -41.640079, 146.315918],
+            ['VIC', -36.686043, 143.580322],
+            ['WA', -31.953512, 115.857048]
+        ];
+        var coa = { lat: -25.031596581410874, lng: 134.36777208750004 };
+        var mapOptions = {
+            center: coa,
+            zoom: 4.5,
+            mapTypeId: google.maps.MapTypeId.TERRAIN,
+            mapTypeControl: false,
+            labels: true
+        };
+        var map = new google.maps.Map(document.getElementById("content"), mapOptions);
+
+        var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+        var beachMarker = new google.maps.Marker({
+            position: { lat: -33.890, lng: 151.274 },
+            map: map,
+            icon: image
+        });
+        Console.WriteLine(markers.length);
+
+        var beachMarker2 = new google.maps.Marker({
+            position: { lat: -35.89, lng: 152.274 },
+            map: map,
+            icon: image
+        });
+        var infowindow = new google.maps.Infowindow();
+        var marker, i;
+        //var bounds = new google.maps.LatLngBounds();
+        for (i = 0; i < markers.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(markers[i][1], markers[i][2]),
+                map: map,
+                icon: image
+            });
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(markers[i][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+    }
+</script>
+
+
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_HGUZ-hvy730lBns4WKZxkhzMzm0UJU&region=AU&language=en-AU&callback=initMap" async defer></script>

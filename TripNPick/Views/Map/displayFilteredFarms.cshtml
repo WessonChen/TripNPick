@@ -1,0 +1,24 @@
+﻿
+
+@model IEnumerable<with_map_1.Models.FilteredFarmViewModel>
+<table>
+    <tr>
+        <td>Farm Name</td>
+        <td>Suburb Name</td>
+        <td>State Name</td>
+        <td>Latitude</td>
+        <td>Longitude</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.farmName</td>
+            <td>@item.suburbName</td>
+            <td>@item.stateName</td>
+            <td>@item.farm_lat</td>
+            <td>@item.farm_lng</td>
+        </tr>
+    }
+
+</table>
+

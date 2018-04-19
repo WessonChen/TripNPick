@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "FullMap";
+}
+
+<h2>FullMap</h2>
+<style>
+    #map {
+        height: 500px;
+    }
+</style>
+
+
+
+<br /><br />
+<div id="dvMap" style="width: 800px; height: 800px">
+</div>
+
+<script>
+    var map;
+    function initMap() {
+        var coa = { lat: -25.031596581410874, lng: 134.36777208750004 };
+        var mapOptions = {
+            center: coa,
+            zoom: 4.5,
+            mapTypeId: google.maps.MapTypeId.HYBRID,
+            labels: true
+        };
+        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+        //var marker = new google.maps.Marker({
+        //    position: { lat: -25.363, lng: 134.89 },
+        //    map: map
+        //});
+
+        $.get("@Url.Action("GetAllLocations", "RegionMap")", function (data, status) {
+            var marker = [];
+            var contentString = [];
+            var infowindow = [];
+            for (i = 0; i < data.length; i++) {
+                marker[i] = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].location_lat,data[i].location_lng),
+                    map: map
+                });
+
+            }
+
+
+        })
+    }
+</script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_HGUZ-hvy730lBns4WKZxkhzMzm0UJU&region=AU&language=en-AU&callback=initMap" async defer></script>
+
+ 

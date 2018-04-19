@@ -51,6 +51,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="LinqKit, Version=1.1.15.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.15\lib\net45\LinqKit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -192,10 +195,15 @@
     <Compile Include="Models\farm.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FarmJson.cs" />
     <Compile Include="Models\FarmsJson.cs" />
+    <Compile Include="Models\FilteredFarmViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestsJson.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\StateFarmsCount.cs" />
+    <Compile Include="Models\StateSuburbCount.cs" />
+    <Compile Include="Models\SuburbViewModel.cs" />
     <Compile Include="Models\suburb_harvest.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
@@ -360,6 +368,14 @@
     <Content Include="Views\Home\Information.cshtml" />
     <Content Include="Views\Map\Index.cshtml" />
     <Content Include="Views\Home\AboutUS.cshtml" />
+    <Content Include="Views\Map\displayFarmCountMonthlyFiltered.cshtml" />
+    <Content Include="Views\Map\displayFilteredFarms.cshtml" />
+    <Content Include="Views\Map\FilteredNumberOfFarms.cshtml" />
+    <Content Include="Views\Map\MapTest.cshtml" />
+    <Content Include="Views\Map\MultipleMarkersMap.cshtml" />
+    <Content Include="Views\Map\NumberOfFarms.cshtml" />
+    <Content Include="Views\Map\RegionIndex.cshtml" />
+    <Content Include="Views\Map\TestMarkers.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
