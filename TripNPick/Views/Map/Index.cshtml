@@ -39,12 +39,12 @@
                 if (data[i].stateName === "QSL") {
                     var infoWindowContent = '<h3>QLD</h3>' +
                         '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                        '<br/>' + '<h4>Number of Interest: ' + String(data[i].numberOfInterests) + '<h4>'; 
+                        '<br/>' + '<h4 style="color: #4682B4">Number of Interest: ' + String(data[i].numberOfInterests) + '<h4>';
                 }
                 else {
                     var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
                         '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                        '<br/>' + '<h4>Number of Interest: ' + String(data[i].numberOfInterests) + '<h4>';
+                        '<br/>' + '<h4 style="color: #4682B4">Number of Interest: ' + String(data[i].numberOfInterests) + '<h4>';
                 }
                 
                 marker = new google.maps.Marker({
@@ -86,11 +86,11 @@
         $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map", new { combinedString = Model.combinedString })", function (data, status) {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].stateName === "QSL") {
-                    $('#theTable').dataTable().fnAddData(["QLD", data[i].numberOfFarms]);
+                    $('#theTable').dataTable().fnAddData(["QLD", data[i].numberOfFarms, data[i].numberOfInterests]);
                 }
                 else
                 {
-                    $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].numberOfFarms]);
+                    $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].numberOfFarms, data[i].numberOfInterests]);
                 }
             }
         });
@@ -410,6 +410,7 @@ else
                     <tr>
                         <th>State Name</th>
                         <th>Number of Farms</th>
+                        <th>Number of Interests</th>
                     </tr>
                 </thead>
                 <tbody>
