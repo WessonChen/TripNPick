@@ -196,6 +196,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\droplistform.css" />
     <Content Include="Content\landing-page.css" />
+    <Content Include="Content\maps.css" />
     <Content Include="Content\PaymentTaxRight.css" />
     <Content Include="Content\results.css" />
     <Content Include="favicon.ico" />

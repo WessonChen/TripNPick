@@ -1,1 +1,154 @@
 ﻿
+@{
+    ViewBag.Title = "Search";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
+</head>
+
+<body>
+    <div class="container bgBorder">
+        <form @*action="/Home/ExpResults"*@ method="post">
+            <table style="width: 100%">
+                <tr>
+                    <th>
+                        <label class="tagContent">
+                            Time to visit:
+                        </label>
+                    </th>
+                    <td style="padding-bottom: 8px;">
+                        <label class="content">
+                            Jan
+                            <input type="checkbox" name="yourInte" value="January">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Feb
+                            <input type="checkbox" name="yourInte" value="February">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Mar
+                            <input type="checkbox" name="yourInte" value="March">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Apr
+                            <input type="checkbox" name="yourInte" value="April">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            May
+                            <input type="checkbox" name="yourInte" value="May">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Jun
+                            <input type="checkbox" name="yourInte" value="June">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Jul
+                            <input type="checkbox" name="yourInte" value="July">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Aug
+                            <input type="checkbox" name="yourInte" value="Auguest">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Sep
+                            <input type="checkbox" name="yourInte" value="September">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Oct
+                            <input type="checkbox" name="yourInte" value="October">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Nov
+                            <input type="checkbox" name="yourInte" value="Novenmber">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Dec
+                            <input type="checkbox" name="yourInte" value="December">
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr style="border-bottom: 3px solid #e7e7e7">
+                    <th style="padding-bottom: 8px;">
+                        <label class="tagContent">
+                            Prefered interests:
+                        </label>
+                    </th>
+                    <td style="padding-bottom: 8px;">
+                        <label class="content">
+                            Interest1
+                            <input type="checkbox" name="yourInte" value="January">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest2
+                            <input type="checkbox" name="yourInte" value="February">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest3
+                            <input type="checkbox" name="yourInte" value="March">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest4
+                            <input type="checkbox" name="yourInte" value="April">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest5
+                            <input type="checkbox" name="yourInte" value="May">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest6
+                            <input type="checkbox" name="yourInte" value="January">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest7
+                            <input type="checkbox" name="yourInte" value="February">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest8
+                            <input type="checkbox" name="yourInte" value="March">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest9
+                            <input type="checkbox" name="yourInte" value="April">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Interest10
+                            <input type="checkbox" name="yourInte" value="April">
+                            <span class="checkmark"></span>
+                        </label>
+                        <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 64px;"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <div class="col-lg-4" style="background-color: #808080; margin-top: 16px; padding-bottom: 600px;">
+
+        </div>
+
+        <div class="col-lg-8" style="background-color: #4b4a4a; margin-top: 16px; padding-bottom: 600px;">
+
+        </div>
+    </div>
+</body>
