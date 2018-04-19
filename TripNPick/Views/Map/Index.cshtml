@@ -5,6 +5,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
+    <script language="JavaScript" type="text/javascript" src="~/Scripts/jquery.js"></script>
 </head>
 
 <script type="text/javascript">
@@ -24,7 +25,7 @@
         var infoWindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
         map.setTilt(50);
-        $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map")", function (data, status) {
+        $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map", new { combinedString = Model.combinedString })", function (data, status) {
             var markers = [];
             var contentString = [];
               var infowindow = [];
@@ -153,13 +154,13 @@
                         </label>
                         <label class="content">
                             Aug
-                            @if (Model.cMonths != null && Model.cMonths.Contains("Auguest"))
+                            @if (Model.cMonths != null && Model.cMonths.Contains("August"))
                             {
-                                <input type="checkbox" name="cMonths" value="Auguest" checked>
+                                <input type="checkbox" name="cMonths" value="August" checked>
                             }
                             else
                             {
-                                <input type="checkbox" name="cMonths" value="Auguest">
+                                <input type="checkbox" name="cMonths" value="August">
                             }
                             <span class="checkmark"></span>
                         </label>
