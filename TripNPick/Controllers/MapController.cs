@@ -17,19 +17,55 @@ namespace TripNPick.Controllers
     public class MapController : Controller
     {
         ColdSpotDBEntities dbContext = new ColdSpotDBEntities();
-        UserSelections us = new UserSelections();
 
-        public ActionResult Index(string[] cMonths, string[] cInterests) {
+        public ActionResult Index(string[] cMonths, string[] cInterests)
+        {
+            UserSelections us = new UserSelections();
             us.cMonths = cMonths;
             us.cInterests = cInterests;
+            us.combinedString = "";
+            if (cMonths != null)
+            {
+                for (int i = 0; i < cMonths.Length; i++)
+                {
+                    if (i == cMonths.Length - 1)
+                    {
+                        us.combinedString = us.combinedString + cMonths[i].ToLower() + "|";
+                    }
+                    else
+                    {
+                        us.combinedString = us.combinedString + cMonths[i].ToLower() + ",";
+                    }
+                }
+            }
+            else
+            {
+                us.combinedString = "null|";
+            }
+            if (cInterests != null)
+            {
+                for (int i = 0; i < cInterests.Length; i++)
+                {
+                    if (i == cInterests.Length - 1)
+                    {
+                        us.combinedString = us.combinedString + cInterests[i].ToLower();
+                    }
+                    else
+                    {
+                        us.combinedString = us.combinedString + cInterests[i].ToLower() + ",";
+                    }
+                }
+            }
+            else
+            {
+                us.combinedString = us.combinedString + "null";
+            }
             return View(us);
         }
 
         // GET: RegionMap
         public ActionResult RegionIndex()
         {
-
-
             var suburbList = dbContext.suburb_table.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
             var suburbCountViewModel = from s in suburbList
@@ -102,12 +138,49 @@ namespace TripNPick.Controllers
             return View(farmList);
         }
 
-        public Expression<Func<suburb_harvest, bool>> FilterFarms()
+        public Expression<Func<suburb_harvest, bool>> FilterFarms(string combinedString)
         {
-            List<string> months = new List<string>();
-            months.Add("january");
-            months.Add("december");
-            //var months = us.cMonths.ToList();
+            Debug.WriteLine(combinedString);
+            var months = new List<string>();
+            var interests = new List<string>();
+            string[] p = combinedString.Split('|');
+            if (p[0].Equals("null"))
+            {
+                months.Add("january");
+                months.Add("february");
+                months.Add("march");
+                months.Add("april");
+                months.Add("may");
+                months.Add("june");
+                months.Add("july");
+                months.Add("august");
+                months.Add("sepetember");
+                months.Add("october");
+                months.Add("november");
+                months.Add("december");
+            }
+            else
+            {
+                months = p[0].Split(',').ToList();
+            }
+            if (p[1].Equals("null"))
+            {
+
+            }
+            else
+            {
+                interests = p[1].Split(',').ToList();
+            }
+
+            foreach (var m in months)
+            {
+                Debug.WriteLine(m);
+            }
+            foreach (var i in interests)
+            {
+                Debug.WriteLine(i);
+            }
+
             var predicate = PredicateBuilder.New<suburb_harvest>();
             foreach (string month in months)
             {
@@ -152,57 +225,12 @@ namespace TripNPick.Controllers
                 }
 
             }
-            Debug.WriteLine(predicate.ToString());
             return predicate;
         }
-
-        public Expression<Func<interest_attraction, bool>> buildPredForInterestType() {
-            List<string> selectedInterests = new List<string>();
-            selectedInterests.Add("Nature and Parks");
-            selectedInterests.Add("Nature & Wildlife Areas");
-            var predicate = PredicateBuilder.New<interest_attraction>();
-            foreach (var interest in selectedInterests) {
-                switch (interest) {
-                    case "Museums":
-                        predicate = predicate.Or(s => s.interest_id == 1);
-                        break;
-                    case "Sights & Landmarks":
-                        predicate = predicate.Or(s => s.interest_id == 2);
-                        break;
-                    case "Nature and Parks":
-                        predicate = predicate.Or(s => s.interest_id == 3);
-                        break;
-                    case "Points of Interest & Landmarks":
-                        predicate = predicate.Or(s => s.interest_id == 4);
-                        break;
-                    case "Beaches":
-                        predicate = predicate.Or(s => s.interest_id == 5);
-                        break;
-                    case "Outdoor Activities and Tours":
-                        predicate = predicate.Or(s => s.interest_id == 6);
-                        break;
-                    case "Nature & Wildlife Areas":
-                        predicate = predicate.Or(s => s.interest_id == 7);
-                        break;
-                    case "Hiking Trails":
-                        predicate = predicate.Or(s => s.interest_id == 8);
-                        break;
-                    case "Fun & Games & Sports":
-                        predicate = predicate.Or(s => s.interest_id == 9);
-                        break;
-                    case "Zoos & Aquariums":
-                        predicate = predicate.Or(s => s.interest_id == 10);
-                        break;
-                    case "Bodies of Water":
-                        predicate = predicate.Or(s => s.interest_id == 11);
-                        break;
-
-                }  
-            }
-            Debug.WriteLine(predicate.ToString());
-            return predicate;
+        public ActionResult MapSVG()
+        {
+            return View();
         }
-
 
         public ActionResult FilteredNumberOfFarms()
         {
@@ -210,7 +238,7 @@ namespace TripNPick.Controllers
             var suburbList = dbContext.suburb_table.ToList();
             var states = dbContext.states.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
-            var newHarvestList = harvestList.AsQueryable().Where(this.FilterFarms());
+            var newHarvestList = harvestList.AsQueryable().Where(this.FilterFarms(""));
             var farmCountViewModel = (from f in farmList
                                       join sl in suburbList on f.suburb_id equals sl.suburb_id
                                       join st in states on sl.state equals st.state_id
@@ -230,13 +258,13 @@ namespace TripNPick.Controllers
             return View(groupedFarms);
         }
 
-        public IEnumerable<FilteredFarmViewModel> getAllFilteredFarms()
+        public IEnumerable<FilteredFarmViewModel> getAllFilteredFarms(string combinedString)
         {
             var farmList = dbContext.farms.ToList();
             var suburbList = dbContext.suburb_table.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
             var states = dbContext.states.ToList();
-            var newHarvestList = harvestList.AsQueryable().Where(this.FilterFarms());
+            var newHarvestList = harvestList.AsQueryable().Where(this.FilterFarms(combinedString));
             var farmCountViewModel = (from f in farmList
                                       join sl in suburbList on f.suburb_id equals sl.suburb_id
                                       join hv in newHarvestList on sl.suburb_id equals hv.suburb_id
@@ -255,10 +283,10 @@ namespace TripNPick.Controllers
             return getDistinctFarms;
         }
 
-        public JsonResult getFarmCountMonthlyFiltered()
+        public JsonResult getFarmCountMonthlyFiltered(string combinedString)
         {
             var states = dbContext.states.ToList();
-            var distinctFarms = getAllFilteredFarms();
+            var distinctFarms = getAllFilteredFarms(combinedString);
             var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
             var joinStateLocation = from st in states
                                     join fg in farmsGroupedByState on st.state_id equals fg.stateName
@@ -272,50 +300,21 @@ namespace TripNPick.Controllers
             return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
         }
 
-        public IEnumerable<AllInterest> getAllInterest2() {
-            var interestTypes = dbContext.interest_table.ToList();
-            var interestAttractions = dbContext.interest_attraction.ToList();
-            var filteredInterestAttr = interestAttractions.AsQueryable().Where(this.buildPredForInterestType());
-            var suburbs = dbContext.suburb_table.ToList();
-            var states = dbContext.states.ToList();
-            var allInterest = from it in interestTypes
-                              join ia in filteredInterestAttr on it.interest_id equals ia.interest_id
-                              join sb in suburbs on ia.suburb_id equals sb.suburb_id
-                              join st in states on sb.state equals st.state_id
-                              select new AllInterest
-                              {
-                                  stateName = st.state_name,
-                                  interestId = it.interest_id,
-                                  interestType = it.types,
-                                  attractionId = ia.attraction_id,
-                                  attractionName = ia.attraction_name,
-                                  suburbId = sb.suburb_id,
-                                  suburbName = sb.suburb_name
-                              };
-            return allInterest;
-        }
-
-        public IEnumerable<StateInterestsCount> groupInterestByState() {
-            var allInterests = getAllInterest2();
-            var interestsGrouped = allInterests.GroupBy(x => x.stateName).Select(c => new StateInterestsCount { stateName = c.Key, numberOfInterests = c.Count() });
-            return interestsGrouped;
-        }
-
-        public ActionResult displayFilteredFarms()
-        {
-            var distinctFarms = getAllFilteredFarms();
-            return View(distinctFarms);
-        }
-        public ActionResult displayFarmCountMonthlyFiltered()
-        {
-            var farmsGroupedByState = groupInterestByState();
-            return View(farmsGroupedByState);
-        }
-        public ActionResult stupidMarkers()
-        {
-            var farmList = getAllFilteredFarms();
-            return View();
-        }
+        //public ActionResult displayFilteredFarms()
+        //{
+        //    var distinctFarms = getAllFilteredFarms();
+        //    return View(distinctFarms);
+        //}
+        //public ActionResult displayFarmCountMonthlyFiltered()
+        //{
+        //    var farmsGroupedByState = getFarmCountMonthlyFiltered();
+        //    return View(farmsGroupedByState);
+        //}
+        //public ActionResult stupidMarkers()
+        //{
+        //    var farmList = getAllFilteredFarms();
+        //    return View();
+        //}
         public ActionResult TestMarkers()
         {
             return View();

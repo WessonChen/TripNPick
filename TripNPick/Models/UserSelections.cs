@@ -7,7 +7,8 @@ namespace TripNPick.Models
 {
     public class UserSelections
     {
-        public string[] cMonths;
-        public string[] cInterests;
+        public string[] cMonths { get; set; }
+        public string[] cInterests { get; set; }
+        public string combinedString { get; set; }
     }
 }
