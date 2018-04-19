@@ -35,12 +35,15 @@
                 var markerLabel = String(data[i].numberOfFarms);
                 if (data[i].stateName === "QSL") {
                     var infoWindowContent = '<h3>QLD</h3>' +
-                        '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>';
+                        '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
+                        '<br/>' + '<h4>Number of Interest: ' + String(data[i].numberOfInterests) + '<h4>'; 
                 }
                 else {
                     var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
-                        '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>';
+                        '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
+                        '<br/>' + '<h4>Number of Interest: ' + String(data[i].numberOfInterests) + '<h4>';
                 }
+                
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
                     icon: 'https://png.icons8.com/office/32/000000/farm.png',
