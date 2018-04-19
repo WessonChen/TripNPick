@@ -23,6 +23,8 @@
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_rainy_days" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_temp3pm_days" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_temp9am_days" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.state" Width="1.5" PointX="5.5" PointY="8.875" />
+        <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_state1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -9,5 +9,6 @@ namespace TripNPick.Models
     {
         public string stateName { get; set; }
         public int numberOfFarms { get; set; }
+        public double location_lat { get; set; }
     }
 }

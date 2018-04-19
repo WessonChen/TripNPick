@@ -35,5 +35,6 @@ namespace TripNPick.Models
         public virtual DbSet<weather_rainy_days> weather_rainy_days { get; set; }
         public virtual DbSet<weather_temp3pm_days> weather_temp3pm_days { get; set; }
         public virtual DbSet<weather_temp9am_days> weather_temp9am_days { get; set; }
+        public virtual DbSet<state> states { get; set; }
     }
 }

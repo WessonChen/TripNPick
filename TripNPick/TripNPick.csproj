@@ -201,6 +201,9 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestsJson.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\state.cs">
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StateFarmsCount.cs" />
     <Compile Include="Models\StateSuburbCount.cs" />
     <Compile Include="Models\SuburbViewModel.cs" />

@@ -82,6 +82,23 @@
             // Center the map to fit all markers on the screen
             map.fitBounds(bounds);
         }
+        
+
+        $.get("@Url.Action("GetAllLocations", "RegionMap")", function (data, status) {
+            var marker = [];
+            var contentString = [];
+            var infowindow = [];
+            for (i = 0; i < data.length; i++) {
+                marker[i] = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].location_lat,data[i].location_lng),
+                    map: map
+                });
+
+            }
+
+
+        })
+
 
         // Set zoom level
         var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function (event) {
