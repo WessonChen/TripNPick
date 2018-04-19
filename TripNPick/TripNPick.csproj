@@ -388,6 +388,7 @@
     <Content Include="Views\Map\RegionIndex.cshtml" />
     <Content Include="Views\Map\TestMarkers.cshtml" />
     <Content Include="Views\Map\getAllInterest2.cshtml" />
+    <Content Include="Views\Map\getFarmCountMonthlyFiltered.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

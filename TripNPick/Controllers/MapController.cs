@@ -48,11 +48,11 @@ namespace TripNPick.Controllers
                 {
                     if (i == cInterests.Length - 1)
                     {
-                        us.combinedString = us.combinedString + cInterests[i].ToLower();
+                        us.combinedString = us.combinedString + cInterests[i];
                     }
                     else
                     {
-                        us.combinedString = us.combinedString + cInterests[i].ToLower() + ",";
+                        us.combinedString = us.combinedString + cInterests[i] + ",";
                     }
                 }
             }
@@ -285,19 +285,140 @@ namespace TripNPick.Controllers
 
         public JsonResult getFarmCountMonthlyFiltered(string combinedString)
         {
+            //string combinedString = "april,may|Hiking Trails";
             var states = dbContext.states.ToList();
             var distinctFarms = getAllFilteredFarms(combinedString);
+            var interestGroupedByState = groupInterestByState(combinedString);
             var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
             var joinStateLocation = from st in states
                                     join fg in farmsGroupedByState on st.state_id equals fg.stateName
-                                    select new NumberOfFarmPerState
+                                    join po in interestGroupedByState on st.state_id equals po.stateName  
+                                    select new CountPerState
                                     {
                                         stateName = fg.stateName,
                                         numberOfFarms = fg.numberOfFarms,
+                                        numberOfInterests = po.numberOfInterests,
                                         location_lat = (double)st.state_lat,
                                         location_lng = (double)st.state_lng
                                     };
             return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
+            //return View(joinStateLocation);
+        }
+
+        public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
+        {
+            List<string> selectedInterests = new List<string>();
+            var months = new List<string>();
+            Debug.WriteLine(combinedString);
+            string[] p = combinedString.Split('|');
+            if (p[1].Equals("null"))
+            {
+                selectedInterests.Add("Museums");
+                selectedInterests.Add("Sights & Landmarks");
+                selectedInterests.Add("Nature and Parks");
+                selectedInterests.Add("Points of Interest & Landmarks");
+                selectedInterests.Add("Beaches");
+                selectedInterests.Add("Outdoor Activities and Tours");
+                selectedInterests.Add("Nature & Wildlife Areas");
+                selectedInterests.Add("Hiking Trails");
+                selectedInterests.Add("Fun & Games & Sports");
+                selectedInterests.Add("Zoos & Aquariums");
+                selectedInterests.Add("Bodies of Water");
+            }
+            else
+            {
+                selectedInterests = p[1].Split(',').ToList();
+            }
+            if (p[0].Equals("null"))
+            {
+
+            }
+            else
+            {
+                months = p[0].Split(',').ToList();
+            }
+
+            foreach (var m in months)
+            {
+                Debug.WriteLine(m);
+            }
+            foreach (var i in selectedInterests)
+            {
+                Debug.WriteLine(i);
+            }
+            var predicate = PredicateBuilder.New<interest_attraction>();
+            foreach (var interest in selectedInterests)
+            {
+                switch (interest)
+                {
+                    case "Museums":
+                        predicate = predicate.Or(s => s.interest_id == 1);
+                        break;
+                    case "Sights & Landmarks":
+                        predicate = predicate.Or(s => s.interest_id == 2);
+                        break;
+                    case "Nature and Parks":
+                        predicate = predicate.Or(s => s.interest_id == 3);
+                        break;
+                    case "Points of Interest & Landmarks":
+                        predicate = predicate.Or(s => s.interest_id == 4);
+                        break;
+                    case "Beaches":
+                        predicate = predicate.Or(s => s.interest_id == 5);
+                        break;
+                    case "Outdoor Activities and Tours":
+                        predicate = predicate.Or(s => s.interest_id == 6);
+                        break;
+                    case "Nature & Wildlife Areas":
+                        predicate = predicate.Or(s => s.interest_id == 7);
+                        break;
+                    case "Hiking Trails":
+                        predicate = predicate.Or(s => s.interest_id == 8);
+                        break;
+                    case "Fun & Games & Sports":
+                        predicate = predicate.Or(s => s.interest_id == 9);
+                        break;
+                    case "Zoos & Aquariums":
+                        predicate = predicate.Or(s => s.interest_id == 10);
+                        break;
+                    case "Bodies of Water":
+                        predicate = predicate.Or(s => s.interest_id == 11);
+                        break;
+
+                }
+            }
+            Debug.WriteLine(predicate.ToString());
+            return predicate;
+        }
+        public IEnumerable<AllInterest> getAllInterest2(string combinedString)
+        {
+            var interestTypes = dbContext.interest_table.ToList();
+            var interestAttractions = dbContext.interest_attraction.ToList();
+            var filteredInterestAttr = interestAttractions.AsQueryable().Where(this.buildPredForInterestType(combinedString));
+            var suburbs = dbContext.suburb_table.ToList();
+            var states = dbContext.states.ToList();
+            var allInterest = from it in interestTypes
+                              join ia in filteredInterestAttr on it.interest_id equals ia.interest_id
+                              join sb in suburbs on ia.suburb_id equals sb.suburb_id
+                              join st in states on sb.state equals st.state_id
+                              select new AllInterest
+                              {
+                                  stateName = st.state_id,
+                                  interestId = it.interest_id,
+                                  interestType = it.types,
+                                  attractionId = ia.attraction_id,
+                                  attractionName = ia.attraction_name,
+                                  suburbId = sb.suburb_id,
+                                  suburbName = sb.suburb_name
+                              };
+            return allInterest;
+        }
+
+        public IEnumerable<StateInterestsCount> groupInterestByState(string combinedString)
+        {
+            var allInterests = getAllInterest2(combinedString);
+            var interestsGrouped = allInterests.GroupBy(x => x.stateName).Select(c => new StateInterestsCount { stateName = c.Key, numberOfInterests = c.Count() });
+            return interestsGrouped;
         }
 
         //public ActionResult displayFilteredFarms()
