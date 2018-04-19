@@ -5,11 +5,14 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
-    <script language="JavaScript" type="text/javascript" src="~/Scripts/jquery.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 </head>
 
 <script type="text/javascript">
-
     function initMap() {
         var map;
         var bounds = new google.maps.LatLngBounds();
@@ -64,14 +67,27 @@
     }
 
     $(document).ready(function () {
+        $('#theTable').DataTable({
+            "info": false,
+            "searching": false,
+            "lengthChange": false,
+            "displayLength": 10,
+            "order": [[1, "desc"]],
+            "columnDefs": [{
+                "orderable": false, "targets": 0
+            }]
+        });
+    });
+
+    $(document).ready(function () {
         $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map", new { combinedString = Model.combinedString })", function (data, status) {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].stateName === "QSL") {
-                    $("#theList").append('<h3>QLD</h3>');
+                    $('#theTable').dataTable().fnAddData(["QLD", data[i].numberOfFarms]);
                 }
                 else
                 {
-                    $("#theList").append('<h3>' + data[i].stateName + '</h3>');
+                    $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].numberOfFarms]);
                 }
             }
         });
@@ -369,8 +385,17 @@
             </table>
         </form>
 
-        <div id="theList" class="col-lg-4" style="background-color: #B0E0E6; margin-top: 16px; height: 500px">
-
+        <div class="col-lg-4" style="background-color: #B0E0E6; margin-top: 16px; height: 500px">
+            <table id="theTable" style="width: 100%; padding: 50px 0;">
+                <thead>
+                    <tr>
+                        <th>State Name</th>
+                        <th>Number of Farms</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
 
         <div id ="mapCanvas" class="col-lg-8" style="margin-top: 16px; height: 500px">
