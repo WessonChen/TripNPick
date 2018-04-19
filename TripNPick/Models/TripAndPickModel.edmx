@@ -1,0 +1,807 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ColdSpotDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="crop">
+          <Key>
+            <PropertyRef Name="crop_id" />
+          </Key>
+          <Property Name="crop_id" Type="int" Nullable="false" />
+          <Property Name="crop_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="farm">
+          <Key>
+            <PropertyRef Name="farm_id" />
+          </Key>
+          <Property Name="farm_id" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="farm_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="location_lat" Type="float" />
+          <Property Name="location_lng" Type="float" />
+          <Property Name="farm_address" Type="nvarchar" MaxLength="255" />
+          <Property Name="farm_rating" Type="nvarchar" MaxLength="50" />
+          <Property Name="suburb_id" Type="int" />
+        </EntityType>
+        <EntityType Name="suburb_harvest">
+          <Key>
+            <PropertyRef Name="suburb_harvest_id" />
+          </Key>
+          <Property Name="suburb_harvest_id" Type="int" Nullable="false" />
+          <Property Name="suburb_id" Type="int" Nullable="false" />
+          <Property Name="crop_id" Type="int" Nullable="false" />
+          <Property Name="january" Type="varchar" MaxLength="50" />
+          <Property Name="february" Type="varchar" MaxLength="50" />
+          <Property Name="march" Type="varchar" MaxLength="50" />
+          <Property Name="april" Type="varchar" MaxLength="50" />
+          <Property Name="may" Type="varchar" MaxLength="50" />
+          <Property Name="june" Type="varchar" MaxLength="50" />
+          <Property Name="july" Type="varchar" MaxLength="50" />
+          <Property Name="august" Type="varchar" MaxLength="50" />
+          <Property Name="september" Type="varchar" MaxLength="50" />
+          <Property Name="october" Type="varchar" MaxLength="50" />
+          <Property Name="november" Type="varchar" MaxLength="50" />
+          <Property Name="december" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="suburb_table">
+          <Key>
+            <PropertyRef Name="suburb_id" />
+          </Key>
+          <Property Name="suburb_id" Type="int" Nullable="false" />
+          <Property Name="suburb_name" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="varchar" MaxLength="50" />
+          <Property Name="station_id" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="weather_cold_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="int" Nullable="false" />
+          <Property Name="january" Type="varchar" MaxLength="50" />
+          <Property Name="february" Type="varchar" MaxLength="50" />
+          <Property Name="march" Type="varchar" MaxLength="50" />
+          <Property Name="april" Type="varchar" MaxLength="50" />
+          <Property Name="may" Type="varchar" MaxLength="50" />
+          <Property Name="june" Type="varchar" MaxLength="50" />
+          <Property Name="july" Type="varchar" MaxLength="50" />
+          <Property Name="august" Type="varchar" MaxLength="50" />
+          <Property Name="september" Type="varchar" MaxLength="50" />
+          <Property Name="october" Type="varchar" MaxLength="50" />
+          <Property Name="november" Type="varchar" MaxLength="50" />
+          <Property Name="december" Type="varchar" MaxLength="50" />
+          <Property Name="statistical_element" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="weather_hot_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="int" Nullable="false" />
+          <Property Name="january" Type="varchar" MaxLength="50" />
+          <Property Name="february" Type="varchar" MaxLength="50" />
+          <Property Name="march" Type="varchar" MaxLength="50" />
+          <Property Name="april" Type="varchar" MaxLength="50" />
+          <Property Name="may" Type="varchar" MaxLength="50" />
+          <Property Name="june" Type="varchar" MaxLength="50" />
+          <Property Name="july" Type="varchar" MaxLength="50" />
+          <Property Name="august" Type="varchar" MaxLength="50" />
+          <Property Name="september" Type="varchar" MaxLength="50" />
+          <Property Name="october" Type="varchar" MaxLength="50" />
+          <Property Name="november" Type="varchar" MaxLength="50" />
+          <Property Name="december" Type="varchar" MaxLength="50" />
+          <Property Name="statistical_element" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="weather_rainy_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="int" Nullable="false" />
+          <Property Name="january" Type="varchar" MaxLength="50" />
+          <Property Name="february" Type="varchar" MaxLength="50" />
+          <Property Name="march" Type="varchar" MaxLength="50" />
+          <Property Name="april" Type="varchar" MaxLength="50" />
+          <Property Name="may" Type="varchar" MaxLength="50" />
+          <Property Name="june" Type="varchar" MaxLength="50" />
+          <Property Name="july" Type="varchar" MaxLength="50" />
+          <Property Name="august" Type="varchar" MaxLength="50" />
+          <Property Name="september" Type="varchar" MaxLength="50" />
+          <Property Name="october" Type="varchar" MaxLength="50" />
+          <Property Name="november" Type="varchar" MaxLength="50" />
+          <Property Name="december" Type="varchar" MaxLength="50" />
+          <Property Name="statistical_element" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="weather_temp3pm_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="int" Nullable="false" />
+          <Property Name="january" Type="varchar" MaxLength="50" />
+          <Property Name="february" Type="varchar" MaxLength="50" />
+          <Property Name="march" Type="varchar" MaxLength="50" />
+          <Property Name="april" Type="varchar" MaxLength="50" />
+          <Property Name="may" Type="varchar" MaxLength="50" />
+          <Property Name="june" Type="varchar" MaxLength="50" />
+          <Property Name="july" Type="varchar" MaxLength="50" />
+          <Property Name="august" Type="varchar" MaxLength="50" />
+          <Property Name="september" Type="varchar" MaxLength="50" />
+          <Property Name="october" Type="varchar" MaxLength="50" />
+          <Property Name="november" Type="varchar" MaxLength="50" />
+          <Property Name="december" Type="varchar" MaxLength="50" />
+          <Property Name="statistical_element" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="weather_temp9am_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="int" Nullable="false" />
+          <Property Name="january" Type="varchar" MaxLength="50" />
+          <Property Name="february" Type="varchar" MaxLength="50" />
+          <Property Name="march" Type="varchar" MaxLength="50" />
+          <Property Name="april" Type="varchar" MaxLength="50" />
+          <Property Name="may" Type="varchar" MaxLength="50" />
+          <Property Name="june" Type="varchar" MaxLength="50" />
+          <Property Name="july" Type="varchar" MaxLength="50" />
+          <Property Name="august" Type="varchar" MaxLength="50" />
+          <Property Name="september" Type="varchar" MaxLength="50" />
+          <Property Name="october" Type="varchar" MaxLength="50" />
+          <Property Name="november" Type="varchar" MaxLength="50" />
+          <Property Name="december" Type="varchar" MaxLength="50" />
+          <Property Name="statistical_element" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_farm_suburb_table">
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="0..1" />
+          <End Role="farm" Type="Self.farm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suburb_table">
+              <PropertyRef Name="suburb_id" />
+            </Principal>
+            <Dependent Role="farm">
+              <PropertyRef Name="suburb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_harvest_crop">
+          <End Role="crop" Type="Self.crop" Multiplicity="1" />
+          <End Role="suburb_harvest" Type="Self.suburb_harvest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crop">
+              <PropertyRef Name="crop_id" />
+            </Principal>
+            <Dependent Role="suburb_harvest">
+              <PropertyRef Name="crop_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_harvest_suburb_table">
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="1" />
+          <End Role="suburb_harvest" Type="Self.suburb_harvest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suburb_table">
+              <PropertyRef Name="suburb_id" />
+            </Principal>
+            <Dependent Role="suburb_harvest">
+              <PropertyRef Name="suburb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_cold_days">
+          <End Role="weather_cold_days" Type="Self.weather_cold_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_cold_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_hot_days">
+          <End Role="weather_hot_days" Type="Self.weather_hot_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_hot_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_rainy_days">
+          <End Role="weather_rainy_days" Type="Self.weather_rainy_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_rainy_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_temp3pm_days">
+          <End Role="weather_temp3pm_days" Type="Self.weather_temp3pm_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_temp3pm_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_temp9am_days">
+          <End Role="weather_temp9am_days" Type="Self.weather_temp9am_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_temp9am_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ColdSpotDBModelStoreContainer">
+          <EntitySet Name="crop" EntityType="Self.crop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="farm" EntityType="Self.farm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="suburb_harvest" EntityType="Self.suburb_harvest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="suburb_table" EntityType="Self.suburb_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="weather_cold_days" EntityType="Self.weather_cold_days" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="weather_hot_days" EntityType="Self.weather_hot_days" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="weather_rainy_days" EntityType="Self.weather_rainy_days" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="weather_temp3pm_days" EntityType="Self.weather_temp3pm_days" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="weather_temp9am_days" EntityType="Self.weather_temp9am_days" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_farm_suburb_table" Association="Self.FK_farm_suburb_table">
+            <End Role="suburb_table" EntitySet="suburb_table" />
+            <End Role="farm" EntitySet="farm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_harvest_crop" Association="Self.FK_suburb_harvest_crop">
+            <End Role="crop" EntitySet="crop" />
+            <End Role="suburb_harvest" EntitySet="suburb_harvest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_harvest_suburb_table" Association="Self.FK_suburb_harvest_suburb_table">
+            <End Role="suburb_table" EntitySet="suburb_table" />
+            <End Role="suburb_harvest" EntitySet="suburb_harvest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_cold_days" Association="Self.FK_suburb_table_weather_cold_days">
+            <End Role="weather_cold_days" EntitySet="weather_cold_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_hot_days" Association="Self.FK_suburb_table_weather_hot_days">
+            <End Role="weather_hot_days" EntitySet="weather_hot_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_rainy_days" Association="Self.FK_suburb_table_weather_rainy_days">
+            <End Role="weather_rainy_days" EntitySet="weather_rainy_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_temp3pm_days" Association="Self.FK_suburb_table_weather_temp3pm_days">
+            <End Role="weather_temp3pm_days" EntitySet="weather_temp3pm_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_temp9am_days" Association="Self.FK_suburb_table_weather_temp9am_days">
+            <End Role="weather_temp9am_days" EntitySet="weather_temp9am_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ColdSpotDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="crop">
+          <Key>
+            <PropertyRef Name="crop_id" />
+          </Key>
+          <Property Name="crop_id" Type="Int32" Nullable="false" />
+          <Property Name="crop_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="suburb_harvest" Relationship="Self.FK_suburb_harvest_crop" FromRole="crop" ToRole="suburb_harvest" />
+        </EntityType>
+        <EntityType Name="farm">
+          <Key>
+            <PropertyRef Name="farm_id" />
+          </Key>
+          <Property Name="farm_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="farm_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="location_lat" Type="Double" />
+          <Property Name="location_lng" Type="Double" />
+          <Property Name="farm_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="farm_rating" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="suburb_id" Type="Int32" />
+          <NavigationProperty Name="suburb_table" Relationship="Self.FK_farm_suburb_table" FromRole="farm" ToRole="suburb_table" />
+        </EntityType>
+        <EntityType Name="suburb_harvest">
+          <Key>
+            <PropertyRef Name="suburb_harvest_id" />
+          </Key>
+          <Property Name="suburb_harvest_id" Type="Int32" Nullable="false" />
+          <Property Name="suburb_id" Type="Int32" Nullable="false" />
+          <Property Name="crop_id" Type="Int32" Nullable="false" />
+          <Property Name="january" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="february" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="march" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="april" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="may" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="june" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="july" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="august" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="september" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="october" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="november" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="december" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="crop" Relationship="Self.FK_suburb_harvest_crop" FromRole="suburb_harvest" ToRole="crop" />
+          <NavigationProperty Name="suburb_table" Relationship="Self.FK_suburb_harvest_suburb_table" FromRole="suburb_harvest" ToRole="suburb_table" />
+        </EntityType>
+        <EntityType Name="suburb_table">
+          <Key>
+            <PropertyRef Name="suburb_id" />
+          </Key>
+          <Property Name="suburb_id" Type="Int32" Nullable="false" />
+          <Property Name="suburb_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="station_id" Type="Int32" />
+          <NavigationProperty Name="farms" Relationship="Self.FK_farm_suburb_table" FromRole="suburb_table" ToRole="farm" />
+          <NavigationProperty Name="suburb_harvest" Relationship="Self.FK_suburb_harvest_suburb_table" FromRole="suburb_table" ToRole="suburb_harvest" />
+          <NavigationProperty Name="weather_cold_days" Relationship="Self.FK_suburb_table_weather_cold_days" FromRole="suburb_table" ToRole="weather_cold_days" />
+          <NavigationProperty Name="weather_hot_days" Relationship="Self.FK_suburb_table_weather_hot_days" FromRole="suburb_table" ToRole="weather_hot_days" />
+          <NavigationProperty Name="weather_rainy_days" Relationship="Self.FK_suburb_table_weather_rainy_days" FromRole="suburb_table" ToRole="weather_rainy_days" />
+          <NavigationProperty Name="weather_temp3pm_days" Relationship="Self.FK_suburb_table_weather_temp3pm_days" FromRole="suburb_table" ToRole="weather_temp3pm_days" />
+          <NavigationProperty Name="weather_temp9am_days" Relationship="Self.FK_suburb_table_weather_temp9am_days" FromRole="suburb_table" ToRole="weather_temp9am_days" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="weather_cold_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="Int32" Nullable="false" />
+          <Property Name="january" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="february" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="march" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="april" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="may" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="june" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="july" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="august" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="september" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="october" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="november" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="december" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="statistical_element" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="suburb_table" Relationship="Self.FK_suburb_table_weather_cold_days" FromRole="weather_cold_days" ToRole="suburb_table" />
+        </EntityType>
+        <EntityType Name="weather_hot_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="Int32" Nullable="false" />
+          <Property Name="january" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="february" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="march" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="april" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="may" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="june" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="july" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="august" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="september" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="october" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="november" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="december" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="statistical_element" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="suburb_table" Relationship="Self.FK_suburb_table_weather_hot_days" FromRole="weather_hot_days" ToRole="suburb_table" />
+        </EntityType>
+        <EntityType Name="weather_rainy_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="Int32" Nullable="false" />
+          <Property Name="january" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="february" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="march" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="april" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="may" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="june" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="july" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="august" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="september" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="october" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="november" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="december" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="statistical_element" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="suburb_table" Relationship="Self.FK_suburb_table_weather_rainy_days" FromRole="weather_rainy_days" ToRole="suburb_table" />
+        </EntityType>
+        <EntityType Name="weather_temp3pm_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="Int32" Nullable="false" />
+          <Property Name="january" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="february" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="march" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="april" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="may" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="june" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="july" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="august" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="september" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="october" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="november" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="december" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="statistical_element" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="suburb_table" Relationship="Self.FK_suburb_table_weather_temp3pm_days" FromRole="weather_temp3pm_days" ToRole="suburb_table" />
+        </EntityType>
+        <EntityType Name="weather_temp9am_days">
+          <Key>
+            <PropertyRef Name="station_id" />
+          </Key>
+          <Property Name="station_id" Type="Int32" Nullable="false" />
+          <Property Name="january" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="february" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="march" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="april" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="may" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="june" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="july" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="august" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="september" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="october" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="november" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="december" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="statistical_element" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="suburb_table" Relationship="Self.FK_suburb_table_weather_temp9am_days" FromRole="weather_temp9am_days" ToRole="suburb_table" />
+        </EntityType>
+        <Association Name="FK_suburb_harvest_crop">
+          <End Role="crop" Type="Self.crop" Multiplicity="1" />
+          <End Role="suburb_harvest" Type="Self.suburb_harvest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crop">
+              <PropertyRef Name="crop_id" />
+            </Principal>
+            <Dependent Role="suburb_harvest">
+              <PropertyRef Name="crop_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_farm_suburb_table">
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="0..1" />
+          <End Role="farm" Type="Self.farm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suburb_table">
+              <PropertyRef Name="suburb_id" />
+            </Principal>
+            <Dependent Role="farm">
+              <PropertyRef Name="suburb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_harvest_suburb_table">
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="1" />
+          <End Role="suburb_harvest" Type="Self.suburb_harvest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suburb_table">
+              <PropertyRef Name="suburb_id" />
+            </Principal>
+            <Dependent Role="suburb_harvest">
+              <PropertyRef Name="suburb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_cold_days">
+          <End Role="weather_cold_days" Type="Self.weather_cold_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_cold_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_hot_days">
+          <End Role="weather_hot_days" Type="Self.weather_hot_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_hot_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_rainy_days">
+          <End Role="weather_rainy_days" Type="Self.weather_rainy_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_rainy_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_temp3pm_days">
+          <End Role="weather_temp3pm_days" Type="Self.weather_temp3pm_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_temp3pm_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_weather_temp9am_days">
+          <End Role="weather_temp9am_days" Type="Self.weather_temp9am_days" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="weather_temp9am_days">
+              <PropertyRef Name="station_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="station_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ColdSpotDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="crops" EntityType="Self.crop" />
+          <EntitySet Name="farms" EntityType="Self.farm" />
+          <EntitySet Name="suburb_harvest" EntityType="Self.suburb_harvest" />
+          <EntitySet Name="suburb_table" EntityType="Self.suburb_table" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="weather_cold_days" EntityType="Self.weather_cold_days" />
+          <EntitySet Name="weather_hot_days" EntityType="Self.weather_hot_days" />
+          <EntitySet Name="weather_rainy_days" EntityType="Self.weather_rainy_days" />
+          <EntitySet Name="weather_temp3pm_days" EntityType="Self.weather_temp3pm_days" />
+          <EntitySet Name="weather_temp9am_days" EntityType="Self.weather_temp9am_days" />
+          <AssociationSet Name="FK_suburb_harvest_crop" Association="Self.FK_suburb_harvest_crop">
+            <End Role="crop" EntitySet="crops" />
+            <End Role="suburb_harvest" EntitySet="suburb_harvest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_farm_suburb_table" Association="Self.FK_farm_suburb_table">
+            <End Role="suburb_table" EntitySet="suburb_table" />
+            <End Role="farm" EntitySet="farms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_harvest_suburb_table" Association="Self.FK_suburb_harvest_suburb_table">
+            <End Role="suburb_table" EntitySet="suburb_table" />
+            <End Role="suburb_harvest" EntitySet="suburb_harvest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_cold_days" Association="Self.FK_suburb_table_weather_cold_days">
+            <End Role="weather_cold_days" EntitySet="weather_cold_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_hot_days" Association="Self.FK_suburb_table_weather_hot_days">
+            <End Role="weather_hot_days" EntitySet="weather_hot_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_rainy_days" Association="Self.FK_suburb_table_weather_rainy_days">
+            <End Role="weather_rainy_days" EntitySet="weather_rainy_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_temp3pm_days" Association="Self.FK_suburb_table_weather_temp3pm_days">
+            <End Role="weather_temp3pm_days" EntitySet="weather_temp3pm_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_weather_temp9am_days" Association="Self.FK_suburb_table_weather_temp9am_days">
+            <End Role="weather_temp9am_days" EntitySet="weather_temp9am_days" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ColdSpotDBModelStoreContainer" CdmEntityContainer="ColdSpotDBEntities">
+          <EntitySetMapping Name="crops">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.crop">
+              <MappingFragment StoreEntitySet="crop">
+                <ScalarProperty Name="crop_id" ColumnName="crop_id" />
+                <ScalarProperty Name="crop_name" ColumnName="crop_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="farms">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.farm">
+              <MappingFragment StoreEntitySet="farm">
+                <ScalarProperty Name="farm_id" ColumnName="farm_id" />
+                <ScalarProperty Name="farm_name" ColumnName="farm_name" />
+                <ScalarProperty Name="location_lat" ColumnName="location_lat" />
+                <ScalarProperty Name="location_lng" ColumnName="location_lng" />
+                <ScalarProperty Name="farm_address" ColumnName="farm_address" />
+                <ScalarProperty Name="farm_rating" ColumnName="farm_rating" />
+                <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suburb_harvest">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.suburb_harvest">
+              <MappingFragment StoreEntitySet="suburb_harvest">
+                <ScalarProperty Name="suburb_harvest_id" ColumnName="suburb_harvest_id" />
+                <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
+                <ScalarProperty Name="crop_id" ColumnName="crop_id" />
+                <ScalarProperty Name="january" ColumnName="january" />
+                <ScalarProperty Name="february" ColumnName="february" />
+                <ScalarProperty Name="march" ColumnName="march" />
+                <ScalarProperty Name="april" ColumnName="april" />
+                <ScalarProperty Name="may" ColumnName="may" />
+                <ScalarProperty Name="june" ColumnName="june" />
+                <ScalarProperty Name="july" ColumnName="july" />
+                <ScalarProperty Name="august" ColumnName="august" />
+                <ScalarProperty Name="september" ColumnName="september" />
+                <ScalarProperty Name="october" ColumnName="october" />
+                <ScalarProperty Name="november" ColumnName="november" />
+                <ScalarProperty Name="december" ColumnName="december" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suburb_table">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.suburb_table">
+              <MappingFragment StoreEntitySet="suburb_table">
+                <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
+                <ScalarProperty Name="suburb_name" ColumnName="suburb_name" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="weather_cold_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_cold_days">
+              <MappingFragment StoreEntitySet="weather_cold_days">
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+                <ScalarProperty Name="january" ColumnName="january" />
+                <ScalarProperty Name="february" ColumnName="february" />
+                <ScalarProperty Name="march" ColumnName="march" />
+                <ScalarProperty Name="april" ColumnName="april" />
+                <ScalarProperty Name="may" ColumnName="may" />
+                <ScalarProperty Name="june" ColumnName="june" />
+                <ScalarProperty Name="july" ColumnName="july" />
+                <ScalarProperty Name="august" ColumnName="august" />
+                <ScalarProperty Name="september" ColumnName="september" />
+                <ScalarProperty Name="october" ColumnName="october" />
+                <ScalarProperty Name="november" ColumnName="november" />
+                <ScalarProperty Name="december" ColumnName="december" />
+                <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="weather_hot_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_hot_days">
+              <MappingFragment StoreEntitySet="weather_hot_days">
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+                <ScalarProperty Name="january" ColumnName="january" />
+                <ScalarProperty Name="february" ColumnName="february" />
+                <ScalarProperty Name="march" ColumnName="march" />
+                <ScalarProperty Name="april" ColumnName="april" />
+                <ScalarProperty Name="may" ColumnName="may" />
+                <ScalarProperty Name="june" ColumnName="june" />
+                <ScalarProperty Name="july" ColumnName="july" />
+                <ScalarProperty Name="august" ColumnName="august" />
+                <ScalarProperty Name="september" ColumnName="september" />
+                <ScalarProperty Name="october" ColumnName="october" />
+                <ScalarProperty Name="november" ColumnName="november" />
+                <ScalarProperty Name="december" ColumnName="december" />
+                <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="weather_rainy_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_rainy_days">
+              <MappingFragment StoreEntitySet="weather_rainy_days">
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+                <ScalarProperty Name="january" ColumnName="january" />
+                <ScalarProperty Name="february" ColumnName="february" />
+                <ScalarProperty Name="march" ColumnName="march" />
+                <ScalarProperty Name="april" ColumnName="april" />
+                <ScalarProperty Name="may" ColumnName="may" />
+                <ScalarProperty Name="june" ColumnName="june" />
+                <ScalarProperty Name="july" ColumnName="july" />
+                <ScalarProperty Name="august" ColumnName="august" />
+                <ScalarProperty Name="september" ColumnName="september" />
+                <ScalarProperty Name="october" ColumnName="october" />
+                <ScalarProperty Name="november" ColumnName="november" />
+                <ScalarProperty Name="december" ColumnName="december" />
+                <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="weather_temp3pm_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_temp3pm_days">
+              <MappingFragment StoreEntitySet="weather_temp3pm_days">
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+                <ScalarProperty Name="january" ColumnName="january" />
+                <ScalarProperty Name="february" ColumnName="february" />
+                <ScalarProperty Name="march" ColumnName="march" />
+                <ScalarProperty Name="april" ColumnName="april" />
+                <ScalarProperty Name="may" ColumnName="may" />
+                <ScalarProperty Name="june" ColumnName="june" />
+                <ScalarProperty Name="july" ColumnName="july" />
+                <ScalarProperty Name="august" ColumnName="august" />
+                <ScalarProperty Name="september" ColumnName="september" />
+                <ScalarProperty Name="october" ColumnName="october" />
+                <ScalarProperty Name="november" ColumnName="november" />
+                <ScalarProperty Name="december" ColumnName="december" />
+                <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="weather_temp9am_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_temp9am_days">
+              <MappingFragment StoreEntitySet="weather_temp9am_days">
+                <ScalarProperty Name="station_id" ColumnName="station_id" />
+                <ScalarProperty Name="january" ColumnName="january" />
+                <ScalarProperty Name="february" ColumnName="february" />
+                <ScalarProperty Name="march" ColumnName="march" />
+                <ScalarProperty Name="april" ColumnName="april" />
+                <ScalarProperty Name="may" ColumnName="may" />
+                <ScalarProperty Name="june" ColumnName="june" />
+                <ScalarProperty Name="july" ColumnName="july" />
+                <ScalarProperty Name="august" ColumnName="august" />
+                <ScalarProperty Name="september" ColumnName="september" />
+                <ScalarProperty Name="october" ColumnName="october" />
+                <ScalarProperty Name="november" ColumnName="november" />
+                <ScalarProperty Name="december" ColumnName="december" />
+                <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
