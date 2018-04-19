@@ -104,9 +104,10 @@ namespace TripNPick.Controllers
 
         public Expression<Func<suburb_harvest, bool>> FilterFarms()
         {
-            var months = new List<string>();
-            months.Add("august");
+            List<string> months = new List<string>();
             months.Add("january");
+            months.Add("december");
+            //var months = us.cMonths.ToList();
             var predicate = PredicateBuilder.New<suburb_harvest>();
             foreach (string month in months)
             {
@@ -154,10 +155,54 @@ namespace TripNPick.Controllers
             Debug.WriteLine(predicate.ToString());
             return predicate;
         }
-        public ActionResult MapSVG()
-        {
-            return View();
+
+        public Expression<Func<interest_attraction, bool>> buildPredForInterestType() {
+            List<string> selectedInterests = new List<string>();
+            selectedInterests.Add("Nature and Parks");
+            selectedInterests.Add("Nature & Wildlife Areas");
+            var predicate = PredicateBuilder.New<interest_attraction>();
+            foreach (var interest in selectedInterests) {
+                switch (interest) {
+                    case "Museums":
+                        predicate = predicate.Or(s => s.interest_id == 1);
+                        break;
+                    case "Sights & Landmarks":
+                        predicate = predicate.Or(s => s.interest_id == 2);
+                        break;
+                    case "Nature and Parks":
+                        predicate = predicate.Or(s => s.interest_id == 3);
+                        break;
+                    case "Points of Interest & Landmarks":
+                        predicate = predicate.Or(s => s.interest_id == 4);
+                        break;
+                    case "Beaches":
+                        predicate = predicate.Or(s => s.interest_id == 5);
+                        break;
+                    case "Outdoor Activities and Tours":
+                        predicate = predicate.Or(s => s.interest_id == 6);
+                        break;
+                    case "Nature & Wildlife Areas":
+                        predicate = predicate.Or(s => s.interest_id == 7);
+                        break;
+                    case "Hiking Trails":
+                        predicate = predicate.Or(s => s.interest_id == 8);
+                        break;
+                    case "Fun & Games & Sports":
+                        predicate = predicate.Or(s => s.interest_id == 9);
+                        break;
+                    case "Zoos & Aquariums":
+                        predicate = predicate.Or(s => s.interest_id == 10);
+                        break;
+                    case "Bodies of Water":
+                        predicate = predicate.Or(s => s.interest_id == 11);
+                        break;
+
+                }  
+            }
+            Debug.WriteLine(predicate.ToString());
+            return predicate;
         }
+
 
         public ActionResult FilteredNumberOfFarms()
         {
@@ -227,6 +272,35 @@ namespace TripNPick.Controllers
             return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
         }
 
+        public IEnumerable<AllInterest> getAllInterest2() {
+            var interestTypes = dbContext.interest_table.ToList();
+            var interestAttractions = dbContext.interest_attraction.ToList();
+            var filteredInterestAttr = interestAttractions.AsQueryable().Where(this.buildPredForInterestType());
+            var suburbs = dbContext.suburb_table.ToList();
+            var states = dbContext.states.ToList();
+            var allInterest = from it in interestTypes
+                              join ia in filteredInterestAttr on it.interest_id equals ia.interest_id
+                              join sb in suburbs on ia.suburb_id equals sb.suburb_id
+                              join st in states on sb.state equals st.state_id
+                              select new AllInterest
+                              {
+                                  stateName = st.state_name,
+                                  interestId = it.interest_id,
+                                  interestType = it.types,
+                                  attractionId = ia.attraction_id,
+                                  attractionName = ia.attraction_name,
+                                  suburbId = sb.suburb_id,
+                                  suburbName = sb.suburb_name
+                              };
+            return allInterest;
+        }
+
+        public IEnumerable<StateInterestsCount> groupInterestByState() {
+            var allInterests = getAllInterest2();
+            var interestsGrouped = allInterests.GroupBy(x => x.stateName).Select(c => new StateInterestsCount { stateName = c.Key, numberOfInterests = c.Count() });
+            return interestsGrouped;
+        }
+
         public ActionResult displayFilteredFarms()
         {
             var distinctFarms = getAllFilteredFarms();
@@ -234,7 +308,7 @@ namespace TripNPick.Controllers
         }
         public ActionResult displayFarmCountMonthlyFiltered()
         {
-            var farmsGroupedByState = getFarmCountMonthlyFiltered();
+            var farmsGroupedByState = groupInterestByState();
             return View(farmsGroupedByState);
         }
         public ActionResult stupidMarkers()

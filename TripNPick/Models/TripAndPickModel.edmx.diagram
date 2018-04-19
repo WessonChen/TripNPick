@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f50502b0ea4140a09cc31cbaeb75cc80" Name="Diagram1">
+      <Diagram DiagramId="f50502b0ea4140a09cc31cbaeb75cc80" Name="Diagram1" ZoomLevel="18">
         <EntityTypeShape EntityType="ColdSpotDBModel.crop" Width="1.5" PointX="6" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ColdSpotDBModel.farm" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ColdSpotDBModel.suburb_harvest" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
@@ -25,6 +25,10 @@
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_temp9am_days" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ColdSpotDBModel.state" Width="1.5" PointX="5.5" PointY="8.875" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_state1" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.interest_attraction" Width="1.5" PointX="8.5" PointY="8.75" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.interest_table" Width="1.5" PointX="19.125" PointY="10.75" />
+        <AssociationConnector Association="ColdSpotDBModel.FK_interest_attraction_interest_table" />
+        <AssociationConnector Association="ColdSpotDBModel.FK_interest_attraction_suburb_table" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

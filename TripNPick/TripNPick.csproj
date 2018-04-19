@@ -200,6 +200,12 @@
     <Compile Include="Models\FilteredFarmViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestsJson.cs" />
+    <Compile Include="Models\interest_attraction.cs">
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\interest_table.cs">
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\state.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
@@ -381,6 +387,7 @@
     <Content Include="Views\Map\NumberOfFarms.cshtml" />
     <Content Include="Views\Map\RegionIndex.cshtml" />
     <Content Include="Views\Map\TestMarkers.cshtml" />
+    <Content Include="Views\Map\getAllInterest2.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
