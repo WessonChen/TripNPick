@@ -1,15 +1,19 @@
-﻿@model IEnumerable<with_map_1.Models.StateFarmsCount>
-<table>
+﻿@model IEnumerable<TripNPick.Models.NumberOfFarmPerState>
+<table style="margin-top:50px;">
     <tr>
 
         <td>State Name</td>
         <td>Num of Farms </td>
+        <td>Latitude</td>
+        <td>Longitude</td>
     </tr>
     @foreach (var item in Model)
     {
         <tr>
             <td>@item.stateName</td>
             <td>@item.numberOfFarms</td>
+            <td>@item.location_lat</td>
+            <td>@item.location_lng</td>
         </tr>
     }
 </table>

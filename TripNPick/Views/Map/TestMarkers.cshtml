@@ -19,7 +19,7 @@
 
     function initMap() {
         var map;
-        var bounds = new google.maps.LatLngBounds();
+        //var bounds = new google.maps.LatLngBounds();
 
         var coa = { lat: -25.031596581410874, lng: 134.36777208750004 };
         var mapOptions = {
@@ -32,82 +32,44 @@
         var map = new google.maps.Map(document.getElementById("content"), mapOptions);
         map.setTilt(50);
 
-        // Multiple markers location, latitude, and longitude
-        var markers = [
-            ['NSW', -31.840233, 145.612793],
-            ['NT', -19.491411, 132.550964],
-            ['QSL', -20.917574, 142.702789],
-            ['SA', -30.000233, 136.209152],
-            ['TAS', -41.640079, 146.315918],
-            ['VIC', -36.686043, 143.580322],
-            ['WA', -31.953512, 115.857048]
-        ];
-
-        // Info window content
-        var infoWindowContent = [
-            ['<div class="info_content">' +
-                '<h3>Brooklyn Museum</h3>' +
-                '<p>The Brooklyn Museum is an art museum located in the New York City borough of Brooklyn.</p>' + '</div>'],
-            ['<div class="info_content">' +
-                '<h3>Brooklyn Public Library</h3>' +
-                '<p>The Brooklyn Public Library (BPL) is the public library system of the borough of Brooklyn, in New York City.</p>' +
-                '</div>'],
-            ['<div class="info_content">' +
-                '<h3>Prospect Park Zoo</h3>' +
-                '<p>The Prospect Park Zoo is a 12-acre (4.9 ha) zoo located off Flatbush Avenue on the eastern side of Prospect Park, Brooklyn, New York City.</p>' +
-                '</div>']
-        ];
-
-        // Add multiple markers to map
-        var infoWindow = new google.maps.InfoWindow(), marker, i;
-
-        // Place each marker on the map
-        for (i = 0; i < markers.length; i++) {
-            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-            bounds.extend(position);
-            marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: markers[i][0]
-            });
-
-            // Add info window to marker
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-                    infoWindow.setContent(infoWindowContent[i][0]);
-                    infoWindow.open(map, marker);
-                }
-            })(marker, i));
-
-            // Center the map to fit all markers on the screen
-            map.fitBounds(bounds);
-        }
-        
-
-        $.get("@Url.Action("GetAllLocations", "RegionMap")", function (data, status) {
-            var marker = [];
+          $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map")", function (data, status) {
+            var markers = [];
             var contentString = [];
-            var infowindow = [];
-            for (i = 0; i < data.length; i++) {
-                marker[i] = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].location_lat,data[i].location_lng),
+              var infowindow = [];
+              for (i = 0; i < data.length; i++) {
+                  var markerLabel = String(data[i].numberOfFarms);
+                  //var numberOfFarmsString = (String)data.numberOfFarms;
+                  var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
+                      '<br/>' + '<h4>Number of Farms with jobs in your selected month/months: <b>' + String(data[i].numberOfFarms) + '</b></h4>';
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
+                    label: markerLabel,
                     map: map
-                });
+                  });
+                  infowindow = new google.maps.InfoWindow({
+                      content: infoWindowContent
+                  });
+                  google.maps.event.addListener(marker, 'mouseover', (function (marker, i) {
+                      return function () {
+                          infowindow.open(map, marker);
+                      }
+                  })(marker, i));
+                  google.maps.event.addListener(marker, 'mouseout', (function (marker, i) {
+                      return function () {
+                          infowindow.close();
+                      }
+                  })(marker, i));
+
+
+                // Center the map to fit all markers on the screen
+                //map.fitBounds(bounds);
 
             }
-
-
         })
-
-
-        // Set zoom level
-        var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function (event) {
-            this.setZoom(14);
-            google.maps.event.removeListener(boundsListener);
-        });
-
+       
     }
     // Load initialize function
-    google.maps.event.addDomListener(window, 'load', initMap);
+
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_HGUZ-hvy730lBns4WKZxkhzMzm0UJU&region=AU&language=en-AU&callback=initMap" async defer></script>
+<script  src="~/Scripts/MarkerWithLabel.js"></script>

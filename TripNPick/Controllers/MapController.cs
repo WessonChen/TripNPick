@@ -160,17 +160,21 @@ namespace TripNPick.Controllers
         {
             var farmList = dbContext.farms.ToList();
             var suburbList = dbContext.suburb_table.ToList();
+            var states = dbContext.states.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
             var newHarvestList = harvestList.AsQueryable().Where(this.FilterFarms());
             var farmCountViewModel = (from f in farmList
                                       join sl in suburbList on f.suburb_id equals sl.suburb_id
+                                      join st in states on sl.state equals st.state_id
                                       join hv in newHarvestList on sl.suburb_id equals hv.suburb_id
                                       select new FilteredFarmViewModel
                                       {
                                           farmName = f.farm_name,
                                           farmId = f.farm_id,
                                           suburbName = sl.suburb_name,
-                                          stateName = sl.state
+                                          stateName = sl.state,
+                                          state_lat =(double)st.state_lat,
+                                          state_lng = (double)st.state_lng
                                       }).ToList();
 
             var getDistinctFarms = farmCountViewModel.DistinctBy(x => x.farmName);
@@ -183,6 +187,7 @@ namespace TripNPick.Controllers
             var farmList = dbContext.farms.ToList();
             var suburbList = dbContext.suburb_table.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
+            var states = dbContext.states.ToList();
             var newHarvestList = harvestList.AsQueryable().Where(this.FilterFarms());
             var farmCountViewModel = (from f in farmList
                                       join sl in suburbList on f.suburb_id equals sl.suburb_id
@@ -202,11 +207,21 @@ namespace TripNPick.Controllers
             return getDistinctFarms;
         }
 
-        public IEnumerable<StateFarmsCount> getFarmCountMonthlyFiltered()
+        public JsonResult getFarmCountMonthlyFiltered()
         {
+            var states = dbContext.states.ToList();
             var distinctFarms = getAllFilteredFarms();
             var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
-            return farmsGroupedByState;
+            var joinStateLocation = from st in states
+                                    join fg in farmsGroupedByState on st.state_id equals fg.stateName
+                                    select new NumberOfFarmPerState
+                                    {
+                                        stateName = fg.stateName,
+                                        numberOfFarms = fg.numberOfFarms,
+                                        location_lat = (double)st.state_lat,
+                                        location_lng = (double)st.state_lng
+                                    };
+            return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult displayFilteredFarms()
@@ -216,8 +231,7 @@ namespace TripNPick.Controllers
         }
         public ActionResult displayFarmCountMonthlyFiltered()
         {
-            var distinctFarms = getAllFilteredFarms();
-            var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
+            var farmsGroupedByState = getFarmCountMonthlyFiltered();
             return View(farmsGroupedByState);
         }
         public ActionResult stupidMarkers()
@@ -227,9 +241,7 @@ namespace TripNPick.Controllers
         }
         public ActionResult TestMarkers()
         {
-            var farmCount = getFarmCountMonthlyFiltered().ToList();
-            ViewData["FarmCountByState"] = farmCount;
-            return View(farmCount);
+            return View();
         }
     }
 }
