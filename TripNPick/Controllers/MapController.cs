@@ -18,8 +18,11 @@ namespace TripNPick.Controllers
     {
         ColdSpotDBEntities dbContext = new ColdSpotDBEntities();
 
-        public ActionResult Index() {
-            return View();
+        public ActionResult Index(string[] cMonths, string[] cInterests) {
+            UserSelections us = new UserSelections();
+            us.cMonths = cMonths;
+            us.cInterests = cInterests;
+            return View(us);
         }
         
         // GET: RegionMap

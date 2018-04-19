@@ -231,6 +231,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TripAndPickModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserSelections.cs" />
     <Compile Include="Models\weather_cold_days.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
