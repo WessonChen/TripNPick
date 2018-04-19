@@ -1,4 +1,4 @@
-﻿
+﻿@model TripNPick.Models.UserSelections
 @{
     ViewBag.Title = "Search";
 }
@@ -42,14 +42,12 @@
             }
         })
     }
-    // Load initialize function
-    google.maps.event.addDomListener(window, 'load', initMap);
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_HGUZ-hvy730lBns4WKZxkhzMzm0UJU&region=AU&language=en-AU&callback=initMap" async defer></script>
 
 <body>
     <div class="container bgBorder">
-        <form @*action="/Home/ExpResults"*@ method="post">
+        <form action="/Map/Index" method="post">
             <table style="width: 100%">
                 <tr>
                     <th>
@@ -60,62 +58,146 @@
                     <td style="padding-bottom: 8px;">
                         <label class="content">
                             Jan
-                            <input type="checkbox" name="yourInte" value="January">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("January"))
+                            {
+                                <input type="checkbox" name="cMonths" value="January" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="January">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Feb
-                            <input type="checkbox" name="yourInte" value="February">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("February"))
+                            {
+                                <input type="checkbox" name="cMonths" value="February" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="February">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Mar
-                            <input type="checkbox" name="yourInte" value="March">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("March"))
+                            {
+                                <input type="checkbox" name="cMonths" value="March" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="March">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Apr
-                            <input type="checkbox" name="yourInte" value="April">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("April"))
+                            {
+                                <input type="checkbox" name="cMonths" value="April" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="April">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             May
-                            <input type="checkbox" name="yourInte" value="May">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("May"))
+                            {
+                                <input type="checkbox" name="cMonths" value="May" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="May">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Jun
-                            <input type="checkbox" name="yourInte" value="June">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("June"))
+                            {
+                                <input type="checkbox" name="cMonths" value="June" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="June">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Jul
-                            <input type="checkbox" name="yourInte" value="July">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("July"))
+                            {
+                                <input type="checkbox" name="cMonths" value="July" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="July">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Aug
-                            <input type="checkbox" name="yourInte" value="Auguest">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("Auguest"))
+                            {
+                                <input type="checkbox" name="cMonths" value="Auguest" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="Auguest">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Sep
-                            <input type="checkbox" name="yourInte" value="September">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("September"))
+                            {
+                                <input type="checkbox" name="cMonths" value="September" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="September">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Oct
-                            <input type="checkbox" name="yourInte" value="October">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("October"))
+                            {
+                                <input type="checkbox" name="cMonths" value="October" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="October">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Nov
-                            <input type="checkbox" name="yourInte" value="Novenmber">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("Novenmber"))
+                            {
+                                <input type="checkbox" name="cMonths" value="Novenmber" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="Novenmber">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Dec
-                            <input type="checkbox" name="yourInte" value="December">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("December"))
+                            {
+                                <input type="checkbox" name="cMonths" value="December" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="December">
+                            }
                             <span class="checkmark"></span>
                         </label>
                     </td>
@@ -129,52 +211,122 @@
                     <td style="padding-bottom: 8px;">
                         <label class="content">
                             Interest1
-                            <input type="checkbox" name="yourInte" value="January">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest1"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest1" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest1">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest2
-                            <input type="checkbox" name="yourInte" value="February">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest2"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest2" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest2">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest3
-                            <input type="checkbox" name="yourInte" value="March">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest3"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest3" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest3">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest4
-                            <input type="checkbox" name="yourInte" value="April">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest4"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest4" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest4">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest5
-                            <input type="checkbox" name="yourInte" value="May">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest5"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest5" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest5">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest6
-                            <input type="checkbox" name="yourInte" value="January">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest6"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest6" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest6">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest7
-                            <input type="checkbox" name="yourInte" value="February">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest7"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest7" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest7">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest8
-                            <input type="checkbox" name="yourInte" value="March">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest8"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest8" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest8">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest9
-                            <input type="checkbox" name="yourInte" value="April">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest9"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest9" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest9">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Interest10
-                            <input type="checkbox" name="yourInte" value="April">
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Interest10"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest10" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Interest10">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 64px;" />

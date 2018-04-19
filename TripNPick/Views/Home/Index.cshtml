@@ -1,6 +1,4 @@
-﻿@model TripNPick.Models.DropdownList
-
-@{
+﻿@{
     ViewBag.Title = "Home";
 }
 
@@ -25,68 +23,68 @@
                         <h1 class="display-3" style="font-variant: small-caps; font-size: 400%; margin-top: -72px">Making it simple for you..</h1>
                         <h3>To find farms where you can work to pick fruit</h3>
                         <h3>Close to where you want to be..</h3>
-                        <form @*action="/Home/ExpResults"*@ class="form-inline" method="post" style="color: black; background-color: white; width: 550px; margin: 32px auto auto auto; padding: 8px 0;">
+                        <form action="/Map/Index" class="form-inline" method="post" style="color: black; background-color: white; width: 550px; margin: 32px auto auto auto; padding: 8px 0;">
                             <div class="dropdown">
                                 <button class="dropbtn" disabled>Tell us when you want to travel</button>
                                 <div class="dropdown-content">
                                     <label class="content">
                                         January
-                                        <input type="checkbox" name="yourInte" value="January">
+                                        <input type="checkbox" name="cMonths" value="January">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         February
-                                        <input type="checkbox" name="yourInte" value="February">
+                                        <input type="checkbox" name="cMonths" value="February">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         March
-                                        <input type="checkbox" name="yourInte" value="March">
+                                        <input type="checkbox" name="cMonths" value="March">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         April
-                                        <input type="checkbox" name="yourInte" value="April">
+                                        <input type="checkbox" name="cMonths" value="April">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         May
-                                        <input type="checkbox" name="yourInte" value="May">
+                                        <input type="checkbox" name="cMonths" value="May">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         June
-                                        <input type="checkbox" name="yourInte" value="June">
+                                        <input type="checkbox" name="cMonths" value="June">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         July
-                                        <input type="checkbox" name="yourInte" value="July">
+                                        <input type="checkbox" name="cMonths" value="July">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         Auguest
-                                        <input type="checkbox" name="yourInte" value="Auguest">
+                                        <input type="checkbox" name="cMonths" value="Auguest">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         September
-                                        <input type="checkbox" name="yourInte" value="September">
+                                        <input type="checkbox" name="cMonths" value="September">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         October
-                                        <input type="checkbox" name="yourInte" value="October">
+                                        <input type="checkbox" name="cMonths" value="October">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         Novenmber
-                                        <input type="checkbox" name="yourInte" value="Novenmber">
+                                        <input type="checkbox" name="cMonths" value="Novenmber">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="content">
                                         December
-                                        <input type="checkbox" name="yourInte" value="December">
+                                        <input type="checkbox" name="cMonths" value="December">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
