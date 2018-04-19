@@ -17,14 +17,14 @@ namespace TripNPick.Controllers
     public class MapController : Controller
     {
         ColdSpotDBEntities dbContext = new ColdSpotDBEntities();
+        UserSelections us = new UserSelections();
 
         public ActionResult Index(string[] cMonths, string[] cInterests) {
-            UserSelections us = new UserSelections();
             us.cMonths = cMonths;
             us.cInterests = cInterests;
             return View(us);
         }
-        
+
         // GET: RegionMap
         public ActionResult RegionIndex()
         {

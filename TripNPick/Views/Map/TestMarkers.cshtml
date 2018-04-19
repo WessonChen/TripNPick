@@ -33,12 +33,9 @@
         map.setTilt(50);
 
           $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map")", function (data, status) {
-            var markers = [];
-            var contentString = [];
-              var infowindow = [];
-              for (i = 0; i < data.length; i++) {
+            var infowindow = [];
+            for (i = 0; i < data.length; i++) {
                   var markerLabel = String(data[i].numberOfFarms);
-                  //var numberOfFarmsString = (String)data.numberOfFarms;
                   var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
                       '<br/>' + '<h4>Number of Farms with jobs in your selected month/months: <b>' + String(data[i].numberOfFarms) + '</b></h4>';
                     marker = new google.maps.Marker({
