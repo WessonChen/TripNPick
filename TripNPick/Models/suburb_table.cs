@@ -26,6 +26,8 @@ namespace TripNPick.Models
         public string suburb_name { get; set; }
         public string state { get; set; }
         public Nullable<int> station_id { get; set; }
+        public Nullable<double> suburb_lat { get; set; }
+        public Nullable<double> suburb_lng { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<farm> farms { get; set; }

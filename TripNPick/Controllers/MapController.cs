@@ -100,10 +100,6 @@ namespace TripNPick.Controllers
             return View(farmCountViewModel);
         }
 
-        public ActionResult Map()
-        {
-            return View();
-        }
         public JsonResult GetAllLocations()
         {
             var farmList = dbContext.farms;
@@ -121,22 +117,7 @@ namespace TripNPick.Controllers
 
 
         }
-        public ActionResult FullMap()
-        {
-            var farmList = dbContext.farms.ToList();
-            return View(farmList);
-        }
 
-        public ActionResult MapTest()
-        {
-            return View();
-        }
-        public ActionResult FarmsIndex()
-        {
-            this.GetAllLocations();
-            var farmList = dbContext.farms.ToList();
-            return View(farmList);
-        }
 
         public Expression<Func<suburb_harvest, bool>> FilterFarms(string combinedString)
         {
@@ -227,10 +208,6 @@ namespace TripNPick.Controllers
             }
             return predicate;
         }
-        public ActionResult MapSVG()
-        {
-            return View();
-        }
 
         public ActionResult FilteredNumberOfFarms()
         {
@@ -272,12 +249,15 @@ namespace TripNPick.Controllers
                                       {
                                           farmName = f.farm_name,
                                           farmId = f.farm_id,
+                                          suburbId = sl.suburb_id,
                                           suburbName = sl.suburb_name,
                                           stateName = sl.state,
                                           farm_lat = (double)f.location_lat,
                                           farm_lng = (double)f.location_lng,
                                           farm_address = f.farm_address,
-                                          farm_rating = f.farm_rating
+                                          farm_rating = f.farm_rating,
+                                          suburb_lat =(double)sl.suburb_lat,
+                                          suburb_lng=(double)sl.suburb_lng
                                       }).ToList();
             var getDistinctFarms = farmCountViewModel.DistinctBy(x => x.farmName);
             return getDistinctFarms;
@@ -302,7 +282,6 @@ namespace TripNPick.Controllers
                                         location_lng = (double)st.state_lng
                                     };
             return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
-            //return View(joinStateLocation);
         }
 
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
@@ -413,6 +392,29 @@ namespace TripNPick.Controllers
                               };
             return allInterest;
         }
+        public IEnumerable<AllInterest> getAllInterestInAState(string combinedString)
+        {
+            var interestTypes = dbContext.interest_table.ToList();
+            var interestAttractions = dbContext.interest_attraction.ToList();
+            var filteredInterestAttr = interestAttractions.AsQueryable().Where(this.buildPredForInterestType(combinedString));
+            var suburbs = dbContext.suburb_table.ToList();
+            var states = dbContext.states.ToList();
+            var allInterest = from it in interestTypes
+                              join ia in filteredInterestAttr on it.interest_id equals ia.interest_id
+                              join sb in suburbs on ia.suburb_id equals sb.suburb_id
+                              join st in states on sb.state equals st.state_id
+                              select new AllInterest
+                              {
+                                  stateName = st.state_id,
+                                  interestId = it.interest_id,
+                                  interestType = it.types,
+                                  attractionId = ia.attraction_id,
+                                  attractionName = ia.attraction_name,
+                                  suburbId = sb.suburb_id,
+                                  suburbName = sb.suburb_name
+                              };
+            return allInterest;
+        }
 
         public IEnumerable<StateInterestsCount> groupInterestByState(string combinedString)
         {
@@ -421,10 +423,72 @@ namespace TripNPick.Controllers
             return interestsGrouped;
         }
 
+        public IEnumerable<SuburbInterestsCount> groupInterestsBySuburb(string combinedString, string stateName)
+        {
+            //var stateName = "NSW";
+            //string combinedString = "april,may|Hiking Trails";
+            var suburbs = dbContext.suburb_table.ToList();
+            var suburbsInASate = suburbs.AsQueryable().Where(x => x.state.Equals(stateName));
+            var interestTypes = dbContext.interest_table.ToList();
+            var interestAttractions = dbContext.interest_attraction.ToList();
+            var filteredInterestAttr = interestAttractions.AsQueryable().Where(this.buildPredForInterestType(combinedString));
+            var allInterest = from it in interestTypes
+                              join ia in filteredInterestAttr on it.interest_id equals ia.interest_id
+                              join sb in suburbsInASate on ia.suburb_id equals sb.suburb_id
+                              select new AllInterest
+                              {
+                                  stateName = sb.state,
+                                  interestId = it.interest_id,
+                                  interestType = it.types,
+                                  attractionId = ia.attraction_id,
+                                  attractionName = ia.attraction_name,
+                                  suburbId = sb.suburb_id,
+                                  suburbName = sb.suburb_name
+                              };
+            var interestsGrouped = allInterest.GroupBy(x => x.suburbId).Select(c => new SuburbInterestsCount { suburbId = c.Key, numberOfInterests = c.Count() });
+            return interestsGrouped;
+
+
+        }
+
+        public IQueryable<SuburbFarmsCount> groupFarmsBySuburb(string combinedString, string stateName)
+        {
+           // string combinedString = "april,may|Hiking Trails";
+            //var stateName = "NSW";
+            var allFilteredFarms = getAllFilteredFarms(combinedString).ToList();
+            var farmsInState = allFilteredFarms.AsQueryable().Where(x => x.stateName.Equals(stateName));
+            var groupFarmsBySuburbs = farmsInState.GroupBy(x => x.suburbId).Select(c => new SuburbFarmsCount { suburbId = c.Key, numberOfFarms = c.Count() });
+            return groupFarmsBySuburbs;
+
+
+        }
+
+        public ActionResult getSuburbWiseData() {
+            string combinedString = "april,may|Hiking Trails";
+            var stateName = "NSW";
+            var groupedFarms = groupFarmsBySuburb(combinedString, stateName);
+            var groupedInterests = groupInterestsBySuburb(combinedString, stateName);
+            var suburbs = dbContext.suburb_table.ToList();
+            var countSuburbWise = from sb in suburbs
+                                  join gi in groupedInterests on sb.suburb_id equals gi.suburbId
+                                  join gf in groupedFarms on sb.suburb_id equals gf.suburbId
+                                  select new CountPerSuburb
+                                  {
+                                      suburbId = sb.suburb_id,
+                                      suburbName = sb.suburb_name,
+                                      numberOfFarms = gf.numberOfFarms,
+                                      numberOfInterests = gi.numberOfInterests,
+                                      suburbLat = (double)sb.suburb_lat,
+                                      suburbLng = (double)sb.suburb_lng
+                                  };
+            return View(countSuburbWise);
+        }
+
+
         //public ActionResult displayFilteredFarms()
         //{
-        //    var distinctFarms = getAllFilteredFarms();
-        //    return View(distinctFarms);
+        //    var allFarmsAllStates = this.getAllFilteredFarms(us.combinedString);
+        //    return View(allFarmsAllStates);
         //}
         //public ActionResult displayFarmCountMonthlyFiltered()
         //{
@@ -436,9 +500,5 @@ namespace TripNPick.Controllers
         //    var farmList = getAllFilteredFarms();
         //    return View();
         //}
-        public ActionResult TestMarkers()
-        {
-            return View();
-        }
     }
 }

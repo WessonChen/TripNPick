@@ -11,6 +11,7 @@ namespace TripNPick.Models
         public int numberOfFarms { get; set; }
     }
 
+
     public class StateInterestsCount {
        public string stateName { get; set; }
         public int numberOfInterests { get; set; }
@@ -22,6 +23,8 @@ namespace TripNPick.Models
         public double location_lat { get; set; }
         public double location_lng { get; set; }
     }
+
+
     public class CountPerState {
         public string stateName { get; set; }
         public int numberOfFarms { get; set; }
@@ -29,6 +32,8 @@ namespace TripNPick.Models
         public double location_lat { get; set; }
         public double location_lng { get; set; }
     }
+
+
     public class AllInterest {
         public string stateName { get; set; }
         public int interestId { get; set; }

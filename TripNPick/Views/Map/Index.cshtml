@@ -51,6 +51,8 @@
                     position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
                     icon: 'https://png.icons8.com/office/32/000000/farm.png',
                     label: markerLabel,
+                    markerType: "State",
+                    title : String(data[i].stateName),
                     map: map
                 });
                 (function (marker, infoWindowContent) {
@@ -59,11 +61,55 @@
                         infoWindow.open(map, marker);
                     });
                 })(marker, infoWindowContent);
-                (function (marker, infoWindowContent) {
-                    google.maps.event.addListener(marker, 'mouseout', function (e) {
+
+                google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                    return function () {
                         infowindow.close();
+                    };
+                })(marker, infoWindowContent, infowindow));
+
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.panTo(this.getPosition());
+                        map.setZoom(7);
+                        var markerType = marker.markerType;
+                        var markerTitle = marker.title;
+                        console.log(markerType, markerTitle)
+                        setSuburbLevelMarkers(map, marker)
+                        
+                    })
+                })(marker);
+
+            }
+        })
+    }
+    function setSuburbLevelMarkers() {
+           $.get("@Url.Action("getSuburbWiseData", "Map", new { })", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                var markerLabel = String(data[i].numberOfFarms);
+                    var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
+                        '<br/>' + '<h4 style="color: #4682B4">How many farms with jobs in your selection: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
+                        '<br/>' + '<h4 style="color: #4682B4">Number of Interest: ' + String(data[i].numberOfInterests) + '<h4>';
+                
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
+                    label: markerLabel,
+                    markerType: "Suburb",
+                    title : String(data[i].stateName),
+                    map: map
+                });
+                (function (marker, infoWindowContent) {
+                    google.maps.event.addListener(marker, 'mouseover', function (e) {
+                        infoWindow.setContent(infoWindowContent);
+                        infoWindow.open(map, marker);
                     });
                 })(marker, infoWindowContent);
+
+                google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                    return function () {
+                        infowindow.close();
+                    };
+                })(marker, infoWindowContent, infowindow));
 
             }
         })

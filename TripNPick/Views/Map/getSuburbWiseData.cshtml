@@ -1,0 +1,26 @@
+﻿@model IEnumerable<TripNPick.Models.CountPerSuburb>
+@{
+    Layout = null;
+}
+
+<table>
+    <tr>
+        <td>Suburb ID</td>
+        <td>Suburb Name</td>
+        <td>Number of Interest</td>
+        <td>Number of Farms</td>
+        <td>lat</td>
+        <td>Lon</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.suburbId</td>
+        <td>@item.suburbName</td>
+        <td>@item.numberOfInterests</td>
+        <td>@item.numberOfFarms</td>
+        <td>@item.suburbLat</td>
+        <td>@item.suburbLng</td>
+    </tr>
+    }
+</table>

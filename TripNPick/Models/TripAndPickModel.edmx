@@ -16,12 +16,12 @@
           <Key>
             <PropertyRef Name="farm_id" />
           </Key>
-          <Property Name="farm_id" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="farm_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="farm_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="farm_name" Type="varchar" MaxLength="100" />
           <Property Name="location_lat" Type="float" />
           <Property Name="location_lng" Type="float" />
-          <Property Name="farm_address" Type="nvarchar" MaxLength="255" />
-          <Property Name="farm_rating" Type="nvarchar" MaxLength="50" />
+          <Property Name="farm_address" Type="varchar" MaxLength="150" />
+          <Property Name="farm_rating" Type="varchar" MaxLength="50" />
           <Property Name="suburb_id" Type="int" />
         </EntityType>
         <EntityType Name="interest_attraction">
@@ -88,6 +88,8 @@
           <Property Name="suburb_id" Type="int" Nullable="false" />
           <Property Name="suburb_name" Type="varchar" MaxLength="50" />
           <Property Name="state" Type="varchar" MaxLength="50" />
+          <Property Name="suburb_lat" Type="float" />
+          <Property Name="suburb_lng" Type="float" />
           <Property Name="station_id" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -255,7 +257,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_suburb_table_state1">
+        <Association Name="FK_suburb_table_state">
           <End Role="state" Type="Self.state" Multiplicity="0..1" />
           <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
           <ReferentialConstraint>
@@ -361,7 +363,7 @@
             <End Role="suburb_table" EntitySet="suburb_table" />
             <End Role="suburb_harvest" EntitySet="suburb_harvest" />
           </AssociationSet>
-          <AssociationSet Name="FK_suburb_table_state1" Association="Self.FK_suburb_table_state1">
+          <AssociationSet Name="FK_suburb_table_state" Association="Self.FK_suburb_table_state">
             <End Role="state" EntitySet="state" />
             <End Role="suburb_table" EntitySet="suburb_table" />
           </AssociationSet>
@@ -402,12 +404,12 @@
           <Key>
             <PropertyRef Name="farm_id" />
           </Key>
-          <Property Name="farm_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="farm_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="farm_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="farm_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="location_lat" Type="Double" />
           <Property Name="location_lng" Type="Double" />
-          <Property Name="farm_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="farm_rating" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="farm_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="farm_rating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="suburb_id" Type="Int32" />
           <NavigationProperty Name="suburb_table" Relationship="Self.FK_farm_suburb_table" FromRole="farm" ToRole="suburb_table" />
         </EntityType>
@@ -450,6 +452,8 @@
           <NavigationProperty Name="weather_temp9am_days" Relationship="Self.FK_suburb_table_weather_temp9am_days" FromRole="suburb_table" ToRole="weather_temp9am_days" />
           <NavigationProperty Name="state1" Relationship="ColdSpotDBModel.FK_suburb_table_state1" FromRole="suburb_table" ToRole="state" />
           <NavigationProperty Name="interest_attraction" Relationship="ColdSpotDBModel.FK_interest_attraction_suburb_table" FromRole="suburb_table" ToRole="interest_attraction" />
+          <Property Name="suburb_lat" Type="Double" />
+          <Property Name="suburb_lng" Type="Double" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -844,6 +848,8 @@
           <EntitySetMapping Name="suburb_table">
             <EntityTypeMapping TypeName="ColdSpotDBModel.suburb_table">
               <MappingFragment StoreEntitySet="suburb_table">
+                <ScalarProperty Name="suburb_lng" ColumnName="suburb_lng" />
+                <ScalarProperty Name="suburb_lat" ColumnName="suburb_lat" />
                 <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
                 <ScalarProperty Name="suburb_name" ColumnName="suburb_name" />
                 <ScalarProperty Name="state" ColumnName="state" />

@@ -287,7 +287,9 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\MarkerWithLabel.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -389,6 +391,9 @@
     <Content Include="Views\Map\TestMarkers.cshtml" />
     <Content Include="Views\Map\getAllInterest2.cshtml" />
     <Content Include="Views\Map\getFarmCountMonthlyFiltered.cshtml" />
+    <None Include="Properties\PublishProfiles\TripAndPick - Web Deploy.pubxml" />
+    <Content Include="Views\Map\groupInterestsBySuburb.cshtml" />
+    <Content Include="Views\Map\getSuburbWiseData.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
