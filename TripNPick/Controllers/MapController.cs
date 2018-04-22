@@ -121,7 +121,6 @@ namespace TripNPick.Controllers
 
         public Expression<Func<suburb_harvest, bool>> FilterFarms(string combinedString)
         {
-            Debug.WriteLine(combinedString);
             var months = new List<string>();
             var interests = new List<string>();
             string[] p = combinedString.Split('|');
@@ -275,7 +274,6 @@ namespace TripNPick.Controllers
         {
             List<string> selectedInterests = new List<string>();
             var months = new List<string>();
-            Debug.WriteLine(combinedString);
             string[] p = combinedString.Split('|');
             if (p[1].Equals("null"))
             {
@@ -432,11 +430,14 @@ namespace TripNPick.Controllers
             return groupFarmsBySuburbs;
         }
 
-        public JsonResult getSuburbWiseData() {
-            string combinedString = "april,may|Hiking Trails";
-            var stateName = "NSW";
-            var groupedFarms = groupFarmsBySuburb(combinedString, stateName);
-            var groupedInterests = groupInterestsBySuburb(combinedString, stateName);
+        public JsonResult getSuburbWiseData(string userInput)
+        {
+            Debug.WriteLine(userInput);
+            string[] p = userInput.Split(':');
+            var combinedString = p[0];
+            var selection = p[1];
+            var groupedFarms = groupFarmsBySuburb(combinedString, selection);
+            var groupedInterests = groupInterestsBySuburb(combinedString, selection);
             var suburbs = dbContext.suburb_table.ToList();
             var countSuburbWise = from sb in suburbs
                                   join gi in groupedInterests on sb.suburb_id equals gi.suburbId
