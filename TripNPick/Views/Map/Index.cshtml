@@ -36,18 +36,11 @@
               var infowindow = [];
             for (i = 0; i < data.length; i++) {
                 var markerLabel = String(data[i].numberOfFarms);
-                if (data[i].stateName === "QSL") {
-                    var infoWindowContent = '<h3>QLD</h3>' +
+                var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
                         '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                         '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                    $('#theTable').dataTable().fnAddData(["QLD", data[i].numberOfFarms, data[i].numberOfInterests]);
-                }
-                else {
-                    var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
-                        '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                        '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                    $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].numberOfFarms, data[i].numberOfInterests]);
-                }
+                $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].numberOfFarms, data[i].numberOfInterests]);
+
 
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
@@ -76,6 +69,7 @@
                         map.setZoom(6);
                         var markerType = marker.markerType;
                         var markerTitle = marker.title;
+                        $('#theTable').dataTable().fnClearTable();
                         switch (markerTitle) {
                             case "SA":
                                 $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
@@ -84,6 +78,7 @@
                                         var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
+                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
 
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
@@ -115,6 +110,7 @@
                                         var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
+                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
 
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
@@ -146,6 +142,7 @@
                                         var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
+                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
 
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
@@ -177,6 +174,7 @@
                                         var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
+                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
 
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
@@ -208,6 +206,7 @@
                                         var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
+                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
 
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
@@ -239,6 +238,7 @@
                                         var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
+                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
 
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
@@ -270,6 +270,7 @@
                                         var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
                                             '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
+                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
 
                                         marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
