@@ -144,22 +144,9 @@ namespace TripNPick.Controllers
             {
                 months = p[0].Split(',').ToList();
             }
-            if (p[1].Equals("null"))
-            {
-
-            }
-            else
+            if (p[1].Equals("null") == false)
             {
                 interests = p[1].Split(',').ToList();
-            }
-
-            foreach (var m in months)
-            {
-                Debug.WriteLine(m);
-            }
-            foreach (var i in interests)
-            {
-                Debug.WriteLine(i);
             }
 
             var predicate = PredicateBuilder.New<suburb_harvest>();
@@ -308,23 +295,11 @@ namespace TripNPick.Controllers
             {
                 selectedInterests = p[1].Split(',').ToList();
             }
-            if (p[0].Equals("null"))
-            {
-
-            }
-            else
+            if (p[0].Equals("null") == false)
             {
                 months = p[0].Split(',').ToList();
             }
-
-            foreach (var m in months)
-            {
-                Debug.WriteLine(m);
-            }
-            foreach (var i in selectedInterests)
-            {
-                Debug.WriteLine(i);
-            }
+            
             var predicate = PredicateBuilder.New<interest_attraction>();
             foreach (var interest in selectedInterests)
             {
@@ -363,10 +338,8 @@ namespace TripNPick.Controllers
                     case "Bodies of Water":
                         predicate = predicate.Or(s => s.interest_id == 11);
                         break;
-
                 }
             }
-            Debug.WriteLine(predicate.ToString());
             return predicate;
         }
         public IEnumerable<AllInterest> getAllInterest2(string combinedString)
@@ -447,8 +420,6 @@ namespace TripNPick.Controllers
                               };
             var interestsGrouped = allInterest.GroupBy(x => x.suburbId).Select(c => new SuburbInterestsCount { suburbId = c.Key, numberOfInterests = c.Count() });
             return interestsGrouped;
-
-
         }
 
         public IQueryable<SuburbFarmsCount> groupFarmsBySuburb(string combinedString, string stateName)
@@ -459,11 +430,9 @@ namespace TripNPick.Controllers
             var farmsInState = allFilteredFarms.AsQueryable().Where(x => x.stateName.Equals(stateName));
             var groupFarmsBySuburbs = farmsInState.GroupBy(x => x.suburbId).Select(c => new SuburbFarmsCount { suburbId = c.Key, numberOfFarms = c.Count() });
             return groupFarmsBySuburbs;
-
-
         }
 
-        public ActionResult getSuburbWiseData() {
+        public JsonResult getSuburbWiseData() {
             string combinedString = "april,may|Hiking Trails";
             var stateName = "NSW";
             var groupedFarms = groupFarmsBySuburb(combinedString, stateName);
@@ -481,7 +450,7 @@ namespace TripNPick.Controllers
                                       suburbLat = (double)sb.suburb_lat,
                                       suburbLng = (double)sb.suburb_lng
                                   };
-            return View(countSuburbWise);
+            return Json(countSuburbWise, JsonRequestBehavior.AllowGet);
         }
 
 
