@@ -463,7 +463,7 @@ namespace TripNPick.Controllers
 
         }
 
-        public ActionResult getSuburbWiseData() {
+        public JsonResult getSuburbWiseData() {
             string combinedString = "april,may|Hiking Trails";
             var stateName = "NSW";
             var groupedFarms = groupFarmsBySuburb(combinedString, stateName);
@@ -481,7 +481,7 @@ namespace TripNPick.Controllers
                                       suburbLat = (double)sb.suburb_lat,
                                       suburbLng = (double)sb.suburb_lng
                                   };
-            return View(countSuburbWise);
+            return Json(countSuburbWise, JsonRequestBehavior.AllowGet);
         }
 
 

@@ -29,9 +29,15 @@
         };
         var infoWindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
+        (function (map) {
+            google.maps.event.addListener(map, 'dblclick', function (e) {
+                map.panTo(coa);
+                map.setZoom(3.9);
+            });
+        })(map);
         map.setTilt(50);
         $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map", new { combinedString = Model.combinedString })", function (data, status) {
-            var markers = [];
+            var stateMarkers = [];
             var contentString = [];
               var infowindow = [];
             for (i = 0; i < data.length; i++) {
@@ -51,7 +57,7 @@
                     position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
                     icon: 'https://png.icons8.com/office/32/000000/farm.png',
                     label: markerLabel,
-                    markerType: "State",
+                    markerType: "state",
                     title : String(data[i].stateName),
                     map: map
                 });
@@ -68,10 +74,15 @@
                     };
                 })(marker, infoWindowContent, infowindow));
 
+                stateMarkers.push(marker);
+
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         map.panTo(this.getPosition());
                         map.setZoom(7);
+                        for (mark in stateMarkers) {
+                            mark.setVisible(false);
+                        }
                         var markerType = marker.markerType;
                         var markerTitle = marker.title;
                         console.log(markerType, markerTitle)
@@ -83,8 +94,17 @@
             }
         })
     }
-    function setSuburbLevelMarkers() {
-           $.get("@Url.Action("getSuburbWiseData", "Map", new { })", function (data, status) {
+    function setSuburbLevelMarkers(map, marker, stateMarkers) {
+        (function (map) {
+            google.maps.event.addListener(map, 'dblclick', function (e) {
+                map.panTo(coa);
+                map.setZoom(3.9);
+                stateMarkers.setVisible(true);
+            });
+        })(map);
+        
+        $.get("@Url.Action("getSuburbWiseData", "Map", new { })", function (data, status) {
+            var suburbMarkers = [];
             for (i = 0; i < data.length; i++) {
                 var markerLabel = String(data[i].numberOfFarms);
                     var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
@@ -110,7 +130,7 @@
                         infowindow.close();
                     };
                 })(marker, infoWindowContent, infowindow));
-
+                suburbMarkers.push(marker);
             }
         })
     }
