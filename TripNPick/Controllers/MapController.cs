@@ -213,7 +213,7 @@ namespace TripNPick.Controllers
                                           farmId = f.farm_id,
                                           suburbName = sl.suburb_name,
                                           stateName = sl.state,
-                                          state_lat =(double)st.state_lat,
+                                          state_lat = (double)st.state_lat,
                                           state_lng = (double)st.state_lng
                                       }).ToList();
 
@@ -243,8 +243,8 @@ namespace TripNPick.Controllers
                                           farm_lng = (double)f.location_lng,
                                           farm_address = f.farm_address,
                                           farm_rating = f.farm_rating,
-                                          suburb_lat =(double)sl.suburb_lat,
-                                          suburb_lng=(double)sl.suburb_lng
+                                          suburb_lat = (double)sl.suburb_lat,
+                                          suburb_lng = (double)sl.suburb_lng
                                       }).ToList();
             var getDistinctFarms = farmCountViewModel.DistinctBy(x => x.farmName);
             return getDistinctFarms;
@@ -259,7 +259,7 @@ namespace TripNPick.Controllers
             var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
             var joinStateLocation = from st in states
                                     join fg in farmsGroupedByState on st.state_id equals fg.stateName
-                                    join po in interestGroupedByState on st.state_id equals po.stateName  
+                                    join po in interestGroupedByState on st.state_id equals po.stateName
                                     select new CountPerState
                                     {
                                         stateName = fg.stateName,
@@ -298,7 +298,7 @@ namespace TripNPick.Controllers
             {
                 months = p[0].Split(',').ToList();
             }
-            
+
             var predicate = PredicateBuilder.New<interest_attraction>();
             foreach (var interest in selectedInterests)
             {
@@ -359,6 +359,8 @@ namespace TripNPick.Controllers
                                   interestType = it.types,
                                   attractionId = ia.attraction_id,
                                   attractionName = ia.attraction_name,
+                                  interestLat = (double)ia.location_lat,
+                                  interestLng = (double)ia.location_lng,
                                   suburbId = sb.suburb_id,
                                   suburbName = sb.suburb_name
                               };
@@ -423,7 +425,7 @@ namespace TripNPick.Controllers
 
         public IQueryable<SuburbFarmsCount> groupFarmsBySuburb(string combinedString, string stateName)
         {
-           // string combinedString = "april,may|Hiking Trails";
+            // string combinedString = "april,may|Hiking Trails";
             //var stateName = "NSW";
             var allFilteredFarms = getAllFilteredFarms(combinedString).ToList();
             var farmsInState = allFilteredFarms.AsQueryable().Where(x => x.stateName.Equals(stateName));
@@ -455,6 +457,66 @@ namespace TripNPick.Controllers
             return Json(countSuburbWise, JsonRequestBehavior.AllowGet);
         }
 
+        private double Haversine(double lat1, double lat2, double lon1, double lon2)
+        {
+            const double r = 6371; // meters
+
+            var sdlat = Math.Sin((lat2 - lat1) / 2);
+            var sdlon = Math.Sin((lon2 - lon1) / 2);
+            var q = sdlat * sdlat + Math.Cos(lat1) * Math.Cos(lat2) * sdlon * sdlon;
+            var d = 2 * r * Math.Asin(Math.Sqrt(q));
+
+            return d;
+        }
+
+        public ActionResult doTheDew()
+        {
+            string combinedString = "april,may|Hiking Trails";
+            string stateId = "VIC";
+            var filteredFarms = getAllFilteredFarms(combinedString);
+            var farmsInAState = filteredFarms.Where(x => x.stateName.Equals(stateId)).ToList();
+            var filteredInterests = getAllInterest2(combinedString);
+            var interestsInAState = filteredInterests.Where(x => x.stateName.Equals(stateId)).ToList();
+            Dictionary<FilteredFarmViewModel, List<InterestWithDistance>> dictionary = new Dictionary<FilteredFarmViewModel, List<InterestWithDistance>>();
+            foreach (FilteredFarmViewModel farm in farmsInAState)
+            {
+                foreach (AllInterest interest in interestsInAState) {
+                    double distance = Math.Round(this.Haversine(interest.interestLat, farm.farm_lat, interest.interestLng, farm.farm_lng),2);
+                    if (distance < 6000) {
+                        InterestWithDistance intDistance = new InterestWithDistance()
+                        {
+                            stateName = interest.stateName,
+                            interestId = interest.interestId,
+                            interestType = interest.interestType,
+                            interestLat = interest.interestLat,
+                            interestLng = interest.interestLng,
+                            attractionId = interest.attractionId,
+                            attractionName = interest.attractionName,
+                            suburbId = interest.suburbId,
+                            suburbName = interest.suburbName,
+                            distance = distance
+                        };
+                        if (dictionary.ContainsKey(farm))
+                        {
+                            List<InterestWithDistance> existingList = dictionary[farm];
+                            existingList.Add(intDistance);
+                            dictionary[farm] = existingList;
+                        }
+                        else {
+                            List<InterestWithDistance> newList = new List<InterestWithDistance>();
+                            newList.Add(intDistance);
+                            dictionary.Add(farm, newList);
+                        }
+                    }
+                }
+            }
+            DictionaryView dict = new DictionaryView
+            {
+                farmDictionary = dictionary
+            };
+            return View(dict);
+           
+        }
 
         //public ActionResult displayFilteredFarms()
         //{
@@ -471,5 +533,6 @@ namespace TripNPick.Controllers
         //    var farmList = getAllFilteredFarms();
         //    return View();
         //}
+
     }
 }

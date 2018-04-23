@@ -383,19 +383,8 @@
     <Content Include="Views\Home\Information.cshtml" />
     <Content Include="Views\Map\Index.cshtml" />
     <Content Include="Views\Home\AboutUS.cshtml" />
-    <Content Include="Views\Map\displayFarmCountMonthlyFiltered.cshtml" />
-    <Content Include="Views\Map\displayFilteredFarms.cshtml" />
-    <Content Include="Views\Map\FilteredNumberOfFarms.cshtml" />
-    <Content Include="Views\Map\MapTest.cshtml" />
-    <Content Include="Views\Map\MultipleMarkersMap.cshtml" />
-    <Content Include="Views\Map\NumberOfFarms.cshtml" />
-    <Content Include="Views\Map\RegionIndex.cshtml" />
-    <Content Include="Views\Map\TestMarkers.cshtml" />
-    <Content Include="Views\Map\getAllInterest2.cshtml" />
-    <Content Include="Views\Map\getFarmCountMonthlyFiltered.cshtml" />
     <None Include="Properties\PublishProfiles\TripAndPick - Web Deploy.pubxml" />
-    <Content Include="Views\Map\groupInterestsBySuburb.cshtml" />
-    <Content Include="Views\Map\getSuburbWiseData.cshtml" />
+    <Content Include="Views\Map\doTheDew.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
