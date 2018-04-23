@@ -44,4 +44,10 @@ namespace TripNPick.Models
     public class DictionaryView {
         public Dictionary<FilteredFarmViewModel, List<InterestWithDistance>> farmDictionary { get; set; }
     }
+
+    public class Pairs
+    {
+        public FilteredFarmViewModel farm { get; set; }
+        public List<InterestWithDistance> interests { get; set; }
+    }
 }
