@@ -74,21 +74,25 @@
                         var markerType = marker.markerType;
                         var markerTitle = marker.title;
                         $('#theTable').dataTable().fnClearTable();
+                        $('#theTable').dataTable().fnSetColumnVis(2, false);
+                        $('#replacement1').html('Farm Name');
+                        $('#replacement2').html('Farm Rating');
+                        $('#replacement3').html('Suburb');
+
                         switch (markerTitle) {
-                            case "SA":
-                                $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
+                            case "VIC":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
                                     for (i = 0; i < data.length; i++) {
-                                        var markerLabel = String(data[i].numberOfFarms);
-                                        var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
 
                                         marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
-                                            label: markerLabel,
-                                            markerType: "Suburb",
-                                            title: String(data[i].stateName),
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
                                             map: map
                                         });
                                         (function (marker, infoWindowContent) {
@@ -108,19 +112,18 @@
                                 })
                                 break;
                             case "NT":
-                                $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":NT" })", function (data, status) {
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (data, status) {
                                     for (i = 0; i < data.length; i++) {
-                                        var markerLabel = String(data[i].numberOfFarms);
-                                        var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
 
                                         marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
-                                            label: markerLabel,
-                                            markerType: "Suburb",
-                                            title: String(data[i].stateName),
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
                                             map: map
                                         });
                                         (function (marker, infoWindowContent) {
@@ -139,20 +142,19 @@
                                     }
                                 })
                                 break;
-                            case "VIC":
-                                $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
+                            case "SA":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
                                     for (i = 0; i < data.length; i++) {
-                                        var markerLabel = String(data[i].numberOfFarms);
-                                        var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
 
                                         marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
-                                            label: markerLabel,
-                                            markerType: "Suburb",
-                                            title: String(data[i].stateName),
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
                                             map: map
                                         });
                                         (function (marker, infoWindowContent) {
@@ -172,19 +174,18 @@
                                 })
                                 break;
                             case "NSW":
-                                $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
                                     for (i = 0; i < data.length; i++) {
-                                        var markerLabel = String(data[i].numberOfFarms);
-                                        var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
 
                                         marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
-                                            label: markerLabel,
-                                            markerType: "Suburb",
-                                            title: String(data[i].stateName),
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
                                             map: map
                                         });
                                         (function (marker, infoWindowContent) {
@@ -204,19 +205,18 @@
                                 })
                                 break;
                             case "WA":
-                                $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":WA"})", function (data, status) {
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (data, status) {
                                     for (i = 0; i < data.length; i++) {
-                                        var markerLabel = String(data[i].numberOfFarms);
-                                        var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
 
                                         marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
-                                            label: markerLabel,
-                                            markerType: "Suburb",
-                                            title: String(data[i].stateName),
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
                                             map: map
                                         });
                                         (function (marker, infoWindowContent) {
@@ -236,19 +236,18 @@
                                 })
                                 break;
                             case "TAS":
-                                $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":TAS"})", function (data, status) {
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (data, status) {
                                     for (i = 0; i < data.length; i++) {
-                                        var markerLabel = String(data[i].numberOfFarms);
-                                        var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
 
                                         marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
-                                            label: markerLabel,
-                                            markerType: "Suburb",
-                                            title: String(data[i].stateName),
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
                                             map: map
                                         });
                                         (function (marker, infoWindowContent) {
@@ -268,19 +267,18 @@
                                 })
                                 break;
                             case "QLD":
-                                $.get("@Url.Action("getSuburbWiseData", "Map", new { userInput = Model.combinedString + ":QLD"})", function (data, status) {
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (data, status) {
                                     for (i = 0; i < data.length; i++) {
-                                        var markerLabel = String(data[i].numberOfFarms);
-                                        var infoWindowContent = '<h3>' + data[i].suburbName + '</h3>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                                            '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                                        $('#theTable').dataTable().fnAddData([data[i].suburbName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
 
                                         marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(data[i].suburbLat, data[i].suburbLng),
-                                            label: markerLabel,
-                                            markerType: "Suburb",
-                                            title: String(data[i].stateName),
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
                                             map: map
                                         });
                                         (function (marker, infoWindowContent) {
@@ -308,10 +306,11 @@
 
     $(document).ready(function () {
         $('#theTable').DataTable({
+            "scrollY": "368px",
             "info": false,
             "searching": false,
             "lengthChange": false,
-            "displayLength": 10,
+            "displayLength": 15,
             "order": [[1, "desc"]],
             "columnDefs": [{
                 "orderable": false, "targets": 0
@@ -604,12 +603,12 @@ else
         </form>
 
         <div class="col-lg-4" style="background-color: #B0E0E6; margin-top: 16px; height: 500px">
-            <table id="theTable" style="width: 100%; padding: 50px 0;">
+            <table id="theTable" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>State Name</th>
-                        <th>Number of Farms</th>
-                        <th>Number of Interests</th>
+                        <th id="replacement1">State Name</th>
+                        <th id="replacement2">Number of Farms</th>
+                        <th id="replacement3">Number of Interests</th>
                     </tr>
                 </thead>
                 <tbody>

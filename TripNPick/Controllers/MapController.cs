@@ -463,20 +463,23 @@ namespace TripNPick.Controllers
             return d;
         }
 
-        public ActionResult doTheDew()
+        public JsonResult doTheDew(string userInput)
         {
-            string combinedString = "april,may|Hiking Trails";
-            string stateId = "VIC";
+            Debug.WriteLine(userInput);
+            string[] p = userInput.Split(':');
+            var combinedString = p[0];
+            var stateId = p[1];
             var filteredFarms = getAllFilteredFarms(combinedString);
             var farmsInAState = filteredFarms.Where(x => x.stateName.Equals(stateId)).ToList();
             var filteredInterests = getAllInterest2(combinedString);
             var interestsInAState = filteredInterests.Where(x => x.stateName.Equals(stateId)).ToList();
-            Dictionary<FilteredFarmViewModel, List<InterestWithDistance>> dictionary = new Dictionary<FilteredFarmViewModel, List<InterestWithDistance>>();
+            //Dictionary<FilteredFarmViewModel, List<InterestWithDistance>> dictionary = new Dictionary<FilteredFarmViewModel, List<InterestWithDistance>>();
+            List<Pairs> thelist = new List<Pairs>();
             foreach (FilteredFarmViewModel farm in farmsInAState)
             {
                 foreach (AllInterest interest in interestsInAState) {
                     double distance = Math.Round(this.Haversine(interest.interestLat, farm.farm_lat, interest.interestLng, farm.farm_lng),2);
-                    if (distance < 6000) {
+                    if (distance < 100) {
                         InterestWithDistance intDistance = new InterestWithDistance()
                         {
                             stateName = interest.stateName,
@@ -490,26 +493,47 @@ namespace TripNPick.Controllers
                             suburbName = interest.suburbName,
                             distance = distance
                         };
-                        if (dictionary.ContainsKey(farm))
+                        bool isContained = false;
+                        int c = 0;
+                        while (!isContained && c < thelist.Count())
                         {
-                            List<InterestWithDistance> existingList = dictionary[farm];
-                            existingList.Add(intDistance);
-                            dictionary[farm] = existingList;
+                            if (thelist[c].farm == farm)
+                            {
+                                thelist[c].interests.Add(intDistance);
+                                isContained = true;
+                            }
+                            c++;
                         }
-                        else {
-                            List<InterestWithDistance> newList = new List<InterestWithDistance>();
-                            newList.Add(intDistance);
-                            dictionary.Add(farm, newList);
+                        if (!isContained)
+                        {
+                            Pairs newPair = new Pairs();
+                            List<InterestWithDistance> newInterests = new List<InterestWithDistance>();
+                            newPair.farm = farm;
+                            newInterests.Add(intDistance);
+                            newPair.interests = newInterests;
+                            thelist.Add(newPair);
                         }
+
+                        //if (dictionary.ContainsKey(farm))
+                        //{
+                        //    List<InterestWithDistance> existingList = dictionary[farm];
+                        //    existingList.Add(intDistance);
+                        //    dictionary[farm] = existingList;
+                        //}
+                        //else {
+                        //    List<InterestWithDistance> newList = new List<InterestWithDistance>();
+                        //    newList.Add(intDistance);
+                        //    dictionary.Add(farm, newList);
+                        //}
                     }
                 }
             }
-            DictionaryView dict = new DictionaryView
-            {
-                farmDictionary = dictionary
-            };
-            return View(dict);
-           
+            //DictionaryView dict = new DictionaryView
+            //{
+            //    farmDictionary = dictionary
+            //};
+            return Json(thelist, JsonRequestBehavior.AllowGet);
+
         }
 
         //public ActionResult getFarmCombinedInterest() {
