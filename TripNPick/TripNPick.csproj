@@ -384,6 +384,7 @@
     <Content Include="Views\Home\AboutUS.cshtml" />
     <None Include="Properties\PublishProfiles\TripAndPick - Web Deploy.pubxml" />
     <Content Include="Views\Map\doTheDew.cshtml" />
+    <Content Include="Views\Map\testSomething.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

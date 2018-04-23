@@ -192,6 +192,7 @@ namespace TripNPick.Controllers
                 }
 
             }
+            Debug.WriteLine(predicate);
             return predicate;
         }
 
@@ -268,6 +269,13 @@ namespace TripNPick.Controllers
                                         location_lng = (double)st.state_lng
                                     };
             return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult testSomething() {
+            string combinedString = "june,july|Hiking Trails";
+            var distinctFarms = getAllFilteredFarms(combinedString);
+            var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
+            return View(farmsGroupedByState);
         }
 
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
