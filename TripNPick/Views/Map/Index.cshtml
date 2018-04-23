@@ -30,20 +30,20 @@
         var infoWindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
         map.setTilt(50);
-        $.get("@Url.Action("getFarmCountMonthlyFiltered", "Map", new { combinedString = Model.combinedString })", function (data, status) {
+        $.get("@Url.Action("countForStates", "Map", new { userInput = Model.combinedString })", function (data, status) {
             var markers = [];
             var contentString = [];
               var infowindow = [];
             for (i = 0; i < data.length; i++) {
-                var markerLabel = String(data[i].numberOfFarms);
+                var markerLabel = String(data[i].farmCounts);
                 var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
-                        '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].numberOfFarms) + '</b></h4>' +
-                        '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].numberOfInterests) + '<h4>';
-                $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].numberOfFarms, data[i].numberOfInterests]);
+                        '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].farmCounts) + '</b></h4>' +
+                        '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].interestCounts) + '<h4>';
+                $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].farmCounts, data[i].interestCounts]);
 
 
                 marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
+                    position: new google.maps.LatLng(data[i].state_lat, data[i].state_lng),
                     icon: 'https://png.icons8.com/office/32/000000/farm.png',
                     label: markerLabel,
                     visible: true,
@@ -596,13 +596,13 @@ else
                             </label>
 
 
-                        <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 64px;" />
+                        <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 32px;" />
                     </td>
                 </tr>
             </table>
         </form>
 
-        <div class="col-lg-4" style="background-color: #B0E0E6; margin-top: 16px; height: 500px">
+        <div class="col-lg-4" style="background-color: #f3f3f3; margin-top: 16px; height: 500px">
             <table id="theTable" style="width: 100%;">
                 <thead>
                     <tr>
