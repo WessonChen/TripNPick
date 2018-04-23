@@ -155,40 +155,40 @@ namespace TripNPick.Controllers
                 switch (month)
                 {
                     case "january":
-                        predicate = predicate.And(s => s.january != null);
+                        predicate = predicate.And(s => s.january != "NULL");
                         break;
                     case "february":
-                        predicate = predicate.And(s => s.february != null);
+                        predicate = predicate.And(s => s.february != "NULL");
                         break;
                     case "march":
-                        predicate = predicate.And(s => s.march != null);
+                        predicate = predicate.And(s => s.march != "NULL");
                         break;
                     case "april":
-                        predicate = predicate.And(s => s.april != null);
+                        predicate = predicate.And(s => s.april != "NULL");
                         break;
                     case "may":
-                        predicate = predicate.And(s => s.may != null);
+                        predicate = predicate.And(s => s.may != "NULL");
                         break;
                     case "june":
-                        predicate = predicate.And(s => s.june != null);
+                        predicate = predicate.And(s => s.june != "NULL");
                         break;
                     case "july":
-                        predicate = predicate.And(s => s.july != null);
+                        predicate = predicate.And(s => s.july != "NULL");
                         break;
                     case "august":
-                        predicate = predicate.And(s => s.august != null);
+                        predicate = predicate.And(s => s.august != "NULL");
                         break;
                     case "sepetember":
-                        predicate = predicate.And(s => s.september != null);
+                        predicate = predicate.And(s => s.september != "NULL");
                         break;
                     case "october":
-                        predicate = predicate.And(s => s.october != null);
+                        predicate = predicate.And(s => s.october != "NULL");
                         break;
                     case "november":
-                        predicate = predicate.And(s => s.november != null);
+                        predicate = predicate.And(s => s.november != "NULL");
                         break;
                     case "december":
-                        predicate = predicate.And(s => s.december != null);
+                        predicate = predicate.And(s => s.december != "NULL");
                         break;
                 }
 
