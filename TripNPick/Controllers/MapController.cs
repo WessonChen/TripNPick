@@ -178,7 +178,7 @@ namespace TripNPick.Controllers
                     case "august":
                         predicate = predicate.And(s => s.august != "NULL");
                         break;
-                    case "sepetember":
+                    case "september":
                         predicate = predicate.And(s => s.september != "NULL");
                         break;
                     case "october":
