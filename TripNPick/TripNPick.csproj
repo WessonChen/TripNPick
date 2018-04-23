@@ -386,6 +386,7 @@
     <None Include="Properties\PublishProfiles\TripAndPick - Web Deploy.pubxml" />
     <Content Include="Views\Map\doTheDew.cshtml" />
     <Content Include="Views\Map\testSomething.cshtml" />
+    <Content Include="Views\Map\getFarmCombinedInterest.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
