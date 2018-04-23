@@ -3,12 +3,13 @@
     padding: 16px 0 0 0;
     border-left: 4px solid #37b6b5;
     border-right: 4px solid #37b6b5;
+    background-color: #f3f3f3;
 }
 
 .content {
     text-align: left;
     position: relative;
-    padding-left: 32px;
+    padding-left: 24px;
     margin: 6px;
     cursor: pointer;
     font-size: 18px;
@@ -34,10 +35,10 @@
 
 .checkmark {
     position: absolute;
-    top: 0;
+    top: 5px;
     left: 0;
-    height: 20px;
-    width: 21px;
+    height: 15px;
+    width: 15px;
     background-color: #C0C0C0;
 }
 
@@ -60,8 +61,8 @@
 }
 
 .content .checkmark:after {
-    left: 8px;
-    top: 5px;
+    left: 5px;
+    top: 2px;
     width: 5px;
     height: 10px;
     border: solid white;

@@ -400,8 +400,6 @@ namespace TripNPick.Controllers
 
         public IEnumerable<SuburbInterestsCount> groupInterestsBySuburb(string combinedString, string stateName)
         {
-            //var stateName = "NSW";
-            //string combinedString = "april,may|Hiking Trails";
             var suburbs = dbContext.suburb_table.ToList();
             var suburbsInASate = suburbs.AsQueryable().Where(x => x.state.Equals(stateName));
             var interestTypes = dbContext.interest_table.ToList();
@@ -426,8 +424,6 @@ namespace TripNPick.Controllers
 
         public IQueryable<SuburbFarmsCount> groupFarmsBySuburb(string combinedString, string stateName)
         {
-            // string combinedString = "april,may|Hiking Trails";
-            //var stateName = "NSW";
             var allFilteredFarms = getAllFilteredFarms(combinedString).ToList();
             var farmsInState = allFilteredFarms.AsQueryable().Where(x => x.stateName.Equals(stateName));
             var groupFarmsBySuburbs = farmsInState.GroupBy(x => x.suburbId).Select(c => new SuburbFarmsCount { suburbId = c.Key, numberOfFarms = c.Count() });
@@ -460,7 +456,7 @@ namespace TripNPick.Controllers
 
         private double Haversine(double lat1, double lat2, double lon1, double lon2)
         {
-            const double r = 6371; // meters
+            const double r = 6371;
 
             var sdlat = Math.Sin((lat2 - lat1) / 2);
             var sdlon = Math.Sin((lon2 - lon1) / 2);
@@ -480,7 +476,6 @@ namespace TripNPick.Controllers
             var farmsInAState = filteredFarms.Where(x => x.stateName.Equals(stateId)).ToList();
             var filteredInterests = getAllInterest2(combinedString);
             var interestsInAState = filteredInterests.Where(x => x.stateName.Equals(stateId)).ToList();
-            //Dictionary<FilteredFarmViewModel, List<InterestWithDistance>> dictionary = new Dictionary<FilteredFarmViewModel, List<InterestWithDistance>>();
             List<Pairs> thelist = new List<Pairs>();
             foreach (FilteredFarmViewModel farm in farmsInAState)
             {
@@ -520,44 +515,83 @@ namespace TripNPick.Controllers
                             newPair.interests = newInterests;
                             thelist.Add(newPair);
                         }
-
-                        //if (dictionary.ContainsKey(farm))
-                        //{
-                        //    List<InterestWithDistance> existingList = dictionary[farm];
-                        //    existingList.Add(intDistance);
-                        //    dictionary[farm] = existingList;
-                        //}
-                        //else {
-                        //    List<InterestWithDistance> newList = new List<InterestWithDistance>();
-                        //    newList.Add(intDistance);
-                        //    dictionary.Add(farm, newList);
-                        //}
                     }
                 }
             }
-            //DictionaryView dict = new DictionaryView
-            //{
-            //    farmDictionary = dictionary
-            //};
             return Json(thelist, JsonRequestBehavior.AllowGet);
-
         }
-
-        //public ActionResult displayFilteredFarms()
-        //{
-        //    var allFarmsAllStates = this.getAllFilteredFarms(us.combinedString);
-        //    return View(allFarmsAllStates);
-        //}
-        //public ActionResult displayFarmCountMonthlyFiltered()
-        //{
-        //    var farmsGroupedByState = getFarmCountMonthlyFiltered();
-        //    return View(farmsGroupedByState);
-        //}
-        //public ActionResult stupidMarkers()
-        //{
-        //    var farmList = getAllFilteredFarms();
-        //    return View();
-        //}
-
+        
+        public JsonResult countForStates(string userInput)
+        {
+            var combinedString = userInput;
+            List<string> stateList = new List<string>();
+            stateList.Add("NT");
+            stateList.Add("WA");
+            stateList.Add("SA");
+            stateList.Add("VIC");
+            stateList.Add("NSW");
+            stateList.Add("TAS");
+            stateList.Add("QLD");
+            List<StateCount> scList = new List<StateCount>();
+            foreach (var stateId in stateList)
+            {
+                StateCount sc = new StateCount();
+                var aState = dbContext.states.Where(x => x.state_id.Equals(stateId)).ToList();
+                foreach (var s in aState)
+                {
+                    sc.state_lat = (double) s.state_lat;
+                    sc.state_lng = (double) s.state_lng;
+                }
+                int sCount = 0;
+                var filteredFarms = getAllFilteredFarms(combinedString);
+                var farmsInAState = filteredFarms.Where(x => x.stateName.Equals(stateId)).ToList();
+                var filteredInterests = getAllInterest2(combinedString);
+                var interestsInAState = filteredInterests.Where(x => x.stateName.Equals(stateId)).ToList();
+                List<Pairs> thelist = new List<Pairs>();
+                foreach (FilteredFarmViewModel farm in farmsInAState)
+                {
+                    foreach (AllInterest interest in interestsInAState)
+                    {
+                        double distance = Math.Round(this.Haversine(interest.interestLat, farm.farm_lat, interest.interestLng, farm.farm_lng), 2);
+                        if (distance < 100)
+                        {
+                            bool isContained = false;
+                            int c = 0;
+                            while (!isContained && c < thelist.Count())
+                            {
+                                if (thelist[c].farm == farm)
+                                {
+                                    isContained = true;
+                                }
+                                c++;
+                            }
+                            if (!isContained)
+                            {
+                                Pairs newPair = new Pairs();
+                                List<InterestWithDistance> newInterests = new List<InterestWithDistance>();
+                                newPair.farm = farm;
+                                newPair.interests = newInterests;
+                                thelist.Add(newPair);
+                                sCount++;
+                            }
+                        }
+                    }
+                }
+                var interestGroupedByState = groupInterestByState(combinedString);
+                sc.stateName = stateId;
+                sc.farmCounts = sCount;
+                List<StateInterestsCount> iList = interestGroupedByState.ToList();
+                foreach (var item in iList)
+                {
+                    if (item.stateName.Equals(stateId))
+                    {
+                        sc.interestCounts = item.numberOfInterests;
+                    }
+                }
+                scList.Add(sc);
+            }
+            
+            return Json(scList, JsonRequestBehavior.AllowGet);
+        }
     }
 }

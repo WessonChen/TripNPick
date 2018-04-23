@@ -50,4 +50,13 @@ namespace TripNPick.Models
         public FilteredFarmViewModel farm { get; set; }
         public List<InterestWithDistance> interests { get; set; }
     }
+
+    public class StateCount
+    {
+        public string stateName { get; set; }
+        public int farmCounts { get; set; }
+        public int interestCounts { get; set; }
+        public double state_lat { get; set; }
+        public double state_lng { get; set; }
+    }
 }
