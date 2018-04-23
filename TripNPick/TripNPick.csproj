@@ -59,6 +59,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcSiteMapProvider, Version=4.6.22.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.Core.4.6.22\lib\net45\MvcSiteMapProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider.WebActivator, Version=4.6.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.4.6.22\lib\net45\MvcSiteMapProvider.WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -117,6 +123,9 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0.1\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -207,6 +216,7 @@
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SitemapNode.cs" />
     <Compile Include="Models\state.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
@@ -375,6 +385,10 @@
     <Content Include="Models\TripAndPickModel.edmx.diagram">
       <DependentUpon>TripAndPickModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Mvc.sitemap" />
+    <None Include="MvcSiteMapSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Project_Readme.html" />
     <Content Include="Views\Home\FarmDetails.cshtml" />
     <Content Include="Views\Home\expResults.cshtml" />
@@ -387,6 +401,14 @@
     <Content Include="Views\Map\doTheDew.cshtml" />
     <Content Include="Views\Map\testSomething.cshtml" />
     <Content Include="Views\Map\getFarmCombinedInterest.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
