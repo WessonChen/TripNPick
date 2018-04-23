@@ -40,7 +40,23 @@ namespace TripNPick.Models
         public string interestType { get; set; }
         public int attractionId { get; set; }
         public string attractionName { get; set; }
+        public double interestLat { get; set; }
+        public double interestLng { get; set; }
         public int suburbId { get; set; }
         public string suburbName { get; set; }
+    }
+
+    public class InterestWithDistance
+    {
+        public string stateName { get; set; }
+        public int interestId { get; set; }
+        public string interestType { get; set; }
+        public int attractionId { get; set; }
+        public string attractionName { get; set; }
+        public double interestLat { get; set; }
+        public double interestLng { get; set; }
+        public int suburbId { get; set; }
+        public string suburbName { get; set; }
+        public double distance { get; set; }
     }
 }
