@@ -24,8 +24,7 @@
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             mapTypeControl: false,
             labels: true,
-            gestureHandling: 'cooperative',
-            zoomControl: true
+            gestureHandling: 'cooperative'
         };
         var infoWindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
@@ -37,8 +36,8 @@
             for (i = 0; i < data.length; i++) {
                 var markerLabel = String(data[i].farmCounts);
                 var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
-                        '<br/>' + '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].farmCounts) + '</b></h4>' +
-                        '<br/>' + '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].interestCounts) + '<h4>';
+                        '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].farmCounts) + '</b></h4>' +
+                        '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].interestCounts) + '<h4>';
                 $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].farmCounts, data[i].interestCounts]);
 
 
@@ -60,11 +59,11 @@
                     });
                 })(marker, infoWindowContent);
 
-                google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                    return function () {
-                        infowindow.close();
-                    };
-                })(marker, infoWindowContent, infowindow));
+                //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                //    return function () {
+                //        infowindow.close();
+                //    };
+                //})(marker, infoWindowContent, infowindow));
 
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
@@ -102,11 +101,11 @@
                                             });
                                         })(marker, infoWindowContent);
 
-                                        google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                                            return function () {
-                                                infowindow.close();
-                                            };
-                                        })(marker, infoWindowContent, infowindow));
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
 
                                     }
                                 })
@@ -133,11 +132,11 @@
                                             });
                                         })(marker, infoWindowContent);
 
-                                        google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                                            return function () {
-                                                infowindow.close();
-                                            };
-                                        })(marker, infoWindowContent, infowindow));
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
 
                                     }
                                 })
@@ -164,11 +163,11 @@
                                             });
                                         })(marker, infoWindowContent);
 
-                                        google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                                            return function () {
-                                                infowindow.close();
-                                            };
-                                        })(marker, infoWindowContent, infowindow));
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
 
                                     }
                                 })
@@ -195,11 +194,11 @@
                                             });
                                         })(marker, infoWindowContent);
 
-                                        google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                                            return function () {
-                                                infowindow.close();
-                                            };
-                                        })(marker, infoWindowContent, infowindow));
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
 
                                     }
                                 })
@@ -226,11 +225,11 @@
                                             });
                                         })(marker, infoWindowContent);
 
-                                        google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                                            return function () {
-                                                infowindow.close();
-                                            };
-                                        })(marker, infoWindowContent, infowindow));
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
 
                                     }
                                 })
@@ -257,11 +256,11 @@
                                             });
                                         })(marker, infoWindowContent);
 
-                                        google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                                            return function () {
-                                                infowindow.close();
-                                            };
-                                        })(marker, infoWindowContent, infowindow));
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
 
                                     }
                                 })
@@ -288,11 +287,11 @@
                                             });
                                         })(marker, infoWindowContent);
 
-                                        google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
-                                            return function () {
-                                                infowindow.close();
-                                            };
-                                        })(marker, infoWindowContent, infowindow));
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
 
                                     }
                                 })
