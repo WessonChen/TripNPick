@@ -16,7 +16,7 @@
     function initMap() {
         var map;
         var bounds = new google.maps.LatLngBounds();
-
+        var stateMarkers = [];
         var coa = { lat: -25.031596581410874, lng: 134.36777208750004 };
         var mapOptions = {
             center: coa,
@@ -24,7 +24,7 @@
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             mapTypeControl: false,
             labels: true,
-            gestureHandling: 'none',
+            gestureHandling: 'cooperative',
             zoomControl: false
         };
         var infoWindow = new google.maps.InfoWindow();
@@ -46,10 +46,13 @@
                     position: new google.maps.LatLng(data[i].location_lat, data[i].location_lng),
                     icon: 'https://png.icons8.com/office/32/000000/farm.png',
                     label: markerLabel,
+                    visible: true,
                     markerType: "State",
                     title : String(data[i].stateName),
                     map: map
                 });
+                stateMarkers.push(marker);
+
                 (function (marker, infoWindowContent) {
                     google.maps.event.addListener(marker, 'mouseover', function (e) {
                         infoWindow.setContent(infoWindowContent);
@@ -66,7 +69,8 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         map.panTo(this.getPosition());
-                        map.setZoom(6);
+                        map.setZoom(5);
+                        marker.label = marker.title;
                         var markerType = marker.markerType;
                         var markerTitle = marker.title;
                         $('#theTable').dataTable().fnClearTable();

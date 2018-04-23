@@ -69,7 +69,7 @@ namespace TripNPick.Controllers
             var suburbList = dbContext.suburb_table.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
             var suburbCountViewModel = from s in suburbList
-                                       join hv in harvestList on s.suburb_id equals hv.suburb_id
+                                       join hv in harvestList on s.suburb_id equals hv.suburb_id 
                                        group new { s, hv } by new { s.state } into groupedTable
                                        select new StateSuburbCount
                                        {
@@ -193,7 +193,6 @@ namespace TripNPick.Controllers
                 }
 
             }
-            Debug.WriteLine(predicate);
             return predicate;
         }
 
@@ -272,12 +271,6 @@ namespace TripNPick.Controllers
             return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult testSomething() {
-            string combinedString = "june,july|Hiking Trails";
-            var distinctFarms = getAllFilteredFarms(combinedString);
-            var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
-            return View(farmsGroupedByState);
-        }
 
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
         {
@@ -517,6 +510,82 @@ namespace TripNPick.Controllers
             };
             return View(dict);
            
+        }
+
+        //public ActionResult getFarmCombinedInterest() {
+        //    string combinedString = "april,may|Hiking Trails";
+        //    var farms = dbContext.farms.ToList();
+        //    var harvestList = dbContext.suburb_harvest.ToList();
+        //    var newHarvestList = harvestList.AsQueryable().Where(this.FilterFarms(combinedString));
+        //    var interestAttractions = dbContext.interest_attraction.ToList();
+        //    var filteredInterestAttr = interestAttractions.AsQueryable().Where(this.buildPredForInterestType(combinedString));
+        //    var interests = dbContext.interest_table.ToList();
+        //    var suburbs = dbContext.suburb_table.ToList();
+        //    var states = dbContext.states.ToList();
+        //    var combinedWithSuburb = from f in farms
+        //                             join sb in suburbs on f.suburb_id equals sb.suburb_id
+        //                             join ia in interestAttractions on sb.suburb_id equals ia.suburb_id
+        //                             join i in interests on ia.interest_id equals i.interest_id
+        //                             join nh in newHarvestList on sb.suburb_id equals nh.suburb_id
+        //                             select new FarmSuburbInterestCombined
+        //                             {
+        //                                 farmId = f.farm_id,
+        //                                 farmName = f.farm_name,
+        //                                 suburbId = sb.suburb_id,
+        //                                 suburbName = sb.suburb_name,
+        //                                 interestId = i.interest_id,
+        //                                 attractionId = ia.attraction_id,
+        //                                 stateId = sb.state
+        //                             };
+        //    var groupedFarms = combinedWithSuburb.GroupBy(x => x.stateId).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
+        //    var allInterests = getAllInterest2(combinedString);
+            //var joinedLocation = from gf in groupedFarms
+            //                     join gi in groupedInterests on gf.stateName equals gi.stateName
+            //                     join st in states on gi.stateName equals st.state_id
+            //                     select new CountPerState
+            //                     {
+            //                         stateName = st.state_id,
+            //                         numberOfFarms = gf.numberOfFarms,
+            //                         numberOfInterests = gi.numberOfInterests,
+            //                         location_lat = (double)st.state_lat,
+            //                         location_lng = (double)st.state_lng
+            //                     };
+            //return View(groupedInterests);
+        //}
+
+        public JsonResult getFarmCombinedInterest(string combinedString)
+        {
+            //string combinedString = "april,may|Hiking Trails";
+            var allFarms = getAllFilteredFarms(combinedString);
+            var allInterests = getAllInterest2(combinedString);
+            var combinedWithSuburb = from f in allFarms
+                                     join interest in allInterests on f.suburbId equals interest.suburbId
+                                     select new FarmSuburbInterestCombined
+                                     {
+                                         farmId = f.farmId,
+                                         farmName = f.farmName,
+                                         suburbId = f.suburbId,
+                                         suburbName = f.suburbName,
+                                         interestId = interest.interestId,
+                                         attractionId = interest.attractionId,
+                                         stateId = f.stateName
+                                     };
+            var groupedFarms = combinedWithSuburb.GroupBy(x => x.stateId).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
+            var groupedInterests = groupInterestByState(combinedString);
+            var states = dbContext.states.ToList();
+            var joinedLocation = from gf in groupedFarms
+                                 join gi in groupedInterests on gf.stateName equals gi.stateName
+                                 join st in states on gi.stateName equals st.state_id
+                                 select new CountPerState
+                                 {
+                                     stateName = st.state_id,
+                                     numberOfFarms = gf.numberOfFarms,
+                                     numberOfInterests = gi.numberOfInterests,
+                                     location_lat = (double)st.state_lat,
+                                     location_lng = (double)st.state_lng
+                                 };
+
+            return Json(joinedLocation, JsonRequestBehavior.AllowGet);
         }
 
         //public ActionResult displayFilteredFarms()
