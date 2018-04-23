@@ -25,7 +25,7 @@
             mapTypeControl: false,
             labels: true,
             gestureHandling: 'cooperative',
-            zoomControl: false
+            zoomControl: true
         };
         var infoWindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
@@ -69,7 +69,7 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         map.panTo(this.getPosition());
-                        map.setZoom(5);
+                        map.setZoom(6);
                         marker.label = marker.title;
                         var markerType = marker.markerType;
                         var markerTitle = marker.title;
