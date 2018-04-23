@@ -517,34 +517,23 @@ else
 }
                             <span class="checkmark"></span>
                         </label>
-                        <label class="content">
-                            Points of Interest & Landmarks
-                            @if (Model.cInterests != null && Model.cInterests.Contains("Points of Interest & Landmarks"))
-        {
-                    <input type="checkbox" name="cInterests" value="Points of Interest & Landmarks" checked>
-}
-else
-{
-                    <input type="checkbox" name="cInterests" value="Points of Interest & Landmarks">
-}
-                            <span class="checkmark"></span>
-                        </label>
+
                         <label class="content">
                             Beaches
                             @if (Model.cInterests != null && Model.cInterests.Contains("Beaches"))
-        {
-                    <input type="checkbox" name="cInterests" value="Beaches" checked>
-}
-else
-{
-                    <input type="checkbox" name="cInterests" value="Beaches">
-}
+                             {
+                                <input type="checkbox" name="cInterests" value="Beaches" checked>
+                             }
+                            else
+                             {
+                            <input type="checkbox" name="cInterests" value="Beaches">
+                             }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Outdoor Activities and Tours
                             @if (Model.cInterests != null && Model.cInterests.Contains("Outdoor Activities and Tours"))
-        {
+                         {
                     <input type="checkbox" name="cInterests" value="Outdoor Activities and Tours" checked>
 }
 else
@@ -593,28 +582,15 @@ else
                         <label class="content">
                             Zoos & Aquariums
                             @if (Model.cInterests != null && Model.cInterests.Contains("Zoos & Aquariums"))
-    {
-                        <input type="checkbox" name="cInterests" value="Zoos & Aquariums" checked>
-}
-else
-{
-                        <input type="checkbox" name="cInterests" value="Zoos & Aquariums">
-}
+                             {
+                                <input type="checkbox" name="cInterests" value="Zoos & Aquariums" checked>
+                             }
+                             else
+                             {
+                                 <input type="checkbox" name="cInterests" value="Zoos & Aquariums">
+                             }
                             <span class="checkmark"></span>
-                        </label>
-
-                        <label class="content">
-                            Bodies of Water
-                            @if (Model.cInterests != null && Model.cInterests.Contains("Bodies of Water"))
-    {
-                        <input type="checkbox" name="cInterests" value="Bodies of Water" checked>
-}
-else
-{
-                        <input type="checkbox" name="cInterests" value="Bodies of Water">
-}
-                            <span class="checkmark"></span>
-                        </label>
+                            </label>
 
 
                         <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 64px;" />

@@ -289,14 +289,12 @@ namespace TripNPick.Controllers
                 selectedInterests.Add("Museums");
                 selectedInterests.Add("Sights & Landmarks");
                 selectedInterests.Add("Nature and Parks");
-                selectedInterests.Add("Points of Interest & Landmarks");
                 selectedInterests.Add("Beaches");
                 selectedInterests.Add("Outdoor Activities and Tours");
                 selectedInterests.Add("Nature & Wildlife Areas");
                 selectedInterests.Add("Hiking Trails");
                 selectedInterests.Add("Fun & Games & Sports");
                 selectedInterests.Add("Zoos & Aquariums");
-                selectedInterests.Add("Bodies of Water");
             }
             else
             {
@@ -317,12 +315,10 @@ namespace TripNPick.Controllers
                         break;
                     case "Sights & Landmarks":
                         predicate = predicate.Or(s => s.interest_id == 2);
+                        predicate = predicate.Or(s => s.interest_id == 4);
                         break;
                     case "Nature and Parks":
                         predicate = predicate.Or(s => s.interest_id == 3);
-                        break;
-                    case "Points of Interest & Landmarks":
-                        predicate = predicate.Or(s => s.interest_id == 4);
                         break;
                     case "Beaches":
                         predicate = predicate.Or(s => s.interest_id == 5);
@@ -341,9 +337,6 @@ namespace TripNPick.Controllers
                         break;
                     case "Zoos & Aquariums":
                         predicate = predicate.Or(s => s.interest_id == 10);
-                        break;
-                    case "Bodies of Water":
-                        predicate = predicate.Or(s => s.interest_id == 11);
                         break;
                 }
             }
