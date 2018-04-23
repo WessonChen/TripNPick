@@ -151,6 +151,7 @@ namespace TripNPick.Controllers
             var predicate = PredicateBuilder.New<suburb_harvest>();
             foreach (string month in months)
             {
+                Debug.WriteLine(month);
                 switch (month)
                 {
                     case "january":
