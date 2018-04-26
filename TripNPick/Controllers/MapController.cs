@@ -16,7 +16,7 @@ namespace TripNPick.Controllers
 {
     public class MapController : Controller
     {
-        ColdSpotDBEntities dbContext = new ColdSpotDBEntities();
+        ColdspotDBEntities dbContext = new ColdspotDBEntities();
 
         public ActionResult Index(string[] cMonths, string[] cInterests)
         {
@@ -253,7 +253,7 @@ namespace TripNPick.Controllers
 
         public JsonResult getFarmCountMonthlyFiltered(string combinedString)
         {
-            //string combinedString = "april,may|Hiking Trails";
+            //string combinedString = "april,june|Hiking Trails";
             var states = dbContext.states.ToList();
             var distinctFarms = getAllFilteredFarms(combinedString);
             var interestGroupedByState = groupInterestByState(combinedString);
@@ -273,7 +273,7 @@ namespace TripNPick.Controllers
         }
 
         public ActionResult testSomething() {
-            string combinedString = "june,july|Hiking Trails";
+            string combinedString = "october|Hiking Trails";
             var distinctFarms = getAllFilteredFarms(combinedString);
             var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
             return View(farmsGroupedByState);

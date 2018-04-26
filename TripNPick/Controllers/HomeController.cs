@@ -17,6 +17,11 @@ namespace TripNPick.Controllers
             return View();
         }
 
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
+
         public ActionResult Results(string yourInte)
         {
             InterestsJson interets = getInterests(yourInte, "a");
