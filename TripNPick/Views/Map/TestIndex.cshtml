@@ -1,0 +1,417 @@
+﻿@model TripNPick.Models.UserSelections
+@{
+    ViewBag.Title = "TestIndex";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
+</head>
+
+<script type="text/javascript">
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('testMap'), {
+            zoom: 3.9,
+            center: { lat: -25.031596581410874, lng: 134.36777208750004 }
+        });
+
+        var markersVIC = [];
+        var markersNSW = [];
+        var markersSA = [];
+        var markersWA = [];
+        var markersTAS = [];
+        var markersQLD = [];
+        var markersNT = [];
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    map: map
+                });
+                markersVIC.push(marker);
+            }
+            var markersVICCluster = new MarkerClusterer(map, markersVIC,
+                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    map: map
+                });
+                markersNSW.push(marker);
+            }
+            var markersNSWCluster = new MarkerClusterer(map, markersNSW,
+                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    map: map
+                });
+                markersSA.push(marker);
+            }
+            var markersSACluster = new MarkerClusterer(map, markersSA,
+                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    map: map
+                });
+                markersWA.push(marker);
+            }
+            var markersWACluster = new MarkerClusterer(map, markersWA,
+                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    map: map
+                });
+                markersTAS.push(marker);
+            }
+            var markersTASCluster = new MarkerClusterer(map, markersTAS,
+                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    map: map
+                });
+                markersQLD.push(marker);
+            }
+            var markersQLDCluster = new MarkerClusterer(map, markersQLD,
+                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (data, status) {
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    map: map
+                });
+                markersNT.push(marker);
+            }
+            var markersNTCluster = new MarkerClusterer(map, markersNT,
+                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+        })
+    }
+</script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdNjpD2meHBBiquEK62khiotrQ_4u5WpQ&callback=initMap"></script>
+
+<body>
+    <div class="container bgBorder">
+        <div style="margin-left: 27px">
+            @Html.MvcSiteMap().SiteMapPath()
+        </div>
+        <form action="/Map/Index" method="post">
+            <table style="width: 100%">
+                <tr>
+                    <th>
+                        <label class="tagContent">
+                            Time to visit:
+                        </label>
+                    </th>
+                    <td style="padding-bottom: 8px;">
+                        <label class="content">
+                            Jan
+                            @if (Model.cMonths != null && Model.cMonths.Contains("January"))
+                            {
+                                <input type="checkbox" name="cMonths" value="January" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="January">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Feb
+                            @if (Model.cMonths != null && Model.cMonths.Contains("February"))
+                            {
+                                <input type="checkbox" name="cMonths" value="February" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="February">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Mar
+                            @if (Model.cMonths != null && Model.cMonths.Contains("March"))
+                            {
+                                <input type="checkbox" name="cMonths" value="March" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="March">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Apr
+                            @if (Model.cMonths != null && Model.cMonths.Contains("April"))
+                            {
+                                <input type="checkbox" name="cMonths" value="April" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="April">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            May
+                            @if (Model.cMonths != null && Model.cMonths.Contains("May"))
+                            {
+                                <input type="checkbox" name="cMonths" value="May" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="May">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Jun
+                            @if (Model.cMonths != null && Model.cMonths.Contains("June"))
+                            {
+                                <input type="checkbox" name="cMonths" value="June" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="June">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Jul
+                            @if (Model.cMonths != null && Model.cMonths.Contains("July"))
+                            {
+                                <input type="checkbox" name="cMonths" value="July" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="July">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Aug
+                            @if (Model.cMonths != null && Model.cMonths.Contains("August"))
+                            {
+                                <input type="checkbox" name="cMonths" value="August" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="August">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Sep
+                            @if (Model.cMonths != null && Model.cMonths.Contains("September"))
+                            {
+                                <input type="checkbox" name="cMonths" value="September" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="September">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Oct
+                            @if (Model.cMonths != null && Model.cMonths.Contains("October"))
+                            {
+                                <input type="checkbox" name="cMonths" value="October" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="October">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Nov
+                            @if (Model.cMonths != null && Model.cMonths.Contains("Novenmber"))
+                            {
+                                <input type="checkbox" name="cMonths" value="Novenmber" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="Novenmber">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Dec
+                            @if (Model.cMonths != null && Model.cMonths.Contains("December"))
+                            {
+                                <input type="checkbox" name="cMonths" value="December" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="December">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                </tr>
+                <tr style="border-bottom: 3px solid #e7e7e7">
+                    <th style="padding-bottom: 8px;">
+                        <label class="tagContent">
+                            Prefered interests:
+                        </label>
+                    </th>
+                    <td style="padding-bottom: 8px;">
+                        <label class="content">
+                            Museums
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Museums"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Museums" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Museums">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Sights & Landmarks
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Sights & Landmarks"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Sights & Landmarks" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Sights & Landmarks">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Nature and Parks
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Nature and Parks"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Nature and Parks" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Nature and Parks">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="content">
+                            Beaches
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Beaches"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Beaches" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Beaches">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Outdoor Activities and Tours
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Outdoor Activities and Tours"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Outdoor Activities and Tours" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Outdoor Activities and Tours">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Nature & Wildlife Areas
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Nature & Wildlife Areas"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Nature & Wildlife Areas" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Nature & Wildlife Areas">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Hiking Trails
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Hiking Trails"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Hiking Trails" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Hiking Trails">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="content">
+                            Fun & Games & Sports
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Fun & Games & Sports"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Fun & Games & Sports" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Fun & Games & Sports">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="content">
+                            Zoos & Aquariums
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Zoos & Aquariums"))
+                            {
+                                <input type="checkbox" name="cInterests" value="Zoos & Aquariums" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cInterests" value="Zoos & Aquariums">
+                            }
+                            <span class="checkmark"></span>
+                        </label>
+
+
+                        <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 32px;" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        @*<div class="col-lg-4" style="background-color: #f3f3f3; margin-top: 16px; height: 500px">
+            <table id="theTable" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th id="replacement1">State Name</th>
+                        <th id="replacement2">Number of Farms</th>
+                        <th id="replacement3">Number of Interests</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>*@
+
+        <div id="testMap" class="col-lg-12" style="margin-top: 16px; height: 500px">
+        </div>
+    </div>
+</body>

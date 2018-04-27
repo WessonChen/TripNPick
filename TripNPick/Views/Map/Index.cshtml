@@ -5,9 +5,6 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 </head>
@@ -73,7 +70,6 @@
                         var markerType = marker.markerType;
                         var markerTitle = marker.title;
                         $('#theTable').dataTable().fnClearTable();
-                        $('#theTable').dataTable().fnSetColumnVis(2, false);
                         $('#replacement1').html('Farm Name');
                         $('#replacement2').html('Farm Rating');
                         $('#replacement3').html('Suburb');
