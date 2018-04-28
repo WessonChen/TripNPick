@@ -1,7 +1,7 @@
 ﻿
 .messageList {
-    border-left: 5px solid #2e5fff;
-    background-color: #f3f3f3;
+    border-left: 2px solid #f3f3f3;
+    /*background-color: #f3f3f3;*/
     list-style-type: none;
     padding: 8px 16px;
 }
@@ -12,13 +12,14 @@
 }
 
 .webLink:link, .webLink:visited {
-    background-color: #f3f3f3;
+    /*background-color: #f3f3f3;*/
+    color: #4682B4;
     border: none;
     text-decoration: none;
     display: inline-block;
 }
 
 .webLink:hover, .webLink:active {
-    background-color: green;
+    background-color: #2196F3;
     color: white;
 }

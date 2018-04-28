@@ -1,15 +1,326 @@
-﻿
+﻿@model TripNPick.Models.UserSelections
 @{
     ViewBag.Title = "Search";
 }
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 </head>
+
+<script type="text/javascript">
+    function initMap() {
+        var map;
+        var bounds = new google.maps.LatLngBounds();
+        var stateMarkers = [];
+        var coa = { lat: -25.031596581410874, lng: 134.36777208750004 };
+        var mapOptions = {
+            center: coa,
+            zoom: 3.9,
+            mapTypeId: google.maps.MapTypeId.TERRAIN,
+            mapTypeControl: false,
+            labels: true,
+            gestureHandling: 'cooperative'
+        };
+        var infoWindow = new google.maps.InfoWindow();
+        var map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
+        map.setTilt(50);
+        $.get("@Url.Action("countForStates", "Map", new { userInput = Model.combinedString })", function (data, status) {
+            var markers = [];
+            var contentString = [];
+              var infowindow = [];
+            for (i = 0; i < data.length; i++) {
+                var markerLabel = String(data[i].farmCounts);
+                var infoWindowContent = '<h3>' + data[i].stateName + '</h3>' +
+                        '<h4 style="color: #4682B4">Number of Farms: <b>' + String(data[i].farmCounts) + '</b></h4>' +
+                        '<h4 style="color: #4682B4">Number of Interests: ' + String(data[i].interestCounts) + '<h4>';
+                $('#theTable').dataTable().fnAddData([data[i].stateName, data[i].farmCounts, data[i].interestCounts]);
+
+
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].state_lat, data[i].state_lng),
+                    icon: 'https://png.icons8.com/office/32/000000/farm.png',
+                    label: markerLabel,
+                    visible: true,
+                    markerType: "State",
+                    title : String(data[i].stateName),
+                    map: map
+                });
+                stateMarkers.push(marker);
+
+                (function (marker, infoWindowContent) {
+                    google.maps.event.addListener(marker, 'mouseover', function (e) {
+                        infoWindow.setContent(infoWindowContent);
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, infoWindowContent);
+
+                //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                //    return function () {
+                //        infowindow.close();
+                //    };
+                //})(marker, infoWindowContent, infowindow));
+
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.panTo(this.getPosition());
+                        map.setZoom(6);
+                        marker.label = marker.title;
+                        var markerType = marker.markerType;
+                        var markerTitle = marker.title;
+                        $('#theTable').dataTable().fnClearTable();
+                        $('#replacement1').html('Farm Name');
+                        $('#replacement2').html('Farm Rating');
+                        $('#replacement3').html('Suburb');
+
+                        switch (markerTitle) {
+                            case "VIC":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
+                                    for (i = 0; i < data.length; i++) {
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
+
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
+                                            map: map
+                                        });
+                                        (function (marker, infoWindowContent) {
+                                            google.maps.event.addListener(marker, 'mouseover', function (e) {
+                                                infoWindow.setContent(infoWindowContent);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, infoWindowContent);
+
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
+
+                                    }
+                                })
+                                break;
+                            case "NT":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (data, status) {
+                                    for (i = 0; i < data.length; i++) {
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
+
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
+                                            map: map
+                                        });
+                                        (function (marker, infoWindowContent) {
+                                            google.maps.event.addListener(marker, 'mouseover', function (e) {
+                                                infoWindow.setContent(infoWindowContent);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, infoWindowContent);
+
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
+
+                                    }
+                                })
+                                break;
+                            case "SA":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
+                                    for (i = 0; i < data.length; i++) {
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
+
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
+                                            map: map
+                                        });
+                                        (function (marker, infoWindowContent) {
+                                            google.maps.event.addListener(marker, 'mouseover', function (e) {
+                                                infoWindow.setContent(infoWindowContent);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, infoWindowContent);
+
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
+
+                                    }
+                                })
+                                break;
+                            case "NSW":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
+                                    for (i = 0; i < data.length; i++) {
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
+
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
+                                            map: map
+                                        });
+                                        (function (marker, infoWindowContent) {
+                                            google.maps.event.addListener(marker, 'mouseover', function (e) {
+                                                infoWindow.setContent(infoWindowContent);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, infoWindowContent);
+
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
+
+                                    }
+                                })
+                                break;
+                            case "WA":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (data, status) {
+                                    for (i = 0; i < data.length; i++) {
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
+
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
+                                            map: map
+                                        });
+                                        (function (marker, infoWindowContent) {
+                                            google.maps.event.addListener(marker, 'mouseover', function (e) {
+                                                infoWindow.setContent(infoWindowContent);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, infoWindowContent);
+
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
+
+                                    }
+                                })
+                                break;
+                            case "TAS":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (data, status) {
+                                    for (i = 0; i < data.length; i++) {
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
+
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
+                                            map: map
+                                        });
+                                        (function (marker, infoWindowContent) {
+                                            google.maps.event.addListener(marker, 'mouseover', function (e) {
+                                                infoWindow.setContent(infoWindowContent);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, infoWindowContent);
+
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
+
+                                    }
+                                })
+                                break;
+                            case "QLD":
+                                $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (data, status) {
+                                    for (i = 0; i < data.length; i++) {
+                                        if (data[i].farm.farm_rating === "Unknow") {
+                                            data[i].farm.farm_rating = "0Unknow";
+                                        }
+                                        $('#theTable').dataTable().fnAddData([data[i].farm.farmName, data[i].farm.farm_rating, data[i].farm.suburbName]);
+                                        var infoWindowContent = '<h3>' + data[i].farm.farmName + '</h3>';
+
+
+                                        marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                                            markerType: "Farm",
+                                            map: map
+                                        });
+                                        (function (marker, infoWindowContent) {
+                                            google.maps.event.addListener(marker, 'mouseover', function (e) {
+                                                infoWindow.setContent(infoWindowContent);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, infoWindowContent);
+
+                                        //google.maps.event.addListener(marker, 'mouseout', (function (marker, infoWindowContent, infowindow) {
+                                        //    return function () {
+                                        //        infowindow.close();
+                                        //    };
+                                        //})(marker, infoWindowContent, infowindow));
+
+                                    }
+                                })
+                                break;
+                        }
+                    })
+                })(marker);
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $('#theTable').DataTable({
+            "scrollY": "368px",
+            "info": false,
+            "searching": false,
+            "lengthChange": false,
+            "displayLength": 15,
+            "order": [[1, "desc"]],
+            "columnDefs": [{
+                "orderable": false, "targets": 0
+            }]
+        });
+    });
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_HGUZ-hvy730lBns4WKZxkhzMzm0UJU&region=AU&language=en-AU&callback=initMap" async defer></script>
 
 <body>
     <div class="container bgBorder">
-        <form @*action="/Home/ExpResults"*@ method="post">
+        <div style="margin-left: 27px">
+            @Html.MvcSiteMap().SiteMapPath()
+        </div>
+        <form action="/Map/Index" method="post">
             <table style="width: 100%">
                 <tr>
                     <th>
@@ -20,62 +331,146 @@
                     <td style="padding-bottom: 8px;">
                         <label class="content">
                             Jan
-                            <input type="checkbox" name="yourInte" value="January">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("January"))
+                            {
+                                <input type="checkbox" name="cMonths" value="January" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="January">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Feb
-                            <input type="checkbox" name="yourInte" value="February">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("February"))
+                            {
+                                <input type="checkbox" name="cMonths" value="February" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="February">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Mar
-                            <input type="checkbox" name="yourInte" value="March">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("March"))
+                            {
+                                <input type="checkbox" name="cMonths" value="March" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="March">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Apr
-                            <input type="checkbox" name="yourInte" value="April">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("April"))
+                            {
+                                <input type="checkbox" name="cMonths" value="April" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="April">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             May
-                            <input type="checkbox" name="yourInte" value="May">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("May"))
+                            {
+                                <input type="checkbox" name="cMonths" value="May" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="May">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Jun
-                            <input type="checkbox" name="yourInte" value="June">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("June"))
+                            {
+                                <input type="checkbox" name="cMonths" value="June" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="June">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Jul
-                            <input type="checkbox" name="yourInte" value="July">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("July"))
+                            {
+                                <input type="checkbox" name="cMonths" value="July" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="July">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Aug
-                            <input type="checkbox" name="yourInte" value="Auguest">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("August"))
+                            {
+                                <input type="checkbox" name="cMonths" value="August" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="August">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Sep
-                            <input type="checkbox" name="yourInte" value="September">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("September"))
+                            {
+                                <input type="checkbox" name="cMonths" value="September" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="September">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Oct
-                            <input type="checkbox" name="yourInte" value="October">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("October"))
+                            {
+                                <input type="checkbox" name="cMonths" value="October" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="October">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Nov
-                            <input type="checkbox" name="yourInte" value="Novenmber">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("Novenmber"))
+                            {
+                                <input type="checkbox" name="cMonths" value="Novenmber" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="Novenmber">
+                            }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
                             Dec
-                            <input type="checkbox" name="yourInte" value="December">
+                            @if (Model.cMonths != null && Model.cMonths.Contains("December"))
+                            {
+                                <input type="checkbox" name="cMonths" value="December" checked>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="cMonths" value="December">
+                            }
                             <span class="checkmark"></span>
                         </label>
                     </td>
@@ -88,67 +483,139 @@
                     </th>
                     <td style="padding-bottom: 8px;">
                         <label class="content">
-                            Interest1
-                            <input type="checkbox" name="yourInte" value="January">
+                            Museums
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Museums"))
+        {
+                    <input type="checkbox" name="cInterests" value="Museums" checked>
+}
+else
+{
+                    <input type="checkbox" name="cInterests" value="Museums">
+}
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
-                            Interest2
-                            <input type="checkbox" name="yourInte" value="February">
+                            Sights & Landmarks
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Sights & Landmarks"))
+        {
+                    <input type="checkbox" name="cInterests" value="Sights & Landmarks" checked>
+}
+else
+{
+                    <input type="checkbox" name="cInterests" value="Sights & Landmarks">
+}
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
-                            Interest3
-                            <input type="checkbox" name="yourInte" value="March">
+                            Nature and Parks
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Nature and Parks"))
+        {
+                    <input type="checkbox" name="cInterests" value="Nature and Parks" checked>
+}
+else
+{
+                    <input type="checkbox" name="cInterests" value="Nature and Parks">
+}
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="content">
+                            Beaches
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Beaches"))
+                             {
+                                <input type="checkbox" name="cInterests" value="Beaches" checked>
+                             }
+                            else
+                             {
+                            <input type="checkbox" name="cInterests" value="Beaches">
+                             }
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
-                            Interest4
-                            <input type="checkbox" name="yourInte" value="April">
+                            Outdoor Activities and Tours
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Outdoor Activities and Tours"))
+                         {
+                    <input type="checkbox" name="cInterests" value="Outdoor Activities and Tours" checked>
+}
+else
+{
+                    <input type="checkbox" name="cInterests" value="Outdoor Activities and Tours">
+}
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
-                            Interest5
-                            <input type="checkbox" name="yourInte" value="May">
+                            Nature & Wildlife Areas
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Nature & Wildlife Areas"))
+        {
+                    <input type="checkbox" name="cInterests" value="Nature & Wildlife Areas" checked>
+}
+else
+{
+                    <input type="checkbox" name="cInterests" value="Nature & Wildlife Areas">
+}
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
-                            Interest6
-                            <input type="checkbox" name="yourInte" value="January">
+                            Hiking Trails
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Hiking Trails"))
+        {
+                    <input type="checkbox" name="cInterests" value="Hiking Trails" checked>
+}
+else
+{
+                    <input type="checkbox" name="cInterests" value="Hiking Trails">
+}
                             <span class="checkmark"></span>
                         </label>
                         <label class="content">
-                            Interest7
-                            <input type="checkbox" name="yourInte" value="February">
+                            Fun & Games & Sports
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Fun & Games & Sports"))
+        {
+                    <input type="checkbox" name="cInterests" value="Fun & Games & Sports" checked>
+}
+else
+{
+                    <input type="checkbox" name="cInterests" value="Fun & Games & Sports">
+}
                             <span class="checkmark"></span>
                         </label>
+
                         <label class="content">
-                            Interest8
-                            <input type="checkbox" name="yourInte" value="March">
+                            Zoos & Aquariums
+                            @if (Model.cInterests != null && Model.cInterests.Contains("Zoos & Aquariums"))
+                             {
+                                <input type="checkbox" name="cInterests" value="Zoos & Aquariums" checked>
+                             }
+                             else
+                             {
+                                 <input type="checkbox" name="cInterests" value="Zoos & Aquariums">
+                             }
                             <span class="checkmark"></span>
-                        </label>
-                        <label class="content">
-                            Interest9
-                            <input type="checkbox" name="yourInte" value="April">
-                            <span class="checkmark"></span>
-                        </label>
-                        <label class="content">
-                            Interest10
-                            <input type="checkbox" name="yourInte" value="April">
-                            <span class="checkmark"></span>
-                        </label>
-                        <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 64px;"/>
+                            </label>
+
+
+                        <input type="submit" class="submitbtn" value="Search" style="float: right; margin-right: 32px;" />
                     </td>
                 </tr>
             </table>
         </form>
 
-        <div class="col-lg-4" style="background-color: #808080; margin-top: 16px; padding-bottom: 600px;">
-
+        <div class="col-lg-4" style="background-color: #f3f3f3; margin-top: 16px; height: 500px">
+            <table id="theTable" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th id="replacement1">State Name</th>
+                        <th id="replacement2">Number of Farms</th>
+                        <th id="replacement3">Number of Interests</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
 
-        <div class="col-lg-8" style="background-color: #4b4a4a; margin-top: 16px; padding-bottom: 600px;">
-
+        <div id ="mapCanvas" class="col-lg-8" style="margin-top: 16px; height: 500px">
         </div>
     </div>
 </body>
+

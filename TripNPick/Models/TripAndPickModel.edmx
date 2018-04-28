@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ColdSpotDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ColdSpotDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="crop">
           <Key>
             <PropertyRef Name="crop_id" />
@@ -16,13 +16,50 @@
           <Key>
             <PropertyRef Name="farm_id" />
           </Key>
-          <Property Name="farm_id" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="farm_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="farm_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="farm_name" Type="varchar" MaxLength="100" />
           <Property Name="location_lat" Type="float" />
           <Property Name="location_lng" Type="float" />
-          <Property Name="farm_address" Type="nvarchar" MaxLength="255" />
-          <Property Name="farm_rating" Type="nvarchar" MaxLength="50" />
+          <Property Name="farm_address" Type="varchar" MaxLength="150" />
+          <Property Name="farm_rating" Type="varchar" MaxLength="50" />
           <Property Name="suburb_id" Type="int" />
+        </EntityType>
+        <EntityType Name="interest_attraction">
+          <Key>
+            <PropertyRef Name="attraction_id" />
+          </Key>
+          <Property Name="attraction_id" Type="int" Nullable="false" />
+          <Property Name="suburb_id" Type="int" />
+          <Property Name="interest_place_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="review_grade" Type="float" />
+          <Property Name="number_of_reviews" Type="float" />
+          <Property Name="tag" Type="nvarchar" MaxLength="255" />
+          <Property Name="address_x" Type="nvarchar" MaxLength="255" />
+          <Property Name="phone" Type="nvarchar" MaxLength="255" />
+          <Property Name="review_highlights" Type="nvarchar(max)" />
+          <Property Name="review_keyword" Type="nvarchar(max)" />
+          <Property Name="types" Type="nvarchar" MaxLength="255" />
+          <Property Name="attraction_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="location_lat" Type="float" />
+          <Property Name="location_lng" Type="float" />
+          <Property Name="interest_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="interest_table">
+          <Key>
+            <PropertyRef Name="interest_id" />
+          </Key>
+          <Property Name="interest_id" Type="int" Nullable="false" />
+          <Property Name="types" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="state">
+          <Key>
+            <PropertyRef Name="state_id" />
+          </Key>
+          <Property Name="state_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="state_name" Type="varchar" MaxLength="50" />
+          <Property Name="state_lat" Type="float" />
+          <Property Name="state_lng" Type="float" />
+          <Property Name="state_description" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="suburb_harvest">
           <Key>
@@ -51,6 +88,8 @@
           <Property Name="suburb_id" Type="int" Nullable="false" />
           <Property Name="suburb_name" Type="varchar" MaxLength="50" />
           <Property Name="state" Type="varchar" MaxLength="50" />
+          <Property Name="suburb_lat" Type="float" />
+          <Property Name="suburb_lng" Type="float" />
           <Property Name="station_id" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -170,6 +209,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_interest_attraction_interest_table">
+          <End Role="interest_table" Type="Self.interest_table" Multiplicity="1" />
+          <End Role="interest_attraction" Type="Self.interest_attraction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="interest_table">
+              <PropertyRef Name="interest_id" />
+            </Principal>
+            <Dependent Role="interest_attraction">
+              <PropertyRef Name="interest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_interest_attraction_suburb_table">
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="0..1" />
+          <End Role="interest_attraction" Type="Self.interest_attraction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suburb_table">
+              <PropertyRef Name="suburb_id" />
+            </Principal>
+            <Dependent Role="interest_attraction">
+              <PropertyRef Name="suburb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_suburb_harvest_crop">
           <End Role="crop" Type="Self.crop" Multiplicity="1" />
           <End Role="suburb_harvest" Type="Self.suburb_harvest" Multiplicity="*" />
@@ -191,6 +254,18 @@
             </Principal>
             <Dependent Role="suburb_harvest">
               <PropertyRef Name="suburb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_suburb_table_state">
+          <End Role="state" Type="Self.state" Multiplicity="0..1" />
+          <End Role="suburb_table" Type="Self.suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="state" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -257,6 +332,9 @@
         <EntityContainer Name="ColdSpotDBModelStoreContainer">
           <EntitySet Name="crop" EntityType="Self.crop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="farm" EntityType="Self.farm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="interest_attraction" EntityType="Self.interest_attraction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="interest_table" EntityType="Self.interest_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="state" EntityType="Self.state" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="suburb_harvest" EntityType="Self.suburb_harvest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="suburb_table" EntityType="Self.suburb_table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -269,6 +347,14 @@
             <End Role="suburb_table" EntitySet="suburb_table" />
             <End Role="farm" EntitySet="farm" />
           </AssociationSet>
+          <AssociationSet Name="FK_interest_attraction_interest_table" Association="Self.FK_interest_attraction_interest_table">
+            <End Role="interest_table" EntitySet="interest_table" />
+            <End Role="interest_attraction" EntitySet="interest_attraction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_interest_attraction_suburb_table" Association="Self.FK_interest_attraction_suburb_table">
+            <End Role="suburb_table" EntitySet="suburb_table" />
+            <End Role="interest_attraction" EntitySet="interest_attraction" />
+          </AssociationSet>
           <AssociationSet Name="FK_suburb_harvest_crop" Association="Self.FK_suburb_harvest_crop">
             <End Role="crop" EntitySet="crop" />
             <End Role="suburb_harvest" EntitySet="suburb_harvest" />
@@ -276,6 +362,10 @@
           <AssociationSet Name="FK_suburb_harvest_suburb_table" Association="Self.FK_suburb_harvest_suburb_table">
             <End Role="suburb_table" EntitySet="suburb_table" />
             <End Role="suburb_harvest" EntitySet="suburb_harvest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_suburb_table_state" Association="Self.FK_suburb_table_state">
+            <End Role="state" EntitySet="state" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
           </AssociationSet>
           <AssociationSet Name="FK_suburb_table_weather_cold_days" Association="Self.FK_suburb_table_weather_cold_days">
             <End Role="weather_cold_days" EntitySet="weather_cold_days" />
@@ -298,8 +388,7 @@
             <End Role="suburb_table" EntitySet="suburb_table" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ColdSpotDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -315,12 +404,12 @@
           <Key>
             <PropertyRef Name="farm_id" />
           </Key>
-          <Property Name="farm_id" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="farm_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="farm_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="farm_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="location_lat" Type="Double" />
           <Property Name="location_lng" Type="Double" />
-          <Property Name="farm_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="farm_rating" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="farm_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="farm_rating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="suburb_id" Type="Int32" />
           <NavigationProperty Name="suburb_table" Relationship="Self.FK_farm_suburb_table" FromRole="farm" ToRole="suburb_table" />
         </EntityType>
@@ -361,6 +450,10 @@
           <NavigationProperty Name="weather_rainy_days" Relationship="Self.FK_suburb_table_weather_rainy_days" FromRole="suburb_table" ToRole="weather_rainy_days" />
           <NavigationProperty Name="weather_temp3pm_days" Relationship="Self.FK_suburb_table_weather_temp3pm_days" FromRole="suburb_table" ToRole="weather_temp3pm_days" />
           <NavigationProperty Name="weather_temp9am_days" Relationship="Self.FK_suburb_table_weather_temp9am_days" FromRole="suburb_table" ToRole="weather_temp9am_days" />
+          <NavigationProperty Name="state1" Relationship="ColdSpotDBModel.FK_suburb_table_state1" FromRole="suburb_table" ToRole="state" />
+          <NavigationProperty Name="interest_attraction" Relationship="ColdSpotDBModel.FK_interest_attraction_suburb_table" FromRole="suburb_table" ToRole="interest_attraction" />
+          <Property Name="suburb_lat" Type="Double" />
+          <Property Name="suburb_lng" Type="Double" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -611,7 +704,99 @@
             <End Role="weather_temp9am_days" EntitySet="weather_temp9am_days" />
             <End Role="suburb_table" EntitySet="suburb_table" />
           </AssociationSet>
+          <EntitySet Name="states" EntityType="ColdSpotDBModel.state" />
+          <AssociationSet Name="FK_suburb_table_state1" Association="ColdSpotDBModel.FK_suburb_table_state1">
+            <End Role="state" EntitySet="states" />
+            <End Role="suburb_table" EntitySet="suburb_table" />
+          </AssociationSet>
+          <EntitySet Name="interest_attraction" EntityType="ColdSpotDBModel.interest_attraction" />
+          <EntitySet Name="interest_table" EntityType="ColdSpotDBModel.interest_table" />
+          <AssociationSet Name="FK_interest_attraction_interest_table" Association="ColdSpotDBModel.FK_interest_attraction_interest_table">
+            <End Role="interest_table" EntitySet="interest_table" />
+            <End Role="interest_attraction" EntitySet="interest_attraction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_interest_attraction_suburb_table" Association="ColdSpotDBModel.FK_interest_attraction_suburb_table">
+            <End Role="suburb_table" EntitySet="suburb_table" />
+            <End Role="interest_attraction" EntitySet="interest_attraction" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="state">
+          <Key>
+            <PropertyRef Name="state_id" />
+          </Key>
+          <Property Name="state_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state_lat" Type="Double" />
+          <Property Name="state_lng" Type="Double" />
+          <Property Name="state_description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="suburb_table" Relationship="ColdSpotDBModel.FK_suburb_table_state1" FromRole="state" ToRole="suburb_table" />
+        </EntityType>
+        <Association Name="FK_suburb_table_state1">
+          <End Type="ColdSpotDBModel.state" Role="state" Multiplicity="0..1" />
+          <End Type="ColdSpotDBModel.suburb_table" Role="suburb_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="state">
+              <PropertyRef Name="state_id" />
+            </Principal>
+            <Dependent Role="suburb_table">
+              <PropertyRef Name="state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="interest_attraction">
+          <Key>
+            <PropertyRef Name="attraction_id" />
+          </Key>
+          <Property Name="attraction_id" Type="Int32" Nullable="false" />
+          <Property Name="suburb_id" Type="Int32" />
+          <Property Name="interest_place_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="review_grade" Type="Double" />
+          <Property Name="number_of_reviews" Type="Double" />
+          <Property Name="tag" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="address_x" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="review_highlights" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="review_keyword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="types" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="attraction_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="location_lat" Type="Double" />
+          <Property Name="location_lng" Type="Double" />
+          <Property Name="interest_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="interest_table" Relationship="ColdSpotDBModel.FK_interest_attraction_interest_table" FromRole="interest_attraction" ToRole="interest_table" />
+          <NavigationProperty Name="suburb_table" Relationship="ColdSpotDBModel.FK_interest_attraction_suburb_table" FromRole="interest_attraction" ToRole="suburb_table" />
+        </EntityType>
+        <EntityType Name="interest_table">
+          <Key>
+            <PropertyRef Name="interest_id" />
+          </Key>
+          <Property Name="interest_id" Type="Int32" Nullable="false" />
+          <Property Name="types" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="interest_attraction" Relationship="ColdSpotDBModel.FK_interest_attraction_interest_table" FromRole="interest_table" ToRole="interest_attraction" />
+        </EntityType>
+        <Association Name="FK_interest_attraction_interest_table">
+          <End Type="ColdSpotDBModel.interest_table" Role="interest_table" Multiplicity="1" />
+          <End Type="ColdSpotDBModel.interest_attraction" Role="interest_attraction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="interest_table">
+              <PropertyRef Name="interest_id" />
+            </Principal>
+            <Dependent Role="interest_attraction">
+              <PropertyRef Name="interest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_interest_attraction_suburb_table">
+          <End Type="ColdSpotDBModel.suburb_table" Role="suburb_table" Multiplicity="0..1" />
+          <End Type="ColdSpotDBModel.interest_attraction" Role="interest_attraction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="suburb_table">
+              <PropertyRef Name="suburb_id" />
+            </Principal>
+            <Dependent Role="interest_attraction">
+              <PropertyRef Name="suburb_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -663,6 +848,8 @@
           <EntitySetMapping Name="suburb_table">
             <EntityTypeMapping TypeName="ColdSpotDBModel.suburb_table">
               <MappingFragment StoreEntitySet="suburb_table">
+                <ScalarProperty Name="suburb_lng" ColumnName="suburb_lng" />
+                <ScalarProperty Name="suburb_lat" ColumnName="suburb_lat" />
                 <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
                 <ScalarProperty Name="suburb_name" ColumnName="suburb_name" />
                 <ScalarProperty Name="state" ColumnName="state" />
@@ -778,6 +965,46 @@
                 <ScalarProperty Name="november" ColumnName="november" />
                 <ScalarProperty Name="december" ColumnName="december" />
                 <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="states">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.state">
+              <MappingFragment StoreEntitySet="state">
+                <ScalarProperty Name="state_description" ColumnName="state_description" />
+                <ScalarProperty Name="state_lng" ColumnName="state_lng" />
+                <ScalarProperty Name="state_lat" ColumnName="state_lat" />
+                <ScalarProperty Name="state_name" ColumnName="state_name" />
+                <ScalarProperty Name="state_id" ColumnName="state_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="interest_attraction">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.interest_attraction">
+              <MappingFragment StoreEntitySet="interest_attraction">
+                <ScalarProperty Name="interest_id" ColumnName="interest_id" />
+                <ScalarProperty Name="location_lng" ColumnName="location_lng" />
+                <ScalarProperty Name="location_lat" ColumnName="location_lat" />
+                <ScalarProperty Name="attraction_name" ColumnName="attraction_name" />
+                <ScalarProperty Name="types" ColumnName="types" />
+                <ScalarProperty Name="review_keyword" ColumnName="review_keyword" />
+                <ScalarProperty Name="review_highlights" ColumnName="review_highlights" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address_x" ColumnName="address_x" />
+                <ScalarProperty Name="tag" ColumnName="tag" />
+                <ScalarProperty Name="number_of_reviews" ColumnName="number_of_reviews" />
+                <ScalarProperty Name="review_grade" ColumnName="review_grade" />
+                <ScalarProperty Name="interest_place_name" ColumnName="interest_place_name" />
+                <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
+                <ScalarProperty Name="attraction_id" ColumnName="attraction_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="interest_table">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.interest_table">
+              <MappingFragment StoreEntitySet="interest_table">
+                <ScalarProperty Name="types" ColumnName="types" />
+                <ScalarProperty Name="interest_id" ColumnName="interest_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

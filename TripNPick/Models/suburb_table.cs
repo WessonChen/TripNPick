@@ -19,12 +19,15 @@ namespace TripNPick.Models
         {
             this.farms = new HashSet<farm>();
             this.suburb_harvest = new HashSet<suburb_harvest>();
+            this.interest_attraction = new HashSet<interest_attraction>();
         }
     
         public int suburb_id { get; set; }
         public string suburb_name { get; set; }
         public string state { get; set; }
         public Nullable<int> station_id { get; set; }
+        public Nullable<double> suburb_lat { get; set; }
+        public Nullable<double> suburb_lng { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<farm> farms { get; set; }
@@ -35,5 +38,8 @@ namespace TripNPick.Models
         public virtual weather_rainy_days weather_rainy_days { get; set; }
         public virtual weather_temp3pm_days weather_temp3pm_days { get; set; }
         public virtual weather_temp9am_days weather_temp9am_days { get; set; }
+        public virtual state state1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<interest_attraction> interest_attraction { get; set; }
     }
 }

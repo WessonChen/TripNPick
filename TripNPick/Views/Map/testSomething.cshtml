@@ -1,0 +1,18 @@
+﻿@model IEnumerable<TripNPick.Models.StateFarmsCount>
+@{
+    Layout = null;
+}
+
+<table>
+    <tr>
+        <td>State name</td>
+        <td>Number Farms</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.stateName</td>
+            <td>@item.numberOfFarms</td>
+        </tr>
+    }
+</table>

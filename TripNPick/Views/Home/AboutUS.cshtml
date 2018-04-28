@@ -1,1 +1,53 @@
-﻿
+﻿@{
+    ViewBag.Title = "About Us";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/aboutus.css" />
+</head>
+
+<div class="container" style="padding-top:50px; width:80%">
+    <div style="margin-top:16px; margin-bottom: 24px;">
+        @Html.MvcSiteMap().SiteMapPath()
+    </div>
+    <div class="section1">
+        <h1>Our Mission</h1>
+        <h4>Find farms with jobs for you based on your interests and traveling time.</h4>
+        <h1>About</h1>
+        <h4 style="text-align:justify; text-justify: inter-word; padding: 0 64px;">
+            Our website aims to provide solution to backpackers by helping them find farms based on demand of jobs around the time of their travel. The results displayed show the availability of work in a particular suburb, in a state along with showing probable places and activities that might interest them to help them make decisions to pursue a farm to work on.
+        </h4>
+    </div>
+
+    <div class="section2">
+        <h1>Team Members</h1>
+        <div class="col-lg-6">
+            <img src="~/img/Weicheng.png" class="img-responsive" />
+            <img src="~/img/Nupur.png" class="img-responsive" />
+        </div>
+        <div class="col-lg-6">
+            <img src="~/img/Shazeed.png" class="img-responsive" />
+            <img src="~/img/Zoe.png" class="img-responsive" />
+        </div>
+    </div>
+
+    <div class="section3">
+        <h1>Suggestions</h1>
+        <h4>If you have any suggestions for our website, please let us know. </h4>
+        <form>
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" placeholder="Your email address..">
+
+            <label for="subject">Suggestions</label>
+            <textarea id="subject" name="subject" placeholder="Any suggestions.." style="height:200px"></textarea>
+
+            <input id="suggestionBtn" onClick="alert('Thanks for your suggestions!')" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
