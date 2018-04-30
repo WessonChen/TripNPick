@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="~/Content/droplistform.css" rel="stylesheet">
+    <script src="~/Scripts/homepageTags.js" type="text/javascript"></script>
 
     <title>@ViewData["Title"] - Trip&Pick</title>
 </head>
@@ -23,80 +24,164 @@
                         <h1 class="display-3" style="font-variant: small-caps; font-size: 400%; margin-top: -72px">Making it simple for you..</h1>
                         <h3>To find farms where you can work to pick fruit</h3>
                         <h3>Close to where you want to be..</h3>
-                        <form action="/Map/Index" class="form-inline" method="post" style="color: black; background-color: white; width: 550px; margin: 32px auto auto auto; padding: 8px 0;">
-                            <div class="dropdown">
-                                <button class="dropbtn" disabled>Tell us when you want to travel</button>
-                                <div class="dropdown-content">
-                                    <label class="content">
-                                        January
-                                        <input type="checkbox" name="cMonths" value="January">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        February
-                                        <input type="checkbox" name="cMonths" value="February">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        March
-                                        <input type="checkbox" name="cMonths" value="March">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        April
-                                        <input type="checkbox" name="cMonths" value="April">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        May
-                                        <input type="checkbox" name="cMonths" value="May">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        June
-                                        <input type="checkbox" name="cMonths" value="June">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        July
-                                        <input type="checkbox" name="cMonths" value="July">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        August
-                                        <input type="checkbox" name="cMonths" value="August">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        September
-                                        <input type="checkbox" name="cMonths" value="September">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        October
-                                        <input type="checkbox" name="cMonths" value="October">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        Novenmber
-                                        <input type="checkbox" name="cMonths" value="Novenmber">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="content">
-                                        December
-                                        <input type="checkbox" name="cMonths" value="December">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <input type="submit" class="submitbtn" value="Search" />
-                        </form>
+                        <div class="guideBtn">
+                            <div class="guide-content" onclick="javascript:location.href='#guide'">>></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <a name="services"></a>
+    <section class="section-center" data-waypoint="true" data-waypoint-trigger="true" id="guide">
+        <h1 class="guide">
+            How does it work?
+        </h1>
+        <div class="step-list">
+            <div class="step-list-item">
+                <div class="step">
+                    <div class="card-number step-icon">1</div>
+                    <h1 class="step-title">
+                        What does the fox say?
+                    </h1>
+                    <p class="step-content">
+                        Ring ding ding ding dingeringeding!
+                        Gering ding ding ding dingeringeding!
+                        Gering ding ding ding dingeringeding!
+                    </p>
+                </div>
+                <div class="step-list-dot"></div>
+            </div>
+            <div class="step-list-item">
+                <div class="step">
+                    <div class="card-number step-icon">2</div>
+                    <h1 class="step-title">
+                        What does the fox say?
+                    </h1>
+                    <p class="step-content">
+                        Wa pa pa pa pa pa pow!
+                        Wa pa pa pa pa pa pow!
+                        Wa pa pa pa pa pa pow!
+                    </p>
+                </div>
+                <div class="step-list-dot"></div>
+            </div>
+            <div class="step-list-item">
+                <div class="step">
+                    <div class="card-number step-icon">3</div>
+                    <h1 class="step-title">
+                        What does the fox say?
+                    </h1>
+                    <p class="step-content">
+                        Hatee hatee hatee ho!
+                        Hatee hatee hatee ho!
+                        Hatee hatee hatee ho!
+                    </p>
+                </div>
+                <div class="step-list-dot"></div>
+            </div>
+            <div class="step-list-item">
+                <div class="step">
+                    <div class="card-number step-icon">4</div>
+                    <h1 class="step-title">
+                        What does the fox say?
+                    </h1>
+                    <p class="step-content">
+                        Joff tchoff tchoffo tchoffo tchoff!
+                        Tchoff tchoff tchoffo tchoffo tchoff!
+                        Joff tchoff tchoffo tchoffo tchoff!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-center">
+        <h1 class="go">
+            Let's Go!
+        </h1>
+        <div class="tag-list">
+            <span data-id="ckJan" class="badge">Jan</span>
+            <span data-id="ckFeb" class="badge">Feb</span>
+            <span data-id="ckMar" class="badge">Mar</span>
+            <span data-id="ckApr" class="badge">Apr</span>
+            <span data-id="ckMay" class="badge">May</span>
+            <span data-id="ckJun" class="badge">Jun</span>
+            <span data-id="ckJul" class="badge">Jul</span>
+            <span data-id="ckAug" class="badge">Aug</span>
+            <span data-id="ckSep" class="badge">Sep</span>
+            <span data-id="ckOct" class="badge">Oct</span>
+            <span data-id="ckNov" class="badge">Nov</span>
+            <span data-id="ckDec" class="badge">Dec</span>
+        </div>
+        <form action="/Map/Index" class="dropdown" method="post">
+            <div class="dpContainer">
+                <button class="dropbtn" disabled>Tell us when you want to travel</button>
+                <div class="dropdown-content">
+                    <label class="content">
+                        January
+                        <input type="checkbox" name="cMonths" value="January" id="ckJan">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        February
+                        <input type="checkbox" name="cMonths" value="February" id="ckFeb">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        March
+                        <input type="checkbox" name="cMonths" value="March" id="ckMar">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        April
+                        <input type="checkbox" name="cMonths" value="April" id="ckApr">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        May
+                        <input type="checkbox" name="cMonths" value="May" id="ckMay">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        June
+                        <input type="checkbox" name="cMonths" value="June" id="ckJun">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        July
+                        <input type="checkbox" name="cMonths" value="July" id="ckJul">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        August
+                        <input type="checkbox" name="cMonths" value="August" id="ckAug">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        September
+                        <input type="checkbox" name="cMonths" value="September" id="ckSep">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        October
+                        <input type="checkbox" name="cMonths" value="October" id="ckOct">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        Novenmber
+                        <input type="checkbox" name="cMonths" value="Novenmber" id="ckNov">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="content">
+                        December
+                        <input type="checkbox" name="cMonths" value="December" id="ckDec">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <input type="submit" class="submitbtn" value="Search" />
+        </form>
+    </section>
     <div class="content-section-a">
         <div class="container">
             <div class="row">
