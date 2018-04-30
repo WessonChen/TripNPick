@@ -1,10 +1,12 @@
 ﻿@{
     ViewBag.Title = "About Us";
+    ViewBag.submissionMessage = "";
 }
+@model TripNPick.Models.SuggestionForm
 
-<head>
-    <link rel="stylesheet" type="text/css" href="~/Content/aboutus.css" />
-</head>
+<link rel="stylesheet" type="text/css" href="~/Content/aboutus.css" />
+
+
 
 <div class="container" style="padding-top:50px; width:80%">
     <div style="margin-top:16px; margin-bottom: 24px;">
@@ -21,13 +23,60 @@
 
     <div class="section2">
         <h1>Team Members</h1>
-        <img src="~/img/team.png" class="img-responsive center-block"/>
+        <img src="~/img/team.png" class="img-responsive center-block" />
     </div>
 
     <div class="section3">
         <h1>Suggestions</h1>
         <h4>If you have any suggestions for our website, please let us know. </h4>
-        <form>
+
+        <div id="popupdiv" style="border: 1px solid green; color:white" class="popUp">
+            @ViewData["error"]
+        </div>
+
+        @using (Html.BeginForm("AboutUS", "Home"))
+    {
+        <div>
+            @Html.Label("First Name")
+            @Html.TextBoxFor(model => model.userFirstName)
+            @Html.ValidationMessageFor(model => model.userFirstName, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <div>
+            @Html.Label("Last Name")
+            @Html.TextBoxFor(model => model.userLastName)
+            @Html.ValidationMessageFor(model => model.userLastName, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <div>
+            @Html.Label("Your email")
+            @Html.TextBoxFor(model => model.userEmail)
+            @Html.ValidationMessageFor(model => model.userEmail, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <div>
+            @Html.Label("Your Suggestion")
+            @Html.TextAreaFor(model => model.userSuggestion)
+            @Html.ValidationMessageFor(model => model.userSuggestion, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <div>
+            <button type="submit"
+                    id="submitButton"
+                    class="btn btn-primary">
+                Submit
+            </button>
+        </div>
+
+
+
+
+
+}
+
+
+
+        @*<asp:form runat="server" >
             <label for="fname">First Name</label>
             <input type="text" id="fname" name="firstname" placeholder="Your name..">
 
@@ -37,10 +86,49 @@
             <label for="email">Your Email</label>
             <input type="email" id="email" name="email" placeholder="Your email address..">
 
+
+
             <label for="subject">Suggestions</label>
             <textarea id="subject" name="subject" placeholder="Any suggestions.." style="height:200px"></textarea>
 
             <input id="suggestionBtn" onClick="alert('Thanks for your suggestions!')" type="submit" value="Submit">
-        </form>
+        </asp:form>*@
     </div>
+
+
 </div>
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+    @*<script>
+        $(document).ready(function () {
+            $("#submitButton").click(function (event) {
+                event.preventDefault();
+                if ($("form").valid()) {
+                    alert("Valid");
+                    /* Add code for Ajax post */
+                }
+
+            });
+        });
+</script>*@
+
+@*<script type="text/javascript">
+        function DisplayProgressMessage(ctl, msg) {
+            // Turn off the "Save" button and change text
+            $(ctl).prop("disabled", true).text(msg);
+            // Gray out background on page
+            $("body").addClass("submit-progress-bg");
+
+            // Wrap in setTimeout so the UI can update the spinners
+            setTimeout(function () {
+                $(".submit-progress").removeClass("hidden");
+            }, 1);
+
+            return true;
+        }
+    </script>*@
+
+
