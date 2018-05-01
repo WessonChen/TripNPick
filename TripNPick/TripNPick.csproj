@@ -51,6 +51,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Highcharts.Web.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Highsoft.Highcharts.6.1.0.7\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="HttpAuthModule, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HttpAuthModule.2.2.2.0\lib\net45\HttpAuthModule.dll</HintPath>
     </Reference>
@@ -196,7 +199,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\crop.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DropdownList.cs" />
     <Compile Include="Models\ExpFarm.cs" />
@@ -205,66 +208,70 @@
     <Compile Include="Models\ExpList.cs" />
     <Compile Include="Models\ExpWeather.cs" />
     <Compile Include="Models\farm.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FarmJson.cs" />
     <Compile Include="Models\FarmsJson.cs" />
     <Compile Include="Models\FilteredFarmViewModel.cs" />
+    <Compile Include="Models\hostel.cs">
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestsJson.cs" />
     <Compile Include="Models\interest_attraction.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\interest_table.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SitemapNode.cs" />
     <Compile Include="Models\state.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StateFarmsCount.cs" />
     <Compile Include="Models\StateSuburbCount.cs" />
     <Compile Include="Models\SuburbViewModel.cs" />
     <Compile Include="Models\suburb_harvest.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\suburb_table.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SuggestionForm.cs" />
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TripAndPickModel.Context.cs">
+    <Compile Include="Models\TripNPickModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TripAndPickModel.Context.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TripAndPickModel.cs">
+    <Compile Include="Models\TripNPickModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TripAndPickModel.Designer.cs">
+    <Compile Include="Models\TripNPickModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
+      <DependentUpon>TripNPickModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\UserSelections.cs" />
     <Compile Include="Models\weather_cold_days.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_hot_days.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_rainy_days.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_temp3pm_days.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_temp9am_days.cs">
-      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -275,27 +282,28 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\droplistform.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\landing-page.css" />
     <Content Include="Content\maps.css" />
     <Content Include="Content\PaymentTaxRight.css" />
+    <Content Include="Content\registration.css" />
     <Content Include="Content\results.css" />
+    <Content Include="Content\table.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="img\Brand.png" />
     <Content Include="img\homeBG.png" />
-    <Content Include="img\Nupur.jpeg" />
-    <Content Include="img\Shazeed.jpeg" />
-    <Content Include="img\Weicheng.jpeg" />
-    <Content Include="img\Zoe.jpeg" />
-    <Content Include="Models\TripAndPickModel.Context.tt">
+    <Content Include="img\rightsBG.v1.jpg" />
+    <Content Include="img\team.png" />
+    <Content Include="Models\TripNPickModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
-      <LastGenOutput>TripAndPickModel.Context.cs</LastGenOutput>
+      <DependentUpon>TripNPickModel.edmx</DependentUpon>
+      <LastGenOutput>TripNPickModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\TripAndPickModel.tt">
+    <Content Include="Models\TripNPickModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
-      <LastGenOutput>TripAndPickModel.cs</LastGenOutput>
+      <DependentUpon>TripNPickModel.edmx</DependentUpon>
+      <LastGenOutput>TripNPickModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -347,14 +355,14 @@
     <Content Include="App_Data\harvest.json" />
     <Content Include="App_Data\interest.json" />
     <Content Include="App_Data\weather.json" />
-    <EntityDeploy Include="Models\TripAndPickModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TripAndPickModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\TripAndPickModel.edmx.diagram">
-      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Mvc.sitemap" />
+    <EntityDeploy Include="Models\TripNPickModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TripNPickModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TripNPickModel.edmx.diagram">
+      <DependentUpon>TripNPickModel.edmx</DependentUpon>
+    </Content>
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -378,6 +386,10 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\Home\viewDashboard.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\LogInView.cshtml" />
+    <Content Include="Views\Map\createTable.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
   </ItemGroup>
   <ItemGroup />

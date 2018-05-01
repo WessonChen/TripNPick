@@ -1,0 +1,13 @@
+﻿
+thead {
+    background: #6b6b6b none repeat scroll 0 0;
+    color: #fff;
+    font-weight: 300;
+    margin: 0;
+}
+row-header {
+    background: #dedede;
+}
+.cell-normal {
+    background: #e0e0d1;
+}

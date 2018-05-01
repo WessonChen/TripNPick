@@ -30,8 +30,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "narItem" })</li>
+                    <li>@Html.ActionLink("Dashboard", "Dashboard", "Home", new { area = ""}, new { @class = "narItem"})</li>
                     <li>@Html.ActionLink("FAQ", "Information", "Home", new { area = "" }, new { @class = "narItem" })</li>
-                    <li>@Html.ActionLink("About Us", "AboutUs", "Home", new { area = "" }, new { @class = "narItem" })</li>
+                    <li>@Html.ActionLink("About Us", "AboutUS", "Home", new { area = "" }, new { @class = "narItem" })</li>
                     <li>@Html.ActionLink("Search", "Index", "Map", new { area = "" }, new { @class = "narItem" })</li>
                     @*<li>@Html.Partial("_LoginPartial")</li>*@
                 </ul>
@@ -69,6 +70,7 @@
         </footer>
     </div>
     @RenderSection("scripts", required: false)
-    @*<script src="~/Scripts/jquery.js"></script>*@
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>

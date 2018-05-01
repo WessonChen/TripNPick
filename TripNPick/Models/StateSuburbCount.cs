@@ -70,4 +70,72 @@ namespace TripNPick.Models
         public double state_lat { get; set; }
         public double state_lng { get; set; }
     }
+
+    public class WeatherView
+    {
+        public string feature { get; set; }
+        public string january { get; set; }
+        public string february { get; set; }
+        public string march { get; set; }
+        public string april { get; set; }
+        public string may { get; set; }
+        public string june { get; set; }
+        public string july { get; set; }
+        public string august { get; set; }
+        public string september { get; set; }
+        public string october { get; set; }
+        public string november { get; set; }
+        public string december { get; set; }
+    }
+
+    public class DemandView
+    {
+        public string cropName { get; set; }
+        public string january { get; set; }
+        public string february { get; set; }
+        public string march { get; set; }
+        public string april { get; set; }
+        public string may { get; set; }
+        public string june { get; set; }
+        public string july { get; set; }
+        public string august { get; set; }
+        public string september { get; set; }
+        public string october { get; set; }
+        public string november { get; set; }
+        public string december { get; set; }
+    }
+
+    public class FarmDetailsView
+    {
+        public List<WeatherView> weatherList { get; set; }
+        public IEnumerable<DemandView> demandList { get; set; }
+        public List<WeatherDays> chartListOne { get; set; }
+    }
+
+    public class WeatherDays
+    {
+        private string featureName;
+        private List<double> numberOfDays;
+
+        public WeatherDays() {
+        }
+
+        public WeatherDays(string feature, List<double> days) {
+            this.featureName = feature;
+            this.numberOfDays = days;
+        }
+
+        public string getFeature() {
+            return this.featureName;
+        }
+        public List<double> getDays() {
+            return this.numberOfDays;
+        }
+        public void setFeature(string feature) {
+            this.featureName = feature;
+        }
+        public void setDays(List<double> days) {
+            this.numberOfDays = days;
+        }
+    }
 }
