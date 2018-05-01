@@ -23,8 +23,13 @@
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: auto; 
+    padding: 8px 0;
+    width: 500px;
 }
 
 .dropdown-content {
@@ -38,11 +43,11 @@
 
 .dropdown-content input:hover {background-color: #ddd}
 
-.dropdown:hover .dropdown-content {
+.dpContainer:hover .dropdown-content {
     display: block;
 }
 
-.dropdown:hover .dropbtn {
+.dpContainer:hover .dropbtn {
     background-color: #4682B4;
 }
 
@@ -103,4 +108,101 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.tag-list {
+    height: 16px;
+    margin-bottom: 16px;
+}
+
+.tag-list span {
+    cursor: pointer;
+}
+
+.tag-list span:hover {
+    background-color: orangered;
+}
+
+@media(max-width: 600px) {
+    .dropdown {
+        flex-direction:column;
+        width: 360px;
+    }
+
+    .submitbtn {
+    margin-left: 0px;
+    width: 300px;
+    }
+    
+    .dropbtn {
+        width: 300px;
+    }
+
+    .dropdown-content {
+        width: 300px;
+    }
+
+    .content {
+    text-align: left;
+    display: block;
+    position: relative;
+    padding-left: 80px;
+    margin: 6px 70px;
+    }
+}
+
+@media(max-width: 450px) {
+    .dropdown {
+        flex-direction:column;
+        width: 260px;
+    }
+
+    .submitbtn {
+    margin-left: 0px;
+    width: 200px;
+    }
+    
+    .dropbtn {
+        width: 200px;
+    }
+
+    .dropdown-content {
+        width: 200px;
+    }
+
+    .content {
+    text-align: left;
+    display: block;
+    position: relative;
+    padding-left: 48px;
+    margin: 6px 40px;
+    }
+}
+
+@media(max-width: 350px) {
+    .dropdown {
+        flex-direction:column;
+        width: 200px;
+    }
+
+    .submitbtn {
+    margin-left: 0px;
+    width: 150px;
+    }
+    
+    .dropbtn {
+        width: 150px;
+    }
+
+    .dropdown-content {
+        width: 150px;
+    }
+
+    .content {
+    text-align: left;
+    display: block;
+    position: relative;
+    padding-left: 32px;
+    margin: 6px 24px;
+    }
 }

@@ -1,9 +1,9 @@
 ﻿.bgBorder {
     margin-top: 50px;
     padding: 16px 0 0 0;
-    border-left: 4px solid #37b6b5;
-    border-right: 4px solid #37b6b5;
-    background-color: #f3f3f3;
+    /*border-left: 2px solid #C0C0C0;
+    border-right: 2px solid #C0C0C0;
+    background-color: #f3f3f3;*/
 }
 
 .content {

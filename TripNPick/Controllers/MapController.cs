@@ -318,6 +318,51 @@ namespace TripNPick.Controllers
                 return formatted;
             }
         }
+        
+        public ActionResult TestIndex(string[] cMonths, string[] cInterests)
+        {
+            UserSelections us = new UserSelections();
+            us.cMonths = cMonths;
+            us.cInterests = cInterests;
+            us.combinedString = "";
+            if (cMonths != null)
+            {
+                for (int i = 0; i < cMonths.Length; i++)
+                {
+                    if (i == cMonths.Length - 1)
+                    {
+                        us.combinedString = us.combinedString + cMonths[i].ToLower() + "|";
+                    }
+                    else
+                    {
+                        us.combinedString = us.combinedString + cMonths[i].ToLower() + ",";
+                    }
+                }
+            }
+            else
+            {
+                us.combinedString = "null|";
+            }
+            if (cInterests != null)
+            {
+                for (int i = 0; i < cInterests.Length; i++)
+                {
+                    if (i == cInterests.Length - 1)
+                    {
+                        us.combinedString = us.combinedString + cInterests[i];
+                    }
+                    else
+                    {
+                        us.combinedString = us.combinedString + cInterests[i] + ",";
+                    }
+                }
+            }
+            else
+            {
+                us.combinedString = us.combinedString + "null";
+            }
+            return View(us);
+        }
 
         // GET: RegionMap
         public ActionResult RegionIndex()
