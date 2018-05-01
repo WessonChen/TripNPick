@@ -11,6 +11,8 @@
     <div style="margin-top:16px; margin-left: -19px">
         @Html.MvcSiteMap().SiteMapPath()
     </div>
+    <div id="google_translate_element" class="transalorBtn"></div>
+
     <div class="page-header">
         <h1 style="font-variant: small-caps; font-size: 400%; padding-bottom: 12px;">Payments</h1>
     </div>
@@ -42,20 +44,20 @@
     </div>
     <ul class="messageList">
         <li class="message">
-            Make sure you know the tax 
+            Make sure you know the tax
             <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/International-tax-for-individuals/Coming-to-Australia/Working-holiday-makers/">
                 LAWS
             </a>
-            when you are on a working holiday visa. 
+            when you are on a working holiday visa.
         </li>
         <li class="message">
-            When you work in Australia on 
+            When you work in Australia on
             <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/Tax-file-number/">
-            TFN
-            </a> 
+                TFN
+            </a>
             , you may be eligible for tax returns, you can file your tax on the
             <a class="webLink" target="_blank" href="https://www.ato.gov.au/Calculators-and-tools/Host/?anchor=DINTL&anchor=DINTL/questions#DINTL/questions">
-            GOVERNMENT WEBSITE
+                GOVERNMENT WEBSITE
             </a>.
         </li>
     </ul>
@@ -83,3 +85,10 @@
         </li>
     </ul>
 </div>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

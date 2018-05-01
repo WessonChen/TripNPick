@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using TripNPick.Models;
+using Highsoft.Web.Mvc.Charts;
 
 namespace TripNPick.Controllers
 {
@@ -61,6 +62,261 @@ namespace TripNPick.Controllers
                 us.combinedString = us.combinedString + "null";
             }
             return View(us);
+        }
+
+        public ActionResult createTable()
+        {
+            string farmId = "015594bdf560a2ed7915f52163fb4e5435bc7f40";
+            string farm2 = "00f3d3fea7ea216489383b68e66779100b87d91b";
+            var farmList = dbContext.farms.ToList();
+            var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
+            var suburbId = Convert.ToInt16(reqSub.FirstOrDefault());
+            Debug.WriteLine(Convert.ToInt16(reqSub.FirstOrDefault()));
+            var suburbList = dbContext.suburb_table.ToList();
+            var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
+            var stationId = Convert.ToInt16(reqStation.FirstOrDefault());
+            var coldView = getColdDays(stationId);
+            var hotView = getHotDays(stationId);
+            var rainView = getRainyDays(stationId);
+            var temp3View = getTemp3pm(stationId);
+            var temp9View = getTemp9am(stationId);
+
+            List<double> coldValues = this.getThatList(coldView.First()).getDays();
+            List<double> hotValues = this.getThatList(hotView.First()).getDays();
+            List<double> rainValues = this.getThatList(rainView.First()).getDays();
+            List<double> temp3Values = this.getThatList(temp3View.First()).getDays();
+            List<double> temp9Values = this.getThatList(temp9View.First()).getDays();
+
+            List<LineSeriesData> coldData = new List<LineSeriesData>();
+            List<LineSeriesData> hotData = new List<LineSeriesData>();
+            List<LineSeriesData> rainData = new List<LineSeriesData>();
+            List<LineSeriesData> temp3Data = new List<LineSeriesData>();
+            List<LineSeriesData> temp9Data = new List<LineSeriesData>();
+
+            coldValues.ForEach(p => coldData.Add(new LineSeriesData { Y = p }));
+            hotValues.ForEach(p => hotData.Add(new LineSeriesData { Y = p }));
+            rainValues.ForEach(p => rainData.Add(new LineSeriesData { Y = p }));
+            temp3Values.ForEach(p => temp3Data.Add(new LineSeriesData { Y = p }));
+            temp9Values.ForEach(p => temp9Data.Add(new LineSeriesData { Y = p }));
+
+            FarmDetailsView twoModels = new FarmDetailsView();
+            twoModels.weatherList = new List<WeatherView>();
+            twoModels.weatherList.Add(coldView.First());
+            twoModels.weatherList.Add(hotView.First());
+            twoModels.weatherList.Add(rainView.First());
+            twoModels.weatherList.Add(temp3View.First());
+            twoModels.weatherList.Add(temp9View.First());
+
+            var demandView = getFarmDemands(suburbId);
+            twoModels.demandList = demandView;
+
+            ViewData["coldData"] = coldData;
+            ViewData["hotData"] = hotData;
+            ViewData["rainData"] = rainData;
+            ViewData["temp3Data"] = temp3Data;
+            ViewData["temp9Data"] = temp9Data;
+
+
+            return View(twoModels);
+        }
+
+        public WeatherDays getThatList(WeatherView weather) {
+            WeatherDays weatherStruct = new WeatherDays();
+            List<double> newList = new List<double>();
+            newList.Add(Convert.ToDouble(weather.january));
+            newList.Add(Convert.ToDouble(weather.february));
+            newList.Add(Convert.ToDouble(weather.march));
+            newList.Add(Convert.ToDouble(weather.april));
+            newList.Add(Convert.ToDouble(weather.may));
+            newList.Add(Convert.ToDouble(weather.june));
+            newList.Add(Convert.ToDouble(weather.july));
+            newList.Add(Convert.ToDouble(weather.august));
+            newList.Add(Convert.ToDouble(weather.september));
+            newList.Add(Convert.ToDouble(weather.october));
+            newList.Add(Convert.ToDouble(weather.november));
+            newList.Add(Convert.ToDouble(weather.december));
+            weatherStruct.setDays(newList);
+            weatherStruct.setFeature(weather.feature);
+            return weatherStruct;
+
+
+
+        }
+
+        public IEnumerable<DemandView> getFarmDemands(int suburbId) {
+            var harverstList = dbContext.suburb_harvest.ToList();
+            var cropList = dbContext.crops.ToList();
+            var reqHarvest = from h in harverstList
+                             join c in cropList on h.crop_id equals c.crop_id
+                             where h.suburb_id == suburbId
+                             select new DemandView
+                             {
+                                 cropName = c.crop_name,
+                                 january = formatDemandString(h.january),
+                                 february = formatDemandString(h.february),
+                                 march = formatDemandString(h.march),
+                                 april = formatDemandString(h.april),
+                                 may = formatDemandString(h.may),
+                                 june = formatDemandString(h.june),
+                                 july = formatDemandString(h.july),
+                                 august = formatDemandString(h.august),
+                                 september = formatDemandString(h.september),
+                                 october = formatDemandString(h.october),
+                                 november = formatDemandString(h.november),
+                                 december = formatDemandString(h.december)
+                             };
+            return reqHarvest;
+        }
+
+        public string formatDemandString(string demandLevel) {
+            if (demandLevel.Equals("NULL")) {
+                return "";
+            }
+            else
+            {
+                return demandLevel;
+            }
+            
+        }
+
+        public IEnumerable<WeatherView> getColdDays(int stationId)
+        {
+            var coldList = dbContext.weather_cold_days.ToList();
+            var coldView = from f in coldList
+                           where f.station_id == stationId
+                           select new WeatherView
+                           {
+                               feature = "Number of cold days",
+                               january = formatString(f.january),
+                               february = formatString(f.february),
+                               march = formatString(f.march),
+                               april = formatString(f.april),
+                               may = formatString(f.may),
+                               june = formatString(f.june),
+                               july = formatString(f.july),
+                               august = formatString(f.august),
+                               september = formatString(f.september),
+                               october = formatString(f.october),
+                               november = formatString(f.november),
+                               december = formatString(f.december)
+
+                           };
+            return coldView;
+        }
+
+        public IEnumerable<WeatherView> getTemp9am(int stationId)
+        {
+            var temp9List = dbContext.weather_temp9am_days.ToList();
+            var temp9View = from f in temp9List
+                            where f.station_id == stationId
+                            select new WeatherView
+                            {
+                                feature = "Temparature at 9 am (C)",
+                                january = formatString(f.january),
+                                february = formatString(f.february),
+                                march = formatString(f.march),
+                                april = formatString(f.april),
+                                may = formatString(f.may),
+                                june = formatString(f.june),
+                                july = formatString(f.july),
+                                august = formatString(f.august),
+                                september = formatString(f.september),
+                                october = formatString(f.october),
+                                november = formatString(f.november),
+                                december = formatString(f.december)
+
+                            };
+            return temp9View;
+        }
+
+        public IEnumerable<WeatherView> getTemp3pm(int stationId)
+        {
+            var temp3List = dbContext.weather_temp3pm_days.ToList();
+            var temp3View = from f in temp3List
+                           where f.station_id == stationId
+                           select new WeatherView
+                           {
+                               feature = "Temparature at 3 pm (C)",
+                               january = formatString(f.january),
+                               february = formatString(f.february),
+                               march = formatString(f.march),
+                               april = formatString(f.april),
+                               may = formatString(f.may),
+                               june = formatString(f.june),
+                               july = formatString(f.july),
+                               august = formatString(f.august),
+                               september = formatString(f.september),
+                               october = formatString(f.october),
+                               november = formatString(f.november),
+                               december = formatString(f.december)
+
+                           };
+            return temp3View;
+        }
+
+        public IEnumerable<WeatherView> getRainyDays(int stationId)
+        {
+            var rainyList = dbContext.weather_rainy_days.ToList();
+            var rainView = from f in rainyList
+                           where f.station_id == stationId
+                          select new WeatherView
+                          {
+                              feature = "Number of rainy days",
+                              january = formatString(f.january),
+                              february = formatString(f.february),
+                              march = formatString(f.march),
+                              april = formatString(f.april),
+                              may = formatString(f.may),
+                              june = formatString(f.june),
+                              july = formatString(f.july),
+                              august = formatString(f.august),
+                              september = formatString(f.september),
+                              october = formatString(f.october),
+                              november = formatString(f.november),
+                              december = formatString(f.december)
+
+                          };
+            return rainView;
+        }
+
+        public IEnumerable<WeatherView> getHotDays(int stationId)
+        {
+            var hotList = dbContext.weather_hot_days.ToList();
+            var hotView = from f in hotList
+                          where f.station_id == stationId
+                          select new WeatherView
+                          {
+                              feature = "Number of hot days",
+                              january = formatString(f.january),
+                              february = formatString(f.february),
+                              march = formatString(f.march),
+                              april = formatString(f.april),
+                              may = formatString(f.may),
+                              june = formatString(f.june),
+                              july = formatString(f.july),
+                              august = formatString(f.august),
+                              september = formatString(f.september),
+                              october = formatString(f.october),
+                              november = formatString(f.november),
+                              december = formatString(f.december)
+
+                          };
+            return hotView;
+        }
+
+        public string formatString(string number) {
+
+            if (String.IsNullOrEmpty(number))
+            {
+                return "0";
+            }
+            else
+            {
+                double some =  Convert.ToDouble(number);
+                double precised = System.Math.Round(some, 2);
+                string formatted = System.Convert.ToString(precised);
+                return formatted;
+            }
         }
 
         // GET: RegionMap

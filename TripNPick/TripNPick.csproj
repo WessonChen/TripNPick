@@ -51,6 +51,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Highcharts.Web.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Highsoft.Highcharts.6.1.0.7\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="HttpAuthModule, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HttpAuthModule.2.2.2.0\lib\net45\HttpAuthModule.dll</HintPath>
     </Reference>
@@ -235,6 +238,7 @@
     <Compile Include="Models\suburb_table.cs">
       <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SuggestionForm.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
@@ -278,10 +282,13 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\droplistform.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\landing-page.css" />
     <Content Include="Content\maps.css" />
     <Content Include="Content\PaymentTaxRight.css" />
+    <Content Include="Content\registration.css" />
     <Content Include="Content\results.css" />
+    <Content Include="Content\table.css" />
     <Content Include="favicon.ico" />
     <Content Include="font-awesome\css\font-awesome.css" />
     <Content Include="font-awesome\css\font-awesome.min.css" />
@@ -417,6 +424,8 @@
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\Home\viewDashboard.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Home\LogInView.cshtml" />
+    <Content Include="Views\Map\createTable.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

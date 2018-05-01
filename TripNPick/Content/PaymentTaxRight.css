@@ -22,3 +22,9 @@
     background-color: green;
     color: white;
 }
+.transalorBtn {
+    position:relative;
+    top:-16px;
+    right:0px;
+    float:right;
+}
