@@ -1,18 +1,53 @@
-﻿.section1 {
-    /*background-color:#f3f3f3;*/ 
-    padding:26px 120px 50px 120px;
+﻿.section-center {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 32px;
 }
 
-.section2 {
-    /*background-color:#f3f3f3;*/ 
-    margin-top:24px; 
-    padding:26px 120px 50px 120px;
+.section-center .selection-img {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
-.section3 {
-    /*background-color:#f3f3f3;*/ 
-    margin:24px 0; 
-    padding:26px 120px 50px 120px;
+.section-center .selection-img div {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media(max-width: 767px) {
+    .section-center .selection-img {
+        flex-direction: column;
+    }
+
+    .section-center .selection-img div {
+        margin-top: 16px;
+    }
+}
+
+
+
+.section-center .selection-img div img {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    float: initial;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.section-center .selection-img div p {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 h1 {
@@ -26,6 +61,18 @@ h4 {
 
 form {
     padding: 40px 120px;
+}
+
+@media(max-width: 767px) {
+    form {
+        padding: 40px 80px;
+    }
+}
+
+@media(max-width: 450px) {
+    form {
+        padding: 24px 16px;
+    }
 }
 
 input[type=text], textarea {
@@ -62,4 +109,30 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: #45a049;
+}
+
+#long-description {
+     text-align:justify; 
+     text-justify: inter-word; 
+     padding: 0 64px;
+}
+
+@media(max-width: 767px) {
+    #long-description {
+        padding: 0 40px;
+    }
+}
+
+@media(max-width: 450px) {
+    #long-description {
+        padding: 0 24px;
+    }
+}
+
+#emailV {
+    color: red;
+}
+
+#sectionV {
+    color: red;
 }

@@ -281,12 +281,12 @@
     <Content Include="Content\results.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="img\Brand.png" />
     <Content Include="img\homeBG.png" />
-    <Content Include="img\Nupur.png" />
-    <Content Include="img\rightsBG.v1.jpg" />
-    <Content Include="img\Shazeed.png" />
-    <Content Include="img\Weicheng.png" />
-    <Content Include="img\Zoe.png" />
+    <Content Include="img\Nupur.jpeg" />
+    <Content Include="img\Shazeed.jpeg" />
+    <Content Include="img\Weicheng.jpeg" />
+    <Content Include="img\Zoe.jpeg" />
     <Content Include="Models\TripAndPickModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TripAndPickModel.edmx</DependentUpon>
@@ -299,6 +299,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\homepageTags.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\MarkerWithLabel.js" />
     <Content Include="Web.config">
@@ -379,6 +380,7 @@
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -6,48 +6,81 @@
     <link rel="stylesheet" type="text/css" href="~/Content/aboutus.css" />
 </head>
 
-<div class="container" style="padding-top:50px; width:80%">
+<div class="container" style="padding-top:50px">
     <div style="margin-top:16px; margin-bottom: 24px;">
         @Html.MvcSiteMap().SiteMapPath()
     </div>
-    <div class="section1">
-        <h1>Our Mission</h1>
-        <h4>Find farms with jobs for you based on your interests and traveling time.</h4>
-        <h1>About</h1>
-        <h4 style="text-align:justify; text-justify: inter-word; padding: 0 64px;">
-            Our website aims to provide solution to backpackers by helping them find farms based on demand of jobs around the time of their travel. The results displayed show the availability of work in a particular suburb, in a state along with showing probable places and activities that might interest them to help them make decisions to pursue a farm to work on.
+    @*<div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Thank you!</strong> We will reply you as soon as we can.
+    </div>*@
+    <div class="section-center">
+        <h1> Are you a backpacker? Yes? Read on... </h1>
+        <br />
+        <br />
+        <h4 id="long-description">
+            Working holiday visa is one of the most popular visas for young people like you who want to travel in Australia. In the last year, the number of incoming tourists was over 157000 from the eligible countries. As a result, the country gets a huge boost in tourism as more and more unreachable sites are becoming visible widening the Australian tourism boundaries. The visa is valid for one year and the current rules to extend the visa to second year requires 88 days of work in regional Australia, for which fruit picking is a popular choice of work.
+            <br />
+            <br />
+            We understand that as a backpacker, it can be a daunting task to find regional farm-work while you are travelling in Australia to fulfil your working holiday visa requirements. This, while still being able to travel and look around. There are numerous options for you all over internet to find work in regional Australia. Our website only makes it much easier for you to make a decision by showing you the options that have been <i>tailor made</i> for you based on your preferred time to travel, demand of harvest jobs in your choice of states and outdoor activities that interest you.
         </h4>
     </div>
+    <div class="section-center">
+        <h1>Our Team</h1>
+        <br />
+        <br />
+        <div class="selection-img">
+            <div class="col-lg-3">
+                <img src="~/img/Weicheng.jpeg" class="img-responsive"><br />
+                <p>
+                    <b>Weicheng Chen</b>
+                    Masters in Information Technology
+                </p>
 
-    <div class="section2">
-        <h1>Team Members</h1>
-        <div class="col-lg-6">
-            <img src="~/img/Weicheng.png" class="img-responsive" />
-            <img src="~/img/Nupur.png" class="img-responsive" />
-        </div>
-        <div class="col-lg-6">
-            <img src="~/img/Shazeed.png" class="img-responsive" />
-            <img src="~/img/Zoe.png" class="img-responsive" />
+            </div>
+            <div class="col-lg-3">
+                <img src="~/img/Nupur.jpeg" class="img-responsive"><br />
+                <p>
+                    <b>Nupur Parvan</b>
+                    Masters in Business Information Systems
+                </p>
+            </div>
+            <div class="col-lg-3">
+                <img src="~/img/Shazeed.jpeg" class="img-responsive"><br />
+                <p>
+                    <b>Shazeed Ahsan</b>
+                    Masters in Information Technology
+                </p>
+            </div>
+            <div class="col-lg-3">
+                <img src="~/img/Zoe.jpeg" class="img-responsive"><br />
+                <p>
+                    <b>Ying Zhong</b>
+                    Masters in Data Sciences
+                </p>
+            </div>
         </div>
     </div>
 
-    <div class="section3">
+    <div class="section-center">
         <h1>Suggestions</h1>
-        <h4>If you have any suggestions for our website, please let us know. </h4>
-        <form>
+        <br />
+        <h4>Please drop in your suggestions about the website here, <i><b>or</b></i> mail us at <b>coldspotatmonash@gmail.com</b></h4>
+        <form name="sForm" id="sForm">
             <label for="fname">First Name</label>
-            <input type="text" id="fname" name="firstname" placeholder="Your name..">
+            <input type="text" id="fname" name="firstname" placeholder="Enter your first name..">
 
             <label for="lname">Last Name</label>
-            <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+            <input type="text" id="lname" name="lastname" placeholder="Enter your last name..">
 
             <label for="email">Your Email</label>
-            <input type="email" id="email" name="email" placeholder="Your email address..">
+            @*<label id ="emailV" hidden>* Please provide a valid email address!</label>*@
+            <input type="email" id="email" name="email" placeholder="Enter your email address..">
 
             <label for="subject">Suggestions</label>
-            <textarea id="subject" name="subject" placeholder="Any suggestions.." style="height:200px"></textarea>
-
-            <input id="suggestionBtn" onClick="alert('Thanks for your suggestions!')" type="submit" value="Submit">
+            @*<label id="subjectV" hidden>* There should be some suggestions before submission!</label>*@
+            <textarea id="subject" name="subject" placeholder="Type in your suggestions here.." style="height:200px"></textarea>
+            <input id="suggestionBtn" type="submit" value="Submit">
         </form>
     </div>
 </div>
