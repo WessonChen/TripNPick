@@ -293,8 +293,10 @@
     <Content Include="Global.asax" />
     <Content Include="img\Brand.png" />
     <Content Include="img\homeBG.png" />
-    <Content Include="img\rightsBG.v1.jpg" />
-    <Content Include="img\team.png" />
+    <Content Include="img\Nupur.jpeg" />
+    <Content Include="img\Shazeed.jpeg" />
+    <Content Include="img\Weicheng.jpeg" />
+    <Content Include="img\Zoe.jpeg" />
     <Content Include="Models\TripNPickModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TripNPickModel.edmx</DependentUpon>
