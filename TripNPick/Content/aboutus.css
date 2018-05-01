@@ -59,45 +59,53 @@ h4 {
     padding:8px 0;
 }
 
-form {
-    padding: 40px 120px;
+#theForm {
+    width: 70%;
+}
+
+#theForm div {
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 6px;
+
+}
+
+#theForm div input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    resize: vertical;
+}
+
+#theForm div textarea {
+    height: 200px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    resize: vertical;
 }
 
 @media(max-width: 767px) {
-    form {
-        padding: 40px 80px;
+    #theForm {
+        width: 80%;
     }
 }
 
 @media(max-width: 450px) {
-    form {
-        padding: 24px 16px;
+    #theForm {
+        width: 100%;
     }
 }
 
-input[type=text], textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
-}
-
-input[type=email], textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical;
-}
-
-input[type=submit] {
+#suggestionBtn {
     background-color: #4CAF50;
     color: white;
     padding: 12px 20px;
@@ -107,7 +115,7 @@ input[type=submit] {
     float: right;
 }
 
-input[type=submit]:hover {
+#suggestionBtn:hover {
     background-color: #45a049;
 }
 

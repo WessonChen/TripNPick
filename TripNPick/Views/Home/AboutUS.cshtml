@@ -6,16 +6,21 @@
 
 <link rel="stylesheet" type="text/css" href="~/Content/aboutus.css" />
 
-
+<head>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+</head>
 
 <div class="container" style="padding-top:50px">
     <div style="margin-top:16px; margin-bottom: 24px;">
         @Html.MvcSiteMap().SiteMapPath()
     </div>
-    @*<div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Thank you!</strong> We will reply you as soon as we can.
-    </div>*@
+    
+    <div id="popupdiv" class="popUp">
+        @ViewData["error"]
+    </div>
+
     <div class="section-center">
         <h1> Are you a backpacker? Yes? Read on... </h1>
         <br />
@@ -65,77 +70,37 @@
 
     <div class="section-center">
         <h1>Suggestions</h1>
-        @*<h4>If you have any suggestions for our website, please let us know. </h4>
-
-        <div id="popupdiv" style="border: 1px solid green; color:white" class="popUp">
-            @ViewData["error"]
-        </div>
-
-        @using (Html.BeginForm("AboutUS", "Home"))
-    {
-        <div>
-            @Html.Label("First Name")
-            @Html.TextBoxFor(model => model.userFirstName)
-            @Html.ValidationMessageFor(model => model.userFirstName, "", new { @class = "text-danger" })
-        </div>
-        <br />
-        <div>
-            @Html.Label("Last Name")
-            @Html.TextBoxFor(model => model.userLastName)
-            @Html.ValidationMessageFor(model => model.userLastName, "", new { @class = "text-danger" })
-        </div>
-        <br />
-        <div>
-            @Html.Label("Your email")
-            @Html.TextBoxFor(model => model.userEmail)
-            @Html.ValidationMessageFor(model => model.userEmail, "", new { @class = "text-danger" })
-        </div>
-        <br />
-        <div>
-            @Html.Label("Your Suggestion")
-            @Html.TextAreaFor(model => model.userSuggestion)
-            @Html.ValidationMessageFor(model => model.userSuggestion, "", new { @class = "text-danger" })
-        </div>
-        <br />
-        <div>
-            <button type="submit"
-                    id="submitButton"
-                    class="btn btn-primary">
-                Submit
-            </button>
-        </div>
-
-
-
-
-
-}
-
         <br />
         <h4>Please drop in your suggestions about the website here, <i><b>or</b></i> mail us at <b>coldspotatmonash@gmail.com</b></h4>
-        <form name="sForm" id="sForm">
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" name="firstname" placeholder="Enter your first name..">
 
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" name="lastname" placeholder="Enter your last name..">
-
-            <label for="email">Your Email</label>
-            @*<label id ="emailV" hidden>* Please provide a valid email address!</label>*@
-            <input type="email" id="email" name="email" placeholder="Enter your email address..">
-
-
-
-            <label for="subject">Suggestions</label>
-            @*<label id="subjectV" hidden>* There should be some suggestions before submission!</label>*@
-            <textarea id="subject" name="subject" placeholder="Type in your suggestions here.." style="height:200px"></textarea>
-            <input id="suggestionBtn" type="submit" value="Submit">
-        </form>
+    @using (Html.BeginForm("AboutUS", "Home", FormMethod.Post, new { id = "theForm" }))
+        {
+            <div>
+                @Html.Label("First Name")
+                @Html.TextBoxFor(model => model.userFirstName, new { placeholder = "Enter your first name..", @class = "form-input" })
+                @Html.ValidationMessageFor(model => model.userFirstName, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.Label("Last Name")
+                @Html.TextBoxFor(model => model.userLastName, new { placeholder = "Enter your last name..", @class = "form-input" })
+                @Html.ValidationMessageFor(model => model.userLastName, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.Label("Your email")
+                @Html.TextBoxFor(model => model.userEmail, new { placeholder = "Enter your email address..", @class = "form-input" })
+                @Html.ValidationMessageFor(model => model.userEmail, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.Label("Your Suggestion")
+                @Html.TextAreaFor(model => model.userSuggestion, new { placeholder = "Type in your suggestions here..", @class = "form-input" })
+                @Html.ValidationMessageFor(model => model.userSuggestion, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <button type="submit"
+                        id="suggestionBtn">
+                    Submit
+                </button>
+            </div>
+        }
     </div>
-
-
 </div>
-
-<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
