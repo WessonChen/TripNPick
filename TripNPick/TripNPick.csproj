@@ -284,7 +284,6 @@
     <Content Include="img\Brand.png" />
     <Content Include="img\homeBG.png" />
     <Content Include="img\Nupur.jpeg" />
-    <Content Include="img\rightsBG.v1.jpg" />
     <Content Include="img\Shazeed.jpeg" />
     <Content Include="img\Weicheng.jpeg" />
     <Content Include="img\Zoe.jpeg" />
@@ -381,6 +380,7 @@
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
