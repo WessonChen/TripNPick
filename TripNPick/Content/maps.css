@@ -6,87 +6,13 @@
     background-color: #f3f3f3;*/
 }
 
-.content {
-    text-align: left;
-    position: relative;
-    padding-left: 24px;
-    margin: 6px;
-    cursor: pointer;
-    font-size: 18px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+#mapForm {
+    display:flex;
+    flex-direction: column;
+    background-color: #f4f4f4;
+    width: 100%
 }
 
-.tagContent {
-    text-align: left;
-    position: relative;
-    padding-left: 16px;
-    margin: 6px 8px;
-    font-size: 18px;
-}
-
-.content input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.checkmark {
-    position: absolute;
-    top: 5px;
-    left: 0;
-    height: 15px;
-    width: 15px;
-    background-color: #C0C0C0;
-}
-
-.content:hover input ~ .checkmark {
-    background-color: #808080;
-}
-
-.content input:checked ~ .checkmark {
-    background-color: #2196F3;
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.content input:checked ~ .checkmark:after {
-    display: block;
-}
-
-.content .checkmark:after {
-    left: 5px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-.submitbtn {
-    background-color: #4682B4;
-    color: white;
-    padding: 4px;
-    margin-left: 8px;
-    font-size: 14px;
-    border: none;
-    width: 80px;
-}
-
-.submitbtn:hover {
-    background-color: #2196F3;
-}
-
-.btn {
-    font-size: 12px;
-    padding: 3px 6px;
+#mapForm .btn-primary {
+    float: right;
 }
