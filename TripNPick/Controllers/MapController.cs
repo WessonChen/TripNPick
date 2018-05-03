@@ -635,14 +635,14 @@ namespace TripNPick.Controllers
             if (p[1].Equals("null"))
             {
                 selectedInterests.Add("Museums");
-                selectedInterests.Add("Sights & Landmarks");
+                selectedInterests.Add("Sights and Landmarks");
                 selectedInterests.Add("Nature and Parks");
                 selectedInterests.Add("Beaches");
                 selectedInterests.Add("Outdoor Activities and Tours");
-                selectedInterests.Add("Nature & Wildlife Areas");
+                selectedInterests.Add("Nature and Wildlife Areas");
                 selectedInterests.Add("Hiking Trails");
-                selectedInterests.Add("Fun & Games & Sports");
-                selectedInterests.Add("Zoos & Aquariums");
+                selectedInterests.Add("Fun and Games and Sports");
+                selectedInterests.Add("Zoos and Aquariums");
             }
             else
             {
@@ -661,7 +661,7 @@ namespace TripNPick.Controllers
                     case "Museums":
                         predicate = predicate.Or(s => s.interest_id == 1);
                         break;
-                    case "Sights & Landmarks":
+                    case "Sights and Landmarks":
                         predicate = predicate.Or(s => s.interest_id == 2);
                         predicate = predicate.Or(s => s.interest_id == 4);
                         break;
@@ -674,16 +674,16 @@ namespace TripNPick.Controllers
                     case "Outdoor Activities and Tours":
                         predicate = predicate.Or(s => s.interest_id == 6);
                         break;
-                    case "Nature & Wildlife Areas":
+                    case "Nature and Wildlife Areas":
                         predicate = predicate.Or(s => s.interest_id == 7);
                         break;
                     case "Hiking Trails":
                         predicate = predicate.Or(s => s.interest_id == 8);
                         break;
-                    case "Fun & Games & Sports":
+                    case "Fun and Games and Sports":
                         predicate = predicate.Or(s => s.interest_id == 9);
                         break;
-                    case "Zoos & Aquariums":
+                    case "Zoos and Aquariums":
                         predicate = predicate.Or(s => s.interest_id == 10);
                         break;
                 }
