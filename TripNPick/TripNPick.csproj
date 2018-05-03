@@ -391,6 +391,7 @@
     <Content Include="Views\Home\LogInView.cshtml" />
     <Content Include="Views\Map\createTable.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
+    <None Include="Properties\PublishProfiles\TripAndPick2018 - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

@@ -66,7 +66,7 @@ namespace TripNPick.Controllers
 
         public ActionResult createTable()
         {
-            string farmId = "015594bdf560a2ed7915f52163fb4e5435bc7f40";
+            //string farmId = "015594bdf560a2ed7915f52163fb4e5435bc7f40";
             string farm2 = "00f3d3fea7ea216489383b68e66779100b87d91b";
             var farmList = dbContext.farms.ToList();
             var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
@@ -574,10 +574,7 @@ namespace TripNPick.Controllers
         }
 
         public ActionResult testSomething() {
-            string combinedString = "october|Hiking Trails";
-            var distinctFarms = getAllFilteredFarms(combinedString);
-            var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
-            return View(farmsGroupedByState);
+            return View();
         }
 
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
