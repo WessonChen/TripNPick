@@ -1,29 +1,25 @@
 ﻿$(document).ready(function () {
-    var count_checked = $('.dropdown').find('input:checkbox:checked').length;
-
-    if (count_checked == 0) {
-        $(".tag-list span").hide();
-    }
-
-    $('.dropdown').find('input:checkbox').change(function () {
-        if ($('.dropdown').find('input:checkbox:checked').length) {
-            $('.tag-list span').hide();
-
-            $('.dropdown').find('input:checkbox:checked').each(function () {
-                $('.tag-list span[data-id*="' + $(this).attr('id') + '"]').show();
-            });
-
-        } else if (count_checked == 0) {
-            $(".tag-list span").hide();
-        }
+    $("#HomeDD").select2({
+        closeOnSelect: false,
+        placeholder: "Tell us when you want to travel..",
+        allowClear: true
     });
 
+    $("#HomeDD").on("select2:unselect", function (evt) {
+        if (!evt.params.originalEvent) {
+            return;
+        }
 
-    $('.tag-list').find('span').click(function () {
+        evt.params.originalEvent.stopPropagation();
+    });
 
-        $('.dropdown').find('input:checkbox:checked[id=' + $(this).attr('data-id') + ']').prop("checked", false);
-
-        $(this).hide();
-
+    var scrollTop;
+    $('#HomeDD').on("select2:selecting", function (event) {
+        var $pr = $('#' + event.params.args.data._resultId).parent();
+        scrollTop = $pr.prop('scrollTop');
+    });
+    $('#HomeDD').on("select2:select", function (event) {
+        var $pr = $('#' + event.params.data._resultId).parent();
+        $pr.prop('scrollTop', scrollTop);
     });
 });

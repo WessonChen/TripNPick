@@ -293,6 +293,10 @@
     <Content Include="Global.asax" />
     <Content Include="img\Brand.png" />
     <Content Include="img\homeBG.png" />
+    <Content Include="img\Nupur.jpeg" />
+    <Content Include="img\Shazeed.jpeg" />
+    <Content Include="img\Weicheng.jpeg" />
+    <Content Include="img\Zoe.jpeg" />
     <Content Include="Models\TripNPickModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TripNPickModel.edmx</DependentUpon>
@@ -389,7 +393,7 @@
     <Content Include="Views\Home\LogInView.cshtml" />
     <Content Include="Views\Map\createTable.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
-    <None Include="Properties\PublishProfiles\TripAndPick2018 - Web Deploy.pubxml" />
+    <Content Include="Views\Map\dropdownTest.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

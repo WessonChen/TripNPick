@@ -941,5 +941,10 @@ namespace TripNPick.Controllers
             
             return Json(scList, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult dropdownTest()
+        {
+            return View();
+        }
     }
 }

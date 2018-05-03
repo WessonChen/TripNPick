@@ -85,3 +85,8 @@
 .submitbtn:hover {
     background-color: #2196F3;
 }
+
+.btn {
+    font-size: 12px;
+    padding: 3px 6px;
+}
