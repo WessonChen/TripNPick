@@ -178,28 +178,29 @@
                         } , "temparatureChart")
             )
         </div>
-        <div id="tabs-4 ">
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <td style="background:#4c4c34; color: #fff">Crop Type</td>
-                        <td>January</td>
-                        <td>February</td>
-                        <td>March</td>
-                        <td>April</td>
-                        <td>May</td>
-                        <td>June</td>
-                        <td>July</td>
-                        <td>August</td>
-                        <td>September</td>
-                        <td>October</td>
-                        <td>November</td>
-                        <td>December</td>
-                    </tr>
-                </thead>
+        <div id="tabs-4">
+            <div style="overflow-x:auto;">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <td style="background:#4c4c34; color: #fff">Crop Type</td>
+                            <td>January</td>
+                            <td>February</td>
+                            <td>March</td>
+                            <td>April</td>
+                            <td>May</td>
+                            <td>June</td>
+                            <td>July</td>
+                            <td>August</td>
+                            <td>September</td>
+                            <td>October</td>
+                            <td>November</td>
+                            <td>December</td>
+                        </tr>
+                    </thead>
 
-                @foreach (var item in Model.demandList)
-    {
+                    @foreach (var item in Model.demandList)
+        {
             <tr>
                 <td style="background: #e67300">@item.cropName</td>
                 <td class="cell-normal">@item.january</td>
@@ -217,7 +218,9 @@
 
             </tr>
 }
-            </table>  
+                </table>
+            </div>
+            
         </div>
     </div>
 
