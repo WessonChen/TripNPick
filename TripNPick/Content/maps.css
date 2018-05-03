@@ -9,8 +9,12 @@
 #mapForm {
     display:flex;
     flex-direction: column;
-    background-color: #f4f4f4;
+    background-color: #f3f3f3;
     width: 100%
+}
+
+.select2 {
+    width: 100% !important;
 }
 
 #mapForm .btn-primary {

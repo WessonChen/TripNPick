@@ -5,10 +5,33 @@
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css"/>
+    <script type="text/javascript" src="~/Scripts/select2.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var months = @Html.Raw(Json.Encode(Model.cMonths));
+            var interests = @Html.Raw(Json.Encode(Model.cInterests));
+            
+            var optionsM = document.getElementById('monthDD'), month, i;
+            var optionsI = document.getElementById('interetsDD'), interest, i;
+            
+            for(i = 0; i < optionsM.length; i++) {
+                month = optionsM[i];
+                if (months.includes(month.value)){
+                    month.selected = 'selected';
+                }
+            }
+            for(i = 0; i < optionsI.length; i++) {
+                interest = optionsI[i];
+                if (interests.includes(interest.value)){
+                    interest.selected = 'selected';
+                }
+            }
+        });
+    </script>
     <script type="text/javascript" src="~/Scripts/mapDropdown.js"></script>
+    <script type="text/javascript" src="~/Scripts/mapIntsDD.js"></script>
 </head>
 
 <script type="text/javascript">
@@ -152,10 +175,10 @@
         </form>
 
         <div style="margin-top: 16px">
-            <div class="col-lg-3">
-            </div>
+            @*<div class="col-lg-3">
+            </div>*@
 
-            <div id="testMap" class="col-lg-9" style="height: 600px">
+            <div id="testMap" class="col-lg-12" style="height: 600px">
             </div>
         </div>
     </div>
