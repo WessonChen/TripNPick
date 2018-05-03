@@ -393,6 +393,7 @@
     <Content Include="Views\Home\LogInView.cshtml" />
     <Content Include="Views\Map\createTable.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
+    <Content Include="Views\Map\dropdownTest.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
