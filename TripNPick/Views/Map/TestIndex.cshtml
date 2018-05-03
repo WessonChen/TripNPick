@@ -4,10 +4,11 @@
 }
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css" />
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
-    <script src="~/Scripts/mapTags.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Scripts/mapDropdown.js"></script>
 </head>
 
 <script type="text/javascript">
@@ -120,8 +121,34 @@
             @Html.MvcSiteMap().SiteMapPath()
         </div>
 
-        <form action="/Map/TestIndex" method="post">
-
+        <form action="/Map/TestIndex" id="mapForm">
+            <h4>Months: <span><input type="submit" class="btn btn-primary" value="Search" /></span></h4>
+            <select id="monthDD" multiple="multiple" name="cMonths">
+                <option value="January">Jan</option>
+                <option value="February">Feb</option>
+                <option value="March">Mar</option>
+                <option value="April">Apr</option>
+                <option value="May">May</option>
+                <option value="June">Jun</option>
+                <option value="July">Jul</option>
+                <option value="August">Aug</option>
+                <option value="September">Sep</option>
+                <option value="October">Oct</option>
+                <option value="Novenmber">Nov</option>
+                <option value="December">Dec</option>
+            </select>
+            <h4>Interests:</h4>
+            <select id="interetsDD" multiple="multiple" name="cInterests">
+                <option value="Museums">Museums</option>
+                <option value="Sights and Landmarks">Sights</option>
+                <option value="Nature and Parks">Parks</option>
+                <option value="Beaches">Beaches</option>
+                <option value="Outdoor Activities and Tours">Outdoors</option>
+                <option value="Nature and Wildlife Areas">Wildlife</option>
+                <option value="Hiking Trails">Hiking</option>
+                <option value="Fun and Games and Sports">Games/Sports</option>
+                <option value="Zoos and Aquariums">Zoos/Aquariums</option>
+            </select>
         </form>
 
         <div style="margin-top: 16px">

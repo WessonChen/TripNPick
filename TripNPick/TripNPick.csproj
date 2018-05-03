@@ -311,6 +311,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\homepageTags.js" />
     <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\mapDropdown.js" />
     <Content Include="Scripts\MarkerWithLabel.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
