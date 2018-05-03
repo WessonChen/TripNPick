@@ -574,7 +574,57 @@ namespace TripNPick.Controllers
         }
 
         public ActionResult testSomething() {
-            return View();
+            string farm2 = "00f3d3fea7ea216489383b68e66779100b87d91b";
+            var farmList = dbContext.farms.ToList();
+            var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
+            var suburbId = Convert.ToInt16(reqSub.FirstOrDefault());
+            Debug.WriteLine(Convert.ToInt16(reqSub.FirstOrDefault()));
+            var suburbList = dbContext.suburb_table.ToList();
+            var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
+            var stationId = Convert.ToInt16(reqStation.FirstOrDefault());
+            var coldView = getColdDays(stationId);
+            var hotView = getHotDays(stationId);
+            var rainView = getRainyDays(stationId);
+            var temp3View = getTemp3pm(stationId);
+            var temp9View = getTemp9am(stationId);
+
+            List<double> coldValues = this.getThatList(coldView.First()).getDays();
+            List<double> hotValues = this.getThatList(hotView.First()).getDays();
+            List<double> rainValues = this.getThatList(rainView.First()).getDays();
+            List<double> temp3Values = this.getThatList(temp3View.First()).getDays();
+            List<double> temp9Values = this.getThatList(temp9View.First()).getDays();
+
+            List<LineSeriesData> coldData = new List<LineSeriesData>();
+            List<LineSeriesData> hotData = new List<LineSeriesData>();
+            List<LineSeriesData> rainData = new List<LineSeriesData>();
+            List<LineSeriesData> temp3Data = new List<LineSeriesData>();
+            List<LineSeriesData> temp9Data = new List<LineSeriesData>();
+
+            coldValues.ForEach(p => coldData.Add(new LineSeriesData { Y = p }));
+            hotValues.ForEach(p => hotData.Add(new LineSeriesData { Y = p }));
+            rainValues.ForEach(p => rainData.Add(new LineSeriesData { Y = p }));
+            temp3Values.ForEach(p => temp3Data.Add(new LineSeriesData { Y = p }));
+            temp9Values.ForEach(p => temp9Data.Add(new LineSeriesData { Y = p }));
+
+            FarmDetailsView twoModels = new FarmDetailsView();
+            twoModels.weatherList = new List<WeatherView>();
+            twoModels.weatherList.Add(coldView.First());
+            twoModels.weatherList.Add(hotView.First());
+            twoModels.weatherList.Add(rainView.First());
+            twoModels.weatherList.Add(temp3View.First());
+            twoModels.weatherList.Add(temp9View.First());
+
+            var demandView = getFarmDemands(suburbId);
+            twoModels.demandList = demandView;
+
+            ViewData["coldData"] = coldData;
+            ViewData["hotData"] = hotData;
+            ViewData["rainData"] = rainData;
+            ViewData["temp3Data"] = temp3Data;
+            ViewData["temp9Data"] = temp9Data;
+
+
+            return View(twoModels);
         }
 
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
