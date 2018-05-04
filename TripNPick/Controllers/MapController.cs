@@ -71,7 +71,6 @@ namespace TripNPick.Controllers
             var farmList = dbContext.farms.ToList();
             var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
             var suburbId = Convert.ToInt16(reqSub.FirstOrDefault());
-            Debug.WriteLine(Convert.ToInt16(reqSub.FirstOrDefault()));
             var suburbList = dbContext.suburb_table.ToList();
             var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
             var stationId = Convert.ToInt16(reqStation.FirstOrDefault());
@@ -452,7 +451,6 @@ namespace TripNPick.Controllers
             var predicate = PredicateBuilder.New<suburb_harvest>();
             foreach (string month in months)
             {
-                Debug.WriteLine(month);
                 switch (month)
                 {
                     case "january":
@@ -494,7 +492,6 @@ namespace TripNPick.Controllers
                 }
 
             }
-            Debug.WriteLine(predicate);
             return predicate;
         }
 
@@ -578,7 +575,6 @@ namespace TripNPick.Controllers
             var farmList = dbContext.farms.ToList();
             var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
             var suburbId = Convert.ToInt16(reqSub.FirstOrDefault());
-            Debug.WriteLine(Convert.ToInt16(reqSub.FirstOrDefault()));
             var suburbList = dbContext.suburb_table.ToList();
             var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
             var stationId = Convert.ToInt16(reqStation.FirstOrDefault());
@@ -780,7 +776,6 @@ namespace TripNPick.Controllers
 
         public JsonResult getSuburbWiseData(string userInput)
         {
-            Debug.WriteLine(userInput);
             string[] p = userInput.Split(':');
             var combinedString = p[0];
             var selection = p[1];
@@ -816,7 +811,6 @@ namespace TripNPick.Controllers
 
         public JsonResult doTheDew(string userInput)
         {
-            Debug.WriteLine(userInput);
             string[] p = userInput.Split(':');
             var combinedString = p[0];
             var stateId = p[1];
