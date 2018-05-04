@@ -14,6 +14,27 @@
     <link href="~/Content/table.css" rel="stylesheet" />
 </head>
 
+@*<div>
+    Farm Name: @Model.newPair.farm.farmName
+    Farm address:@Model.newPair.farm.farm_address
+    Farm Rating: @Model.newPair.farm.farm_rating
+    Interests nearby:
+    <table>
+        <tr>
+            <td>Name of Attraction</td>
+            <td>Distance</td>
+        </tr>
+        @foreach (var item in Model.newPair.interests) {
+            <tr>
+                <td>@item.attractionName</td>
+                <td>@item.distance</td>
+            </tr>
+        }
+    </table>
+    
+
+</div>*@
+
 <div class="table-responsive">
     <table class="table table-hover table table-bordered">
         <thead>
@@ -34,7 +55,7 @@
             </tr>
         </thead>
         
-        @foreach (var item in Model.weatherList)
+        @foreach (var item in ViewBag.reqModel.weatherList)
         {
             <tr>
                 <td style="background: #e67300">@item.feature</td>
@@ -78,7 +99,7 @@
             </tr>
         </thead>
 
-        @foreach (var item in Model.demandList)
+        @foreach (var item in ViewBag.)
         {
             <tr>
                 <td style="background: #e67300">@item.cropName</td>

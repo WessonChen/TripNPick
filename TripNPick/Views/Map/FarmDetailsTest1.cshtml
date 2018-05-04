@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FarmDetailsTest1</title>
+</head>
+<body>
+    <div>
+        Farm Name: @ViewBag.reqModel.farm.farmName
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td>Name of Attraction</td>
+                <td>Distance</td>
+            </tr>
+            @foreach (var item in ViewBag.reqModel.interests)
+        {
+            <tr>
+                <td>@item.attractionName</td>
+                <td>@item.distance</td>
+            </tr>
+    }
+        </table>
+    </div>
+</body>
+</html>

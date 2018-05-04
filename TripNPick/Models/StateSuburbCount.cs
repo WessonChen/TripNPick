@@ -18,7 +18,8 @@ namespace TripNPick.Models
         public int numberOfFarms { get; set; }
     }
 
-    public class SuburbInterestsCount {
+    public class SuburbInterestsCount
+    {
         public int suburbId { get; set; }
         public int numberOfInterests { get; set; }
     }
@@ -41,7 +42,8 @@ namespace TripNPick.Models
         public double suburbLng { get; set; }
     }
 
-    public class DictionaryView {
+    public class DictionaryView
+    {
         public Dictionary<FilteredFarmViewModel, List<InterestWithDistance>> farmDictionary { get; set; }
     }
 
@@ -110,32 +112,39 @@ namespace TripNPick.Models
         public List<WeatherView> weatherList { get; set; }
         public IEnumerable<DemandView> demandList { get; set; }
         public List<WeatherDays> chartListOne { get; set; }
+        public Pairs newPair { get; set; }
     }
 
-    public class WeatherDays
-    {
-        private string featureName;
-        private List<double> numberOfDays;
+        public class WeatherDays
+        {
+            private string featureName;
+            private List<double> numberOfDays;
 
-        public WeatherDays() {
-        }
+            public WeatherDays()
+            {
+            }
 
-        public WeatherDays(string feature, List<double> days) {
-            this.featureName = feature;
-            this.numberOfDays = days;
-        }
+            public WeatherDays(string feature, List<double> days)
+            {
+                this.featureName = feature;
+                this.numberOfDays = days;
+            }
 
-        public string getFeature() {
-            return this.featureName;
-        }
-        public List<double> getDays() {
-            return this.numberOfDays;
-        }
-        public void setFeature(string feature) {
-            this.featureName = feature;
-        }
-        public void setDays(List<double> days) {
-            this.numberOfDays = days;
+            public string getFeature()
+            {
+                return this.featureName;
+            }
+            public List<double> getDays()
+            {
+                return this.numberOfDays;
+            }
+            public void setFeature(string feature)
+            {
+                this.featureName = feature;
+            }
+            public void setDays(List<double> days)
+            {
+                this.numberOfDays = days;
+            }
         }
     }
-}

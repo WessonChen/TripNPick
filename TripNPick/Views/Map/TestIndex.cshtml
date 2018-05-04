@@ -12,6 +12,28 @@
 </head>
 
 <script type="text/javascript">
+    function goToFarmPage(pair) {
+        var url = '@Url.Action("createTable", "Map")?aPair=' + pair;
+        window.location.href = url;
+    }
+
+    function goToFarmDetails(pair) {
+        @using Newtonsoft.Json;
+        $.ajax({
+        url: "/Map/createTable",
+            type: 'post',
+            contentType: "application/json; charset-utf-8",
+            data: "{pair:" + JSON.stringify(pair) + "}",
+            success: function (data) {
+                window.location.href = "/Map/createTable";
+                },
+        error: function(jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+    });
+
+    }
+
     function initMap() {
 
         var map = new google.maps.Map(document.getElementById('testMap'), {
@@ -20,7 +42,9 @@
         });
 
         var markersVIC = [];
+        var interestMarkersVIC = [];
         var markersNSW = [];
+        var interestMarkersNSW = [];
         var markersSA = [];
         var markersWA = [];
         var markersTAS = [];
@@ -31,9 +55,17 @@
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    farmId: data[i].farm.farmId,
+                    markerInfo: data[i],
                     map: map
                 });
                 markersVIC.push(marker);
+
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmDetails(marker.markerInfo);
+                    });
+                })(marker);
             }
             var markersVICCluster = new MarkerClusterer(map, markersVIC,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
@@ -95,6 +127,7 @@
                 });
                 markersQLD.push(marker);
             }
+
             var markersQLDCluster = new MarkerClusterer(map, markersQLD,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
         })

@@ -64,17 +64,41 @@ namespace TripNPick.Controllers
             return View(us);
         }
 
-        public ActionResult createTable()
+        [HttpPost]
+        public ActionResult helperMethod(Pairs aPair) {
+            var farm2 = aPair.farm.farmId;
+            Debug.WriteLine(farm2);
+            TempData["pairModel"] = aPair;
+            //ViewBag.reqModel = aPair;
+            return RedirectToAction("createTable", "Map");
+            //this.createTable(aPair);
+            //return Json(aPair, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult FarmDetailsTest1() {
+
+            return View();
+        }
+
+        public ActionResult createTable() {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult createTable(Pairs pair)
         {
-            //string farmId = "015594bdf560a2ed7915f52163fb4e5435bc7f40";
-            string farm2 = "00f3d3fea7ea216489383b68e66779100b87d91b";
+            //var pair = TempData["pairModel"] as Pairs;
+            var farm2 = pair.farm.farmId;
+            string farmId = pair.farm.farmId;
+            Debug.WriteLine(farmId);
             var farmList = dbContext.farms.ToList();
             var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
-            var suburbId = Convert.ToInt16(reqSub.FirstOrDefault());
-            Debug.WriteLine(Convert.ToInt16(reqSub.FirstOrDefault()));
+            var suburbId = Convert.ToInt32(reqSub.FirstOrDefault());
+            Debug.WriteLine(Convert.ToInt32(reqSub.FirstOrDefault()));
             var suburbList = dbContext.suburb_table.ToList();
             var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
-            var stationId = Convert.ToInt16(reqStation.FirstOrDefault());
+            Debug.WriteLine(Convert.ToInt32(reqStation.FirstOrDefault()));
+            var stationId = Convert.ToInt32(reqStation.FirstOrDefault());
             var coldView = getColdDays(stationId);
             var hotView = getHotDays(stationId);
             var rainView = getRainyDays(stationId);
@@ -109,6 +133,7 @@ namespace TripNPick.Controllers
 
             var demandView = getFarmDemands(suburbId);
             twoModels.demandList = demandView;
+            twoModels.newPair = pair;
 
             ViewData["coldData"] = coldData;
             ViewData["hotData"] = hotData;
@@ -138,10 +163,7 @@ namespace TripNPick.Controllers
             weatherStruct.setDays(newList);
             weatherStruct.setFeature(weather.feature);
             return weatherStruct;
-
-
-
-        }
+     }
 
         public IEnumerable<DemandView> getFarmDemands(int suburbId) {
             var harverstList = dbContext.suburb_harvest.ToList();

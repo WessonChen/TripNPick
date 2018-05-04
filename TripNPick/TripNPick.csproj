@@ -395,6 +395,7 @@
     <Content Include="Views\Map\createTable.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
     <Content Include="Views\Map\dropdownTest.cshtml" />
+    <Content Include="Views\Map\FarmDetailsTest1.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
