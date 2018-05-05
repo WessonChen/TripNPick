@@ -4,7 +4,6 @@
 }
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css"/>
     <script type="text/javascript" src="~/Scripts/select2.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
@@ -36,26 +35,8 @@
 
 <script type="text/javascript">
     function goToFarmPage(farmId) {
-        //var url = '@Url.Action("createTable", "Map", new { farmInfo = "ID" })'.replace("ID", farmId);
-        //window.location.href = url;
+        url = "/Map/createTable/?farmInfo=" + farmId;
         window.open(url);
-    }
-
-    function goToFarmDetails(pair) {
-        @using Newtonsoft.Json;
-        $.ajax({
-        url: "/Map/createTable",
-            type: 'post',
-            contentType: "application/json; charset-utf-8",
-            data: "{pair:" + JSON.stringify(pair) + "}",
-            success: function (data) {
-                window.location.href = "/Map/createTable";
-                },
-        error: function(jqXHR, textStatus, errorThrown) {
-                alert(errorThrown);
-            }
-    });
-
     }
 
     function initMap() {
@@ -64,16 +45,20 @@
             zoom: 3.9,
             center: { lat: -25.031596581410874, lng: 134.36777208750004 }
         });
-
+        
         var markersVIC = [];
-        var interestMarkersVIC = [];
         var markersNSW = [];
-        var interestMarkersNSW = [];
         var markersSA = [];
         var markersWA = [];
         var markersTAS = [];
         var markersQLD = [];
         var markersNT = [];
+
+        var interests = [];
+       
+        var clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
+        var farmUrl = 'https://png.icons8.com/color/32/27ae60/marker.png';
+        var interestUrl = 'https://png.icons8.com/material/32/2980b9/marker.png';
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
             var filter = [];
@@ -81,22 +66,21 @@
                 var interestsString = data[i].farm.farmId;
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    icon: 'https://png.icons8.com/color/32/27ae60/marker.png',
+                    icon: farmUrl,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
-                    debugger
-                    if (!filter.includes(ints[x].interestId)) {
-                        filter.push(ints[x].interestId)
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId)
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: 'https://png.icons8.com/material/32/2980b9/marker.png',
+                            icon: interestUrl,
                             map: map
                         });
-                        interestMarkersVIC.push(iMarker);
+                        interests.push(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -104,130 +88,236 @@
                 markersVIC.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                    goToFarmPage(interestsString);
                     });
                 })(marker);
             }
             var markersVICCluster = new MarkerClusterer(map, markersVIC,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+                { imagePath: clusterUrl });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                var interestsString = data[i].farm.farmId;
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    map: map
+                });
+                
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId)
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    interestsString = interestsString + intString;
+                }
+                markersNSW.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(interestsString);
+                    });
+                })(marker);
+            }
+            var markersNSWCluster = new MarkerClusterer(map, markersNSW,
+                { imagePath: clusterUrl });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                var interestsString = data[i].farm.farmId;
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    map: map
+                });
+                
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId)
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    interestsString = interestsString + intString;
+                }
+                markersSA.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(interestsString);
+                    });
+                })(marker);
+            }
+            var markersSACluster = new MarkerClusterer(map, markersSA,
+                { imagePath: clusterUrl });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (data, status) {
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                var interestsString = data[i].farm.farmId;
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    map: map
+                });
+                
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId)
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    interestsString = interestsString + intString;
+                }
+                markersWA.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(interestsString);
+                    });
+                })(marker);
+            }
+            var markersWACluster = new MarkerClusterer(map, markersWA,
+                { imagePath: clusterUrl });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (data, status) {
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                var interestsString = data[i].farm.farmId;
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    map: map
+                });
+                
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId)
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    interestsString = interestsString + intString;
+                }
+                markersTAS.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(interestsString);
+                    });
+                })(marker);
+            }
+            var markersTASCluster = new MarkerClusterer(map, markersTAS,
+                { imagePath: clusterUrl });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (data, status) {
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                var interestsString = data[i].farm.farmId;
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    map: map
+                });
+                
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId)
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    interestsString = interestsString + intString;
+                }
+                markersQLD.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(interestsString);
+                    });
+                })(marker);
+            }
+            var markersQLDCluster = new MarkerClusterer(map, markersQLD,
+                { imagePath: clusterUrl });
+        })
+
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (data, status) {
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                var interestsString = data[i].farm.farmId;
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    map: map
+                });
+                
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId)
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    interestsString = interestsString + intString;
+                }
+                markersNT.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(interestsString);
+                    });
+                })(marker);
+            }
+            var markersNTCluster = new MarkerClusterer(map, markersNT,
+                { imagePath: clusterUrl });
         })
 
         google.maps.event.addListener(map, 'zoom_changed', function() {
             var zoom = map.getZoom();
-            for (i = 0; i < interestMarkersVIC.length; i++) {
-                interestMarkersVIC[i].setVisible(zoom >= 10);
+            for (i = 0; i < interests.length; i++) {
+                interests[i].setVisible(zoom >= 10);
             }
         });
-
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    farmId: data[i].farm.farmId,
-                    map: map
-                });
-                markersNSW.push(marker);
-                (function (marker) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(marker.farmId);
-                    });
-                })(marker)
-            }
-
-            var markersNSWCluster = new MarkerClusterer(map, markersNSW,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        })
-
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    farmId: data[i].farm.farmId,
-                    map: map
-                });
-                markersSA.push(marker);
-                (function (marker) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(marker.farmId);
-                    });
-                })(marker)
-            }
-            var markersSACluster = new MarkerClusterer(map, markersSA,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        })
-
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (data, status) {
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    farmId: data[i].farm.farmId,
-                    map: map
-                });
-                markersWA.push(marker);
-                (function (marker) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(marker.farmId);
-                    });
-                })(marker)
-            }
-            var markersWACluster = new MarkerClusterer(map, markersWA,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        })
-
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (data, status) {
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    farmId: data[i].farm.farmId,
-                    map: map
-                });
-                markersTAS.push(marker);
-                (function (marker) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(marker.farmId);
-                    });
-                })(marker)
-            }
-            var markersTASCluster = new MarkerClusterer(map, markersTAS,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        })
-
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (data, status) {
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    farmId: data[i].farm.farmId,
-                    map: map
-                });
-                markersQLD.push(marker);
-                (function (marker) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(marker.farmId);
-                    });
-                })(marker)
-            }
-
-            var markersQLDCluster = new MarkerClusterer(map, markersQLD,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        })
-
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (data, status) {
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    farmId: data[i].farm.farmId,
-                    map: map
-                });
-                markersNT.push(marker);
-                (function (marker) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(marker.farmId);
-                    });
-                })(marker)
-            }
-            var markersNTCluster = new MarkerClusterer(map, markersNT,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        })
     }
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
