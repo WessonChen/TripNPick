@@ -391,13 +391,13 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
-    <Content Include="Views\Home\viewDashboard.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Home\LogInView.cshtml" />
     <Content Include="Views\Map\createTable.cshtml" />
     <Content Include="Views\Map\TestIndex.cshtml" />
     <Content Include="Views\Map\dropdownTest.cshtml" />
     <Content Include="Views\Map\FarmDetailsTest1.cshtml" />
+    <Content Include="Views\Home\Accomodation.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
