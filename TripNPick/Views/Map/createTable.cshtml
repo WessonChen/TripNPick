@@ -1,149 +1,233 @@
-﻿@using Highsoft.Web.Mvc.Charts
-
-@{
-    Layout = null;
+﻿@{
+    ViewBag.Title = "Farm Details";
 }
-
 @model TripNPick.Models.FarmDetailsView
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <link href="~/Content/table.css" rel="stylesheet" />
+
 </head>
 
-@*<div>
-    Farm Name: @Model.newPair.farm.farmName
-    Farm address:@Model.newPair.farm.farm_address
-    Farm Rating: @Model.newPair.farm.farm_rating
-    Interests nearby:
-    <table>
-        <tr>
-            <td>Name of Attraction</td>
-            <td>Distance</td>
-        </tr>
-        @foreach (var item in Model.newPair.interests) {
-            <tr>
-                <td>@item.attractionName</td>
-                <td>@item.distance</td>
-            </tr>
-        }
-    </table>
-    
 
-</div>*@
+<body>
+    <div class="container" style="margin-top: 50px">
+        <div class="jumbotron">
+            <h1>Bootstrap Tutorial</h1>
+            <p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile-first projects on the web.</p>
+        </div>
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-2">Weather Details</a></li>
+                <li><a href="#tabs-3">Temparature Details</a></li>
+                <li><a href="#tabs-4">Demand Details</a></li>
+            </ul>
+            <div id="tabs-2">
+                @using Highsoft.Web.Mvc.Charts
 
-<div class="table-responsive">
-    <table class="table table-hover table table-bordered">
-        <thead>
-            <tr>
-                <td style="background:#4c4c34; color: #fff">Feature</td>
-                <td >January</td>
-                <td>February</td>
-                <td>March</td>
-                <td>April</td>
-                <td>May</td>
-                <td>June</td>
-                <td>July</td>
-                <td>August</td>
-                <td>September</td>
-                <td>October</td>
-                <td>November</td>
-                <td>December</td>
-            </tr>
-        </thead>
-        
-        @foreach (var item in Model.weatherList)
-        {
-            <tr>
-                <td style="background: #e67300">@item.feature</td>
-                <td class="cell-normal">@item.january</td>
-                <td class="cell-normal">@item.february</td>
-                <td class="cell-normal">@item.march</td>
-                <td class="cell-normal">@item.april</td>
-                <td class="cell-normal">@item.may</td>
-                <td class="cell-normal">@item.june</td>
-                <td class="cell-normal">@item.july</td>
-                <td class="cell-normal">@item.august</td>
-                <td class="cell-normal">@item.september</td>
-                <td class="cell-normal">@item.october</td>
-                <td class="cell-normal">@item.november</td>
-                <td class="cell-normal">@item.december</td>
-            </tr>
-        }
-    </table>
-</div>
+                @(Html.Highsoft().Highcharts(
+                        new Highcharts
+                        {
+                            Title = new Title
+                            {
+                                Text = "Avearge Weather in Months",
+                                X = -20
+                            },
+                            Subtitle = new Subtitle
+                            {
+                                Text = "Source: Government Website",
+                                X = -20
+                            },
+                            XAxis = new List<XAxis>
+                            {
+                                new XAxis
+                                {
+                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
 
-<div class="table-responsive">
-    <table class="table table-hover table table-bordered">
-        <thead>
-            <tr>
-                <td style="background:#4c4c34; color: #fff">Crop Type</td>
-                <td>January</td>
-                <td>February</td>
-                <td>March</td>
-                <td>April</td>
-                <td>May</td>
-                <td>June</td>
-                <td>July</td>
-                <td>August</td>
-                <td>September</td>
-                <td>October</td>
-                <td>November</td>
-                <td>December</td>
-            </tr>
-        </thead>
+                                }
+                            },
+                            YAxis = new List<YAxis>
+                            {
+                                new YAxis
+                                {
+                                    Title = new YAxisTitle
+                                    {
+                                        Text = "Number of Days"
+                                    },
+                                    PlotLines = new List<YAxisPlotLines>
+                                    {
+                                            new YAxisPlotLines
+                                        {
+                                            Value = 0,
+                                            Width = 1,
+                                            Color = "#808080"
+                                        }
+                                    }
+                                }
+                            },
+                            Tooltip = new Tooltip
+                            {
+                                ValueSuffix = "Days"
+                            },
+                            Legend = new Legend
+                            {
+                                Layout = LegendLayout.Vertical,
+                                Align = LegendAlign.Right,
+                                VerticalAlign = LegendVerticalAlign.Middle,
+                                BorderWidth = 0
+                            },
+                            Series = new List<Series>
+                            {
+                                new LineSeries
+                                {
+                                    Name = "Number of Cold Days",
+                                    Data = @ViewData["coldData"] as List<LineSeriesData>
+                                },
+                                new LineSeries
+                                {
+                                    Name = "Number of Hot Days",
+                                    Data = @ViewData["hotData"] as List<LineSeriesData>
+                                },
+                                new LineSeries
+                                {
+                                    Name = "Number of Rainy Days",
+                                    Data = @ViewData["rainData"] as List<LineSeriesData>
+                                }
+                            }
+                        }, "weatherDaysChart")
+                )
+            </div>
+            <div id="tabs-3">
+                @using Highsoft.Web.Mvc.Charts
+                @(Html.Highsoft().Highcharts(
+                        new Highcharts
+                        {
+                            Title = new Title
+                            {
+                                Text = "Avearge Temparature in Months",
+                                X = -20
+                            },
+                            Subtitle = new Subtitle
+                            {
+                                Text = "Source: Government Website",
+                                X = -20
+                            },
+                            XAxis = new List<XAxis>
+                            {
+                                new XAxis
+                                {
+                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+                                }
+                            },
+                            YAxis = new List<YAxis>
+                            {
+                                new YAxis
+                                {
+                                    Title = new YAxisTitle
+                                    {
+                                        Text = "Temperature (°C)"
+                                    },
+                                    PlotLines = new List<YAxisPlotLines>
+                                    {
+                                            new YAxisPlotLines
+                                        {
+                                            Value = 0,
+                                            Width = 1,
+                                            Color = "#808080"
+                                        }
+                                    }
+                                }
+                            },
+                            Tooltip = new Tooltip
+                            {
+                                ValueSuffix = "(°C)"
+                            },
+                            Legend = new Legend
+                            {
+                                Layout = LegendLayout.Vertical,
+                                Align = LegendAlign.Right,
+                                VerticalAlign = LegendVerticalAlign.Middle,
+                                BorderWidth = 0
+                            },
+                            Series = new List<Series>
+                            {
+                                new LineSeries
+                                {
+                                    Name = "Temparature(°C) at 3pm",
+                                    Data = @ViewData["temp3Data"] as List<LineSeriesData>
+                                },
+                                new LineSeries
+                                {
+                                    Name = "Temparature(°C) at 9am",
+                                    Data = @ViewData["temp9Data"] as List<LineSeriesData>
+                                }
 
-        @foreach (var item in Model.demandList)
-        {
-            <tr>
-                <td style="background: #e67300">@item.cropName</td>
-                <td class="cell-normal">@item.january</td>
-                <td class="cell-normal">@item.february</td>
-                <td class="cell-normal">@item.march</td>
-                <td class="cell-normal">@item.april</td>
-                <td class="cell-normal">@item.may</td>
-                <td class="cell-normal">@item.june</td>
-                <td class="cell-normal">@item.july</td>
-                <td class="cell-normal">@item.august</td>
-                <td class="cell-normal">@item.september</td>
-                <td class="cell-normal">@item.october</td>
-                <td class="cell-normal">@item.november</td>
-                <td class="cell-normal">@item.december</td>
-            </tr>
-        }
-    </table>
-</div>
+                            }
+                        }, "temparatureChart")
+                )
+            </div>
+            <div id="tabs-4">
+                <div style="overflow-x:auto;">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <td style="background:#4c4c34; color: #fff">Crop Type</td>
+                                <td>January</td>
+                                <td>February</td>
+                                <td>March</td>
+                                <td>April</td>
+                                <td>May</td>
+                                <td>June</td>
+                                <td>July</td>
+                                <td>August</td>
+                                <td>September</td>
+                                <td>October</td>
+                                <td>November</td>
+                                <td>December</td>
+                            </tr>
+                        </thead>
 
-<div>
-    @(Html.Highsoft().Highcharts( new Highcharts {
-    Title = new Title { Text = "Avearge Weather in Months", X = -20},
-    Subtitle = new Subtitle { Text = "Source: Government Website", X = -20},
-    XAxis = new List<XAxis>{ new XAxis { Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },}},
-    YAxis = new List<YAxis>{ new YAxis { Title = new YAxisTitle { Text = "Number of Days"}, PlotLines = new List<YAxisPlotLines> { new YAxisPlotLines { Value = 0, Width = 1, Color = "#808080"}}}},
-    Tooltip = new Tooltip { ValueSuffix = "Days"},
-    Legend = new Legend { Layout = LegendLayout.Vertical, Align = LegendAlign.Right, VerticalAlign = LegendVerticalAlign.Middle, BorderWidth = 0},
-    Series = new List<Series> {
-        new LineSeries { Name = "Number of Cold Days", Data = @ViewData["coldData"] as List<LineSeriesData>},
-        new LineSeries { Name = "Number of Hot Days", Data = @ViewData["hotData"] as List<LineSeriesData>},
-        new LineSeries { Name = "Number of Rainy Days", Data = @ViewData["rainData"] as List<LineSeriesData>}
-    }
-}, "weatherDaysChart"))
-</div>
+                        @foreach (var item in Model.demandList)
+                        {
+                            <tr>
+                                <td style="background: #e67300">@item.cropName</td>
+                                <td class="cell-normal">@item.january</td>
+                                <td class="cell-normal">@item.february</td>
+                                <td class="cell-normal">@item.march</td>
+                                <td class="cell-normal">@item.april</td>
+                                <td class="cell-normal">@item.may</td>
+                                <td class="cell-normal">@item.june</td>
+                                <td class="cell-normal">@item.july</td>
+                                <td class="cell-normal">@item.august</td>
+                                <td class="cell-normal">@item.september</td>
+                                <td class="cell-normal">@item.october</td>
+                                <td class="cell-normal">@item.november</td>
+                                <td class="cell-normal">@item.december</td>
+
+                            </tr>
+                        }
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#tabs").tabs({
+                collapsible: true
+            });
+        });
+    </script>
+
+</body>
 
 
-<div>
-    @(Html.Highsoft().Highcharts( new Highcharts {
-    Title = new Title { Text = "Avearge Temparature in Months", X = -20},
-    Subtitle = new Subtitle { Text = "Source: Government Website", X = -20},
-    XAxis = new List<XAxis> { new XAxis { Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },}},
-    YAxis = new List<YAxis> { new YAxis { Title = new YAxisTitle { Text = "Temperature (°C)"}, PlotLines = new List<YAxisPlotLines> { new YAxisPlotLines { Value = 0, Width = 1, Color = "#808080"}}}},
-    Tooltip = new Tooltip { ValueSuffix = "(°C)"},
-    Legend = new Legend { Layout = LegendLayout.Vertical, Align = LegendAlign.Right, VerticalAlign = LegendVerticalAlign.Middle, BorderWidth = 0 },
-    Series = new List<Series> {
-        new LineSeries { Name = "Temparature(°C) at 3pm", Data = @ViewData["temp3Data"] as List<LineSeriesData>},
-        new LineSeries { Name = "Temparature(°C) at 9am", Data = @ViewData["temp9Data"] as List<LineSeriesData>}
-    }
-}, "temparatureChart"))
-</div>

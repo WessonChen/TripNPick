@@ -86,17 +86,22 @@ namespace TripNPick.Controllers
 
         public ActionResult createTable(string farmInfo)
         {
-            //var pair = TempData["pairModel"] as Pairs;
-            //var farm2 = pair.farm.farmId;
-            //string farmId = pair.farm.farmId;
-            Debug.WriteLine(farmInfo);
+            if (farmInfo == null || farmInfo.Equals(""))
+            {
+                return RedirectToAction("ErrorMessage", "ErrorPage");
+            }
+            string[] infos = farmInfo.Split(':');
+            for (int i = 1; i < infos.Count(); i++)
+            {
+                string[] pair = infos[i].Split(',');
+                string attractionId = pair[0];
+                string distance = pair[1];
+            }
             var farmList = dbContext.farms.ToList();
-            var reqSub = from f in farmList where f.farm_id.Equals(farmInfo) select f.suburb_id;
+            var reqSub = from f in farmList where f.farm_id.Equals(infos[0]) select f.suburb_id;
             var suburbId = Convert.ToInt32(reqSub.FirstOrDefault());
-            Debug.WriteLine(Convert.ToInt32(reqSub.FirstOrDefault()));
             var suburbList = dbContext.suburb_table.ToList();
             var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
-            Debug.WriteLine(Convert.ToInt32(reqStation.FirstOrDefault()));
             var stationId = Convert.ToInt32(reqStation.FirstOrDefault());
             var coldView = getColdDays(stationId);
             var hotView = getHotDays(stationId);
