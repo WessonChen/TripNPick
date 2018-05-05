@@ -22,6 +22,10 @@ namespace TripNPick.Controllers
             return View();
         }
 
+        public ActionResult Accomodation() {
+            return View();
+        }
+
         public ActionResult LogInView()
         {
             return View();
