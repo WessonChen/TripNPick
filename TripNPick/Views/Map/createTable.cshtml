@@ -54,7 +54,7 @@
             </tr>
         </thead>
         
-        @foreach (var item in ViewBag.reqModel.weatherList)
+        @foreach (var item in Model.weatherList)
         {
             <tr>
                 <td style="background: #e67300">@item.feature</td>
@@ -95,7 +95,7 @@
             </tr>
         </thead>
 
-        @foreach (var item in ViewBag.)
+        @foreach (var item in Model.demandList)
         {
             <tr>
                 <td style="background: #e67300">@item.cropName</td>

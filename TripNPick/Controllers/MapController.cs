@@ -80,19 +80,18 @@ namespace TripNPick.Controllers
             return View();
         }
 
-        public ActionResult createTable() {
-            return View();
-        }
+        //public ActionResult createTable() {
+        //    return View();
+        //}
 
-        [HttpPost]
-        public ActionResult createTable(Pairs pair)
+        public ActionResult createTable(string farmInfo)
         {
             //var pair = TempData["pairModel"] as Pairs;
-            var farm2 = pair.farm.farmId;
-            string farmId = pair.farm.farmId;
-            Debug.WriteLine(farmId);
+            //var farm2 = pair.farm.farmId;
+            //string farmId = pair.farm.farmId;
+            Debug.WriteLine(farmInfo);
             var farmList = dbContext.farms.ToList();
-            var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
+            var reqSub = from f in farmList where f.farm_id.Equals(farmInfo) select f.suburb_id;
             var suburbId = Convert.ToInt32(reqSub.FirstOrDefault());
             Debug.WriteLine(Convert.ToInt32(reqSub.FirstOrDefault()));
             var suburbList = dbContext.suburb_table.ToList();
@@ -133,7 +132,7 @@ namespace TripNPick.Controllers
 
             var demandView = getFarmDemands(suburbId);
             twoModels.demandList = demandView;
-            twoModels.newPair = pair;
+            //twoModels.newPair = pair;
 
             ViewData["coldData"] = coldData;
             ViewData["hotData"] = hotData;

@@ -35,9 +35,10 @@
 </head>
 
 <script type="text/javascript">
-    function goToFarmPage(pair) {
-        var url = '@Url.Action("createTable", "Map")?aPair=' + pair;
-        window.location.href = url;
+    function goToFarmPage(farmId) {
+        var url = '@Url.Action("createTable", "Map", new { farmInfo = "ID" })'.replace("ID", farmId);
+        //window.location.href = url;
+        window.open(url);
     }
 
     function goToFarmDetails(pair) {
@@ -86,7 +87,7 @@
 
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmDetails(marker.markerInfo);
+                        goToFarmPage(marker.farmId);
                     });
                 })(marker);
             }
@@ -98,10 +99,17 @@
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    farmId: data[i].farm.farmId,
                     map: map
                 });
                 markersNSW.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(marker.farmId);
+                    });
+                })(marker)
             }
+
             var markersNSWCluster = new MarkerClusterer(map, markersNSW,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
         })
@@ -110,9 +118,15 @@
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    farmId: data[i].farm.farmId,
                     map: map
                 });
                 markersSA.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(marker.farmId);
+                    });
+                })(marker)
             }
             var markersSACluster = new MarkerClusterer(map, markersSA,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
@@ -122,9 +136,15 @@
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    farmId: data[i].farm.farmId,
                     map: map
                 });
                 markersWA.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(marker.farmId);
+                    });
+                })(marker)
             }
             var markersWACluster = new MarkerClusterer(map, markersWA,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
@@ -134,9 +154,15 @@
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    farmId: data[i].farm.farmId,
                     map: map
                 });
                 markersTAS.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(marker.farmId);
+                    });
+                })(marker)
             }
             var markersTASCluster = new MarkerClusterer(map, markersTAS,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
@@ -146,9 +172,15 @@
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    farmId: data[i].farm.farmId,
                     map: map
                 });
                 markersQLD.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(marker.farmId);
+                    });
+                })(marker)
             }
 
             var markersQLDCluster = new MarkerClusterer(map, markersQLD,
@@ -159,9 +191,15 @@
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    farmId: data[i].farm.farmId,
                     map: map
                 });
                 markersNT.push(marker);
+                (function (marker) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        goToFarmPage(marker.farmId);
+                    });
+                })(marker)
             }
             var markersNTCluster = new MarkerClusterer(map, markersNT,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
