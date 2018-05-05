@@ -76,15 +76,30 @@
         var markersNT = [];
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
+            var filter = [];
             for (i = 0; i < data.length; i++) {
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     farmId: data[i].farm.farmId,
-                    markerInfo: data[i],
+                    icon: 'https://png.icons8.com/color/32/27ae60/marker.png',
                     map: map
                 });
+                
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].interestId)) {
+                        filter.push(ints[x].interestId)
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            interestId: ints[x].interestId,
+                            visible: false,
+                            icon: 'https://png.icons8.com/material/32/2980b9/marker.png',
+                            map: map
+                        });
+                        interestMarkersVIC.push(iMarker);
+                    }
+                }
                 markersVIC.push(marker);
-
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         goToFarmPage(marker.farmId);
@@ -94,6 +109,14 @@
             var markersVICCluster = new MarkerClusterer(map, markersVIC,
                 { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
         })
+
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+            var zoom = map.getZoom();
+            debugger
+            for (i = 0; i < interestMarkersVIC.length; i++) {
+                interestMarkersVIC[i].setVisible(zoom >= 10);
+            }
+        });
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
             for (i = 0; i < data.length; i++) {
