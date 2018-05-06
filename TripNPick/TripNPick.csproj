@@ -294,6 +294,17 @@
     <Content Include="Global.asax" />
     <Content Include="img\Brand.png" />
     <Content Include="img\homeBG.png" />
+    <Content Include="img\markers\beach.png" />
+    <Content Include="img\markers\farm.png" />
+    <Content Include="img\markers\hiking.png" />
+    <Content Include="img\markers\hostel.png" />
+    <Content Include="img\markers\museum.png" />
+    <Content Include="img\markers\outdoors.png" />
+    <Content Include="img\markers\parks.png" />
+    <Content Include="img\markers\sights.png" />
+    <Content Include="img\markers\sports.png" />
+    <Content Include="img\markers\wildlife.png" />
+    <Content Include="img\markers\zoo.PNG" />
     <Content Include="img\Nupur.jpeg" />
     <Content Include="img\Shazeed.jpeg" />
     <Content Include="img\Weicheng.jpeg" />

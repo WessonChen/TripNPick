@@ -57,30 +57,61 @@
         var interests = [];
        
         var clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
-        var farmUrl = 'https://png.icons8.com/color/32/27ae60/marker.png';
-        var interestUrl = 'https://png.icons8.com/material/32/2980b9/marker.png';
+        var farmUrl = '/img/markers/farm.png';
+        var hostelUrl = '/img/markers/hostel.png';
+        var interestUrl = '/img/markers/';
+
+        var interestMap = new Map();
+        interestMap.set(1, 'museum.png');
+        interestMap.set(2, 'sights.png');
+        interestMap.set(3, 'parks.png');
+        interestMap.set(4, 'sights.png');
+        interestMap.set(5, 'beach.png');
+        interestMap.set(6, 'outdoors.png');
+        interestMap.set(7, 'wildlife.png');
+        interestMap.set(8, 'hiking.png');
+        interestMap.set(9, 'sports.png');
+        interestMap.set(10, 'zoo.PNG');
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var interestsString = data[i].farm.farmId;
+                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    infowindow: farmWindow,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId)
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: interestUrl,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
                             map: map
                         });
                         interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'mouseover', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(iMarker, 'mouseout', function () {
+                                iMarker.infowindow.close(map, iMarker);
+                            });
+                        })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -88,7 +119,13 @@
                 markersVIC.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                    goToFarmPage(interestsString);
+                        goToFarmPage(interestsString);
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        marker.infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        marker.infowindow.close(map, marker);
                     });
                 })(marker);
             }
@@ -100,23 +137,41 @@
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var interestsString = data[i].farm.farmId;
+                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    infowindow: farmWindow,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId)
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: interestUrl,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
                             map: map
                         });
                         interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'mouseover', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(iMarker, 'mouseout', function () {
+                                iMarker.infowindow.close(map, iMarker);
+                            });
+                        })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -125,6 +180,12 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         goToFarmPage(interestsString);
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        marker.infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        marker.infowindow.close(map, marker);
                     });
                 })(marker);
             }
@@ -136,23 +197,41 @@
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var interestsString = data[i].farm.farmId;
+                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    infowindow: farmWindow,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId)
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: interestUrl,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
                             map: map
                         });
                         interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'mouseover', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(iMarker, 'mouseout', function () {
+                                iMarker.infowindow.close(map, iMarker);
+                            });
+                        })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -161,6 +240,12 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         goToFarmPage(interestsString);
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        marker.infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        marker.infowindow.close(map, marker);
                     });
                 })(marker);
             }
@@ -172,23 +257,41 @@
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var interestsString = data[i].farm.farmId;
+                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    infowindow: farmWindow,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId)
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: interestUrl,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
                             map: map
                         });
                         interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'mouseover', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(iMarker, 'mouseout', function () {
+                                iMarker.infowindow.close(map, iMarker);
+                            });
+                        })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -197,6 +300,12 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         goToFarmPage(interestsString);
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        marker.infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        marker.infowindow.close(map, marker);
                     });
                 })(marker);
             }
@@ -208,23 +317,41 @@
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var interestsString = data[i].farm.farmId;
+                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    infowindow: farmWindow,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId)
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: interestUrl,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
                             map: map
                         });
                         interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'mouseover', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(iMarker, 'mouseout', function () {
+                                iMarker.infowindow.close(map, iMarker);
+                            });
+                        })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -233,6 +360,12 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         goToFarmPage(interestsString);
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        marker.infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        marker.infowindow.close(map, marker);
                     });
                 })(marker);
             }
@@ -244,23 +377,41 @@
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var interestsString = data[i].farm.farmId;
+                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    infowindow: farmWindow,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId)
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: interestUrl,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
                             map: map
                         });
                         interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'mouseover', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(iMarker, 'mouseout', function () {
+                                iMarker.infowindow.close(map, iMarker);
+                            });
+                        })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -269,6 +420,12 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         goToFarmPage(interestsString);
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        marker.infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        marker.infowindow.close(map, marker);
                     });
                 })(marker);
             }
@@ -280,23 +437,41 @@
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var interestsString = data[i].farm.farmId;
+                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    infowindow: farmWindow,
                     map: map
                 });
                 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId)
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
                         iMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
                             visible: false,
-                            icon: interestUrl,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
                             map: map
                         });
                         interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'mouseover', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(iMarker, 'mouseout', function () {
+                                iMarker.infowindow.close(map, iMarker);
+                            });
+                        })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     interestsString = interestsString + intString;
@@ -305,6 +480,12 @@
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
                         goToFarmPage(interestsString);
+                    });
+                    google.maps.event.addListener(marker, 'mouseover', function () {
+                        marker.infowindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(marker, 'mouseout', function () {
+                        marker.infowindow.close(map, marker);
                     });
                 })(marker);
             }
