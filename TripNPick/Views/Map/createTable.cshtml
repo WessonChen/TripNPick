@@ -18,24 +18,21 @@
 <body>
     <div class="container" style="margin-top: 50px">
         <div class="jumbotron">
-            <h1>Bootstrap Tutorial</h1>
-            <p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile-first projects on the web.</p>
+            <h2>@Model.theFarm.farm_name</h2>
             <div>
-                <h2>@Model.theFarm.farm_name</h2>
                 Address: @Model.theFarm.farm_address
                 Farm Rating: @Model.theFarm.farm_rating
-
             </div>
             <div>
                 <table>
-                    <h3><tr>
+                    <tr>
                         <td>Attraction Name</td>
                         <td>Rating</td>
                         <td>Address</td>
                         <td>Type</td>
                         <td>Distance</td>
                         <td>Number of Reviews</td>
-                    </tr></h3>
+                    </tr>
                     @foreach (var item in Model.nearbyAttractions) {
                     <tr>
                         <td>@item.attraction_name</td>
@@ -64,11 +61,6 @@
                             Title = new Title
                             {
                                 Text = "Avearge Weather in Months",
-                                X = -20
-                            },
-                            Subtitle = new Subtitle
-                            {
-                                Text = "Source: Government Website",
                                 X = -20
                             },
                             XAxis = new List<XAxis>
@@ -114,12 +106,12 @@
                             {
                                 new LineSeries
                                 {
-                                    Name = "Number of Cold Days",
+                                    Name = "Days of Temperature under 2 Degrees",
                                     Data = @ViewData["coldData"] as List<LineSeriesData>
                                 },
                                 new LineSeries
                                 {
-                                    Name = "Number of Hot Days",
+                                    Name = "Days of Temperature above 30 Degrees",
                                     Data = @ViewData["hotData"] as List<LineSeriesData>
                                 },
                                 new LineSeries

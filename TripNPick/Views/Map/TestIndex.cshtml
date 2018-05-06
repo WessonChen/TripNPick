@@ -76,7 +76,6 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var interestsString = data[i].farm.farmId;
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
@@ -84,6 +83,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
                     infowindow: farmWindow,
                     map: map
                 });
@@ -114,12 +114,12 @@
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    interestsString = interestsString + intString;
+                    marker.interestsString = marker.interestsString + intString;
                 }
                 markersVIC.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                        goToFarmPage(marker.interestsString);
                     });
                     google.maps.event.addListener(marker, 'mouseover', function () {
                         marker.infowindow.open(map, marker);
@@ -136,7 +136,6 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var interestsString = data[i].farm.farmId;
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
@@ -144,6 +143,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
                     infowindow: farmWindow,
                     map: map
                 });
@@ -174,12 +174,12 @@
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    interestsString = interestsString + intString;
+                    marker.interestsString = marker.interestsString + intString;
                 }
                 markersNSW.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                        goToFarmPage(marker.interestsString);
                     });
                     google.maps.event.addListener(marker, 'mouseover', function () {
                         marker.infowindow.open(map, marker);
@@ -196,7 +196,6 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var interestsString = data[i].farm.farmId;
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
@@ -204,6 +203,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
                     infowindow: farmWindow,
                     map: map
                 });
@@ -234,12 +234,12 @@
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    interestsString = interestsString + intString;
+                    marker.interestsString = marker.interestsString + intString;
                 }
                 markersSA.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                        goToFarmPage(marker.interestsString);
                     });
                     google.maps.event.addListener(marker, 'mouseover', function () {
                         marker.infowindow.open(map, marker);
@@ -256,7 +256,6 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var interestsString = data[i].farm.farmId;
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
@@ -264,6 +263,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
                     infowindow: farmWindow,
                     map: map
                 });
@@ -294,12 +294,12 @@
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    interestsString = interestsString + intString;
+                    marker.interestsString = marker.interestsString + intString;
                 }
                 markersWA.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                        goToFarmPage(marker.interestsString);
                     });
                     google.maps.event.addListener(marker, 'mouseover', function () {
                         marker.infowindow.open(map, marker);
@@ -316,7 +316,6 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var interestsString = data[i].farm.farmId;
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
@@ -324,6 +323,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
                     infowindow: farmWindow,
                     map: map
                 });
@@ -354,12 +354,12 @@
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    interestsString = interestsString + intString;
+                    marker.interestsString = marker.interestsString + intString;
                 }
                 markersTAS.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                        goToFarmPage(marker.interestsString);
                     });
                     google.maps.event.addListener(marker, 'mouseover', function () {
                         marker.infowindow.open(map, marker);
@@ -376,7 +376,6 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var interestsString = data[i].farm.farmId;
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
@@ -384,6 +383,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
                     infowindow: farmWindow,
                     map: map
                 });
@@ -414,12 +414,12 @@
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    interestsString = interestsString + intString;
+                    marker.interestsString = marker.interestsString + intString;
                 }
                 markersQLD.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                        goToFarmPage(marker.interestsString);
                     });
                     google.maps.event.addListener(marker, 'mouseover', function () {
                         marker.infowindow.open(map, marker);
@@ -436,7 +436,6 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var interestsString = data[i].farm.farmId;
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
@@ -444,6 +443,7 @@
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
                     infowindow: farmWindow,
                     map: map
                 });
@@ -474,12 +474,12 @@
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    interestsString = interestsString + intString;
+                    marker.interestsString = marker.interestsString + intString;
                 }
                 markersNT.push(marker);
                 (function (marker) {
                     google.maps.event.addListener(marker, 'click', function () {
-                        goToFarmPage(interestsString);
+                        goToFarmPage(marker.interestsString);
                     });
                     google.maps.event.addListener(marker, 'mouseover', function () {
                         marker.infowindow.open(map, marker);
