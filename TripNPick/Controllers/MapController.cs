@@ -76,24 +76,58 @@ namespace TripNPick.Controllers
             return View();
         }
 
-        //public ActionResult createTable() {
-        //    return View();
-        //}
 
         public ActionResult createTable(string farmInfo)
         {
+            var farmList = dbContext.farms.ToList();
             if (farmInfo == null || farmInfo.Equals(""))
             {
                 return RedirectToAction("ErrorMessage", "ErrorPage");
             }
             string[] infos = farmInfo.Split(':');
+            string reqFarmId = infos[0];
+
+            List<string> attractionIdList = new List<string>();
+            List<string> distanceList = new List<string>();
             for (int i = 1; i < infos.Count(); i++)
             {
                 string[] pair = infos[i].Split(',');
-                string attractionId = pair[0];
-                string distance = pair[1];
+                attractionIdList.Add(pair[0]);
+                distanceList.Add(pair[1]);
+                //string attractionId = pair[0];
+                //string distance = pair[1];
             }
-            var farmList = dbContext.farms.ToList();
+
+            var combinedList = new List<tempInterest>();
+            for (int i = 0; i < attractionIdList.Count(); i++) {
+                var newList = new tempInterest();
+                newList.attractionId = Convert.ToInt32(attractionIdList[i]);
+                newList.distance = distanceList[i];
+                combinedList.Add(newList);
+            }
+
+            var allAttractionList = dbContext.interest_attraction.ToList();
+            var interestTypes = dbContext.interest_table.ToList();
+            List<interest_attraction> nearbyInterests = new List<interest_attraction>();
+            foreach (string attrId in attractionIdList) {
+                var newId = Convert.ToInt32(attrId);
+                var oneAttraction = allAttractionList.Where(x => x.attraction_id == newId).FirstOrDefault();
+                nearbyInterests.Add(oneAttraction);
+            }
+
+            var distantInfo = from c in combinedList
+                              join n in nearbyInterests on c.attractionId equals n.attraction_id
+                              join i in interestTypes on n.interest_id equals i.interest_id
+                              select new distancePassView
+                              {
+                                  attraction_name = n.attraction_name,
+                                  attraction_address = n.address_x,
+                                  attraction_distance = c.distance,
+                                  attraction_rating = Convert.ToString(n.review_grade),
+                                  interest_type = i.types,
+                                  number_of_reviews = Convert.ToString(n.number_of_reviews)
+                              };
+            var currentFarm = farmList.Where(x => x.farm_id == reqFarmId).FirstOrDefault();
             var reqSub = from f in farmList where f.farm_id.Equals(infos[0]) select f.suburb_id;
             var suburbId = Convert.ToInt32(reqSub.FirstOrDefault());
             var suburbList = dbContext.suburb_table.ToList();
@@ -124,6 +158,8 @@ namespace TripNPick.Controllers
             temp9Values.ForEach(p => temp9Data.Add(new LineSeriesData { Y = p }));
 
             FarmDetailsView twoModels = new FarmDetailsView();
+            twoModels.theFarm = currentFarm;
+            twoModels.nearbyAttractions = distantInfo;
             twoModels.weatherList = new List<WeatherView>();
             twoModels.weatherList.Add(coldView.First());
             twoModels.weatherList.Add(hotView.First());
@@ -133,7 +169,6 @@ namespace TripNPick.Controllers
 
             var demandView = getFarmDemands(suburbId);
             twoModels.demandList = demandView;
-            //twoModels.newPair = pair;
 
             ViewData["coldData"] = coldData;
             ViewData["hotData"] = hotData;

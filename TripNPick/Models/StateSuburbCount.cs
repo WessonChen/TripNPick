@@ -112,7 +112,23 @@ namespace TripNPick.Models
         public List<WeatherView> weatherList { get; set; }
         public IEnumerable<DemandView> demandList { get; set; }
         public List<WeatherDays> chartListOne { get; set; }
-        public Pairs newPair { get; set; }
+        public farm theFarm { get; set; }
+        public IEnumerable<distancePassView> nearbyAttractions { get; set; }
+    }
+
+    public class tempInterest
+    {
+        public int attractionId { get; set; }
+        public string distance { get; set; }
+    }
+
+    public class distancePassView {
+        public string attraction_name { get; set; }
+        public string attraction_distance { get; set; }
+        public string attraction_rating { get; set; }
+        public string number_of_reviews { get; set; }
+        public string attraction_address { get; set; }
+        public string interest_type { get; set; }
     }
 
         public class WeatherDays
