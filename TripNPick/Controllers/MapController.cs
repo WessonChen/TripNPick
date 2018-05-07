@@ -930,7 +930,28 @@ namespace TripNPick.Controllers
                     }
                 }
             }
-            return Json(thelist, JsonRequestBehavior.AllowGet);
+            var mapInfo = new MapInformationView();
+            mapInfo.farmsAndInterests = thelist;
+            var selectedfarms = thelist.Select(x => x.farm).ToList();
+            var hostellist = dbContext.hostels.ToList();
+            var suburblist = dbContext.suburb_table.ToList();
+            var nearbyHostels = from f in selectedfarms
+                                join s in suburblist on f.suburbId equals s.suburb_id
+                                join h in hostellist on s.suburb_id equals h.suburb_id
+                                select new HostelView
+                                {
+                                    hostedId = h.hostel_id,
+                                    hostel_lat = Convert.ToDouble(h.hostel_lat),
+                                    hostel_lng = Convert.ToDouble(h.hostel_long),
+                                    suburbId = Convert.ToInt32( h.suburb_id)
+                                };
+            //var someList = from cu in hostellist
+            //               join id in selectedfarms on cu.suburb_id equals id
+            //               select cu;
+            var reqHostels = nearbyHostels.ToList();
+            mapInfo.hostels = reqHostels;
+
+            return Json(mapInfo, JsonRequestBehavior.AllowGet);
         }
         
         public JsonResult countForStates(string userInput)
