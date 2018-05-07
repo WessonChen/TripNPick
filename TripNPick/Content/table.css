@@ -11,3 +11,15 @@ row-header {
 .cell-normal {
     background: #e0e0d1;
 }
+
+.jumbotron p {
+    margin: 0;
+}
+
+.jumbotron p img{
+    max-height: 20px;
+}
+
+#tabcss {
+    margin-top: 16px;
+}

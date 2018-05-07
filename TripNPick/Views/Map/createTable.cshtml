@@ -4,10 +4,11 @@
 @model TripNPick.Models.FarmDetailsView
 
 <head>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <link href="~/Content/table.css" rel="stylesheet" />
@@ -18,31 +19,42 @@
 <body>
     <div class="container" style="margin-top: 50px">
         <div class="jumbotron">
-            <h2>@Model.theFarm.farm_name</h2>
-            <div>
-                Address: @Model.theFarm.farm_address
-                Farm Rating: @Model.theFarm.farm_rating
-            </div>
-            <div>
-                <table>
-                    <tr>
-                        <td>Attraction Name</td>
-                        <td>Rating</td>
-                        <td>Address</td>
-                        <td>Type</td>
-                        <td>Distance</td>
-                        <td>Number of Reviews</td>
-                    </tr>
-                    @foreach (var item in Model.nearbyAttractions) {
-                    <tr>
-                        <td>@item.attraction_name</td>
-                        <td>@item.attraction_rating</td>
-                        <td>@item.attraction_address</td>
-                        <td>@item.interest_type</td>
-                        <td>@item.attraction_distance</td>
-                        <td>@item.number_of_reviews</td>
-                    </tr>
-                    }
+            <h1>@Model.theFarm.farm_name</h1>
+            <p><b>Farm Rating:</b> 
+            @if (true)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    <span><img src="~/img/rating/full_star.png"/></span>
+                }
+            }
+            </p>
+            <p><b>Address:</b> @Model.theFarm.farm_address</p>
+            <div id="tabcss">
+                <table id="interestsTable">
+                    <thead>
+                        <tr>
+                            <td>Attraction Name</td>
+                            <td>Rating</td>
+                            <td>Address</td>
+                            <td>Type</td>
+                            <td>Distance</td>
+                            <td>Popularity</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.nearbyAttractions)
+                        {
+                            <tr>
+                                <td>@item.attraction_name</td>
+                                <td>@item.attraction_rating</td>
+                                <td>@item.attraction_address</td>
+                                <td>@item.interest_type</td>
+                                <td>@item.attraction_distance<span> km</span></td>
+                                <td>@item.number_of_reviews</td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -244,6 +256,19 @@
         $(function () {
             $("#tabs").tabs({
                 collapsible: true
+            });
+            $('#interestsTable').DataTable({
+                "scrollY": "220px",
+                "responsive": true,
+                "paging": false,
+                "info": false,
+                "searching": false,
+                "lengthChange": false,
+                "displayLength": 50,
+                "order": [[4, "asc"]],
+                "columnDefs": [{
+                    "orderable": false, "targets": 2,
+                }]
             });
         });
     </script>

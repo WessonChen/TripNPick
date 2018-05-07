@@ -306,6 +306,9 @@
     <Content Include="img\markers\wildlife.png" />
     <Content Include="img\markers\zoo.PNG" />
     <Content Include="img\Nupur.jpeg" />
+    <Content Include="img\rating\empty_star.png" />
+    <Content Include="img\rating\full_star.png" />
+    <Content Include="img\rating\half_star.png" />
     <Content Include="img\Shazeed.jpeg" />
     <Content Include="img\Weicheng.jpeg" />
     <Content Include="img\Zoe.jpeg" />
