@@ -64,6 +64,20 @@ namespace TripNPick.Models
         public List<InterestWithDistance> interests { get; set; }
     }
 
+    public class MapInformationView
+    {
+        public List<Pairs> farmsAndInterests { get; set; }
+        public List<HostelView> hostels { get; set; }
+    }
+
+    public class HostelView
+    {
+        public int hostedId { get; set; }
+        public double hostel_lat { get; set; }
+        public double hostel_lng { get; set; }
+        public int suburbId { get; set; }
+    }
+
     public class StateCount
     {
         public string stateName { get; set; }
