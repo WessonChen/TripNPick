@@ -1,23 +1,60 @@
 ﻿.bgBorder {
     margin-top: 50px;
     padding: 16px 0 0 0;
-    /*border-left: 2px solid #C0C0C0;
-    border-right: 2px solid #C0C0C0;
-    background-color: #f3f3f3;*/
 }
 
 #mapForm {
     display:flex;
     flex-direction: column;
-    background: url(../img/searchBarBG.PNG) no-repeat center center;
+    background: url(../img/searchBG.PNG) no-repeat center center;
     background-size: cover;
     width: 100%
+}
+
+#mapForm form {
+    padding: 24px 32px 32px 32px;
 }
 
 .select2 {
     width: 100% !important;
 }
 
-#mapForm .btn-primary {
+#mapForm .btn-success {
     float: right;
+    margin-top: 8px;
+}
+
+#mapForm h2 {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+#mapForm label {
+    margin-top: 4px;
+    color: white;
+}
+
+#mapForm .col-lg-6 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#example {
+    padding-top: 8px;
+    float: right;
+}
+
+#example img{
+    height: 20px;
+}
+
+.intro {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 64px;
+    text-align:justify; 
+    text-justify: inter-word;
 }

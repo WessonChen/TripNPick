@@ -20,16 +20,14 @@
     <div class="container" style="margin-top: 50px">
         <div class="jumbotron">
             <h1>@Model.theFarm.farm_name</h1>
-            <p>
-                <b>Farm Rating:</b>
-            </p>
-            @if (true)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    <span><img src="~/img/rating/full_star.png"/></span>
+            <p><b>Farm Rating:</b>
+                @if (true){
+                    for (int i = 0; i < 5; i++)
+                    {
+                        <span><img src="~/img/rating/full_star.png" /></span>
+                    }
                 }
-            }
+            </p>
             <p><b>Address:</b> @Model.theFarm.farm_address</p>
             <div id="tabcss">
                 <table id="interestsTable">
@@ -38,7 +36,6 @@
                             <td>Attraction Name</td>
                             <td>Rating</td>
                             <td>Address</td>
-                            <td>Type</td>
                             <td>Distance</td>
                             <td>Popularity</td>
                         </tr>
@@ -47,10 +44,20 @@
                         @foreach (var item in Model.nearbyAttractions)
                         {
                             <tr>
-                                <td>@item.attraction_name</td>
-                                <td>@item.attraction_rating</td>
+                                <td><span><img src="@Url.Content(item.interest_type)" title="@Url.Content(item.toolTip)"></span>@item.attraction_name</td>
+                                <td>@for (double i = 1.0; i <= item.attraction_rating; i++)
+                                {
+                                    if (item.attraction_rating - i >= 1)
+                                    {
+                                        <span><img src="~/img/rating/full_star.png" /></span>
+                                    }
+                                    else
+                                    {
+                                        <span><img src="~/img/rating/half_star.png" /></span>
+                                    }
+                                }
+                                </td>
                                 <td>@item.attraction_address</td>
-                                <td><img src="@Url.Content(item.interest_type)" alt="interest_pic"></td>
                                 <td>@item.attraction_distance<span> km</span></td>
                                 <td>@item.number_of_reviews</td>
                             </tr>
@@ -74,6 +81,11 @@
                             Title = new Title
                             {
                                 Text = "Avearge Weather in Months",
+                                X = -20
+                            },
+                            Subtitle = new Subtitle
+                            {
+                                Text = "Source: Government Website",
                                 X = -20
                             },
                             XAxis = new List<XAxis>
@@ -201,9 +213,7 @@
                                     Name = "Temparature(°C) at 9am",
                                     Data = @ViewData["temp9Data"] as List<LineSeriesData>
                                 }
-
-                            }
-                        }, "temparatureChart")
+                            }}, "temparatureChart")
                 )
             </div>
             <div id="tabs-4">
@@ -266,7 +276,7 @@
                 "searching": false,
                 "lengthChange": false,
                 "displayLength": 50,
-                "order": [[4, "asc"]],
+                "order": [[3, "asc"]],
                 "columnDefs": [{
                     "orderable": false, "targets": 2,
                 }]

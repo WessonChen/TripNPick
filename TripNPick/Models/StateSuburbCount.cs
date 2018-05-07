@@ -129,6 +129,7 @@ namespace TripNPick.Models
         public string number_of_reviews { get; set; }
         public string attraction_address { get; set; }
         public string interest_type { get; set; }
+        public string toolTip { get; set; }
     }
 
         public class WeatherDays

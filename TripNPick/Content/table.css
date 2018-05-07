@@ -23,3 +23,7 @@ row-header {
 #tabcss {
     margin-top: 16px;
 }
+
+#tabcss tbody tr td span img{
+    max-height: 20px;
+}

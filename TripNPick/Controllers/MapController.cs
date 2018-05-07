@@ -116,16 +116,16 @@ namespace TripNPick.Controllers
             }
 
             Dictionary<string, string> interestDict = new Dictionary<string, string>();
-            interestDict.Add("1", "~/img/markers/museum.png");
-            interestDict.Add("2", "~/img/markers/sights.png");
-            interestDict.Add("3", "~/img/markers/parks.png");
-            interestDict.Add("4", "~/img/markers/sights.png");
-            interestDict.Add("5", "~/img/markers/beach.png");
-            interestDict.Add("6", "~/img/markers/outdoors.png");
-            interestDict.Add("7", "~/img/markers/wildlife.png");
-            interestDict.Add("8", "~/img/markers/hiking.png");
-            interestDict.Add("9", "~/img/markers/sports.png");
-            interestDict.Add("10", "~/img/markers/zoo.png");
+            interestDict.Add("1", "Museum");
+            interestDict.Add("2", "Sights");
+            interestDict.Add("3", "Parks");
+            interestDict.Add("4", "Sights");
+            interestDict.Add("5", "Beach");
+            interestDict.Add("6", "Outdoors");
+            interestDict.Add("7", "Wildlife");
+            interestDict.Add("8", "Hiking");
+            interestDict.Add("9", "Sports");
+            interestDict.Add("10", "Zoo");
 
             var distantInfo = from c in combinedList
                               join n in nearbyInterests on c.attractionId equals n.attraction_id
@@ -136,8 +136,9 @@ namespace TripNPick.Controllers
                                   attraction_address = n.address_x,
                                   attraction_distance = c.distance,
                                   attraction_rating = Convert.ToDouble(n.review_grade),
-                                  interest_type = interestDict[Convert.ToString(i.interest_id)],
-                                  number_of_reviews = Convert.ToString(n.number_of_reviews)
+                                  interest_type = "~/img/markers/" + interestDict[Convert.ToString(i.interest_id)] + ".png",
+                                  number_of_reviews = Convert.ToString(n.number_of_reviews),
+                                  toolTip = interestDict[Convert.ToString(i.interest_id)]
                               };
             var currentFarm = farmList.Where(x => x.farm_id == reqFarmId).FirstOrDefault();
             var reqSub = from f in farmList where f.farm_id.Equals(infos[0]) select f.suburb_id;
