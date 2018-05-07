@@ -309,6 +309,8 @@
     <Content Include="img\rating\empty_star.png" />
     <Content Include="img\rating\full_star.png" />
     <Content Include="img\rating\half_star.png" />
+    <Content Include="img\rating\person.png" />
+    <Content Include="img\searchBarBG.PNG" />
     <Content Include="img\Shazeed.jpeg" />
     <Content Include="img\Weicheng.jpeg" />
     <Content Include="img\Zoe.jpeg" />

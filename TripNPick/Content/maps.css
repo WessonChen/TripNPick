@@ -9,7 +9,8 @@
 #mapForm {
     display:flex;
     flex-direction: column;
-    background-color: #f3f3f3;
+    background: url(../img/searchBarBG.PNG) no-repeat center center;
+    background-size: cover;
     width: 100%
 }
 
