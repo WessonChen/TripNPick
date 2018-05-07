@@ -73,6 +73,8 @@
         interestMap.set(9, 'sports.png');
         interestMap.set(10, 'zoo.PNG');
 
+        // "~/img/markers/museum.png"
+
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (data, status) {
             var filter = [];
             for (i = 0; i < data.length; i++) {
