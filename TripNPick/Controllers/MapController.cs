@@ -115,6 +115,18 @@ namespace TripNPick.Controllers
                 nearbyInterests.Add(oneAttraction);
             }
 
+            Dictionary<string, string> interestDict = new Dictionary<string, string>();
+            interestDict.Add("1", "~/img/markers/museum.png");
+            interestDict.Add("2", "~/img/markers/sights.png");
+            interestDict.Add("3", "~/img/markers/parks.png");
+            interestDict.Add("4", "~/img/markers/sights.png");
+            interestDict.Add("5", "~/img/markers/beach.png");
+            interestDict.Add("6", "~/img/markers/outdoors.png");
+            interestDict.Add("7", "~/img/markers/wildlife.png");
+            interestDict.Add("8", "~/img/markers/hiking.png");
+            interestDict.Add("9", "~/img/markers/sports.png");
+            interestDict.Add("10", "~/img/markers/zoo.png");
+
             var distantInfo = from c in combinedList
                               join n in nearbyInterests on c.attractionId equals n.attraction_id
                               join i in interestTypes on n.interest_id equals i.interest_id
@@ -123,8 +135,8 @@ namespace TripNPick.Controllers
                                   attraction_name = n.attraction_name,
                                   attraction_address = n.address_x,
                                   attraction_distance = c.distance,
-                                  attraction_rating = Convert.ToString(n.review_grade),
-                                  interest_type = i.types,
+                                  attraction_rating = Convert.ToDouble(n.review_grade),
+                                  interest_type = interestDict[Convert.ToString(i.interest_id)],
                                   number_of_reviews = Convert.ToString(n.number_of_reviews)
                               };
             var currentFarm = farmList.Where(x => x.farm_id == reqFarmId).FirstOrDefault();
