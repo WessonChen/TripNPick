@@ -940,7 +940,8 @@ namespace TripNPick.Controllers
                                 join h in hostellist on s.suburb_id equals h.suburb_id
                                 select new HostelView
                                 {
-                                    hostedId = h.hostel_id,
+                                    hostelId = h.hostel_id,
+                                    hostelName = h.hostel_name,
                                     hostel_lat = Convert.ToDouble(h.hostel_lat),
                                     hostel_lng = Convert.ToDouble(h.hostel_long),
                                     suburbId = Convert.ToInt32( h.suburb_id)

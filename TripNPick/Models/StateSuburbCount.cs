@@ -72,7 +72,8 @@ namespace TripNPick.Models
 
     public class HostelView
     {
-        public int hostedId { get; set; }
+        public int hostelId { get; set; }
+        public string hostelName { get; set; }
         public double hostel_lat { get; set; }
         public double hostel_lng { get; set; }
         public int suburbId { get; set; }
