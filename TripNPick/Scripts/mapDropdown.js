@@ -26,4 +26,10 @@
 
         evt.params.originalEvent.stopPropagation();
     });
+
+    $("#distanceDD").select2({
+        placeholder: "..",
+        allowClear: true,
+        maximumSelectionLength: 1
+    });
 });
