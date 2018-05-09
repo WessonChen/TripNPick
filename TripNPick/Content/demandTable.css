@@ -1,35 +1,39 @@
 ﻿
-
 .jumbotron p {
     margin: 0;
 }
+
 .High {
     color: #D1403B;
     font-family: Montserrat-Regular;
     font-size: 17px;
-    font-weight:800;
+    font-weight: 800;
     position: relative;
 }
+
 .Medium {
     color: #69623B;
     font-family: Montserrat-Regular;
     font-size: 15px;
     position: relative;
 }
+
 thead {
     font-family: Montserrat-Medium;
     font-weight: 200;
-    font-size:medium;
+    font-size: medium;
 }
+
 .table tbody tr:nth-child(even) {
     background-color: #e9faff;
 }
+
 .table tbody tr:hover {
     background: silver;
     cursor: pointer;
 }
 
-.jumbotron p img{
+.jumbotron p img {
     max-height: 20px;
 }
 
@@ -37,6 +41,6 @@ thead {
     margin-top: 16px;
 }
 
-#tabcss tbody tr td span img{
-    max-height: 20px;
-}
+    #tabcss tbody tr td span img {
+        max-height: 20px;
+    }

@@ -11,7 +11,8 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <link href="~/Content/table.css" rel="stylesheet" />
+
+    <link href="~/Content/demandTable.css" type ="text/css" rel="stylesheet" />
 
 </head>
 
@@ -68,9 +69,10 @@
         </div>
         <div id="tabs">
             <ul>
+                <li><a href="#tabs-4">Demand Details</a></li>
                 <li><a href="#tabs-2">Weather Details</a></li>
                 <li><a href="#tabs-3">Temparature Details</a></li>
-                <li><a href="#tabs-4">Demand Details</a></li>
+
             </ul>
             <div id="tabs-2">
                 @using Highsoft.Web.Mvc.Charts
@@ -218,48 +220,51 @@
             </div>
             <div id="tabs-4">
                 <div style="overflow-x:auto;">
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover">
                         <thead>
-                            <tr>
-                                <td style="background:#4c4c34; color: #fff">Crop Type</td>
-                                <td>January</td>
-                                <td>February</td>
-                                <td>March</td>
-                                <td>April</td>
-                                <td>May</td>
-                                <td>June</td>
-                                <td>July</td>
-                                <td>August</td>
-                                <td>September</td>
-                                <td>October</td>
-                                <td>November</td>
-                                <td>December</td>
+                            <tr style="color:white; background: #002233">
+                                <td>CROP TYPE</td>
+                                <td>JANUARY</td>
+                                <td>FEBRUARY</td>
+                                <td>MARCH</td>
+                                <td>APRIL</td>
+                                <td>MAY</td>
+                                <td>JUNE</td>
+                                <td>JULY</td>
+                                <td>AUGUST</td>
+                                <td>SEPTEMBER</td>
+                                <td>OCTOBER</td>
+                                <td>NOVEMBER</td>
+                                <td>DECEMBER</td>
                             </tr>
                         </thead>
 
                         @foreach (var item in Model.demandList)
-                        {
-                            <tr>
-                                <td style="background: #e67300">@item.cropName</td>
-                                <td class="cell-normal">@item.january</td>
-                                <td class="cell-normal">@item.february</td>
-                                <td class="cell-normal">@item.march</td>
-                                <td class="cell-normal">@item.april</td>
-                                <td class="cell-normal">@item.may</td>
-                                <td class="cell-normal">@item.june</td>
-                                <td class="cell-normal">@item.july</td>
-                                <td class="cell-normal">@item.august</td>
-                                <td class="cell-normal">@item.september</td>
-                                <td class="cell-normal">@item.october</td>
-                                <td class="cell-normal">@item.november</td>
-                                <td class="cell-normal">@item.december</td>
+                         {
+                             <tr>
 
-                            </tr>
-                        }
+
+                        <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
+                        <td class="@item.january">@item.january</td>
+                        <td class="@item.february">@item.february</td>
+                        <td class="@item.march">@item.march</td>
+                        <td class="@item.april">@item.april</td>
+                        <td class="@item.may">@item.may</td>
+                        <td class="@item.june">@item.june</td>
+                        <td class="@item.july">@item.july</td>
+                        <td class="@item.august">@item.august</td>
+                        <td class="@item.september">@item.september</td>
+                        <td class="@item.october">@item.october</td>
+                        <td class="@item.november">@item.november</td>
+                        <td class="@item.december">@item.december</td>
+
+                    </tr>
+}
                     </table>
                 </div>
 
             </div>
+
         </div>
     </div>
 
