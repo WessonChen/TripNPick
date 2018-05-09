@@ -129,6 +129,7 @@
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
                         var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestContent = '<span><h3>' + ints[x].attractionName + '</h3></br>Address: ' + ints[x].attractionAddress + '</br>Rating:' + ints[x].attractionRating+'</span>'
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
