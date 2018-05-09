@@ -78,6 +78,7 @@ namespace TripNPick.Models
         public double hostel_lng { get; set; }
         public int suburbId { get; set; }
         public double hostelRating { get; set; }
+        public string hostelAddress { get; set; }
     }
 
     public class StateCount

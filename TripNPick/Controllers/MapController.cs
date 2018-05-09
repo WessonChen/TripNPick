@@ -948,6 +948,7 @@ namespace TripNPick.Controllers
                                 {
                                     hostelId = h.hostel_id,
                                     hostelName = h.hostel_name,
+                                    hostelAddress = h.hostel_address,
                                     hostel_lat = Convert.ToDouble(h.hostel_lat),
                                     hostel_lng = Convert.ToDouble(h.hostel_long),
                                     suburbId = Convert.ToInt32( h.suburb_id),
