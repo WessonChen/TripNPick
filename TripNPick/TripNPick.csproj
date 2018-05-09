@@ -292,6 +292,7 @@
     <Content Include="Content\registration.css" />
     <Content Include="Content\results.css" />
     <Content Include="Content\select2.min.css" />
+    <Content Include="Content\SideContent.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="img\Brand.png" />
