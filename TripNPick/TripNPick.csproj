@@ -307,14 +307,17 @@
     <Content Include="img\markers\Sports.png" />
     <Content Include="img\markers\Wildlife.png" />
     <Content Include="img\markers\Zoo.png" />
-    <Content Include="img\Nupur.jpeg" />
+    <Content Include="img\Payment.jpg" />
     <Content Include="img\rating\full_star.png" />
     <Content Include="img\rating\half_star.png" />
     <Content Include="img\rating\person.png" />
+    <Content Include="img\Rights.jpg" />
     <Content Include="img\searchBG.PNG" />
-    <Content Include="img\Shazeed.jpeg" />
-    <Content Include="img\Weicheng.jpeg" />
-    <Content Include="img\Zoe.jpeg" />
+    <Content Include="img\Tax.jpg" />
+    <Content Include="img\team\Nupur.jpg" />
+    <Content Include="img\team\Shazeed.jpg" />
+    <Content Include="img\team\Weicheng.jpg" />
+    <Content Include="img\team\Zoe.jpg" />
     <Content Include="img\zoom.png" />
     <Content Include="Models\TripNPickModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
