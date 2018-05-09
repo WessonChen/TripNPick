@@ -28,13 +28,13 @@
                 }
                 else
                 {
-                    for (double i = 1.0; i <= Model.theFarm.farm_rating; i++)
+                    for (double i = 0; i <= Model.theFarm.farm_rating; i++)
                     {
-                        if (Model.theFarm.farm_rating - i >= 0)
+                        if (Model.theFarm.farm_rating - i >= 1)
                         {
                             <span><img src="~/img/rating/full_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
                         }
-                        else
+                        else if (Model.theFarm.farm_rating - i < 1 && Model.theFarm.farm_rating - i > 0)
                         {
                             <span><img src="~/img/rating/half_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
                         }
@@ -64,13 +64,13 @@
                                 }
                                 else
                                 {
-                                    for (double i = 1.0; i <= item.attraction_rating; i++)
+                                    for (double i = 0; i <= item.attraction_rating; i++)
                                     {
-                                        if (item.attraction_rating - i >= 0)
+                                        if (item.attraction_rating - i >= 1)
                                         {
                                             <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
                                         }
-                                        else
+                                        else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
                                         {
                                             <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
                                         }
