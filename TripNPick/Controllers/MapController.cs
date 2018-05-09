@@ -776,6 +776,7 @@ namespace TripNPick.Controllers
                                   interestType = it.types,
                                   attractionId = ia.attraction_id,
                                   attractionName = ia.attraction_name,
+                                  attractionAddress = ia.address_x,
                                   interestLat = (double)ia.location_lat,
                                   interestLng = (double)ia.location_lng,
                                   interestRating = (double)ia.review_grade,
@@ -803,6 +804,9 @@ namespace TripNPick.Controllers
                                   interestType = it.types,
                                   attractionId = ia.attraction_id,
                                   attractionName = ia.attraction_name,
+                                  attractionAddress = ia.address_x,
+                                  interestRating = (double)ia.review_grade,
+                                  numberOfReviews = Convert.ToInt32(ia.number_of_reviews),
                                   suburbId = sb.suburb_id,
                                   suburbName = sb.suburb_name
                               };
@@ -834,7 +838,10 @@ namespace TripNPick.Controllers
                                   attractionId = ia.attraction_id,
                                   attractionName = ia.attraction_name,
                                   suburbId = sb.suburb_id,
-                                  suburbName = sb.suburb_name
+                                  suburbName = sb.suburb_name,
+                                  attractionAddress = ia.address_x,
+                                  interestRating = (double)ia.review_grade,
+                                  numberOfReviews = Convert.ToInt32(ia.number_of_reviews)
                               };
             var interestsGrouped = allInterest.GroupBy(x => x.suburbId).Select(c => new SuburbInterestsCount { suburbId = c.Key, numberOfInterests = c.Count() });
             return interestsGrouped;
@@ -907,6 +914,7 @@ namespace TripNPick.Controllers
                             interestLng = interest.interestLng,
                             attractionId = interest.attractionId,
                             attractionName = interest.attractionName,
+                            attractionAddress = interest.attractionAddress,
                             suburbId = interest.suburbId,
                             suburbName = interest.suburbName,
                             attractionRating = interest.interestRating,

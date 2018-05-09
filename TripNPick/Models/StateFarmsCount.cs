@@ -40,6 +40,7 @@ namespace TripNPick.Models
         public string interestType { get; set; }
         public int attractionId { get; set; }
         public string attractionName { get; set; }
+        public string attractionAddress { get; set; }
         public double interestLat { get; set; }
         public double interestLng { get; set; }
         public double interestRating { get; set; }
