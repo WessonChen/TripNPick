@@ -78,7 +78,35 @@
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (information, status) {
             data = information.farmsAndInterests;
+            hostelData = information.hostels;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId)) {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelContent = '<p>' + information.hostels[i].hostelName + '</p>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'mouseover', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(hMarker, 'mouseout', function () {
+                            hMarker.infowindow.close(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
             var filter = [];
+            
             for (i = 0; i < data.length; i++) {
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
                 var farmWindow = new google.maps.InfoWindow({
@@ -141,6 +169,33 @@
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (information, status) {
             data = information.farmsAndInterests;
+            hostelData = information.hostels;
+            var hostelFilter = [];
+            for (i = 0; i < hostelData.length; i++) {
+                if (!hostelFilter.includes(hostelData[i].hostelId)) {
+                    hostelFilter.push(hostelData[i].hostelId);
+                    var hostelContent = '<p>' + hostelData[i].hostelName + '</p>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'mouseover', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(hMarker, 'mouseout', function () {
+                            hMarker.infowindow.close(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
@@ -202,6 +257,32 @@
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (information, status) {
             data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId)) {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelContent = '<p>' + information.hostels[i].hostelName + '</p>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'mouseover', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(hMarker, 'mouseout', function () {
+                            hMarker.infowindow.close(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
@@ -263,6 +344,33 @@
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (information, status) {
             var filter = [];
+            hostelData = information.hostels;
+            var hostelFilter = [];
+            for (i = 0; i < hostelData.length; i++) {
+                if (!hostelFilter.includes(hostelData[i].hostelId)) {
+                    hostelFilter.push(hostelData[i].hostelId);
+                    var hostelContent = '<p>' + hostelData[i].hostelId + '</p>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'mouseover', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(hMarker, 'mouseout', function () {
+                            hMarker.infowindow.close(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
             data = information.farmsAndInterests;
             for (i = 0; i < data.length; i++) {
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
@@ -324,6 +432,33 @@
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (information, status) {
             data = information.farmsAndInterests;
+            hostelData = information.hostels;
+            var hostelFilter = [];
+            for (i = 0; i < hostelData.length; i++) {
+                if (!hostelFilter.includes(hostelData[i].hostelId)) {
+                    hostelFilter.push(hostelData[i].hostelId);
+                    var hostelContent = '<p>' + hostelData[i].hostelId + '</p>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'mouseover', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(hMarker, 'mouseout', function () {
+                            hMarker.infowindow.close(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
@@ -385,6 +520,33 @@
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (information, status) {
             data = information.farmsAndInterests;
+            hostelData = information.hostels;
+            var hostelFilter = [];
+            for (i = 0; i < hostelData.length; i++) {
+                if (!hostelFilter.includes(hostelData[i].hostelId)) {
+                    hostelFilter.push(hostelData[i].hostelId);
+                    var hostelContent = '<p>' + hostelData[i].hostelId + '</p>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'mouseover', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(hMarker, 'mouseout', function () {
+                            hMarker.infowindow.close(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
@@ -447,6 +609,32 @@
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (information, status) {
             
             data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelContent = '<p>' + information.hostels[i].hostelName  + '</p>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'mouseover', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(hMarker, 'mouseout', function () {
+                            hMarker.infowindow.close(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
             var filter = [];
             for (i = 0; i < data.length; i++) {
                 var farmContent = '<p>' + data[i].farm.farmName + '</p>';
@@ -510,6 +698,9 @@
             var zoom = map.getZoom();
             for (i = 0; i < interests.length; i++) {
                 interests[i].setVisible(zoom >= 10);
+            }
+            for (i = 0; i < hostels.length; i++) {
+                hostels[i].setVisible(zoom >= 10);
             }
         });
     }
