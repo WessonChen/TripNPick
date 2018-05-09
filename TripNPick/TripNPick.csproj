@@ -199,7 +199,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\crop.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DropdownList.cs" />
     <Compile Include="Models\ExpFarm.cs" />
@@ -207,74 +207,77 @@
     <Compile Include="Models\ExpInterest.cs" />
     <Compile Include="Models\ExpList.cs" />
     <Compile Include="Models\ExpWeather.cs" />
+    <Compile Include="Models\fake_farms.cs">
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\farm.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FarmJson.cs" />
     <Compile Include="Models\FarmsJson.cs" />
     <Compile Include="Models\FilteredFarmViewModel.cs" />
     <Compile Include="Models\hostel.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\InterestsJson.cs" />
     <Compile Include="Models\interest_attraction.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\interest_table.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Registration.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SitemapNode.cs" />
     <Compile Include="Models\state.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StateFarmsCount.cs" />
     <Compile Include="Models\StateSuburbCount.cs" />
     <Compile Include="Models\SuburbViewModel.cs" />
     <Compile Include="Models\suburb_harvest.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\suburb_table.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SuggestionForm.cs" />
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TripNPickModel.Context.cs">
+    <Compile Include="Models\TripAndPickModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TripNPickModel.Context.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TripNPickModel.cs">
+    <Compile Include="Models\TripAndPickModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TripNPickModel.Designer.cs">
+    <Compile Include="Models\TripAndPickModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TripNPickModel.edmx</DependentUpon>
+      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\UserSelections.cs" />
     <Compile Include="Models\weather_cold_days.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_hot_days.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_rainy_days.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_temp3pm_days.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\weather_temp9am_days.cs">
-      <DependentUpon>TripNPickModel.tt</DependentUpon>
+      <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -327,15 +330,15 @@
     <Content Include="img\team\Weicheng.jpg" />
     <Content Include="img\team\Zoe.jpg" />
     <Content Include="img\zoom.png" />
-    <Content Include="Models\TripNPickModel.Context.tt">
+    <Content Include="Models\TripAndPickModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TripNPickModel.edmx</DependentUpon>
-      <LastGenOutput>TripNPickModel.Context.cs</LastGenOutput>
+      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
+      <LastGenOutput>TripAndPickModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\TripNPickModel.tt">
+    <Content Include="Models\TripAndPickModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TripNPickModel.edmx</DependentUpon>
-      <LastGenOutput>TripNPickModel.cs</LastGenOutput>
+      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
+      <LastGenOutput>TripAndPickModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -390,12 +393,12 @@
     <Content Include="App_Data\interest.json" />
     <Content Include="App_Data\weather.json" />
     <Content Include="Mvc.sitemap" />
-    <EntityDeploy Include="Models\TripNPickModel.edmx">
+    <EntityDeploy Include="Models\TripAndPickModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TripNPickModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>TripAndPickModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\TripNPickModel.edmx.diagram">
-      <DependentUpon>TripNPickModel.edmx</DependentUpon>
+    <Content Include="Models\TripAndPickModel.edmx.diagram">
+      <DependentUpon>TripAndPickModel.edmx</DependentUpon>
     </Content>
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>

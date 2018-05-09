@@ -12,16 +12,8 @@ namespace TripNPick.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class farm
+    public partial class fake_farms
     {
         public string farm_id { get; set; }
-        public string farm_name { get; set; }
-        public Nullable<double> location_lat { get; set; }
-        public Nullable<double> location_lng { get; set; }
-        public string farm_address { get; set; }
-        public Nullable<double> farm_rating { get; set; }
-        public Nullable<int> suburb_id { get; set; }
-    
-        public virtual suburb_table suburb_table { get; set; }
     }
 }
