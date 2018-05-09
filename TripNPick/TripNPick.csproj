@@ -315,6 +315,8 @@
     <Content Include="img\markers\Wildlife.png" />
     <Content Include="img\markers\Zoo.png" />
     <Content Include="img\Payment.jpg" />
+    <Content Include="img\rating\empty_person.png" />
+    <Content Include="img\rating\empty_star.png" />
     <Content Include="img\rating\full_star.png" />
     <Content Include="img\rating\half_star.png" />
     <Content Include="img\rating\person.png" />
