@@ -287,17 +287,17 @@ p.copyright {
     cursor: pointer;
 }
 
-.go {
-    padding: 8px 0;
-    font-size: 4rem;
-    font-weight: 500;
-    line-height: 1.33333;
-    text-align: center;
-}
-
 .image-center {
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#hpForm {
+    font-size: 15px !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin-top: 3px !important;
 }

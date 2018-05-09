@@ -709,11 +709,12 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdNjpD2meHBBiquEK62khiotrQ_4u5WpQ&callback=initMap"></script>
 
 <body>
-    <div class="container bgBorder">
-        <div style="margin-left: 27px">
+    <div style="padding-top: 50px; background-color: lightgray">
+        <div class="container">
             @Html.MvcSiteMap().SiteMapPath()
         </div>
-
+    </div>
+    <div>
         <div id="mapForm">
             <form action="/Map/TestIndex">
                 <h2>Select Interests, Search Farms</h2>
@@ -733,18 +734,18 @@
                     <div class="col-lg-6 leftDD">
                         <label for="monthDD">Months to Go: </label>
                         <select id="monthDD" multiple="multiple" name="cMonths">
-                            <option value="January">Jan</option>
-                            <option value="February">Feb</option>
-                            <option value="March">Mar</option>
-                            <option value="April">Apr</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
                             <option value="May">May</option>
-                            <option value="June">Jun</option>
-                            <option value="July">Jul</option>
-                            <option value="August">Aug</option>
-                            <option value="September">Sep</option>
-                            <option value="October">Oct</option>
-                            <option value="Novenmber">Nov</option>
-                            <option value="December">Dec</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="Novenmber">Novenmber</option>
+                            <option value="December">December</option>
                         </select>
                     </div>
                     <div class="col-lg-6 rightDD">
@@ -780,7 +781,7 @@
             @*<div class="col-lg-3">
             </div>*@
 
-            <div id="testMap" class="col-lg-12" style="height: 600px">
+            <div id="testMap" class="col-lg-12" style="height: 550px; padding:0!important; margin:0!important">
             </div>
             <div id="example">
                 <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>

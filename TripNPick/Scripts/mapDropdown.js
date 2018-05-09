@@ -15,7 +15,7 @@
 
     $("#interetsDD").select2({
         closeOnSelect: false,
-        placeholder: "Tell us about your interests and what you want to do while fruitpicking..",
+        placeholder: "Select your activities of interests..",
         allowClear: true
     });
 
