@@ -594,6 +594,7 @@ namespace TripNPick.Controllers
 
         public IEnumerable<FilteredFarmViewModel> getAllFilteredFarms(string combinedString)
         {
+            //var some = dbContext.farms.ToList();
             var farmList = dbContext.farms.ToList();
             var suburbList = dbContext.suburb_table.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
