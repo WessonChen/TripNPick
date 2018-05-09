@@ -22,9 +22,23 @@
         <div class="jumbotron">
             <h1>@Model.theFarm.farm_name</h1>
             <p><b>Farm Rating:</b>
-                @for (int i = 0; i < 5; i++)
+                @if (Model.theFarm.farm_rating == 0)
                 {
-                    <span><img src="~/img/rating/full_star.png" /></span>
+                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this farm yet." /></span>
+                }
+                else
+                {
+                    for (double i = 1.0; i <= Model.theFarm.farm_rating; i++)
+                    {
+                        if (Model.theFarm.farm_rating - i >= 0)
+                        {
+                            <span><img src="~/img/rating/full_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                        }
+                        else
+                        {
+                            <span><img src="~/img/rating/half_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                        }
+                    }
                 }
             </p>
             <p><b>Address:</b> @Model.theFarm.farm_address</p>
@@ -43,16 +57,23 @@
                         @foreach (var item in Model.nearbyAttractions)
                         {
                             <tr>
-                                <td><span><img src="@Url.Content(item.interest_type)" title="@Url.Content(item.toolTip)"></span>@item.attraction_name</td>
-                                <td>@for (double i = 1.0; i <= item.attraction_rating; i++)
+                                <td><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
+                                <td>@if (item.attraction_rating == 0)
                                 {
-                                    if (item.attraction_rating - i >= 1)
+                                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
+                                }
+                                else
+                                {
+                                    for (double i = 1.0; i <= item.attraction_rating; i++)
                                     {
-                                        <span><img src="~/img/rating/full_star.png" /></span>
-                                    }
-                                    else
-                                    {
-                                        <span><img src="~/img/rating/half_star.png" /></span>
+                                        if (item.attraction_rating - i >= 0)
+                                        {
+                                            <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
+                                        }
+                                        else
+                                        {
+                                            <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
+                                        }
                                     }
                                 }
                                 </td>
