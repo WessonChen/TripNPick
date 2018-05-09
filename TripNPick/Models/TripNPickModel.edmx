@@ -64,6 +64,15 @@
           <Property Name="interest_id" Type="int" Nullable="false" />
           <Property Name="types" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="150" />
+          <Property Name="user_email" Type="varchar" MaxLength="50" />
+          <Property Name="user_password" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="state">
           <Key>
             <PropertyRef Name="state_id" />
@@ -360,6 +369,7 @@
           <EntitySet Name="hostel" EntityType="Self.hostel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="interest_attraction" EntityType="Self.interest_attraction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="interest_table" EntityType="Self.interest_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="state" EntityType="Self.state" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="suburb_harvest" EntityType="Self.suburb_harvest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="suburb_table" EntityType="Self.suburb_table" Schema="dbo" store:Type="Tables" />
@@ -858,7 +868,17 @@
             <End Role="weather_temp9am_days" EntitySet="weather_temp9am_days" />
             <End Role="suburb_table" EntitySet="suburb_table" />
           </AssociationSet>
+          <EntitySet Name="Registrations" EntityType="ColdSpotDBModel1.Registration" />
         </EntityContainer>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="user_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1081,6 +1101,16 @@
                 <ScalarProperty Name="november" ColumnName="november" />
                 <ScalarProperty Name="december" ColumnName="december" />
                 <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="ColdSpotDBModel1.Registration">
+              <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -225,6 +225,9 @@
       <DependentUpon>TripNPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Registration.cs">
+      <DependentUpon>TripNPickModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SitemapNode.cs" />
     <Compile Include="Models\state.cs">
       <DependentUpon>TripNPickModel.tt</DependentUpon>

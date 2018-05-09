@@ -137,7 +137,7 @@ namespace TripNPick.Controllers
                                   attraction_distance = c.distance,
                                   attraction_rating = Convert.ToDouble(n.review_grade),
                                   interest_type = "~/img/markers/" + interestDict[Convert.ToString(i.interest_id)] + ".png",
-                                  number_of_reviews = Convert.ToString(n.number_of_reviews),
+                                  number_of_reviews = Convert.ToDouble(n.number_of_reviews),
                                   toolTip = interestDict[Convert.ToString(i.interest_id)]
                               };
             var currentFarm = farmList.Where(x => x.farm_id == reqFarmId).FirstOrDefault();
@@ -613,7 +613,7 @@ namespace TripNPick.Controllers
                                           farm_lat = (double)f.location_lat,
                                           farm_lng = (double)f.location_lng,
                                           farm_address = f.farm_address,
-                                          farm_rating = f.farm_rating,
+                                          farm_rating = Convert.ToDouble(f.farm_rating),
                                           suburb_lat = (double)sl.suburb_lat,
                                           suburb_lng = (double)sl.suburb_lng
                                       }).ToList();
@@ -778,6 +778,8 @@ namespace TripNPick.Controllers
                                   attractionName = ia.attraction_name,
                                   interestLat = (double)ia.location_lat,
                                   interestLng = (double)ia.location_lng,
+                                  interestRating = (double)ia.review_grade,
+                                  numberOfReviews = Convert.ToInt32(ia.number_of_reviews),
                                   suburbId = sb.suburb_id,
                                   suburbName = sb.suburb_name
                               };
@@ -907,6 +909,8 @@ namespace TripNPick.Controllers
                             attractionName = interest.attractionName,
                             suburbId = interest.suburbId,
                             suburbName = interest.suburbName,
+                            attractionRating = interest.interestRating,
+                            attractionNumberOfReviews = interest.numberOfReviews,
                             distance = distance
                         };
                         bool isContained = false;
@@ -946,7 +950,8 @@ namespace TripNPick.Controllers
                                     hostelName = h.hostel_name,
                                     hostel_lat = Convert.ToDouble(h.hostel_lat),
                                     hostel_lng = Convert.ToDouble(h.hostel_long),
-                                    suburbId = Convert.ToInt32( h.suburb_id)
+                                    suburbId = Convert.ToInt32( h.suburb_id),
+                                    hostelRating = Convert.ToDouble(h.hostel_rating)
                                 };
             //var someList = from cu in hostellist
             //               join id in selectedfarms on cu.suburb_id equals id
