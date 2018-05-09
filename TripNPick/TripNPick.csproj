@@ -283,12 +283,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\demandTable.css" />
     <Content Include="Content\droplistform.css" />
-    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\landing-page.css" />
     <Content Include="Content\maps.css" />
     <Content Include="Content\PaymentTaxRight.css" />
     <Content Include="Content\registration.css" />
     <Content Include="Content\results.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="img\Brand.png" />
@@ -334,6 +334,7 @@
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\mapDropdown.js" />
     <Content Include="Scripts\MarkerWithLabel.js" />
+    <Content Include="Scripts\select2.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

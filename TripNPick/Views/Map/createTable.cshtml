@@ -22,11 +22,9 @@
         <div class="jumbotron">
             <h1>@Model.theFarm.farm_name</h1>
             <p><b>Farm Rating:</b>
-                @if (true){
-                    for (int i = 0; i < 5; i++)
-                    {
-                        <span><img src="~/img/rating/full_star.png" /></span>
-                    }
+                @for (int i = 0; i < 5; i++)
+                {
+                    <span><img src="~/img/rating/full_star.png" /></span>
                 }
             </p>
             <p><b>Address:</b> @Model.theFarm.farm_address</p>
@@ -224,47 +222,42 @@
                         <thead>
                             <tr style="color:white; background: #002233">
                                 <td>CROP TYPE</td>
-                                <td>JANUARY</td>
-                                <td>FEBRUARY</td>
-                                <td>MARCH</td>
-                                <td>APRIL</td>
+                                <td>JAN</td>
+                                <td>FEB</td>
+                                <td>MAR</td>
+                                <td>APR</td>
                                 <td>MAY</td>
-                                <td>JUNE</td>
-                                <td>JULY</td>
-                                <td>AUGUST</td>
-                                <td>SEPTEMBER</td>
-                                <td>OCTOBER</td>
-                                <td>NOVEMBER</td>
-                                <td>DECEMBER</td>
+                                <td>JUN</td>
+                                <td>JUL</td>
+                                <td>AUG</td>
+                                <td>SEP</td>
+                                <td>OCT</td>
+                                <td>NOV</td>
+                                <td>DEC</td>
                             </tr>
                         </thead>
 
                         @foreach (var item in Model.demandList)
                          {
-                             <tr>
-
-
-                        <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
-                        <td class="@item.january">@item.january</td>
-                        <td class="@item.february">@item.february</td>
-                        <td class="@item.march">@item.march</td>
-                        <td class="@item.april">@item.april</td>
-                        <td class="@item.may">@item.may</td>
-                        <td class="@item.june">@item.june</td>
-                        <td class="@item.july">@item.july</td>
-                        <td class="@item.august">@item.august</td>
-                        <td class="@item.september">@item.september</td>
-                        <td class="@item.october">@item.october</td>
-                        <td class="@item.november">@item.november</td>
-                        <td class="@item.december">@item.december</td>
-
-                    </tr>
-}
+                         <tr>
+                             <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
+                             <td class="@item.january">@item.january</td>
+                             <td class="@item.february">@item.february</td>
+                             <td class="@item.march">@item.march</td>
+                             <td class="@item.april">@item.april</td>
+                             <td class="@item.may">@item.may</td>
+                             <td class="@item.june">@item.june</td>
+                             <td class="@item.july">@item.july</td>
+                             <td class="@item.august">@item.august</td>
+                             <td class="@item.september">@item.september</td>
+                             <td class="@item.october">@item.october</td>
+                             <td class="@item.november">@item.november</td>
+                             <td class="@item.december">@item.december</td>
+                        </tr>
+                        }
                     </table>
                 </div>
-
             </div>
-
         </div>
     </div>
 

@@ -14,7 +14,7 @@
 }
 
 .inner p {
-    font-size: 115%;
+    font-size: 110%;
 }
 
 /*
@@ -23,213 +23,6 @@
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 */
 
-/* Reset */
-
-	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		vertical-align: baseline;
-	}
-
-	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-		display: block;
-	}
-
-	body {
-		line-height: 1;
-	}
-
-	ol, ul {
-		list-style: none;
-	}
-
-	blockquote, q {
-		quotes: none;
-	}
-
-	blockquote:before, blockquote:after, q:before, q:after {
-		content: '';
-		content: none;
-	}
-
-	table {
-		border-collapse: collapse;
-		border-spacing: 0;
-	}
-
-	body {
-		-webkit-text-size-adjust: none;
-	}
-
-/* Box Model */
-
-	*, *:before, *:after {
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-	}
-
-/* Containers */
-
-	.container {
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.container.\31 25\25 {
-		width: 100%;
-		max-width: 100em;
-		min-width: 80em;
-	}
-
-	.container.\37 5\25 {
-		width: 60em;
-	}
-
-	.container.\35 0\25 {
-		width: 40em;
-	}
-
-	.container.\32 5\25 {
-		width: 20em;
-	}
-
-	.container {
-		width: 80em;
-	}
-
-	@media screen and (max-width: 1680px) {
-
-		.container.\31 25\25 {
-			width: 100%;
-			max-width: 100em;
-			min-width: 80em;
-		}
-
-		.container.\37 5\25 {
-			width: 60em;
-		}
-
-		.container.\35 0\25 {
-			width: 40em;
-		}
-
-		.container.\32 5\25 {
-			width: 20em;
-		}
-
-		.container {
-			width: 80em;
-		}
-
-	}
-
-	@media screen and (max-width: 1280px) {
-
-		.container.\31 25\25 {
-			width: 100%;
-			max-width: 81.25em;
-			min-width: 65em;
-		}
-
-		.container.\37 5\25 {
-			width: 48.75em;
-		}
-
-		.container.\35 0\25 {
-			width: 32.5em;
-		}
-
-		.container.\32 5\25 {
-			width: 16.25em;
-		}
-
-		.container {
-			width: 65em;
-		}
-
-	}
-
-	@media screen and (max-width: 980px) {
-
-		.container.\31 25\25 {
-			width: 100%;
-			max-width: 112.5%;
-			min-width: 90%;
-		}
-
-		.container.\37 5\25 {
-			width: 67.5%;
-		}
-
-		.container.\35 0\25 {
-			width: 45%;
-		}
-
-		.container.\32 5\25 {
-			width: 22.5%;
-		}
-
-		.container {
-			width: 90%;
-		}
-
-	}
-
-	@media screen and (max-width: 736px) {
-
-		.container.\31 25\25 {
-			width: 100%;
-			max-width: 112.5%;
-			min-width: 90%;
-		}
-
-		.container.\37 5\25 {
-			width: 67.5%;
-		}
-
-		.container.\35 0\25 {
-			width: 45%;
-		}
-
-		.container.\32 5\25 {
-			width: 22.5%;
-		}
-
-		.container {
-			width: 90% !important;
-		}
-
-	}
-
-	@media screen and (max-width: 480px) {
-
-		.container.\31 25\25 {
-			width: 100%;
-			max-width: 112.5%;
-			min-width: 90%;
-		}
-
-		.container.\37 5\25 {
-			width: 67.5%;
-		}
-
-		.container.\35 0\25 {
-			width: 45%;
-		}
-
-		.container.\32 5\25 {
-			width: 22.5%;
-		}
-
-		.container {
-			width: 90% !important;
-		}
-
-	}
 
 /* Grid */
 
@@ -1598,12 +1391,6 @@
 		}
 
 /* Type */
-
-	body {
-		background-color: #fff;
-		color: #999999;
-	}
-
 	body, input, select, textarea {
 		font-size: 13pt;
 		font-weight: 300;
@@ -1786,10 +1573,6 @@
 			overflow-x: auto;
 		}
 
-	header p {
-		font-size: 1.25em;
-	}
-
 	hr {
 		border: 0;
 		border-bottom: solid 1px;
@@ -1814,10 +1597,6 @@
 
 	input, select, textarea {
 		color: #000;
-	}
-
-	a {
-		color: #999999;
 	}
 
 		a:hover {
@@ -2488,32 +2267,6 @@
 		text-align: center;
 	}
 
-	header p {
-		position: relative;
-		margin: 0 0 1.5em 0;
-	}
-
-	header h2 + p {
-		font-size: 1.25em;
-		margin-top: -1em;
-	}
-
-	header h3 + p {
-		font-size: 1.1em;
-		margin-top: -0.8em;
-	}
-
-	header h4 + p,
-	header h5 + p,
-	header h6 + p {
-		font-size: 0.9em;
-		margin-top: -0.6em;
-	}
-
-	header p {
-		color: #bfbfbf;
-	}
-
 /* Wrapper */
 
 	.wrapper {
@@ -2676,11 +2429,6 @@
 				color: rgba(0, 0, 0, 0.15);
 			}
 
-			.wrapper.style1 input[type="checkbox"] + label,
-			.wrapper.style1 input[type="radio"] + label {
-				color: #999999;
-			}
-
 				.wrapper.style1 input[type="checkbox"] + label:before,
 				.wrapper.style1 input[type="radio"] + label:before {
 					background: rgba(0, 0, 0, 0.075);
@@ -2759,10 +2507,6 @@
 
 			.wrapper.style2 input, .wrapper.style2 select, .wrapper.style2 textarea {
 				color: #fff;
-			}
-
-			.wrapper.style2 a {
-				color: #999999;
 			}
 
 				.wrapper.style2 a:hover {

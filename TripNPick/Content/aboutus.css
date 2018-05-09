@@ -1,4 +1,8 @@
-﻿.section-center {
+﻿body {
+    line-height: 1.65;
+}
+
+.section-center {
     display:flex;
     flex-direction: column;
     justify-content: center;
