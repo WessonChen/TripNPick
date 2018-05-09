@@ -297,6 +297,11 @@
     <Content Include="img\Brand.png" />
     <Content Include="img\check.png" />
     <Content Include="img\click.png" />
+    <Content Include="img\contact\email.png" />
+    <Content Include="img\contact\location.png" />
+    <Content Include="img\contact\phone.png" />
+    <Content Include="img\contact\schedule.png" />
+    <Content Include="img\contact\team.png" />
     <Content Include="img\homeBG.png" />
     <Content Include="img\markers\Beach.png" />
     <Content Include="img\markers\Farm.png" />

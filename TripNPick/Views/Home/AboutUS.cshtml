@@ -13,7 +13,7 @@
 </head>
 
 
-<div style="padding-top: 50px; background-color: lightgray">
+<div style="padding-top: 50px; background-color: lightgray;">
     <div class="container">
         @Html.MvcSiteMap().SiteMapPath()
     </div>
@@ -23,21 +23,17 @@
     @ViewData["error"]
 </div>
 
-<div class="section-center">
+<div class="section-center container">
     <h1> Are you a backpacker? Yes? Read on... </h1>
-    <br />
-    <br />
-    <h4 id="long-description">
+    <p>
         Working holiday visa is one of the most popular visas for young people like you who want to travel in Australia. In the last year, the number of incoming tourists was over 157000 from the eligible countries. As a result, the country gets a huge boost in tourism as more and more unreachable sites are becoming visible widening the Australian tourism boundaries. The visa is valid for one year and the current rules to extend the visa to second year requires 88 days of work in regional Australia, for which fruit picking is a popular choice of work.
         <br />
         <br />
         We understand that as a backpacker, it can be a daunting task to find regional farm-work while you are travelling in Australia to fulfil your working holiday visa requirements. This, while still being able to travel and look around. There are numerous options for you all over internet to find work in regional Australia. Our website only makes it much easier for you to make a decision by showing you the options that have been <i>tailor made</i> for you based on your preferred time to travel, demand of harvest jobs in your choice of states and outdoor activities that interest you.
-    </h4>
+    </p>
 </div>
 <div class="section-center">
     <h1>Our Team</h1>
-    <br />
-    <br />
     <div class="selection-img">
         <div class="col-lg-3">
             <img src="~/img/team/Weicheng.jpg" class="img-responsive"><br />
@@ -70,18 +66,32 @@
     </div>
 </div>
 
-<div class="section-center">
-    <h1>Suggestions</h1>
-    <br />
-    <h4>Please drop in your suggestions about the website here <i><b>or</b></i> mail us at <b>coldspotatmonash@gmail.com</b></h4>
-
-    @using (Html.BeginForm("AboutUS", "Home", FormMethod.Post, new { id = "theForm" }))
-    {
-        <div>
-            @Html.Label("First Name")
-            @Html.TextBoxFor(model => model.userFirstName, new { placeholder = "Enter your first name..", @class = "form-input" })
-            @Html.ValidationMessageFor(model => model.userFirstName, "", new { @class = "text-danger" })
+<div class="container">
+    <div class="section-center col-lg-4">
+        <h1>Contact Us</h1>
+        @*<i><b>or</b></i> mail us at <b></b>*@
+        <img src="~/img/Brand.png" id="contactImg"/>
+        <div style="text-align: left !important">
+            <p><sapn><img src="~/img/contact/team.png" /></sapn><b> Team： </b>The Cold Spot</p>
+            <p><sapn><img src="~/img/contact/phone.png" /></sapn><b> Phone： </b>(61) 0423 xxx xxx</p>
+            <p><sapn><img src="~/img/contact/email.png" /></sapn><b> Email： </b>coldspotatmonash@gmail.com</p>
+            <p><sapn><img src="~/img/contact/location.png" /></sapn><b> Address： </b>900 Dandenong Rd, VIC 3145</p>
+            <p><sapn><img src="~/img/contact/schedule.png" /></sapn><b> Schedule： </b>Mon - Fri, 09:00 - 17:00</p>
         </div>
+    </div>
+    <div class="section-center col-lg-8">
+        <h1>Suggestions</h1>
+        <div style="width: 90%;">
+            <p style="text-align: center">Please drop in your suggestions about the website here..</p>
+        </div>
+
+        @using (Html.BeginForm("AboutUS", "Home", FormMethod.Post, new { id = "theForm" }))
+        {
+            <div>
+                @Html.Label("First Name")
+                @Html.TextBoxFor(model => model.userFirstName, new { placeholder = "Enter your first name..", @class = "form-input" })
+                @Html.ValidationMessageFor(model => model.userFirstName, "", new { @class = "text-danger" })
+            </div>
             <div>
                 @Html.Label("Last Name")
                 @Html.TextBoxFor(model => model.userLastName, new { placeholder = "Enter your last name..", @class = "form-input" })
@@ -103,5 +113,6 @@
                     Submit
                 </button>
             </div>
-    }
+        }
+    </div>
 </div>

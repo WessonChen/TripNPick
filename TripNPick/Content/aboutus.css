@@ -1,5 +1,27 @@
-﻿body {
-    line-height: 1.65;
+﻿div {
+    line-height: 1.65 !important;
+}
+
+p {
+    text-align:justify; 
+    text-justify: inter-word;
+    font-size: 115%;
+    color: #bfbfbf;
+}
+
+p b{
+    color: #000;
+}
+
+h1 {
+    text-align: center;
+    font-weight: bold !important;
+    margin: 0 !important;
+    padding: 50px 0 !important;
+    line-height: 1.5 !important;
+    box-sizing: border-box;
+    color: #000;
+    display: block;
 }
 
 .section-center {
@@ -7,7 +29,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 32px;
+    padding-bottom: 0px !important;
 }
 
 .section-center .selection-img {
@@ -54,17 +76,8 @@
     text-align: center;
 }
 
-h1 {
-    text-align:center;
-}
-
-h4 {
-    text-align:center; 
-    padding:8px 0;
-}
-
 #theForm {
-    width: 70%;
+    width: 90%;
 }
 
 #theForm div {
@@ -97,18 +110,6 @@ h4 {
     resize: vertical;
 }
 
-@media(max-width: 767px) {
-    #theForm {
-        width: 80%;
-    }
-}
-
-@media(max-width: 450px) {
-    #theForm {
-        width: 100%;
-    }
-}
-
 #suggestionBtn {
     background-color: #4CAF50;
     color: white;
@@ -123,28 +124,12 @@ h4 {
     background-color: #45a049;
 }
 
-#long-description {
-     text-align:justify; 
-     text-justify: inter-word; 
-     padding: 0 64px;
+#contactImg {
+    max-width: 250px;
+    padding: 32px 0;
 }
 
-@media(max-width: 767px) {
-    #long-description {
-        padding: 0 40px;
-    }
+p img {
+    max-height: 18px;
 }
 
-@media(max-width: 450px) {
-    #long-description {
-        padding: 0 24px;
-    }
-}
-
-#emailV {
-    color: red;
-}
-
-#sectionV {
-    color: red;
-}
