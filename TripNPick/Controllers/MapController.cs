@@ -17,7 +17,7 @@ namespace TripNPick.Controllers
 {
     public class MapController : Controller
     {
-        ColdspotDBEntities dbContext = new ColdspotDBEntities();
+        ColdSpotDBEntities dbContext = new ColdSpotDBEntities();
 
         public ActionResult Index(string[] cMonths, string[] cInterests)
         {

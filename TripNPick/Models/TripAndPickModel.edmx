@@ -4,13 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ColdSpotDBModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ColdSpotDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="crop">
           <Key>
             <PropertyRef Name="crop_id" />
           </Key>
           <Property Name="crop_id" Type="int" Nullable="false" />
           <Property Name="crop_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="fake_farms">
+          <Key>
+            <PropertyRef Name="farm_id" />
+          </Key>
+          <Property Name="farm_id" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="farm">
           <Key>
@@ -21,7 +27,7 @@
           <Property Name="location_lat" Type="float" />
           <Property Name="location_lng" Type="float" />
           <Property Name="farm_address" Type="varchar" MaxLength="150" />
-          <Property Name="farm_rating" Type="varchar" MaxLength="50" />
+          <Property Name="farm_rating" Type="float" />
           <Property Name="suburb_id" Type="int" />
         </EntityType>
         <EntityType Name="hostel">
@@ -363,8 +369,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ColdSpotDBModel1StoreContainer">
+        <EntityContainer Name="ColdSpotDBModelStoreContainer">
           <EntitySet Name="crop" EntityType="Self.crop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fake_farms" EntityType="Self.fake_farms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="farm" EntityType="Self.farm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hostel" EntityType="Self.hostel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="interest_attraction" EntityType="Self.interest_attraction" Schema="dbo" store:Type="Tables" />
@@ -431,7 +438,7 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ColdSpotDBModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ColdSpotDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="crop">
           <Key>
             <PropertyRef Name="crop_id" />
@@ -439,6 +446,12 @@
           <Property Name="crop_id" Type="Int32" Nullable="false" />
           <Property Name="crop_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="suburb_harvest" Relationship="Self.FK_suburb_harvest_crop" FromRole="crop" ToRole="suburb_harvest" />
+        </EntityType>
+        <EntityType Name="fake_farms">
+          <Key>
+            <PropertyRef Name="farm_id" />
+          </Key>
+          <Property Name="farm_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="farm">
           <Key>
@@ -449,7 +462,7 @@
           <Property Name="location_lat" Type="Double" />
           <Property Name="location_lng" Type="Double" />
           <Property Name="farm_address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="farm_rating" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="farm_rating" Type="Double" />
           <Property Name="suburb_id" Type="Int32" />
           <NavigationProperty Name="suburb_table" Relationship="Self.FK_farm_suburb_table" FromRole="farm" ToRole="suburb_table" />
         </EntityType>
@@ -496,6 +509,15 @@
           <Property Name="interest_id" Type="Int32" Nullable="false" />
           <Property Name="types" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="interest_attraction" Relationship="Self.FK_interest_attraction_interest_table" FromRole="interest_table" ToRole="interest_attraction" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="user_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="state">
           <Key>
@@ -805,12 +827,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ColdspotDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ColdSpotDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="crops" EntityType="Self.crop" />
+          <EntitySet Name="fake_farms" EntityType="Self.fake_farms" />
           <EntitySet Name="farms" EntityType="Self.farm" />
           <EntitySet Name="hostels" EntityType="Self.hostel" />
           <EntitySet Name="interest_attraction" EntityType="Self.interest_attraction" />
           <EntitySet Name="interest_table" EntityType="Self.interest_table" />
+          <EntitySet Name="Registrations" EntityType="Self.Registration" />
           <EntitySet Name="states" EntityType="Self.state" />
           <EntitySet Name="suburb_harvest" EntityType="Self.suburb_harvest" />
           <EntitySet Name="suburb_table" EntityType="Self.suburb_table" />
@@ -868,33 +892,30 @@
             <End Role="weather_temp9am_days" EntitySet="weather_temp9am_days" />
             <End Role="suburb_table" EntitySet="suburb_table" />
           </AssociationSet>
-          <EntitySet Name="Registrations" EntityType="ColdSpotDBModel1.Registration" />
         </EntityContainer>
-        <EntityType Name="Registration">
-          <Key>
-            <PropertyRef Name="user_id" />
-          </Key>
-          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="user_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="user_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="user_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ColdSpotDBModel1StoreContainer" CdmEntityContainer="ColdspotDBEntities">
+        <EntityContainerMapping StorageEntityContainer="ColdSpotDBModelStoreContainer" CdmEntityContainer="ColdSpotDBEntities">
           <EntitySetMapping Name="crops">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.crop">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.crop">
               <MappingFragment StoreEntitySet="crop">
                 <ScalarProperty Name="crop_id" ColumnName="crop_id" />
                 <ScalarProperty Name="crop_name" ColumnName="crop_name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="fake_farms">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.fake_farms">
+              <MappingFragment StoreEntitySet="fake_farms">
+                <ScalarProperty Name="farm_id" ColumnName="farm_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="farms">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.farm">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.farm">
               <MappingFragment StoreEntitySet="farm">
                 <ScalarProperty Name="farm_id" ColumnName="farm_id" />
                 <ScalarProperty Name="farm_name" ColumnName="farm_name" />
@@ -907,7 +928,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="hostels">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.hostel">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.hostel">
               <MappingFragment StoreEntitySet="hostel">
                 <ScalarProperty Name="hostel_id" ColumnName="hostel_id" />
                 <ScalarProperty Name="hostel_id_gg" ColumnName="hostel_id_gg" />
@@ -921,7 +942,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="interest_attraction">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.interest_attraction">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.interest_attraction">
               <MappingFragment StoreEntitySet="interest_attraction">
                 <ScalarProperty Name="attraction_id" ColumnName="attraction_id" />
                 <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
@@ -942,15 +963,25 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="interest_table">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.interest_table">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.interest_table">
               <MappingFragment StoreEntitySet="interest_table">
                 <ScalarProperty Name="interest_id" ColumnName="interest_id" />
                 <ScalarProperty Name="types" ColumnName="types" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.Registration">
+              <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="states">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.state">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.state">
               <MappingFragment StoreEntitySet="state">
                 <ScalarProperty Name="state_id" ColumnName="state_id" />
                 <ScalarProperty Name="state_name" ColumnName="state_name" />
@@ -961,7 +992,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="suburb_harvest">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.suburb_harvest">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.suburb_harvest">
               <MappingFragment StoreEntitySet="suburb_harvest">
                 <ScalarProperty Name="suburb_harvest_id" ColumnName="suburb_harvest_id" />
                 <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
@@ -982,7 +1013,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="suburb_table">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.suburb_table">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.suburb_table">
               <MappingFragment StoreEntitySet="suburb_table">
                 <ScalarProperty Name="suburb_id" ColumnName="suburb_id" />
                 <ScalarProperty Name="suburb_name" ColumnName="suburb_name" />
@@ -994,7 +1025,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.sysdiagram">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1005,7 +1036,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="weather_cold_days">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.weather_cold_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_cold_days">
               <MappingFragment StoreEntitySet="weather_cold_days">
                 <ScalarProperty Name="station_id" ColumnName="station_id" />
                 <ScalarProperty Name="january" ColumnName="january" />
@@ -1025,7 +1056,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="weather_hot_days">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.weather_hot_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_hot_days">
               <MappingFragment StoreEntitySet="weather_hot_days">
                 <ScalarProperty Name="station_id" ColumnName="station_id" />
                 <ScalarProperty Name="january" ColumnName="january" />
@@ -1045,7 +1076,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="weather_rainy_days">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.weather_rainy_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_rainy_days">
               <MappingFragment StoreEntitySet="weather_rainy_days">
                 <ScalarProperty Name="station_id" ColumnName="station_id" />
                 <ScalarProperty Name="january" ColumnName="january" />
@@ -1065,7 +1096,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="weather_temp3pm_days">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.weather_temp3pm_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_temp3pm_days">
               <MappingFragment StoreEntitySet="weather_temp3pm_days">
                 <ScalarProperty Name="station_id" ColumnName="station_id" />
                 <ScalarProperty Name="january" ColumnName="january" />
@@ -1085,7 +1116,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="weather_temp9am_days">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.weather_temp9am_days">
+            <EntityTypeMapping TypeName="ColdSpotDBModel.weather_temp9am_days">
               <MappingFragment StoreEntitySet="weather_temp9am_days">
                 <ScalarProperty Name="station_id" ColumnName="station_id" />
                 <ScalarProperty Name="january" ColumnName="january" />
@@ -1101,16 +1132,6 @@
                 <ScalarProperty Name="november" ColumnName="november" />
                 <ScalarProperty Name="december" ColumnName="december" />
                 <ScalarProperty Name="statistical_element" ColumnName="statistical_element" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Registrations">
-            <EntityTypeMapping TypeName="ColdSpotDBModel1.Registration">
-              <MappingFragment StoreEntitySet="Registration">
-                <ScalarProperty Name="user_password" ColumnName="user_password" />
-                <ScalarProperty Name="user_email" ColumnName="user_email" />
-                <ScalarProperty Name="user_name" ColumnName="user_name" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
