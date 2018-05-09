@@ -15,7 +15,7 @@ namespace TripNPick.Models
         public double farm_lat { get; set; }
         public double farm_lng { get; set; }
         public string farm_address { get; set; }
-        public string farm_rating { get; set; }
+        public double farm_rating { get; set; }
         public double state_lat { get; set; }
         public double state_lng { get; set; }
         public double suburb_lat { get; set; }

@@ -77,6 +77,7 @@ namespace TripNPick.Models
         public double hostel_lat { get; set; }
         public double hostel_lng { get; set; }
         public int suburbId { get; set; }
+        public double hostelRating { get; set; }
     }
 
     public class StateCount
@@ -141,7 +142,7 @@ namespace TripNPick.Models
         public string attraction_name { get; set; }
         public string attraction_distance { get; set; }
         public double attraction_rating { get; set; }
-        public string number_of_reviews { get; set; }
+        public double number_of_reviews { get; set; }
         public string attraction_address { get; set; }
         public string interest_type { get; set; }
         public string toolTip { get; set; }
