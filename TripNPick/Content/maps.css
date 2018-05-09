@@ -1,14 +1,14 @@
-﻿.bgBorder {
-    margin-top: 50px;
-    padding: 16px 0 0 0;
-}
-
-#mapForm {
+﻿#mapForm {
     display:flex;
     flex-direction: column;
     background: url(../img/searchBG.PNG) no-repeat center center;
     background-size: cover;
-    width: 100%
+    width: 100%;
+    font-size: 15px !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin-top: 3px !important;
 }
 
 #mapForm form {
@@ -41,7 +41,8 @@
 }
 
 #example {
-    padding-top: 8px;
+    padding: 8px 0 0 0 !important;
+    margin: 0 !important;
     float: right;
 }
 
@@ -58,3 +59,9 @@
     text-align:justify; 
     text-justify: inter-word;
 }
+
+.intro img {
+    max-height: 64px;
+    padding-bottom: 8px;
+}
+
