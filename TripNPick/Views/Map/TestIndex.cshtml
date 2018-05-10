@@ -38,7 +38,11 @@
                     distance.selected = 'selected';
                 }
             }
-            debugger
+
+            $("#clearAll").on("click", function () {
+                $("#monthDD").select2().val(null).trigger("change");
+                $("#interetsDD").select2().val(null).trigger("change");
+            });
         });
     </script>
     <script type="text/javascript" src="~/Scripts/mapDropdown.js"></script>
@@ -778,7 +782,10 @@
                             </select>
                         </div>
                     </div>
-                    <input type="submit" class="btn btn-success" value="Search" />
+                    <div class="buttonGroup">
+                        <input type="submit" class="btn btn-success" value="Search" />
+                        <a class="btn btn-warning" id="clearAll">Clear All</a>
+                    </div>
                 </form>
             </div>
         </div>
