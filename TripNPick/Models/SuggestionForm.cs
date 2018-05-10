@@ -8,10 +8,8 @@ namespace TripNPick.Models
 {
     public class SuggestionForm
     {
-        [Required(ErrorMessage = "Your First Name is required")]
         public string userFirstName { get; set; }
 
-        [Required(ErrorMessage = "Your Last Name is required")]
         public string userLastName { get; set; }
 
         [Required(ErrorMessage = "Your Email is required"), EmailAddress(ErrorMessage ="Please provide a valid email address.")]
