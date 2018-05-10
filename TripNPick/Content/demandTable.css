@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+.jumbotron {
+    margin-bottom: 0 !important;
+}
+
 .High {
     color: #D1403B;
     font-family: Montserrat-Regular;
@@ -24,6 +28,16 @@ thead {
     font-size: medium;
 }
 
+#tabBody0 h3{
+    text-align: center;
+    padding-bottom: 16px;
+    font-weight: bold;
+}
+
+#fancyTabWidget {
+    margin: 50px auto;
+}
+
 .table tbody tr:nth-child(even) {
     background-color: #e9faff;
 }
@@ -33,29 +47,57 @@ thead {
     cursor: pointer;
 }
 
-.jumbotron p img {
+.firsttable{
+    background-color: #f8f8f8;
+    padding: 50px 0;
+}
+
+.detailsBG {
+    background-color: white !important;
+    background: url(../img/aboutBG.JPG) no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 80px 0;
+}
+.detailsBG p {
+    color: #bfbfbf;
+}
+
+.detailsBG p b{
+    color: white !important;
+}
+
+.detailsBG p img {
+    max-height: 20px;
+    padding-bottom: 2px;
+}
+
+#tabcss table thead tr {
+    font-family: Montserrat-Medium;
+    background-color: rgb(0, 34, 51);
+   color: white;
+   font-weight: bold;
+}
+
+.biggericon span img{
     max-height: 20px;
 }
 
-#tabcss {
-    margin-top: 16px;
+.smallericon {
+    min-width: 85px !important;
 }
 
-    .biggericon span img{
-        max-height: 20px;
-    }
+.smallericon span img{
+    max-height: 14px;
+}
 
-    .smallericon span img{
-        max-height: 14px;
-    }
-
-    .fancyTab {
-	text-align: center;
-  padding:15px 0;
-  background-color: #eee;
+.fancyTab {
+    text-align: center;
+    padding:15px 0;
+    background-color: #eee;
 	box-shadow: 0 0 0 1px #ddd;
 	top:15px;	
-  transition: top .2s;
+    transition: top .2s;
 }
 
 .fancyTab.active {
@@ -78,16 +120,11 @@ thead {
 }
 
 .fancyTab a {
-	font-family: 'Source Sans Pro';
 	font-size:1.65em;
 	font-weight:300;
   transition:.2s;
   color:#333;
 }
-
-/*.fancyTab .hidden-xs {
-  white-space:nowrap;
-}*/
 
 .fancyTabs {
 	border-bottom:2px solid #ddd;
@@ -109,10 +146,27 @@ li.fancyTab.active a {
 	width:100%;
 	padding: 15px 0 5px;
   color:#666;
+  back
 }
 
 .fancyTab.active .fa {
   color: #cfb87c;
+}
+
+.fancyTab.active #demand img {
+    content:url("../img/details/demand_orange.png");
+}
+
+.fancyTab.active #weather img {
+    content:url("../img/details/weather_orange.png");
+}
+
+.fancyTab.active #temperature img {
+    content:url("../img/details/temperature_orange.png");
+}
+
+.fancyTab .fa img{
+    max-height: 32px;
 }
 
 .fancyTab a:focus {

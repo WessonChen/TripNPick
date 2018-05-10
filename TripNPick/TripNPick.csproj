@@ -285,6 +285,7 @@
   <ItemGroup>
     <Content Include="Content\404.css" />
     <Content Include="Content\aboutus.css" />
+    <Content Include="Content\accomodation.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\demandTable.css" />
@@ -307,6 +308,12 @@
     <Content Include="img\contact\phone.png" />
     <Content Include="img\contact\schedule.png" />
     <Content Include="img\contact\team.png" />
+    <Content Include="img\details\demand.png" />
+    <Content Include="img\details\demand_orange.png" />
+    <Content Include="img\details\temperature.png" />
+    <Content Include="img\details\temperature_orange.png" />
+    <Content Include="img\details\weather.png" />
+    <Content Include="img\details\weather_orange.png" />
     <Content Include="img\homeBG.png" />
     <Content Include="img\loadingImage.gif" />
     <Content Include="img\markers\Beach.png" />

@@ -21,16 +21,20 @@
 
 @if (ViewData["info"].Equals("Success!"))
 {
-    <div id="popupdiv" class="container alert alert-success alert-dismissible fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>@ViewData["info"]</strong> Thank your for your valuable suggestion, we will apply you as soon as possible.
+    <div class="successWarper">
+        <div id="popupdiv" class="container alert alert-success alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>@ViewData["info"]</strong> Thank your for your valuable suggestion, we will reply you as soon as possible.
+        </div>
     </div>
 }
 else if (ViewData["info"].Equals("Sorry!"))
 {
-    <div id="popupdiv" class="container alert alert-warning alert-dismissible fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>@ViewData["info"]</strong> You did not complete the form correctly, <a href="#formSection" class="alert-link">please try it again</a>.
+    <div class="warningWarper">
+        <div id="popupdiv" class="container alert alert-warning alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>@ViewData["info"]</strong> You did not complete the form correctly, <a href="#formSection" class="alert-link">please try it again</a>.
+        </div>
     </div>
 }
 
@@ -111,12 +115,12 @@ else if (ViewData["info"].Equals("Sorry!"))
                     @Html.TextBoxFor(model => model.userLastName, new { placeholder = "Enter your last name..", @class = "form-input" })
                     @Html.ValidationMessageFor(model => model.userLastName, "", new { @class = "text-danger" })
                 </div>
-                <div>
+                <div id="emailDiv">
                     @Html.Label("Your email")
                     @Html.TextBoxFor(model => model.userEmail, new { placeholder = "Enter your email address..", @class = "form-input" })
                     @Html.ValidationMessageFor(model => model.userEmail, "", new { @class = "text-danger" })
                 </div>
-                <div>
+                <div id="suggestionDiv">
                     @Html.Label("Your Suggestion")
                     @Html.TextAreaFor(model => model.userSuggestion, new { placeholder = "Type in your suggestions here..", @class = "form-input" })
                     @Html.ValidationMessageFor(model => model.userSuggestion, "", new { @class = "text-danger" })

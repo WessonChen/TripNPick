@@ -159,3 +159,41 @@ p img {
     margin-top: 50px;
     padding-bottom: 50px !important;
 }
+
+.warningWarper #popupdiv {
+    border: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.warningWarper #popupdiv .close {
+    color: red;
+}
+
+.warningWarper #popupdiv .alert-link {
+    text-decoration: underline;
+}
+
+.warningWarper {
+    background-color: #fcf8e3;
+}
+
+.successWarper #popupdiv {
+    border: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.successWarper #popupdiv .close {
+    color: red;
+}
+
+.successWarper {
+    background-color: #dff0d8;
+}
+
+#emailDiv span {
+    color: orange;
+}
+
+#suggestionDiv span {
+    color: orange;
+}
