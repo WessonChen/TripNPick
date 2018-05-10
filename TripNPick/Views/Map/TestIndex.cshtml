@@ -46,7 +46,7 @@
             zoom: 3.9,
             center: { lat: -25.031596581410874, lng: 134.36777208750004 }
         });
-        
+
         var markersVIC = [];
         var markersNSW = [];
         var markersSA = [];
@@ -58,7 +58,7 @@
 
         var interests = [];
         var hostels = [];
-       
+
         var clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
         var farmUrl = '/img/markers/Farm.png';
         var hostelUrl = '/img/markers/Hostel.png';
@@ -111,9 +111,9 @@
                 }
             }
             var filter = [];
-            
+
             for (i = 0; i < data.length; i++) {
-                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>' + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address + '</p></div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -124,7 +124,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-                
+
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -171,7 +171,7 @@
                 { imagePath: clusterUrl });
         })
 
-   
+
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (information, status) {
             data = information.farmsAndInterests;
@@ -215,7 +215,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-                
+
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -302,7 +302,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-                
+
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -390,7 +390,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-                
+
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -478,7 +478,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-                
+
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -566,7 +566,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-                
+
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -613,7 +613,7 @@
         })
 
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (information, status) {
-            
+
             data = information.farmsAndInterests;
             var hostelFilter = [];
             for (i = 0; i < information.hostels.length; i++) {
@@ -654,7 +654,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-                
+
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -721,113 +721,118 @@
         </div>
     </div>
     <div>
-        <div id="mapForm">
-            <form action="/Map/TestIndex">
-                <h2>Select Interests, Search Farms</h2>
-                <label for="interetsDD">Preferred Interests:</label>
-                <select id="interetsDD" multiple="multiple" name="cInterests">
-                    <option value="Museums">Museums</option>
-                    <option value="Sights and Landmarks">Sights</option>
-                    <option value="Nature and Parks">Parks</option>
-                    <option value="Beaches">Beaches</option>
-                    <option value="Outdoor Activities and Tours">Outdoors</option>
-                    <option value="Nature and Wildlife Areas">Wildlife</option>
-                    <option value="Hiking Trails">Hiking</option>
-                    <option value="Fun and Games and Sports">Games/Sports</option>
-                    <option value="Zoos and Aquariums">Zoos/Aquariums</option>
-                </select>
-                <div>
-                    <div class="col-lg-6 leftDD">
-                        <label for="monthDD">Months to Go: </label>
-                        <select id="monthDD" multiple="multiple" name="cMonths">
-                            <option value="January">January</option>
-                            <option value="February">February</option>
-                            <option value="March">March</option>
-                            <option value="April">April</option>
-                            <option value="May">May</option>
-                            <option value="June">June</option>
-                            <option value="July">July</option>
-                            <option value="August">August</option>
-                            <option value="September">September</option>
-                            <option value="October">October</option>
-                            <option value="Novenmber">Novenmber</option>
-                            <option value="December">December</option>
-                        </select>
+        <div class="searchBG">
+            <div id="mapForm" class="container">
+                <form action="/Map/TestIndex">
+                    <h2>Select Interests, Search Farms</h2>
+                    <label for="interetsDD">Preferred Interests  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select all interests by default." /></span></label>
+                    <select id="interetsDD" multiple="multiple" name="cInterests">
+                        <option value="Museums">Museums</option>
+                        <option value="Sights and Landmarks">Sights</option>
+                        <option value="Nature and Parks">Parks</option>
+                        <option value="Beaches">Beaches</option>
+                        <option value="Outdoor Activities and Tours">Outdoors</option>
+                        <option value="Nature and Wildlife Areas">Wildlife</option>
+                        <option value="Hiking Trails">Hiking</option>
+                        <option value="Fun and Games and Sports">Games/Sports</option>
+                        <option value="Zoos and Aquariums">Zoos/Aquariums</option>
+                    </select>
+                    <div>
+                        <div class="col-lg-6 leftDD">
+                            <label for="monthDD">Months to Go  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select current month by default." /></span></label>
+                            <select id="monthDD" multiple="multiple" name="cMonths">
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="Novenmber">Novenmber</option>
+                                <option value="December">December</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 rightDD">
+                            <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 80 km by default." /></span></label>
+                            <select id="distanceDD" multiple="multiple" name="cDistance">
+                                <option value="80">80 km</option>
+                                <option value="120">120 km</option>
+                                <option value="160">160 km</option>
+                                <option value="200">200 km</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-lg-6 rightDD">
-                        <label for="distanceDD">Distance from Farm to Interests: </label>
-                        <select id="distanceDD" multiple="multiple" name="cDistance">
-                            <option value="80">80 km</option>
-                            <option value="120">120 km</option>
-                            <option value="160">160 km</option>
-                            <option value="200">200 km</option>
-                        </select>
-                    </div>
+                    <input type="submit" class="btn btn-success" value="Search" />
+                </form>
+            </div>
+        </div>
+
+        <div class="section-center">
+            <div class="selection-img">
+                <div class="col-lg-4 intro">
+                    <img src="~/img/zoom.png" />
+                    <p>Clusters show the number of farms in that area. Zoom in to check individual farms. </p>
                 </div>
-                <input type="submit" class="btn btn-success" value="Search" />
-            </form>
-        </div>
-
-        <div>
-            <div class="col-lg-4 intro">
-                <img src="~/img/zoom.png" />
-                <p>Clusters show the number of farms in that area. <br />Zoom in to check individual farms. </p>
-            </div>
-            <div class="col-lg-4 intro">
-                <img src="~/img/check.png" />
-                <p>Mouse over farms, attractions and hostels to check more info. <br />They are marked by different color of icons. </p>
-            </div>
-            <div class="col-lg-4 intro">
-                <img src="~/img/click.png" />
-                <p>Click on farm markers to get more details about the farm.</p>
+                <div class="col-lg-4 intro">
+                    <img src="~/img/check.png" />
+                    <p>Mouse over farms, attractions and hostels to check more info. They are marked by different color of icons. </p>
+                </div>
+                <div class="col-lg-4 intro">
+                    <img src="~/img/click.png" />
+                    <p>Click on farm markers to get more details about the farm.</p>
+                </div>
             </div>
         </div>
 
-        <div style="margin-top: 16px">
-            <div id="loader"></div>
-            <div id="testMap" class="col-lg-12 animate-bottom" style="height: 550px; padding:0!important; margin:0!important;">
-            </div>
-            <div id="example">
-                <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
-                <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
-                @if (Model.cInterests != null)
+        <div class="example">
+            <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
+            <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
+            @if (Model.cInterests != null)
+            {
+                for (int i = 0; i < Model.cInterests.Length; i++)
                 {
-                    for (int i = 0; i < Model.cInterests.Length; i++)
+                    switch (Model.cInterests[i])
                     {
-                        switch (Model.cInterests[i])
-                        {
-                            case "Museums":
-                                <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
-                                break;
-                            case "Sights and Landmarks":
-                                <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
-                                break;
-                            case "Nature and Parks":
-                                <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
-                                break;
-                            case "Beaches":
-                                <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
-                                break;
-                            case "Outdoor Activities and Tours":
-                                <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
-                                break;
-                            case "Nature and Wildlife Areas":
-                                <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
-                                break;
-                            case "Hiking Trails":
-                                <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
-                                break;
-                            case "Fun and Games and Sports":
-                                <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
-                                break;
-                            case "Zoos and Aquariums":
-                                <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
-                                break;
-                            default:
-                                break;
-                        }
+                        case "Museums":
+                            <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
+                            break;
+                        case "Sights and Landmarks":
+                            <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
+                            break;
+                        case "Nature and Parks":
+                            <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
+                            break;
+                        case "Beaches":
+                            <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
+                            break;
+                        case "Outdoor Activities and Tours":
+                            <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
+                            break;
+                        case "Nature and Wildlife Areas":
+                            <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
+                            break;
+                        case "Hiking Trails":
+                            <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
+                            break;
+                        case "Fun and Games and Sports":
+                            <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
+                            break;
+                        case "Zoos and Aquariums":
+                            <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
+                            break;
+                        default:
+                            break;
                     }
                 }
+            }
+        </div>
+            
+        <div>
+            <div id="loader"></div>
+            <div id="testMap" class="animate-bottom" style="height: 550px; width: 100%!important; padding: 0!important; margin:0!important">
             </div>
         </div>
     </div>

@@ -1,9 +1,12 @@
-﻿#mapForm {
+﻿.searchBG {
+    background: url(../img/dawn.jpg) no-repeat center center;
+    background-size: cover;
+    padding: 50px 0;
+}
+
+#mapForm {
     display:flex;
     flex-direction: column;
-    background: url(../img/searchBG.PNG) no-repeat center center;
-    background-size: cover;
-    width: 100%;
     font-size: 15px !important;
 }
 
@@ -11,8 +14,10 @@
     margin-top: 3px !important;
 }
 
-#mapForm form {
-    padding: 24px 32px 32px 32px;
+#mapForm form label img {
+    max-height: 18px;
+    padding-bottom: 2px;
+    padding-left: 5px;
 }
 
 .select2 {
@@ -21,13 +26,15 @@
 
 #mapForm .btn-success {
     float: right;
-    margin-top: 8px;
+    margin-top: 24px;
 }
 
 #mapForm h2 {
     text-align: center;
     color: white;
     font-weight: bold;
+    padding-top: 0 !important;
+    padding-bottom: 50px !important;
 }
 
 #mapForm label {
@@ -40,32 +47,77 @@
     padding-right: 0px;
 }
 
-#example {
-    padding: 8px 0 0 0 !important;
+.example {
+    padding: 0 !important;
     margin: 0 !important;
-    float: right;
+    width: 100%;
+    background-color: lightgray;
 }
 
-#example img{
+.example img{
+    padding-left: 4px;
     height: 20px;
 }
 
-.intro {
+.mapLayout {
+    display:flex;
+    flex-direction: row !important;
+}
+
+.section-center {
+    background-color: #f8f8f8;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 16px 64px;
-    text-align:justify; 
-    text-justify: inter-word;
+    padding: 50px 0 !important;
 }
 
-.intro img {
+.section-center .selection-img {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.section-center .selection-img div {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media(max-width: 767px) {
+    .section-center .selection-img {
+        flex-direction: column;
+    }
+
+    .section-center .selection-img div {
+        margin-top: 16px;
+    }
+}
+
+
+
+.section-center .selection-img div img {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    float: initial;
+    max-width: 64px;
     max-height: 64px;
-    padding-bottom: 8px;
+    margin-bottom: 32px;
 }
 
-
+.section-center .selection-img div p {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 85%;
+}
 
 #loader {
     position: absolute;
