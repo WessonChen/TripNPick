@@ -57,8 +57,8 @@
                         @foreach (var item in Model.nearbyAttractions)
                         {
                             <tr>
-                                <td><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
-                                <td>
+                                <td class="biggericon"><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
+                                <td class="smallericon">
                                     @if (item.attraction_rating == 0)
                                     {
                                         <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>

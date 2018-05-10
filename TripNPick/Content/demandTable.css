@@ -41,7 +41,11 @@ thead {
     margin-top: 16px;
 }
 
-    #tabcss tbody tr td span img {
+    .biggericon span img{
+        max-height: 20px;
+    }
+
+    .smallericon span img{
         max-height: 14px;
     }
 
