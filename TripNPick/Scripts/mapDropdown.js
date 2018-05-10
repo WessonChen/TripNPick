@@ -28,8 +28,6 @@
     });
 
     $("#distanceDD").select2({
-        placeholder: "..",
-        allowClear: true,
-        maximumSelectionLength: 1
+        minimumResultsForSearch: -1
     });
 });

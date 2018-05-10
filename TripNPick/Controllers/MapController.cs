@@ -389,11 +389,12 @@ namespace TripNPick.Controllers
             }
         }
         
-        public ActionResult TestIndex(string[] cMonths, string[] cInterests)
+        public ActionResult TestIndex(string[] cMonths, string[] cInterests, string[] cDistance)
         {
             UserSelections us = new UserSelections();
             us.cMonths = cMonths;
             us.cInterests = cInterests;
+            us.cDistance = cDistance;
             us.combinedString = "";
             if (cMonths != null)
             {
@@ -411,7 +412,12 @@ namespace TripNPick.Controllers
             }
             else
             {
-                us.combinedString = "null|";
+                DateTime now = DateTime.Now;
+                string currentM = now.ToString("MMMM");
+                List<string> months = new List<string>();
+                months.Add(currentM);
+                us.cMonths = months.ToArray();
+                us.combinedString = currentM + "|";
             }
             if (cInterests != null)
             {
@@ -419,7 +425,7 @@ namespace TripNPick.Controllers
                 {
                     if (i == cInterests.Length - 1)
                     {
-                        us.combinedString = us.combinedString + cInterests[i];
+                        us.combinedString = us.combinedString + cInterests[i] + "|";
                     }
                     else
                     {
@@ -429,7 +435,29 @@ namespace TripNPick.Controllers
             }
             else
             {
-                us.combinedString = us.combinedString + "null";
+                List<string> ints = new List<string>();
+                ints.Add("Museums");
+                ints.Add("Sights and Landmarks");
+                ints.Add("Nature and Parks");
+                ints.Add("Beaches");
+                ints.Add("Outdoor Activities and Tours");
+                ints.Add("Nature and Wildlife Areas");
+                ints.Add("Hiking Trails");
+                ints.Add("Fun and Games and Sports");
+                ints.Add("Zoos and Aquariums");
+                us.cInterests = ints.ToArray();
+                us.combinedString = us.combinedString + "null|";
+            }
+            if (cDistance != null && !cDistance.Equals(""))
+            {
+                us.combinedString = us.combinedString + cDistance[0];
+            }
+            else
+            {
+                List<string> dis = new List<string>();
+                dis.Add("100");
+                us.cDistance = dis.ToArray();
+                us.combinedString = us.combinedString + 100;
             }
             return View(us);
         }
@@ -642,59 +670,6 @@ namespace TripNPick.Controllers
             return Json(joinStateLocation, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult testSomething() {
-            string farm2 = "00f3d3fea7ea216489383b68e66779100b87d91b";
-            var farmList = dbContext.farms.ToList();
-            var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
-            var suburbId = Convert.ToInt16(reqSub.FirstOrDefault());
-            var suburbList = dbContext.suburb_table.ToList();
-            var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
-            var stationId = Convert.ToInt16(reqStation.FirstOrDefault());
-            var coldView = getColdDays(stationId);
-            var hotView = getHotDays(stationId);
-            var rainView = getRainyDays(stationId);
-            var temp3View = getTemp3pm(stationId);
-            var temp9View = getTemp9am(stationId);
-
-            List<double> coldValues = this.getThatList(coldView.First()).getDays();
-            List<double> hotValues = this.getThatList(hotView.First()).getDays();
-            List<double> rainValues = this.getThatList(rainView.First()).getDays();
-            List<double> temp3Values = this.getThatList(temp3View.First()).getDays();
-            List<double> temp9Values = this.getThatList(temp9View.First()).getDays();
-
-            List<LineSeriesData> coldData = new List<LineSeriesData>();
-            List<LineSeriesData> hotData = new List<LineSeriesData>();
-            List<LineSeriesData> rainData = new List<LineSeriesData>();
-            List<LineSeriesData> temp3Data = new List<LineSeriesData>();
-            List<LineSeriesData> temp9Data = new List<LineSeriesData>();
-
-            coldValues.ForEach(p => coldData.Add(new LineSeriesData { Y = p }));
-            hotValues.ForEach(p => hotData.Add(new LineSeriesData { Y = p }));
-            rainValues.ForEach(p => rainData.Add(new LineSeriesData { Y = p }));
-            temp3Values.ForEach(p => temp3Data.Add(new LineSeriesData { Y = p }));
-            temp9Values.ForEach(p => temp9Data.Add(new LineSeriesData { Y = p }));
-
-            FarmDetailsView twoModels = new FarmDetailsView();
-            twoModels.weatherList = new List<WeatherView>();
-            twoModels.weatherList.Add(coldView.First());
-            twoModels.weatherList.Add(hotView.First());
-            twoModels.weatherList.Add(rainView.First());
-            twoModels.weatherList.Add(temp3View.First());
-            twoModels.weatherList.Add(temp9View.First());
-
-            var demandView = getFarmDemands(suburbId);
-            twoModels.demandList = demandView;
-
-            ViewData["coldData"] = coldData;
-            ViewData["hotData"] = hotData;
-            ViewData["rainData"] = rainData;
-            ViewData["temp3Data"] = temp3Data;
-            ViewData["temp9Data"] = temp9Data;
-
-
-            return View(twoModels);
-        }
-
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
         {
             List<string> selectedInterests = new List<string>();
@@ -895,6 +870,9 @@ namespace TripNPick.Controllers
             string[] p = userInput.Split(':');
             var combinedString = p[0];
             var stateId = p[1];
+            string[] o = combinedString.Split('|');
+            string distancex = o[2];
+            combinedString = o[0].ToLower() + "|" + o[1];
             var filteredFarms = getAllFilteredFarms(combinedString);
             var farmsInAState = filteredFarms.Where(x => x.stateName.Equals(stateId)).ToList();
             var filteredInterests = getAllInterest2(combinedString);
@@ -904,7 +882,7 @@ namespace TripNPick.Controllers
             {
                 foreach (AllInterest interest in interestsInAState) {
                     double distance = Math.Round(this.Haversine(interest.interestLat, farm.farm_lat, interest.interestLng, farm.farm_lng),2);
-                    if (distance < 100) {
+                    if (distance < Convert.ToInt32(distancex)) {
                         InterestWithDistance intDistance = new InterestWithDistance()
                         {
                             stateName = interest.stateName,
@@ -971,79 +949,6 @@ namespace TripNPick.Controllers
             return Json(mapInfo, JsonRequestBehavior.AllowGet);
         }
         
-        public JsonResult countForStates(string userInput)
-        {
-            var combinedString = userInput;
-            List<string> stateList = new List<string>();
-            stateList.Add("NT");
-            stateList.Add("WA");
-            stateList.Add("SA");
-            stateList.Add("VIC");
-            stateList.Add("NSW");
-            stateList.Add("TAS");
-            stateList.Add("QLD");
-            List<StateCount> scList = new List<StateCount>();
-            foreach (var stateId in stateList)
-            {
-                StateCount sc = new StateCount();
-                var aState = dbContext.states.Where(x => x.state_id.Equals(stateId)).ToList();
-                foreach (var s in aState)
-                {
-                    sc.state_lat = (double) s.state_lat;
-                    sc.state_lng = (double) s.state_lng;
-                }
-                int sCount = 0;
-                var filteredFarms = getAllFilteredFarms(combinedString);
-                var farmsInAState = filteredFarms.Where(x => x.stateName.Equals(stateId)).ToList();
-                var filteredInterests = getAllInterest2(combinedString);
-                var interestsInAState = filteredInterests.Where(x => x.stateName.Equals(stateId)).ToList();
-                List<Pairs> thelist = new List<Pairs>();
-                foreach (FilteredFarmViewModel farm in farmsInAState)
-                {
-                    foreach (AllInterest interest in interestsInAState)
-                    {
-                        double distance = Math.Round(this.Haversine(interest.interestLat, farm.farm_lat, interest.interestLng, farm.farm_lng), 2);
-                        if (distance < 100)
-                        {
-                            bool isContained = false;
-                            int c = 0;
-                            while (!isContained && c < thelist.Count())
-                            {
-                                if (thelist[c].farm == farm)
-                                {
-                                    isContained = true;
-                                }
-                                c++;
-                            }
-                            if (!isContained)
-                            {
-                                Pairs newPair = new Pairs();
-                                List<InterestWithDistance> newInterests = new List<InterestWithDistance>();
-                                newPair.farm = farm;
-                                newPair.interests = newInterests;
-                                thelist.Add(newPair);
-                                sCount++;
-                            }
-                        }
-                    }
-                }
-                var interestGroupedByState = groupInterestByState(combinedString);
-                sc.stateName = stateId;
-                sc.farmCounts = sCount;
-                List<StateInterestsCount> iList = interestGroupedByState.ToList();
-                foreach (var item in iList)
-                {
-                    if (item.stateName.Equals(stateId))
-                    {
-                        sc.interestCounts = item.numberOfInterests;
-                    }
-                }
-                scList.Add(sc);
-            }
-            
-            return Json(scList, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult dropdownTest()
         {
             return View();

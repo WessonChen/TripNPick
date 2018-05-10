@@ -13,9 +13,12 @@
         $(document).ready(function () {
             var months = @Html.Raw(Json.Encode(Model.cMonths));
             var interests = @Html.Raw(Json.Encode(Model.cInterests));
+            var distances = @Html.Raw(Json.Encode(Model.cDistance));
 
             var optionsM = document.getElementById('monthDD'), month, i;
             var optionsI = document.getElementById('interetsDD'), interest, i;
+            var optionsD = document.getElementById('distanceDD'), distance, i;
+
 
             for(i = 0; i < optionsM.length; i++) {
                 month = optionsM[i];
@@ -29,6 +32,13 @@
                     interest.selected = 'selected';
                 }
             }
+            for(i = 0; i < optionsD.length; i++) {
+                distance = optionsD[i];
+                if (distances.includes(distance.value)){
+                    distance.selected = 'selected';
+                }
+            }
+            debugger
         });
     </script>
     <script type="text/javascript" src="~/Scripts/mapDropdown.js"></script>
@@ -756,11 +766,15 @@
                             </select>
                         </div>
                         <div class="col-lg-6 rightDD">
-                            <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 80 km by default." /></span></label>
-                            <select id="distanceDD" multiple="multiple" name="cDistance">
+                            <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 100 km by default." /></span></label>
+                            <select id="distanceDD" name="cDistance">
+                                <option value="60">60 km</option>
                                 <option value="80">80 km</option>
+                                <option value="100">100 km</option>
                                 <option value="120">120 km</option>
+                                <option value="140">140 km</option>
                                 <option value="160">160 km</option>
+                                <option value="180">180 km</option>
                                 <option value="200">200 km</option>
                             </select>
                         </div>
