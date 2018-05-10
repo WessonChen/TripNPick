@@ -15,6 +15,11 @@
 
 
 <body>
+    <div style="padding-top: 50px; background-color: lightgray;">
+        <div class="container">
+            @Html.MvcSiteMap().SiteMapPath()
+        </div>
+    </div>
     <div style="margin-top: 50px">
     </div>
     <div class="jumbotron">
@@ -158,148 +163,148 @@
                         </div>
                     </div>
                     <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
-                            @using Highsoft.Web.Mvc.Charts
+                        @using Highsoft.Web.Mvc.Charts
 
-                            @(Html.Highsoft().Highcharts(
-                        new Highcharts
-                        {
-                            Title = new Title
+                        @(Html.Highsoft().Highcharts(
+                            new Highcharts
                             {
-                                Text = "Avearge Weather in Months",
-                                X = -20
-                            },
-                            Subtitle = new Subtitle
-                            {
-                                Text = "Source: Government Website",
-                                X = -20
-                            },
-                            XAxis = new List<XAxis>
-                            {
-                                new XAxis
+                                Title = new Title
                                 {
-                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+                                    Text = "Avearge Weather in Months",
+                                    X = -20
+                                },
+                                Subtitle = new Subtitle
+                                {
+                                    Text = "Source: Government Website",
+                                    X = -20
+                                },
+                                XAxis = new List<XAxis>
+                                {
+                                                new XAxis
+                                                {
+                                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
 
-                                }
-                            },
-                            YAxis = new List<YAxis>
-                            {
-                                new YAxis
-                                {
-                                    Title = new YAxisTitle
-                                    {
-                                        Text = "Number of Days"
-                                    },
-                                    PlotLines = new List<YAxisPlotLines>
-                                    {
-                                            new YAxisPlotLines
-                                        {
-                                            Value = 0,
-                                            Width = 1,
-                                            Color = "#808080"
-                                        }
-                                    }
-                                }
-                            },
-                            Tooltip = new Tooltip
-                            {
-                                ValueSuffix = "Days"
-                            },
-                            Legend = new Legend
-                            {
-                                Layout = LegendLayout.Vertical,
-                                Align = LegendAlign.Right,
-                                VerticalAlign = LegendVerticalAlign.Middle,
-                                BorderWidth = 0
-                            },
-                            Series = new List<Series>
-                            {
-                                new LineSeries
-                                {
-                                    Name = "Days of Temperature under 2 Degrees",
-                                    Data = @ViewData["coldData"] as List<LineSeriesData>
+                                                }
                                 },
-                                new LineSeries
+                                YAxis = new List<YAxis>
                                 {
-                                    Name = "Days of Temperature above 30 Degrees",
-                                    Data = @ViewData["hotData"] as List<LineSeriesData>
+                                                new YAxis
+                                                {
+                                                    Title = new YAxisTitle
+                                                    {
+                                                        Text = "Number of Days"
+                                                    },
+                                                    PlotLines = new List<YAxisPlotLines>
+                                                    {
+                                                            new YAxisPlotLines
+                                                        {
+                                                            Value = 0,
+                                                            Width = 1,
+                                                            Color = "#808080"
+                                                        }
+                                                    }
+                                                }
                                 },
-                                new LineSeries
+                                Tooltip = new Tooltip
                                 {
-                                    Name = "Number of Rainy Days",
-                                    Data = @ViewData["rainData"] as List<LineSeriesData>
+                                    ValueSuffix = "Days"
+                                },
+                                Legend = new Legend
+                                {
+                                    Layout = LegendLayout.Vertical,
+                                    Align = LegendAlign.Right,
+                                    VerticalAlign = LegendVerticalAlign.Middle,
+                                    BorderWidth = 0
+                                },
+                                Series = new List<Series>
+                                {
+                                                new LineSeries
+                                                {
+                                                    Name = "Days of Temperature under 2 Degrees",
+                                                    Data = @ViewData["coldData"] as List<LineSeriesData>
+                                                },
+                                                new LineSeries
+                                                {
+                                                    Name = "Days of Temperature above 30 Degrees",
+                                                    Data = @ViewData["hotData"] as List<LineSeriesData>
+                                                },
+                                                new LineSeries
+                                                {
+                                                    Name = "Number of Rainy Days",
+                                                    Data = @ViewData["rainData"] as List<LineSeriesData>
+                                                }
                                 }
-                            }
-                        }, "weatherDaysChart")
-                            )
+                            }, "weatherDaysChart")
+                        )
                     </div>
                     <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
                         @using Highsoft.Web.Mvc.Charts
                         @(Html.Highsoft().Highcharts(
-                        new Highcharts
-                        {
-                            Title = new Title
-                            {
-                                Text = "Avearge Temparature in Months",
-                                X = -20
-                            },
-                            Subtitle = new Subtitle
-                            {
-                                Text = "Source: Government Website",
-                                X = -20
-                            },
-                            XAxis = new List<XAxis>
-                            {
-                                new XAxis
+                                new Highcharts
                                 {
-                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
-                                }
-                            },
-                            YAxis = new List<YAxis>
-                            {
-                                new YAxis
-                                {
-                                    Title = new YAxisTitle
+                                    Title = new Title
                                     {
-                                        Text = "Temperature (°C)"
+                                        Text = "Avearge Temparature in Months",
+                                        X = -20
                                     },
-                                    PlotLines = new List<YAxisPlotLines>
+                                    Subtitle = new Subtitle
                                     {
-                                            new YAxisPlotLines
-                                        {
-                                            Value = 0,
-                                            Width = 1,
-                                            Color = "#808080"
-                                        }
+                                        Text = "Source: Government Website",
+                                        X = -20
+                                    },
+                                    XAxis = new List<XAxis>
+                                    {
+                                                new XAxis
+                                                {
+                                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+                                                }
+                                    },
+                                    YAxis = new List<YAxis>
+                                    {
+                                                new YAxis
+                                                {
+                                                    Title = new YAxisTitle
+                                                    {
+                                                        Text = "Temperature (°C)"
+                                                    },
+                                                    PlotLines = new List<YAxisPlotLines>
+                                                    {
+                                                            new YAxisPlotLines
+                                                        {
+                                                            Value = 0,
+                                                            Width = 1,
+                                                            Color = "#808080"
+                                                        }
+                                                    }
+                                                }
+                                    },
+                                    Tooltip = new Tooltip
+                                    {
+                                        ValueSuffix = "(°C)"
+                                    },
+                                    Legend = new Legend
+                                    {
+                                        Layout = LegendLayout.Vertical,
+                                        Align = LegendAlign.Right,
+                                        VerticalAlign = LegendVerticalAlign.Middle,
+                                        BorderWidth = 0
+                                    },
+                                    Series = new List<Series>
+                                    {
+                                                new LineSeries
+                                                {
+                                                    Name = "Temparature(°C) at 3pm",
+                                                    Data = @ViewData["temp3Data"] as List<LineSeriesData>
+                                                },
+                                                new LineSeries
+                                                {
+                                                    Name = "Temparature(°C) at 9am",
+                                                    Data = @ViewData["temp9Data"] as List<LineSeriesData>
+                                                }
                                     }
-                                }
-                            },
-                            Tooltip = new Tooltip
-                            {
-                                ValueSuffix = "(°C)"
-                            },
-                            Legend = new Legend
-                            {
-                                Layout = LegendLayout.Vertical,
-                                Align = LegendAlign.Right,
-                                VerticalAlign = LegendVerticalAlign.Middle,
-                                BorderWidth = 0
-                            },
-                            Series = new List<Series>
-                            {
-                                new LineSeries
-                                {
-                                    Name = "Temparature(°C) at 3pm",
-                                    Data = @ViewData["temp3Data"] as List<LineSeriesData>
-                                },
-                                new LineSeries
-                                {
-                                    Name = "Temparature(°C) at 9am",
-                                    Data = @ViewData["temp9Data"] as List<LineSeriesData>
-                                }
-                            }
-                        }, "temparatureChart")
+                                }, "temparatureChart")
                         )
                     </div>
                 </div>
