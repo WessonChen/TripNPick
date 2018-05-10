@@ -38,7 +38,11 @@
         </div>
     </nav>
     <div>
-
+        <div style="padding-top: 50px; background-color: lightgray;">
+            <div class="container">
+                @Html.MvcSiteMap().SiteMapPath()
+            </div>
+        </div>
         @RenderBody()
         <footer style="padding: 32px 0 !important">
             <div class="container">
