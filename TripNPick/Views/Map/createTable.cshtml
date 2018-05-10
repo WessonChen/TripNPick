@@ -21,7 +21,8 @@
     <div class="container" style="margin-top: 50px">
         <div class="jumbotron">
             <h1>@Model.theFarm.farm_name</h1>
-            <p><b>Farm Rating:</b>
+            <p>
+                <b>Farm Rating:</b>
                 @if (Model.theFarm.farm_rating == 0)
                 {
                     <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this farm yet." /></span>
@@ -58,30 +59,31 @@
                         {
                             <tr>
                                 <td><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
-                                <td>@if (item.attraction_rating == 0)
-                                {
-                                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
-                                }
-                                else
-                                {
-                                    for (double i = 0; i <= item.attraction_rating; i++)
+                                <td>
+                                    @if (item.attraction_rating == 0)
                                     {
-                                        if (item.attraction_rating - i >= 1)
+                                        <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
+                                    }
+                                    else
+                                    {
+                                        for (double i = 0; i <= item.attraction_rating; i++)
                                         {
-                                            <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
-                                        }
-                                        else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
-                                        {
-                                            <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            if (item.attraction_rating - i >= 1)
+                                            {
+                                                <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            }
+                                            else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
+                                            {
+                                                <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            }
                                         }
                                     }
-                                }
-                                </td>
-                                <td>@item.attraction_address</td>
-                                <td>@item.attraction_distance<span> km</span></td>
-                                <td>@item.number_of_reviews</td>
-                            </tr>
-                        }
+                            </td>
+                            <td>@item.attraction_address</td>
+                            <td>@item.attraction_distance<span> km</span></td>
+                            <td>@item.number_of_reviews</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
@@ -97,144 +99,145 @@
                 @using Highsoft.Web.Mvc.Charts
 
                 @(Html.Highsoft().Highcharts(
-                        new Highcharts
-                        {
-                            Title = new Title
-                            {
-                                Text = "Avearge Weather in Months",
-                                X = -20
-                            },
-                            Subtitle = new Subtitle
-                            {
-                                Text = "Source: Government Website",
-                                X = -20
-                            },
-                            XAxis = new List<XAxis>
-                            {
-                                new XAxis
+                                new Highcharts
                                 {
-                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
-
-                                }
-                            },
-                            YAxis = new List<YAxis>
-                            {
-                                new YAxis
-                                {
-                                    Title = new YAxisTitle
+                                    Title = new Title
                                     {
-                                        Text = "Number of Days"
+                                        Text = "Avearge Weather in Months",
+                                        X = -20
                                     },
-                                    PlotLines = new List<YAxisPlotLines>
+                                    Subtitle = new Subtitle
                                     {
-                                            new YAxisPlotLines
+                                        Text = "Source: Government Website",
+                                        X = -20
+                                    },
+                                    XAxis = new List<XAxis>
+                                    {
+                                        new XAxis
                                         {
-                                            Value = 0,
-                                            Width = 1,
-                                            Color = "#808080"
+                                            Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+
+                                        }
+                                    },
+                                    YAxis = new List<YAxis>
+                                    {
+                                        new YAxis
+                                        {
+                                            Title = new YAxisTitle
+                                            {
+                                                Text = "Number of Days"
+                                            },
+                                            PlotLines = new List<YAxisPlotLines>
+                                            {
+                                                    new YAxisPlotLines
+                                                {
+                                                    Value = 0,
+                                                    Width = 1,
+                                                    Color = "#808080"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    Tooltip = new Tooltip
+                                    {
+                                        ValueSuffix = "Days"
+                                    },
+                                    Legend = new Legend
+                                    {
+                                        Layout = LegendLayout.Vertical,
+                                        Align = LegendAlign.Right,
+                                        VerticalAlign = LegendVerticalAlign.Middle,
+                                        BorderWidth = 0
+                                    },
+                                    Series = new List<Series>
+                                    {
+                                        new LineSeries
+                                        {
+                                            Name = "Days of Temperature under 2 Degrees",
+                                            Data = @ViewData["coldData"] as List<LineSeriesData>
+                                        },
+                                        new LineSeries
+                                        {
+                                            Name = "Days of Temperature above 30 Degrees",
+                                            Data = @ViewData["hotData"] as List<LineSeriesData>
+                                        },
+                                        new LineSeries
+                                        {
+                                            Name = "Number of Rainy Days",
+                                            Data = @ViewData["rainData"] as List<LineSeriesData>
                                         }
                                     }
-                                }
-                            },
-                            Tooltip = new Tooltip
-                            {
-                                ValueSuffix = "Days"
-                            },
-                            Legend = new Legend
-                            {
-                                Layout = LegendLayout.Vertical,
-                                Align = LegendAlign.Right,
-                                VerticalAlign = LegendVerticalAlign.Middle,
-                                BorderWidth = 0
-                            },
-                            Series = new List<Series>
-                            {
-                                new LineSeries
-                                {
-                                    Name = "Days of Temperature under 2 Degrees",
-                                    Data = @ViewData["coldData"] as List<LineSeriesData>
-                                },
-                                new LineSeries
-                                {
-                                    Name = "Days of Temperature above 30 Degrees",
-                                    Data = @ViewData["hotData"] as List<LineSeriesData>
-                                },
-                                new LineSeries
-                                {
-                                    Name = "Number of Rainy Days",
-                                    Data = @ViewData["rainData"] as List<LineSeriesData>
-                                }
-                            }
-                        }, "weatherDaysChart")
+                                }, "weatherDaysChart")
                 )
             </div>
             <div id="tabs-3">
                 @using Highsoft.Web.Mvc.Charts
                 @(Html.Highsoft().Highcharts(
-                        new Highcharts
-                        {
-                            Title = new Title
-                            {
-                                Text = "Avearge Temparature in Months",
-                                X = -20
-                            },
-                            Subtitle = new Subtitle
-                            {
-                                Text = "Source: Government Website",
-                                X = -20
-                            },
-                            XAxis = new List<XAxis>
-                            {
-                                new XAxis
+                                new Highcharts
                                 {
-                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
-                                }
-                            },
-                            YAxis = new List<YAxis>
-                            {
-                                new YAxis
-                                {
-                                    Title = new YAxisTitle
+                                    Title = new Title
                                     {
-                                        Text = "Temperature (°C)"
+                                        Text = "Avearge Temparature in Months",
+                                        X = -20
                                     },
-                                    PlotLines = new List<YAxisPlotLines>
+                                    Subtitle = new Subtitle
                                     {
-                                            new YAxisPlotLines
+                                        Text = "Source: Government Website",
+                                        X = -20
+                                    },
+                                    XAxis = new List<XAxis>
+                                    {
+                                        new XAxis
                                         {
-                                            Value = 0,
-                                            Width = 1,
-                                            Color = "#808080"
+                                            Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+                                        }
+                                    },
+                                    YAxis = new List<YAxis>
+                                    {
+                                        new YAxis
+                                        {
+                                            Title = new YAxisTitle
+                                            {
+                                                Text = "Temperature (°C)"
+                                            },
+                                            PlotLines = new List<YAxisPlotLines>
+                                            {
+                                                    new YAxisPlotLines
+                                                {
+                                                    Value = 0,
+                                                    Width = 1,
+                                                    Color = "#808080"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    Tooltip = new Tooltip
+                                    {
+                                        ValueSuffix = "(°C)"
+                                    },
+                                    Legend = new Legend
+                                    {
+                                        Layout = LegendLayout.Vertical,
+                                        Align = LegendAlign.Right,
+                                        VerticalAlign = LegendVerticalAlign.Middle,
+                                        BorderWidth = 0
+                                    },
+                                    Series = new List<Series>
+                                    {
+                                        new LineSeries
+                                        {
+                                            Name = "Temparature(°C) at 3pm",
+                                            Data = @ViewData["temp3Data"] as List<LineSeriesData>
+                                        },
+                                        new LineSeries
+                                        {
+                                            Name = "Temparature(°C) at 9am",
+                                            Data = @ViewData["temp9Data"] as List<LineSeriesData>
                                         }
                                     }
-                                }
-                            },
-                            Tooltip = new Tooltip
-                            {
-                                ValueSuffix = "(°C)"
-                            },
-                            Legend = new Legend
-                            {
-                                Layout = LegendLayout.Vertical,
-                                Align = LegendAlign.Right,
-                                VerticalAlign = LegendVerticalAlign.Middle,
-                                BorderWidth = 0
-                            },
-                            Series = new List<Series>
-                            {
-                                new LineSeries
-                                {
-                                    Name = "Temparature(°C) at 3pm",
-                                    Data = @ViewData["temp3Data"] as List<LineSeriesData>
-                                },
-                                new LineSeries
-                                {
-                                    Name = "Temparature(°C) at 9am",
-                                    Data = @ViewData["temp9Data"] as List<LineSeriesData>
-                                }
-                            }}, "temparatureChart")
+                                }, "temparatureChart")
                 )
             </div>
             <div id="tabs-4">
@@ -259,22 +262,22 @@
                         </thead>
 
                         @foreach (var item in Model.demandList)
-                         {
-                         <tr>
-                             <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
-                             <td class="@item.january">@item.january</td>
-                             <td class="@item.february">@item.february</td>
-                             <td class="@item.march">@item.march</td>
-                             <td class="@item.april">@item.april</td>
-                             <td class="@item.may">@item.may</td>
-                             <td class="@item.june">@item.june</td>
-                             <td class="@item.july">@item.july</td>
-                             <td class="@item.august">@item.august</td>
-                             <td class="@item.september">@item.september</td>
-                             <td class="@item.october">@item.october</td>
-                             <td class="@item.november">@item.november</td>
-                             <td class="@item.december">@item.december</td>
-                        </tr>
+                        {
+                            <tr>
+                                <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
+                                <td class="@item.january">@item.january</td>
+                                <td class="@item.february">@item.february</td>
+                                <td class="@item.march">@item.march</td>
+                                <td class="@item.april">@item.april</td>
+                                <td class="@item.may">@item.may</td>
+                                <td class="@item.june">@item.june</td>
+                                <td class="@item.july">@item.july</td>
+                                <td class="@item.august">@item.august</td>
+                                <td class="@item.september">@item.september</td>
+                                <td class="@item.october">@item.october</td>
+                                <td class="@item.november">@item.november</td>
+                                <td class="@item.december">@item.december</td>
+                            </tr>
                         }
                     </table>
                 </div>

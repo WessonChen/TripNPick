@@ -307,6 +307,7 @@
     <Content Include="img\contact\schedule.png" />
     <Content Include="img\contact\team.png" />
     <Content Include="img\homeBG.png" />
+    <Content Include="img\loadingImage.gif" />
     <Content Include="img\markers\Beach.png" />
     <Content Include="img\markers\Farm.png" />
     <Content Include="img\markers\Hiking.png" />
