@@ -8,8 +8,8 @@
     <mvcSiteMapNode title="Information" controller="Home" action="Information"/>
     <mvcSiteMapNode title="Accomodation" controller="Home" action="Accomodation"/>
     <mvcSiteMapNode title="Error" controller="ErrorPage" action="ErrorMessage"/>
-    <mvcSiteMapNode title="Search" controller="Map" action="TestIndex">
-      <mvcSiteMapNode title="Farm Details" controller="Map" action="createTable"/>
+    <mvcSiteMapNode title="Search" controller="Map" action="MapPage">
+      <mvcSiteMapNode title="Farm Details" controller="Map" action="FarmDetails"/>
     </mvcSiteMapNode> 
   </mvcSiteMapNode>
 

@@ -1,6 +1,6 @@
 ﻿@model TripNPick.Models.UserSelections
 @{
-    ViewBag.Title = "TestIndex";
+    ViewBag.Title = "MapPage";
 }
 
 <head>
@@ -50,7 +50,7 @@
 </head>
 <script type="text/javascript">
     function goToFarmPage(farmId) {
-        url = "/Map/createTable/?farmInfo=" + farmId;
+        url = "/Map/FarmDetails/?farmInfo=" + farmId;
         window.open(url);
     }
 
@@ -736,7 +736,7 @@
     <div>
         <div class="searchBG">
             <div id="mapForm" class="container">
-                <form action="/Map/TestIndex">
+                <form action="/Map/MapPage">
                     <h2>Select Interests, Search Farms</h2>
                     <label for="interetsDD">Preferred Interests  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select all interests by default." /></span></label>
                     <select id="interetsDD" multiple="multiple" name="cInterests">
