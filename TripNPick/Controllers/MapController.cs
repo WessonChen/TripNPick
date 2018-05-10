@@ -68,7 +68,7 @@ namespace TripNPick.Controllers
         public ActionResult helperMethod(Pairs aPair) {
             var farm2 = aPair.farm.farmId;
             TempData["pairModel"] = aPair;
-            return RedirectToAction("createTable", "Map");
+            return RedirectToAction("FarmDetails", "Map");
         }
 
         public ActionResult FarmDetailsTest1() {
@@ -77,7 +77,7 @@ namespace TripNPick.Controllers
         }
 
 
-        public ActionResult createTable(string farmInfo)
+        public ActionResult FarmDetails(string farmInfo)
         {
             var farmList = dbContext.farms.ToList();
             if (farmInfo == null || farmInfo.Equals(""))
@@ -389,7 +389,7 @@ namespace TripNPick.Controllers
             }
         }
         
-        public ActionResult TestIndex(string[] cMonths, string[] cInterests, string[] cDistance)
+        public ActionResult MapPage(string[] cMonths, string[] cInterests, string[] cDistance)
         {
             UserSelections us = new UserSelections();
             us.cMonths = cMonths;
