@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+.jumbotron {
+    margin-bottom: 0 !important;
+}
+
 .High {
     color: #D1403B;
     font-family: Montserrat-Regular;
@@ -24,6 +28,16 @@ thead {
     font-size: medium;
 }
 
+#tabBody0 h3{
+    text-align: center;
+    padding-bottom: 16px;
+    font-weight: bold;
+}
+
+#fancyTabWidget {
+    margin: 50px auto;
+}
+
 .table tbody tr:nth-child(even) {
     background-color: #e9faff;
 }
@@ -41,21 +55,25 @@ thead {
     margin-top: 16px;
 }
 
-    .biggericon span img{
-        max-height: 20px;
-    }
+.biggericon span img{
+    max-height: 20px;
+}
 
-    .smallericon span img{
-        max-height: 14px;
-    }
+.smallericon {
+    min-width: 85px !important;
+}
 
-    .fancyTab {
-	text-align: center;
-  padding:15px 0;
-  background-color: #eee;
+.smallericon span img{
+    max-height: 14px;
+}
+
+.fancyTab {
+    text-align: center;
+    padding:15px 0;
+    background-color: #eee;
 	box-shadow: 0 0 0 1px #ddd;
 	top:15px;	
-  transition: top .2s;
+    transition: top .2s;
 }
 
 .fancyTab.active {
@@ -113,6 +131,10 @@ li.fancyTab.active a {
 
 .fancyTab.active .fa {
   color: #cfb87c;
+}
+
+.fancyTab .fa img{
+    max-height: 32px;
 }
 
 .fancyTab a:focus {

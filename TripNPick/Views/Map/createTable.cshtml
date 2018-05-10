@@ -20,8 +20,6 @@
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
-    <div style="margin-top: 50px">
-    </div>
     <div class="jumbotron">
         <div class="container">
             <h1>@Model.theFarm.farm_name</h1>
@@ -85,7 +83,37 @@
                                 </td>
                                 <td>@item.attraction_address</td>
                                 <td>@item.attraction_distance<span> km</span></td>
-                                <td>@item.number_of_reviews</td>
+                                <td class="smallericon">
+                                    @if (item.number_of_reviews == 0)
+                                    {
+                                        <span><img src="~/img/rating/empty_person.png" title="Sorry, we do not have enough information for this attraction yet." /></span>
+                                    }
+                                    else
+                                    {
+                                        int i = 5;
+                                        if (item.number_of_reviews < 132)
+                                        {
+                                            i = 4;
+                                        }
+                                        if (item.number_of_reviews < 41)
+                                        {
+                                            i = 3;
+                                        }
+                                        if (item.number_of_reviews < 14)
+                                        {
+                                            i = 2;
+                                        }
+                                        if (item.number_of_reviews < 6)
+                                        {
+                                            i = 1;
+                                        }
+                                        while (i > 0)
+                                        {
+                                            <span><img src="~/img/rating/person.png" title="@item.number_of_reviews people gave reviews to this attraction." /></span>
+                                            i--;
+                                        }
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -101,66 +129,66 @@
 
                     <li class="tab fancyTab active">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-desktop"></span><span class="hidden-xs">Demand Details</span></a>
+                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa"><img src="~/img/details/demand.png"/></span><span class="hidden-xs"> Demand Details</span></a>
                         <div class="whiteBlock"></div>
                     </li>
 
                     <li class="tab fancyTab">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-firefox"></span><span class="hidden-xs">Weather Details</span></a>
+                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa"><img src="~/img/details/weather.png" /></span><span class="hidden-xs"> Weather Details</span></a>
                         <div class="whiteBlock"></div>
                     </li>
 
                     <li class="tab fancyTab">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-envira"></span><span class="hidden-xs">Temparature Details</span></a>
+                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa"><img src="~/img/details/temperature.png" /></span><span class="hidden-xs"> Temparature Details</span></a>
                         <div class="whiteBlock"></div>
                     </li>
                 </ul>
                 <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
                     <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
-                        <div>
-                            <div style="overflow-x:auto;">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr style="color:white; background: #002233">
-                                            <td>CROP TYPE</td>
-                                            <td>JAN</td>
-                                            <td>FEB</td>
-                                            <td>MAR</td>
-                                            <td>APR</td>
-                                            <td>MAY</td>
-                                            <td>JUN</td>
-                                            <td>JUL</td>
-                                            <td>AUG</td>
-                                            <td>SEP</td>
-                                            <td>OCT</td>
-                                            <td>NOV</td>
-                                            <td>DEC</td>
-                                        </tr>
-                                    </thead>
+                        <h3>Avearge Demands in Months Around that Area</h3>
+                        <div style="overflow-x:auto;">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr style="color:white; background: #002233">
+                                        <td>CROP TYPE</td>
+                                        <td>JAN</td>
+                                        <td>FEB</td>
+                                        <td>MAR</td>
+                                        <td>APR</td>
+                                        <td>MAY</td>
+                                        <td>JUN</td>
+                                        <td>JUL</td>
+                                        <td>AUG</td>
+                                        <td>SEP</td>
+                                        <td>OCT</td>
+                                        <td>NOV</td>
+                                        <td>DEC</td>
+                                    </tr>
+                                </thead>
 
-                                    @foreach (var item in Model.demandList)
-                                    {
-                                        <tr>
-                                            <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
-                                            <td class="@item.january">@item.january</td>
-                                            <td class="@item.february">@item.february</td>
-                                            <td class="@item.march">@item.march</td>
-                                            <td class="@item.april">@item.april</td>
-                                            <td class="@item.may">@item.may</td>
-                                            <td class="@item.june">@item.june</td>
-                                            <td class="@item.july">@item.july</td>
-                                            <td class="@item.august">@item.august</td>
-                                            <td class="@item.september">@item.september</td>
-                                            <td class="@item.october">@item.october</td>
-                                            <td class="@item.november">@item.november</td>
-                                            <td class="@item.december">@item.december</td>
-                                        </tr>
-                                    }
-                                </table>
-                            </div>
+                                @foreach (var item in Model.demandList)
+                                {
+                                    <tr>
+                                        <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
+                                        <td class="@item.january">@item.january</td>
+                                        <td class="@item.february">@item.february</td>
+                                        <td class="@item.march">@item.march</td>
+                                        <td class="@item.april">@item.april</td>
+                                        <td class="@item.may">@item.may</td>
+                                        <td class="@item.june">@item.june</td>
+                                        <td class="@item.july">@item.july</td>
+                                        <td class="@item.august">@item.august</td>
+                                        <td class="@item.september">@item.september</td>
+                                        <td class="@item.october">@item.october</td>
+                                        <td class="@item.november">@item.november</td>
+                                        <td class="@item.december">@item.december</td>
+                                    </tr>
+                                }
+                            </table>
                         </div>
+
                     </div>
                     <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                         @using Highsoft.Web.Mvc.Charts
