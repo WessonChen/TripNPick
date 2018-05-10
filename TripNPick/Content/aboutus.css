@@ -177,3 +177,11 @@ p img {
 .successWarper {
     background-color: #dff0d8;
 }
+
+#emailDiv span {
+    color: orange;
+}
+
+#suggestionDiv span {
+    color: orange;
+}

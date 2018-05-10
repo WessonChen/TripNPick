@@ -115,12 +115,12 @@ else if (ViewData["info"].Equals("Sorry!"))
                     @Html.TextBoxFor(model => model.userLastName, new { placeholder = "Enter your last name..", @class = "form-input" })
                     @Html.ValidationMessageFor(model => model.userLastName, "", new { @class = "text-danger" })
                 </div>
-                <div>
+                <div id="emailDiv">
                     @Html.Label("Your email")
                     @Html.TextBoxFor(model => model.userEmail, new { placeholder = "Enter your email address..", @class = "form-input" })
                     @Html.ValidationMessageFor(model => model.userEmail, "", new { @class = "text-danger" })
                 </div>
-                <div>
+                <div id="suggestionDiv">
                     @Html.Label("Your Suggestion")
                     @Html.TextAreaFor(model => model.userSuggestion, new { placeholder = "Type in your suggestions here..", @class = "form-input" })
                     @Html.ValidationMessageFor(model => model.userSuggestion, "", new { @class = "text-danger" })
