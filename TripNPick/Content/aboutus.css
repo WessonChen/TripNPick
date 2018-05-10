@@ -1,9 +1,36 @@
-﻿.section-center {
+﻿div {
+    line-height: 1.65 !important;
+}
+
+p {
+    text-align:justify; 
+    text-justify: inter-word;
+    font-size: 115%;
+    color: #bfbfbf;
+    font-weight: bold;
+}
+
+p b{
+    color: #000;
+}
+
+h1 {
+    text-align: center;
+    font-weight: bold !important;
+    margin: 0 !important;
+    padding: 50px 0 !important;
+    line-height: 1.5 !important;
+    box-sizing: border-box;
+    color: #000;
+    display: block;
+}
+
+.section-center {
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 32px;
+    padding-bottom: 0px !important;
 }
 
 .section-center .selection-img {
@@ -50,54 +77,41 @@
     text-align: center;
 }
 
-h1 {
-    text-align:center;
+#theForm {
+    width: 90%;
 }
 
-h4 {
-    text-align:center; 
-    padding:8px 0;
+#theForm div {
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 6px;
+
 }
 
-form {
-    padding: 40px 120px;
-}
-
-@media(max-width: 767px) {
-    form {
-        padding: 40px 80px;
-    }
-}
-
-@media(max-width: 450px) {
-    form {
-        padding: 24px 16px;
-    }
-}
-
-input[type=text], textarea {
+#theForm div input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-top: 6px;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
     resize: vertical;
 }
 
-input[type=email], textarea {
+#theForm div textarea {
+    height: 200px;
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-top: 6px;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
     resize: vertical;
 }
 
-input[type=submit] {
+#suggestionBtn {
     background-color: #4CAF50;
     color: white;
     padding: 12px 20px;
@@ -107,32 +121,79 @@ input[type=submit] {
     float: right;
 }
 
-input[type=submit]:hover {
+#suggestionBtn:hover {
     background-color: #45a049;
 }
 
-#long-description {
-     text-align:justify; 
-     text-justify: inter-word; 
-     padding: 0 64px;
+#contactImg {
+    max-width: 250px;
+    padding: 32px 0;
 }
 
-@media(max-width: 767px) {
-    #long-description {
-        padding: 0 40px;
-    }
+p img {
+    max-height: 18px;
 }
 
-@media(max-width: 450px) {
-    #long-description {
-        padding: 0 24px;
-    }
+.aboutusbg {
+    background: url(../img/aboutBG.JPG) no-repeat center center;
+    background-size: cover;
+    margin-bottom: 50px;
 }
 
-#emailV {
+.aboutusbg h1 {
+    color: white !important;
+    padding: 150px 0 !important;
+}
+
+#formSection {
+    padding-bottom: 50px;
+    background-color: gray;
+}
+
+#formSection h1{
+    color: white;
+}
+
+.ourteam {
+    background-color: #f8f8f8;
+    margin-top: 50px;
+    padding-bottom: 50px !important;
+}
+
+.warningWarper #popupdiv {
+    border: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.warningWarper #popupdiv .close {
     color: red;
 }
 
-#sectionV {
+.warningWarper #popupdiv .alert-link {
+    text-decoration: underline;
+}
+
+.warningWarper {
+    background-color: #fcf8e3;
+}
+
+.successWarper #popupdiv {
+    border: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.successWarper #popupdiv .close {
     color: red;
+}
+
+.successWarper {
+    background-color: #dff0d8;
+}
+
+#emailDiv span {
+    color: orange;
+}
+
+#suggestionDiv span {
+    color: orange;
 }

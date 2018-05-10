@@ -5,9 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - TripAndPick</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet">
     <link href="~/Content/landing-page.css" rel="stylesheet">
@@ -24,15 +22,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img alt="Logo" class="navbar-brand topnav" style="margin-right:-24px" src="@Url.Content("~/img/Brand.png")" />
-                <a class="navbar-brand topnav">@Html.ActionLink("Trip&Pick", "Index", "Home", new { area = "" }, new { @class = "navbar-brand narTitle" })</a>
+                <img alt="Logo" class="navbar-brand topnav" src="@Url.Content("~/img/Brand.png")" style="padding: 0 !important; margin: 0 !important"/>
+                @*@Html.ActionLink("Trip&Pick", "Index", "Home", new { area = "" }, new { @class = "navbar-brand narTitle" })*@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "narItem" })</li>
-                    <li>@Html.ActionLink("FAQ", "Information", "Home", new { area = "" }, new { @class = "narItem" })</li>
-                    <li>@Html.ActionLink("About Us", "AboutUs", "Home", new { area = "" }, new { @class = "narItem" })</li>
-                    <li>@Html.ActionLink("Search", "Index", "Map", new { area = "" }, new { @class = "narItem" })</li>
+                    <li>@Html.ActionLink("Accomodation", "Accomodation", "Home", new { area = ""}, new { @class = "narItem"})</li>
+                    <li>@Html.ActionLink("Information", "Information", "Home", new { area = "" }, new { @class = "narItem" })</li>
+                    <li>@Html.ActionLink("About Us", "AboutUS", "Home", new { area = "" }, new { @class = "narItem" })</li>
+                    <li>@Html.ActionLink("Search", "TestIndex", "Map", new { area = "" }, new { @class = "narItem" })</li>
                     @*<li>@Html.Partial("_LoginPartial")</li>*@
                 </ul>
             </div>
@@ -41,7 +40,7 @@
     <div>
 
         @RenderBody()
-        <footer>
+        <footer style="padding: 32px 0 !important">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -51,7 +50,11 @@
                             </li>
                             <li class="footer-menu-divider">&sdot;</li>
                             <li>
-                                <a>@Html.ActionLink("FAQ", "Information", "Home")</a>
+                                <a>@Html.ActionLink("Accomodation", "Accomodation", "Home")</a>
+                            </li>
+                            <li class="footer-menu-divider">&sdot;</li>
+                            <li>
+                                <a>@Html.ActionLink("Information", "Information", "Home")</a>
                             </li>
                             <li class="footer-menu-divider">&sdot;</li>
                             <li>
@@ -69,6 +72,5 @@
         </footer>
     </div>
     @RenderSection("scripts", required: false)
-    @*<script src="~/Scripts/jquery.js"></script>*@
 </body>
 </html>

@@ -1,87 +1,143 @@
-﻿.bgBorder {
-    margin-top: 50px;
-    padding: 16px 0 0 0;
-    /*border-left: 2px solid #C0C0C0;
-    border-right: 2px solid #C0C0C0;
-    background-color: #f3f3f3;*/
+﻿#mapForm {
+    display:flex;
+    flex-direction: column;
+    background: url(../img/searchBG.PNG) no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    font-size: 15px !important;
 }
 
-.content {
-    text-align: left;
-    position: relative;
-    padding-left: 24px;
-    margin: 6px;
-    cursor: pointer;
-    font-size: 18px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin-top: 3px !important;
 }
 
-.tagContent {
-    text-align: left;
-    position: relative;
-    padding-left: 16px;
-    margin: 6px 8px;
-    font-size: 18px;
+#mapForm form {
+    padding: 24px 32px 32px 32px;
 }
 
-.content input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+.select2 {
+    width: 100% !important;
 }
 
-.checkmark {
-    position: absolute;
-    top: 5px;
-    left: 0;
-    height: 15px;
-    width: 15px;
-    background-color: #C0C0C0;
+#mapForm .btn-success {
+    float: right;
+    margin-top: 8px;
 }
 
-.content:hover input ~ .checkmark {
-    background-color: #808080;
-}
-
-.content input:checked ~ .checkmark {
-    background-color: #2196F3;
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.content input:checked ~ .checkmark:after {
-    display: block;
-}
-
-.content .checkmark:after {
-    left: 5px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-.submitbtn {
-    background-color: #4682B4;
+#mapForm h2 {
+    text-align: center;
     color: white;
-    padding: 4px;
-    margin-left: 8px;
-    font-size: 14px;
-    border: none;
-    width: 80px;
+    font-weight: bold;
 }
 
-.submitbtn:hover {
-    background-color: #2196F3;
+#mapForm label {
+    margin-top: 4px;
+    color: white;
+}
+
+#mapForm .col-lg-6 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#example {
+    padding: 8px 0 0 0 !important;
+    margin: 0 !important;
+    float: right;
+}
+
+#example img{
+    height: 20px;
+}
+
+.intro {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 64px;
+    text-align:justify; 
+    text-justify: inter-word;
+}
+
+.intro img {
+    max-height: 64px;
+    padding-bottom: 8px;
+}
+
+
+
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 6px solid #f3f3f3;
+    border-radius: 100%;
+    border-top: 8px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0
+    }
+
+    to {
+        bottom: 0px;
+        opacity: 1
+    }
+}
+
+@keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0
+    }
+
+    to {
+        bottom: 0;
+        opacity: 1
+    }
+}
+
+#testMap {
+    display: none;
+    text-align: center;
 }

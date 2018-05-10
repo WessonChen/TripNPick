@@ -17,6 +17,20 @@ namespace TripNPick.Controllers
             return View();
         }
 
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
+
+        public ActionResult Accomodation() {
+            return View();
+        }
+
+        public ActionResult LogInView()
+        {
+            return View();
+        }
+
         public ActionResult Results(string yourInte)
         {
             InterestsJson interets = getInterests(yourInte, "a");
@@ -52,7 +66,25 @@ namespace TripNPick.Controllers
 
         public ActionResult AboutUS()
         {
-            return View();
+            SuggestionForm newForm = new SuggestionForm();
+            ViewData["info"] = "New";
+            return View(newForm);
+        }
+
+
+        [HttpPost]
+        public ActionResult AboutUS(SuggestionForm newForm)
+        {
+            if (ModelState.IsValid) {
+                ViewData["info"] = "Success!";
+                ModelState.Clear();
+                SuggestionForm oneForm = new SuggestionForm() { userLastName = string.Empty, userFirstName=string.Empty, userEmail=string.Empty,
+                    userSuggestion = string.Empty
+                };
+                return View("AboutUS", oneForm); 
+            }
+            ViewData["info"] = "Sorry!";
+            return View(newForm);
         }
 
         public ExpList getLocalJson()

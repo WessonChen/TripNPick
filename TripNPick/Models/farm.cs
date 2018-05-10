@@ -19,7 +19,7 @@ namespace TripNPick.Models
         public Nullable<double> location_lat { get; set; }
         public Nullable<double> location_lng { get; set; }
         public string farm_address { get; set; }
-        public string farm_rating { get; set; }
+        public Nullable<double> farm_rating { get; set; }
         public Nullable<int> suburb_id { get; set; }
     
         public virtual suburb_table suburb_table { get; set; }

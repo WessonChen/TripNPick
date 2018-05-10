@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "Error";
 }
-
+<div style="padding-top: 50px; background-color: lightgray;">
+    <div class="container">
+        @Html.MvcSiteMap().SiteMapPath()
+    </div>
+</div>
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 

@@ -26,7 +26,13 @@ namespace TripNPick.Models
         }
     
         public virtual DbSet<crop> crops { get; set; }
+        public virtual DbSet<fake_farms> fake_farms { get; set; }
         public virtual DbSet<farm> farms { get; set; }
+        public virtual DbSet<hostel> hostels { get; set; }
+        public virtual DbSet<interest_attraction> interest_attraction { get; set; }
+        public virtual DbSet<interest_table> interest_table { get; set; }
+        public virtual DbSet<Registration> Registrations { get; set; }
+        public virtual DbSet<state> states { get; set; }
         public virtual DbSet<suburb_harvest> suburb_harvest { get; set; }
         public virtual DbSet<suburb_table> suburb_table { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
@@ -35,8 +41,5 @@ namespace TripNPick.Models
         public virtual DbSet<weather_rainy_days> weather_rainy_days { get; set; }
         public virtual DbSet<weather_temp3pm_days> weather_temp3pm_days { get; set; }
         public virtual DbSet<weather_temp9am_days> weather_temp9am_days { get; set; }
-        public virtual DbSet<state> states { get; set; }
-        public virtual DbSet<interest_attraction> interest_attraction { get; set; }
-        public virtual DbSet<interest_table> interest_table { get; set; }
     }
 }

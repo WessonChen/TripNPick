@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using TripNPick.Models;
+using Highsoft.Web.Mvc.Charts;
 
 namespace TripNPick.Controllers
 {
@@ -63,6 +64,331 @@ namespace TripNPick.Controllers
             return View(us);
         }
 
+        [HttpPost]
+        public ActionResult helperMethod(Pairs aPair) {
+            var farm2 = aPair.farm.farmId;
+            TempData["pairModel"] = aPair;
+            return RedirectToAction("createTable", "Map");
+        }
+
+        public ActionResult FarmDetailsTest1() {
+
+            return View();
+        }
+
+
+        public ActionResult createTable(string farmInfo)
+        {
+            var farmList = dbContext.farms.ToList();
+            if (farmInfo == null || farmInfo.Equals(""))
+            {
+                return RedirectToAction("ErrorMessage", "ErrorPage");
+            }
+            string[] infos = farmInfo.Split(':');
+            string reqFarmId = infos[0];
+
+            List<string> attractionIdList = new List<string>();
+            List<string> distanceList = new List<string>();
+            for (int i = 1; i < infos.Count(); i++)
+            {
+                string[] pair = infos[i].Split(',');
+                attractionIdList.Add(pair[0]);
+                distanceList.Add(pair[1]);
+                //string attractionId = pair[0];
+                //string distance = pair[1];
+            }
+
+            var combinedList = new List<tempInterest>();
+            for (int i = 0; i < attractionIdList.Count(); i++) {
+                var newList = new tempInterest();
+                newList.attractionId = Convert.ToInt32(attractionIdList[i]);
+                newList.distance = distanceList[i];
+                combinedList.Add(newList);
+            }
+
+            var allAttractionList = dbContext.interest_attraction.ToList();
+            var interestTypes = dbContext.interest_table.ToList();
+            List<interest_attraction> nearbyInterests = new List<interest_attraction>();
+            foreach (string attrId in attractionIdList) {
+                var newId = Convert.ToInt32(attrId);
+                var oneAttraction = allAttractionList.Where(x => x.attraction_id == newId).FirstOrDefault();
+                nearbyInterests.Add(oneAttraction);
+            }
+
+            Dictionary<string, string> interestDict = new Dictionary<string, string>();
+            interestDict.Add("1", "Museum");
+            interestDict.Add("2", "Sights");
+            interestDict.Add("3", "Parks");
+            interestDict.Add("4", "Sights");
+            interestDict.Add("5", "Beach");
+            interestDict.Add("6", "Outdoors");
+            interestDict.Add("7", "Wildlife");
+            interestDict.Add("8", "Hiking");
+            interestDict.Add("9", "Sports");
+            interestDict.Add("10", "Zoo");
+
+            var distantInfo = from c in combinedList
+                              join n in nearbyInterests on c.attractionId equals n.attraction_id
+                              join i in interestTypes on n.interest_id equals i.interest_id
+                              select new distancePassView
+                              {
+                                  attraction_name = n.attraction_name,
+                                  attraction_address = n.address_x,
+                                  attraction_distance = c.distance,
+                                  attraction_rating = Convert.ToDouble(n.review_grade),
+                                  interest_type = "~/img/markers/" + interestDict[Convert.ToString(i.interest_id)] + ".png",
+                                  number_of_reviews = Convert.ToDouble(n.number_of_reviews),
+                                  toolTip = interestDict[Convert.ToString(i.interest_id)]
+                              };
+            var currentFarm = farmList.Where(x => x.farm_id == reqFarmId).FirstOrDefault();
+            var reqSub = from f in farmList where f.farm_id.Equals(infos[0]) select f.suburb_id;
+            var suburbId = Convert.ToInt32(reqSub.FirstOrDefault());
+            var suburbList = dbContext.suburb_table.ToList();
+            var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
+            var stationId = Convert.ToInt32(reqStation.FirstOrDefault());
+            var coldView = getColdDays(stationId);
+            var hotView = getHotDays(stationId);
+            var rainView = getRainyDays(stationId);
+            var temp3View = getTemp3pm(stationId);
+            var temp9View = getTemp9am(stationId);
+
+            List<double> coldValues = this.getThatList(coldView.First()).getDays();
+            List<double> hotValues = this.getThatList(hotView.First()).getDays();
+            List<double> rainValues = this.getThatList(rainView.First()).getDays();
+            List<double> temp3Values = this.getThatList(temp3View.First()).getDays();
+            List<double> temp9Values = this.getThatList(temp9View.First()).getDays();
+
+            List<LineSeriesData> coldData = new List<LineSeriesData>();
+            List<LineSeriesData> hotData = new List<LineSeriesData>();
+            List<LineSeriesData> rainData = new List<LineSeriesData>();
+            List<LineSeriesData> temp3Data = new List<LineSeriesData>();
+            List<LineSeriesData> temp9Data = new List<LineSeriesData>();
+
+            coldValues.ForEach(p => coldData.Add(new LineSeriesData { Y = p }));
+            hotValues.ForEach(p => hotData.Add(new LineSeriesData { Y = p }));
+            rainValues.ForEach(p => rainData.Add(new LineSeriesData { Y = p }));
+            temp3Values.ForEach(p => temp3Data.Add(new LineSeriesData { Y = p }));
+            temp9Values.ForEach(p => temp9Data.Add(new LineSeriesData { Y = p }));
+
+            FarmDetailsView twoModels = new FarmDetailsView();
+            twoModels.theFarm = currentFarm;
+            twoModels.nearbyAttractions = distantInfo;
+            twoModels.weatherList = new List<WeatherView>();
+            twoModels.weatherList.Add(coldView.First());
+            twoModels.weatherList.Add(hotView.First());
+            twoModels.weatherList.Add(rainView.First());
+            twoModels.weatherList.Add(temp3View.First());
+            twoModels.weatherList.Add(temp9View.First());
+
+            var demandView = getFarmDemands(suburbId);
+            twoModels.demandList = demandView;
+
+            ViewData["coldData"] = coldData;
+            ViewData["hotData"] = hotData;
+            ViewData["rainData"] = rainData;
+            ViewData["temp3Data"] = temp3Data;
+            ViewData["temp9Data"] = temp9Data;
+
+
+            return View(twoModels);
+        }
+
+        public WeatherDays getThatList(WeatherView weather) {
+            WeatherDays weatherStruct = new WeatherDays();
+            List<double> newList = new List<double>();
+            newList.Add(Convert.ToDouble(weather.january));
+            newList.Add(Convert.ToDouble(weather.february));
+            newList.Add(Convert.ToDouble(weather.march));
+            newList.Add(Convert.ToDouble(weather.april));
+            newList.Add(Convert.ToDouble(weather.may));
+            newList.Add(Convert.ToDouble(weather.june));
+            newList.Add(Convert.ToDouble(weather.july));
+            newList.Add(Convert.ToDouble(weather.august));
+            newList.Add(Convert.ToDouble(weather.september));
+            newList.Add(Convert.ToDouble(weather.october));
+            newList.Add(Convert.ToDouble(weather.november));
+            newList.Add(Convert.ToDouble(weather.december));
+            weatherStruct.setDays(newList);
+            weatherStruct.setFeature(weather.feature);
+            return weatherStruct;
+     }
+
+        public IEnumerable<DemandView> getFarmDemands(int suburbId) {
+            var harverstList = dbContext.suburb_harvest.ToList();
+            var cropList = dbContext.crops.ToList();
+            var reqHarvest = from h in harverstList
+                             join c in cropList on h.crop_id equals c.crop_id
+                             where h.suburb_id == suburbId
+                             select new DemandView
+                             {
+                                 cropName = c.crop_name,
+                                 january = formatDemandString(h.january),
+                                 february = formatDemandString(h.february),
+                                 march = formatDemandString(h.march),
+                                 april = formatDemandString(h.april),
+                                 may = formatDemandString(h.may),
+                                 june = formatDemandString(h.june),
+                                 july = formatDemandString(h.july),
+                                 august = formatDemandString(h.august),
+                                 september = formatDemandString(h.september),
+                                 october = formatDemandString(h.october),
+                                 november = formatDemandString(h.november),
+                                 december = formatDemandString(h.december)
+                             };
+            return reqHarvest;
+        }
+
+        public string formatDemandString(string demandLevel) {
+            if (demandLevel.Equals("NULL")) {
+                return "";
+            }
+            else
+            {
+                return demandLevel;
+            }
+            
+        }
+
+        public IEnumerable<WeatherView> getColdDays(int stationId)
+        {
+            var coldList = dbContext.weather_cold_days.ToList();
+            var coldView = from f in coldList
+                           where f.station_id == stationId
+                           select new WeatherView
+                           {
+                               feature = "Number of cold days",
+                               january = formatString(f.january),
+                               february = formatString(f.february),
+                               march = formatString(f.march),
+                               april = formatString(f.april),
+                               may = formatString(f.may),
+                               june = formatString(f.june),
+                               july = formatString(f.july),
+                               august = formatString(f.august),
+                               september = formatString(f.september),
+                               october = formatString(f.october),
+                               november = formatString(f.november),
+                               december = formatString(f.december)
+
+                           };
+            return coldView;
+        }
+
+        public IEnumerable<WeatherView> getTemp9am(int stationId)
+        {
+            var temp9List = dbContext.weather_temp9am_days.ToList();
+            var temp9View = from f in temp9List
+                            where f.station_id == stationId
+                            select new WeatherView
+                            {
+                                feature = "Temparature at 9 am (C)",
+                                january = formatString(f.january),
+                                february = formatString(f.february),
+                                march = formatString(f.march),
+                                april = formatString(f.april),
+                                may = formatString(f.may),
+                                june = formatString(f.june),
+                                july = formatString(f.july),
+                                august = formatString(f.august),
+                                september = formatString(f.september),
+                                october = formatString(f.october),
+                                november = formatString(f.november),
+                                december = formatString(f.december)
+
+                            };
+            return temp9View;
+        }
+
+        public IEnumerable<WeatherView> getTemp3pm(int stationId)
+        {
+            var temp3List = dbContext.weather_temp3pm_days.ToList();
+            var temp3View = from f in temp3List
+                           where f.station_id == stationId
+                           select new WeatherView
+                           {
+                               feature = "Temparature at 3 pm (C)",
+                               january = formatString(f.january),
+                               february = formatString(f.february),
+                               march = formatString(f.march),
+                               april = formatString(f.april),
+                               may = formatString(f.may),
+                               june = formatString(f.june),
+                               july = formatString(f.july),
+                               august = formatString(f.august),
+                               september = formatString(f.september),
+                               october = formatString(f.october),
+                               november = formatString(f.november),
+                               december = formatString(f.december)
+
+                           };
+            return temp3View;
+        }
+
+        public IEnumerable<WeatherView> getRainyDays(int stationId)
+        {
+            var rainyList = dbContext.weather_rainy_days.ToList();
+            var rainView = from f in rainyList
+                           where f.station_id == stationId
+                          select new WeatherView
+                          {
+                              feature = "Number of rainy days",
+                              january = formatString(f.january),
+                              february = formatString(f.february),
+                              march = formatString(f.march),
+                              april = formatString(f.april),
+                              may = formatString(f.may),
+                              june = formatString(f.june),
+                              july = formatString(f.july),
+                              august = formatString(f.august),
+                              september = formatString(f.september),
+                              october = formatString(f.october),
+                              november = formatString(f.november),
+                              december = formatString(f.december)
+
+                          };
+            return rainView;
+        }
+
+        public IEnumerable<WeatherView> getHotDays(int stationId)
+        {
+            var hotList = dbContext.weather_hot_days.ToList();
+            var hotView = from f in hotList
+                          where f.station_id == stationId
+                          select new WeatherView
+                          {
+                              feature = "Number of hot days",
+                              january = formatString(f.january),
+                              february = formatString(f.february),
+                              march = formatString(f.march),
+                              april = formatString(f.april),
+                              may = formatString(f.may),
+                              june = formatString(f.june),
+                              july = formatString(f.july),
+                              august = formatString(f.august),
+                              september = formatString(f.september),
+                              october = formatString(f.october),
+                              november = formatString(f.november),
+                              december = formatString(f.december)
+
+                          };
+            return hotView;
+        }
+
+        public string formatString(string number) {
+
+            if (String.IsNullOrEmpty(number))
+            {
+                return "0";
+            }
+            else
+            {
+                double some =  Convert.ToDouble(number);
+                double precised = System.Math.Round(some, 2);
+                string formatted = System.Convert.ToString(precised);
+                return formatted;
+            }
+        }
+        
         public ActionResult TestIndex(string[] cMonths, string[] cInterests)
         {
             UserSelections us = new UserSelections();
@@ -196,7 +522,6 @@ namespace TripNPick.Controllers
             var predicate = PredicateBuilder.New<suburb_harvest>();
             foreach (string month in months)
             {
-                Debug.WriteLine(month);
                 switch (month)
                 {
                     case "january":
@@ -238,7 +563,6 @@ namespace TripNPick.Controllers
                 }
 
             }
-            Debug.WriteLine(predicate);
             return predicate;
         }
 
@@ -270,6 +594,7 @@ namespace TripNPick.Controllers
 
         public IEnumerable<FilteredFarmViewModel> getAllFilteredFarms(string combinedString)
         {
+            //var some = dbContext.farms.ToList();
             var farmList = dbContext.farms.ToList();
             var suburbList = dbContext.suburb_table.ToList();
             var harvestList = dbContext.suburb_harvest.ToList();
@@ -288,7 +613,7 @@ namespace TripNPick.Controllers
                                           farm_lat = (double)f.location_lat,
                                           farm_lng = (double)f.location_lng,
                                           farm_address = f.farm_address,
-                                          farm_rating = f.farm_rating,
+                                          farm_rating = Convert.ToDouble(f.farm_rating),
                                           suburb_lat = (double)sl.suburb_lat,
                                           suburb_lng = (double)sl.suburb_lng
                                       }).ToList();
@@ -298,7 +623,7 @@ namespace TripNPick.Controllers
 
         public JsonResult getFarmCountMonthlyFiltered(string combinedString)
         {
-            //string combinedString = "april,may|Hiking Trails";
+            //string combinedString = "april,june|Hiking Trails";
             var states = dbContext.states.ToList();
             var distinctFarms = getAllFilteredFarms(combinedString);
             var interestGroupedByState = groupInterestByState(combinedString);
@@ -318,10 +643,56 @@ namespace TripNPick.Controllers
         }
 
         public ActionResult testSomething() {
-            string combinedString = "june,july|Hiking Trails";
-            var distinctFarms = getAllFilteredFarms(combinedString);
-            var farmsGroupedByState = distinctFarms.GroupBy(x => x.stateName).Select(c => new StateFarmsCount { stateName = c.Key, numberOfFarms = c.Count() });
-            return View(farmsGroupedByState);
+            string farm2 = "00f3d3fea7ea216489383b68e66779100b87d91b";
+            var farmList = dbContext.farms.ToList();
+            var reqSub = from f in farmList where f.farm_id.Equals(farm2) select f.suburb_id;
+            var suburbId = Convert.ToInt16(reqSub.FirstOrDefault());
+            var suburbList = dbContext.suburb_table.ToList();
+            var reqStation = from s in suburbList where s.suburb_id.Equals(suburbId) select s.station_id;
+            var stationId = Convert.ToInt16(reqStation.FirstOrDefault());
+            var coldView = getColdDays(stationId);
+            var hotView = getHotDays(stationId);
+            var rainView = getRainyDays(stationId);
+            var temp3View = getTemp3pm(stationId);
+            var temp9View = getTemp9am(stationId);
+
+            List<double> coldValues = this.getThatList(coldView.First()).getDays();
+            List<double> hotValues = this.getThatList(hotView.First()).getDays();
+            List<double> rainValues = this.getThatList(rainView.First()).getDays();
+            List<double> temp3Values = this.getThatList(temp3View.First()).getDays();
+            List<double> temp9Values = this.getThatList(temp9View.First()).getDays();
+
+            List<LineSeriesData> coldData = new List<LineSeriesData>();
+            List<LineSeriesData> hotData = new List<LineSeriesData>();
+            List<LineSeriesData> rainData = new List<LineSeriesData>();
+            List<LineSeriesData> temp3Data = new List<LineSeriesData>();
+            List<LineSeriesData> temp9Data = new List<LineSeriesData>();
+
+            coldValues.ForEach(p => coldData.Add(new LineSeriesData { Y = p }));
+            hotValues.ForEach(p => hotData.Add(new LineSeriesData { Y = p }));
+            rainValues.ForEach(p => rainData.Add(new LineSeriesData { Y = p }));
+            temp3Values.ForEach(p => temp3Data.Add(new LineSeriesData { Y = p }));
+            temp9Values.ForEach(p => temp9Data.Add(new LineSeriesData { Y = p }));
+
+            FarmDetailsView twoModels = new FarmDetailsView();
+            twoModels.weatherList = new List<WeatherView>();
+            twoModels.weatherList.Add(coldView.First());
+            twoModels.weatherList.Add(hotView.First());
+            twoModels.weatherList.Add(rainView.First());
+            twoModels.weatherList.Add(temp3View.First());
+            twoModels.weatherList.Add(temp9View.First());
+
+            var demandView = getFarmDemands(suburbId);
+            twoModels.demandList = demandView;
+
+            ViewData["coldData"] = coldData;
+            ViewData["hotData"] = hotData;
+            ViewData["rainData"] = rainData;
+            ViewData["temp3Data"] = temp3Data;
+            ViewData["temp9Data"] = temp9Data;
+
+
+            return View(twoModels);
         }
 
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
@@ -332,14 +703,14 @@ namespace TripNPick.Controllers
             if (p[1].Equals("null"))
             {
                 selectedInterests.Add("Museums");
-                selectedInterests.Add("Sights & Landmarks");
+                selectedInterests.Add("Sights and Landmarks");
                 selectedInterests.Add("Nature and Parks");
                 selectedInterests.Add("Beaches");
                 selectedInterests.Add("Outdoor Activities and Tours");
-                selectedInterests.Add("Nature & Wildlife Areas");
+                selectedInterests.Add("Nature and Wildlife Areas");
                 selectedInterests.Add("Hiking Trails");
-                selectedInterests.Add("Fun & Games & Sports");
-                selectedInterests.Add("Zoos & Aquariums");
+                selectedInterests.Add("Fun and Games and Sports");
+                selectedInterests.Add("Zoos and Aquariums");
             }
             else
             {
@@ -358,7 +729,7 @@ namespace TripNPick.Controllers
                     case "Museums":
                         predicate = predicate.Or(s => s.interest_id == 1);
                         break;
-                    case "Sights & Landmarks":
+                    case "Sights and Landmarks":
                         predicate = predicate.Or(s => s.interest_id == 2);
                         predicate = predicate.Or(s => s.interest_id == 4);
                         break;
@@ -371,16 +742,16 @@ namespace TripNPick.Controllers
                     case "Outdoor Activities and Tours":
                         predicate = predicate.Or(s => s.interest_id == 6);
                         break;
-                    case "Nature & Wildlife Areas":
+                    case "Nature and Wildlife Areas":
                         predicate = predicate.Or(s => s.interest_id == 7);
                         break;
                     case "Hiking Trails":
                         predicate = predicate.Or(s => s.interest_id == 8);
                         break;
-                    case "Fun & Games & Sports":
+                    case "Fun and Games and Sports":
                         predicate = predicate.Or(s => s.interest_id == 9);
                         break;
-                    case "Zoos & Aquariums":
+                    case "Zoos and Aquariums":
                         predicate = predicate.Or(s => s.interest_id == 10);
                         break;
                 }
@@ -405,8 +776,11 @@ namespace TripNPick.Controllers
                                   interestType = it.types,
                                   attractionId = ia.attraction_id,
                                   attractionName = ia.attraction_name,
+                                  attractionAddress = ia.address_x,
                                   interestLat = (double)ia.location_lat,
                                   interestLng = (double)ia.location_lng,
+                                  interestRating = (double)ia.review_grade,
+                                  numberOfReviews = Convert.ToInt32(ia.number_of_reviews),
                                   suburbId = sb.suburb_id,
                                   suburbName = sb.suburb_name
                               };
@@ -430,6 +804,9 @@ namespace TripNPick.Controllers
                                   interestType = it.types,
                                   attractionId = ia.attraction_id,
                                   attractionName = ia.attraction_name,
+                                  attractionAddress = ia.address_x,
+                                  interestRating = (double)ia.review_grade,
+                                  numberOfReviews = Convert.ToInt32(ia.number_of_reviews),
                                   suburbId = sb.suburb_id,
                                   suburbName = sb.suburb_name
                               };
@@ -461,7 +838,10 @@ namespace TripNPick.Controllers
                                   attractionId = ia.attraction_id,
                                   attractionName = ia.attraction_name,
                                   suburbId = sb.suburb_id,
-                                  suburbName = sb.suburb_name
+                                  suburbName = sb.suburb_name,
+                                  attractionAddress = ia.address_x,
+                                  interestRating = (double)ia.review_grade,
+                                  numberOfReviews = Convert.ToInt32(ia.number_of_reviews)
                               };
             var interestsGrouped = allInterest.GroupBy(x => x.suburbId).Select(c => new SuburbInterestsCount { suburbId = c.Key, numberOfInterests = c.Count() });
             return interestsGrouped;
@@ -477,7 +857,6 @@ namespace TripNPick.Controllers
 
         public JsonResult getSuburbWiseData(string userInput)
         {
-            Debug.WriteLine(userInput);
             string[] p = userInput.Split(':');
             var combinedString = p[0];
             var selection = p[1];
@@ -513,7 +892,6 @@ namespace TripNPick.Controllers
 
         public JsonResult doTheDew(string userInput)
         {
-            Debug.WriteLine(userInput);
             string[] p = userInput.Split(':');
             var combinedString = p[0];
             var stateId = p[1];
@@ -536,8 +914,11 @@ namespace TripNPick.Controllers
                             interestLng = interest.interestLng,
                             attractionId = interest.attractionId,
                             attractionName = interest.attractionName,
+                            attractionAddress = interest.attractionAddress,
                             suburbId = interest.suburbId,
                             suburbName = interest.suburbName,
+                            attractionRating = interest.interestRating,
+                            attractionNumberOfReviews = interest.numberOfReviews,
                             distance = distance
                         };
                         bool isContained = false;
@@ -563,7 +944,31 @@ namespace TripNPick.Controllers
                     }
                 }
             }
-            return Json(thelist, JsonRequestBehavior.AllowGet);
+            var mapInfo = new MapInformationView();
+            mapInfo.farmsAndInterests = thelist;
+            var selectedfarms = thelist.Select(x => x.farm).ToList();
+            var hostellist = dbContext.hostels.ToList();
+            var suburblist = dbContext.suburb_table.ToList();
+            var nearbyHostels = from f in selectedfarms
+                                join s in suburblist on f.suburbId equals s.suburb_id
+                                join h in hostellist on s.suburb_id equals h.suburb_id
+                                select new HostelView
+                                {
+                                    hostelId = h.hostel_id,
+                                    hostelName = h.hostel_name,
+                                    hostelAddress = h.hostel_address,
+                                    hostel_lat = Convert.ToDouble(h.hostel_lat),
+                                    hostel_lng = Convert.ToDouble(h.hostel_long),
+                                    suburbId = Convert.ToInt32( h.suburb_id),
+                                    hostelRating = Convert.ToDouble(h.hostel_rating)
+                                };
+            //var someList = from cu in hostellist
+            //               join id in selectedfarms on cu.suburb_id equals id
+            //               select cu;
+            var reqHostels = nearbyHostels.ToList();
+            mapInfo.hostels = reqHostels;
+
+            return Json(mapInfo, JsonRequestBehavior.AllowGet);
         }
         
         public JsonResult countForStates(string userInput)
@@ -637,6 +1042,11 @@ namespace TripNPick.Controllers
             }
             
             return Json(scList, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult dropdownTest()
+        {
+            return View();
         }
     }
 }

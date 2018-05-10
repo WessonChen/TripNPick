@@ -4,31 +4,35 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f50502b0ea4140a09cc31cbaeb75cc80" Name="Diagram1" ZoomLevel="18">
-        <EntityTypeShape EntityType="ColdSpotDBModel.crop" Width="1.5" PointX="6" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.farm" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.suburb_harvest" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.suburb_table" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.sysdiagram" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.weather_cold_days" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.weather_hot_days" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.weather_rainy_days" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.weather_temp3pm_days" Width="1.5" PointX="0.75" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.weather_temp9am_days" Width="1.5" PointX="0.75" PointY="23.625" IsExpanded="true" />
+      <Diagram DiagramId="cacef433119749ffbd8af86ca30ccc4b" Name="Diagram1">
+        <EntityTypeShape EntityType="ColdSpotDBModel.crop" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.fake_farms" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.farm" Width="1.5" PointX="5.25" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.hostel" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.interest_attraction" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.interest_table" Width="1.5" PointX="6" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.Registration" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.state" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.suburb_harvest" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.suburb_table" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.sysdiagram" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.weather_cold_days" Width="1.5" PointX="0.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.weather_hot_days" Width="1.5" PointX="0.75" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.weather_rainy_days" Width="1.5" PointX="0.75" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.weather_temp3pm_days" Width="1.5" PointX="0.75" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColdSpotDBModel.weather_temp9am_days" Width="1.5" PointX="0.75" PointY="33" IsExpanded="true" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_harvest_crop" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_farm_suburb_table" ManuallyRouted="false" />
+        <AssociationConnector Association="ColdSpotDBModel.FK_hostel_suburb_table" ManuallyRouted="false" />
+        <AssociationConnector Association="ColdSpotDBModel.FK_interest_attraction_interest_table" ManuallyRouted="false" />
+        <AssociationConnector Association="ColdSpotDBModel.FK_interest_attraction_suburb_table" ManuallyRouted="false" />
+        <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_state" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_harvest_suburb_table" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_cold_days" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_hot_days" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_rainy_days" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_temp3pm_days" ManuallyRouted="false" />
         <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_weather_temp9am_days" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.state" Width="1.5" PointX="5.5" PointY="8.875" />
-        <AssociationConnector Association="ColdSpotDBModel.FK_suburb_table_state1" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.interest_attraction" Width="1.5" PointX="8.5" PointY="8.75" />
-        <EntityTypeShape EntityType="ColdSpotDBModel.interest_table" Width="1.5" PointX="19.125" PointY="10.75" />
-        <AssociationConnector Association="ColdSpotDBModel.FK_interest_attraction_interest_table" />
-        <AssociationConnector Association="ColdSpotDBModel.FK_interest_attraction_suburb_table" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

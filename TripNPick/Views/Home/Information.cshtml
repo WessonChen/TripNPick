@@ -1,91 +1,156 @@
 ﻿
 @{
-    ViewBag.Title = "FAQ";
+    ViewBag.Title = "Information";
 }
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/PaymentTaxRight.css" />
 </head>
 
-<div class="container" style="padding: 50px 50px 24px 50px;">
-    <div style="margin-top:16px;">
+<div style="padding-top: 50px; background-color: lightgray">
+    <div class="container">
         @Html.MvcSiteMap().SiteMapPath()
+        <a id="google_translate_element" class="transalorBtn"></a>
     </div>
-    <div class="page-header">
-        <h1 style="font-variant: small-caps; font-size: 300%;">Payments</h1>
-    </div>
-    <ul class="messageList">
-        <li class="message">
-            First, get a <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/Tax-file-number">
-                TFN
-            </a>
-            number for yourself to be paid against and your <a class="webLink" target="_blank" href="https://www.australia.gov.au/information-and-services/money-and-tax/superannuation">
-                SUPERANNUATION
-            </a>
-            to be contributed towards.
-        </li>
-        <li class="message">
-            If you are above 21 years of age, you are should not be paid below the minimum wage bar.
-        </li>
-        <li class="message">
-            When you do start working, your employer is liable to provide you with a formal document with yours and their details including the names of the two-party’s involved, your hourly wage and the hours you are expected to work in a period.
-        </li>
-        <li class="message">
-            No employer can make deductions from your agreed wage, unless you agree to it OR it benefits you.
-        </li>
-    </ul>
 </div>
 
-<div class="container" style="padding: 0 50px 24px 50px;">
-    <div class="page-header">
-        <h1 style="font-variant: small-caps; font-size: 300%;">Tax</h1>
-    </div>
-    <ul class="messageList">
-        <li class="message">
-            Make sure you know the tax 
-            <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/International-tax-for-individuals/Coming-to-Australia/Working-holiday-makers/">
-                LAWS
-            </a>
-            when you are on a working holiday visa. 
-        </li>
-        <li class="message">
-            When you work in Australia on 
-            <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/Tax-file-number/">
-            TFN
-            </a> 
-            , you may be eligible for tax returns, you can file your tax on the
-            <a class="webLink" target="_blank" href="https://www.ato.gov.au/Calculators-and-tools/Host/?anchor=DINTL&anchor=DINTL/questions#DINTL/questions">
-            GOVERNMENT WEBSITE
-            </a>.
-        </li>
-    </ul>
+<div id="main">
+    <section class="wrapper style1" style="padding-top: 50px !important">
+        <div class="inner">
+            <header class="align-center">
+                <h2>Important Information</h2>
+                <p>Working rights, payments, taxes you may want to know.</p>
+            </header>
+            <div class="flex flex-3">
+                <div class="col align-center">
+                    <div class="image round fit">
+                        <img src="~/img/Rights.jpg" alt="" />
+                    </div>
+                    <p style="font-size: large; font-weight: bold; margin-bottom: 16px !important">Working Rights</p>
+                    <a href="#rights" class="button">Learn More</a>
+                </div>
+                <div class="col align-center">
+                    <div class="image round fit">
+                        <img src="~/img/Payment.jpg" alt="" />
+                    </div>
+                    <p style="font-size: large; font-weight: bold; margin-bottom: 16px !important">Payments</p>
+                    <a href="#payments" class="button">Learn More</a>
+                </div>
+                <div class="col align-center">
+                    <div class="image round fit">
+                        <img src="~/img/Tax.jpg" alt="" />
+                    </div>
+                    <p style="font-size: large; font-weight: bold; margin-bottom: 16px !important">Taxes</p>
+                    <a href="#taxes" class="button">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="wrapper style2" id="rights">
+        <div class="inner">
+            <div class="flex flex-2">
+                <div class="col col2">
+                    <h3>Working Rights</h3>
+                    <p>
+                        You can work for an employer for upto 6 months to fulfil your 88 days of work. Find more information can be found on the governmnet website for
+                        <a class="webLink" target="_blank" href="https://www.homeaffairs.gov.au/trav/work/empl/whm-six-months-one-employer">
+                            HOME AFFAIRS
+                        </a>.
+                    </p>
+                    <p>
+                        All rights related information when you are on a working holiday visa can be found
+                        <a class="webLink" target="_blank" href="https://www.fairwork.gov.au/how-we-will-help/templates-and-guides/fact-sheets/rights-and-obligations/visa-holders-and-migrant-workers-workplace-rights-and-entitlements">
+                            HERE
+                        </a>.
+                    </p>
+                    <p>
+                        Always be honest and speak to your employer about any issues you face or if you are uncomfortable. In cases where your employer is not being fair to you or others, there is help available if and when you do need it.
+                    </p>
+                    <p>
+                        <a class="webLink" target="_blank" href="https://www.fairwork.gov.au/">
+                            FAIR WORK OMBUDSMAN
+                        </a>
+                        is a government is a service by the Australian government to address issues around exploitation in work places.
+                    </p>
+                </div>
+                <div class="col col1 first">
+                    <div class="image round fit">
+                        <a href="#" class="link"><img src="~/img/Rights.jpg" alt="" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="wrapper style1" id="payments">
+        <div class="inner">
+            <div class="flex flex-2">
+                <div class="col col1">
+                    <div class="image round fit">
+                        <a href="#" class="link"><img src="~/img/Payment.jpg" alt="" /></a>
+                    </div>
+                </div>
+                <div class="col col2">
+                    <h3>Payments</h3>
+                    <p>
+                        First, get a <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/Tax-file-number">
+                            TFN
+                        </a>
+                        number for yourself to be paid against and your <a class="webLink" target="_blank" href="https://www.australia.gov.au/information-and-services/money-and-tax/superannuation">
+                            SUPERANNUATION
+                        </a>
+                        to be contributed towards.
+                    </p>
+                    <p>
+                        If you are above 21 years of age, you are should not be paid below the minimum wage bar.
+                    </p>
+                    <p>
+                        When you do start working, your employer is liable to provide you with a formal document with yours and their details including the names of the two-party’s involved, your hourly wage and the hours you are expected to work in a period.
+                    </p>
+                    <p>
+                        No employer can make deductions from your agreed wage, unless you agree to it OR it benefits you.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="wrapper style2" id="taxes">
+        <div class="inner">
+            <div class="flex flex-2">
+                <div class="col col2">
+                    <h3>Taxes</h3>
+                    <p>
+                        Make sure you know the tax
+                        <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/International-tax-for-individuals/Coming-to-Australia/Working-holiday-makers/">
+                            LAWS
+                        </a>
+                        when you are on a working holiday visa.
+                    </p>
+                    <p>
+                        When you work in Australia on
+                        <a class="webLink" target="_blank" href="https://www.ato.gov.au/Individuals/Tax-file-number/">
+                            TFN
+                        </a>, you may be eligible for tax returns.
+                    </p>
+                    <p>
+                        You can file your tax on the
+                        <a class="webLink" target="_blank" href="https://www.ato.gov.au/Calculators-and-tools/Host/?anchor=DINTL&anchor=DINTL/questions#DINTL/questions">
+                            GOVERNMENT WEBSITE
+                        </a>.
+                    </p>
+                </div>
+                <div class="col col1 first">
+                    <div class="image round fit">
+                        <a href="#" class="link"><img src="~/img/Tax.jpg" alt="" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
-<div class="container" style="padding: 0 50px 24px 50px;">
-    <div class="page-header">
-        <h1 style="font-variant: small-caps; font-size: 300%;">Work Rights</h1>
-    </div>
-    <ul class="messageList">
-        <li class="message">
-            You can work for an employer for upto 6 months to fulfil your 88 days of work. Find more information can be found on the governmnet website for
-            <a class="webLink" target="_blank" href="https://www.homeaffairs.gov.au/trav/work/empl/whm-six-months-one-employer">
-                HOME AFFAIRS
-            </a>.
-        </li>
-        <li class="message">
-            All rights related information when you are on a working holiday visa can be found
-            <a class="webLink" target="_blank" href="https://www.fairwork.gov.au/how-we-will-help/templates-and-guides/fact-sheets/rights-and-obligations/visa-holders-and-migrant-workers-workplace-rights-and-entitlements">
-                HERE
-            </a>.
-        </li>
-        <li class="message">
-            Always be honest and speak to your employer about any issues you face or if you are uncomfortable. In cases where your employer is not being fair to you or others, there is help available if and when you do need it.
-        </li>
-        <li class="message">
-            <a class="webLink" target="_blank" href="https://www.fairwork.gov.au/">
-                FAIR WORK OMBUDSMAN
-            </a>
-            is a government is a service by the Australian government to address issues around exploitation in work places.
-        </li>
-    </ul>
-</div>
+@*<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>*@

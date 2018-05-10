@@ -1,0 +1,387 @@
+﻿@{
+    ViewBag.Title = "Farm Details";
+}
+@model TripNPick.Models.FarmDetailsView
+
+<head>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <link href="~/Content/demandTable.css" type ="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+    <div style="padding-top: 50px; background-color: lightgray;">
+        <div class="container">
+            @Html.MvcSiteMap().SiteMapPath()
+        </div>
+    </div>
+    <div class="jumbotron detailsBG">
+        <div class="container">
+            <h1>@Model.theFarm.farm_name</h1>
+            <p>
+                <b>Farm Rating:</b>
+                @if (Model.theFarm.farm_rating == 0)
+                {
+                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this farm yet." /></span>
+                }
+                else
+                {
+                    for (double i = 0; i <= Model.theFarm.farm_rating; i++)
+                    {
+                        if (Model.theFarm.farm_rating - i >= 1)
+                        {
+                            <span><img src="~/img/rating/full_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                        }
+                        else if (Model.theFarm.farm_rating - i < 1 && Model.theFarm.farm_rating - i > 0)
+                        {
+                            <span><img src="~/img/rating/half_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                        }
+                    }
+                }
+            </p>
+            <p><b>Address:</b> @Model.theFarm.farm_address</p>
+        </div>
+    </div>
+
+    <div class="firsttable">
+        <div class="container">
+            <div id="tabcss">
+                <table id="interestsTable">
+                    <thead>
+                        <tr>
+                            <td>Attraction Name</td>
+                            <td>Rating</td>
+                            <td>Address</td>
+                            <td>Distance</td>
+                            <td>Popularity</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.nearbyAttractions)
+                        {
+                            <tr>
+                                <td class="biggericon"><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
+                                <td class="smallericon">
+                                    @if (item.attraction_rating == 0)
+                                    {
+                                        <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
+                                    }
+                                    else
+                                    {
+                                        for (double i = 0; i <= item.attraction_rating; i++)
+                                        {
+                                            if (item.attraction_rating - i >= 1)
+                                            {
+                                                <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            }
+                                            else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
+                                            {
+                                                <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            }
+                                        }
+                                    }
+                                </td>
+                                <td>@item.attraction_address</td>
+                                <td>@item.attraction_distance<span> km</span></td>
+                                <td class="smallericon">
+                                    @if (item.number_of_reviews == 0)
+                                    {
+                                        <span><img src="~/img/rating/empty_person.png" title="Sorry, we do not have enough information for this attraction yet." /></span>
+                                    }
+                                    else
+                                    {
+                                        int i = 5;
+                                        if (item.number_of_reviews < 132)
+                                        {
+                                            i = 4;
+                                        }
+                                        if (item.number_of_reviews < 41)
+                                        {
+                                            i = 3;
+                                        }
+                                        if (item.number_of_reviews < 14)
+                                        {
+                                            i = 2;
+                                        }
+                                        if (item.number_of_reviews < 6)
+                                        {
+                                            i = 1;
+                                        }
+                                        while (i > 0)
+                                        {
+                                            <span><img src="~/img/rating/person.png" title="@item.number_of_reviews people gave reviews to this attraction." /></span>
+                                            i--;
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="container">
+            <section id="fancyTabWidget" class="tabs t-tabs">
+                <ul class="nav nav-tabs fancyTabs" role="tablist">
+
+                    <li class="tab fancyTab active">
+                        <div class="arrow-down"><div class="arrow-down-inner"></div></div>
+                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="demand"><img src="~/img/details/demand.png"/></span><span class="hidden-xs"> Demand Details</span></a>
+                        <div class="whiteBlock"></div>
+                    </li>
+
+                    <li class="tab fancyTab">
+                        <div class="arrow-down"><div class="arrow-down-inner"></div></div>
+                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="weather"><img src="~/img/details/weather.png" /></span><span class="hidden-xs"> Weather Details</span></a>
+                        <div class="whiteBlock"></div>
+                    </li>
+
+                    <li class="tab fancyTab">
+                        <div class="arrow-down"><div class="arrow-down-inner"></div></div>
+                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="temperature"><img src="~/img/details/temperature.png" /></span><span class="hidden-xs"> Temparature Details</span></a>
+                        <div class="whiteBlock"></div>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+                    <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
+                        <h3>Avearge Demands in Months Around that Area</h3>
+                        <div style="overflow-x:auto;">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr style="color:white; background: #002233">
+                                        <td>CROP TYPE</td>
+                                        <td>JAN</td>
+                                        <td>FEB</td>
+                                        <td>MAR</td>
+                                        <td>APR</td>
+                                        <td>MAY</td>
+                                        <td>JUN</td>
+                                        <td>JUL</td>
+                                        <td>AUG</td>
+                                        <td>SEP</td>
+                                        <td>OCT</td>
+                                        <td>NOV</td>
+                                        <td>DEC</td>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var item in Model.demandList)
+                                {
+                                    <tr>
+                                        <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
+                                        <td class="@item.january">@item.january</td>
+                                        <td class="@item.february">@item.february</td>
+                                        <td class="@item.march">@item.march</td>
+                                        <td class="@item.april">@item.april</td>
+                                        <td class="@item.may">@item.may</td>
+                                        <td class="@item.june">@item.june</td>
+                                        <td class="@item.july">@item.july</td>
+                                        <td class="@item.august">@item.august</td>
+                                        <td class="@item.september">@item.september</td>
+                                        <td class="@item.october">@item.october</td>
+                                        <td class="@item.november">@item.november</td>
+                                        <td class="@item.december">@item.december</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
+                        @using Highsoft.Web.Mvc.Charts
+
+                        @(Html.Highsoft().Highcharts(
+                            new Highcharts
+                            {
+                                Title = new Title
+                                {
+                                    Text = "Avearge Weather in Months",
+                                    X = -20
+                                },
+                                Subtitle = new Subtitle
+                                {
+                                    Text = "Source: Government Website",
+                                    X = -20
+                                },
+                                XAxis = new List<XAxis>
+                                {
+                                                new XAxis
+                                                {
+                                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+
+                                                }
+                                },
+                                YAxis = new List<YAxis>
+                                {
+                                                new YAxis
+                                                {
+                                                    Title = new YAxisTitle
+                                                    {
+                                                        Text = "Number of Days"
+                                                    },
+                                                    PlotLines = new List<YAxisPlotLines>
+                                                    {
+                                                            new YAxisPlotLines
+                                                        {
+                                                            Value = 0,
+                                                            Width = 1,
+                                                            Color = "#808080"
+                                                        }
+                                                    }
+                                                }
+                                },
+                                Tooltip = new Tooltip
+                                {
+                                    ValueSuffix = "Days"
+                                },
+                                Legend = new Legend
+                                {
+                                    Layout = LegendLayout.Vertical,
+                                    Align = LegendAlign.Right,
+                                    VerticalAlign = LegendVerticalAlign.Middle,
+                                    BorderWidth = 0
+                                },
+                                Series = new List<Series>
+                                {
+                                                new LineSeries
+                                                {
+                                                    Name = "Days of Temperature under 2 Degrees",
+                                                    Data = @ViewData["coldData"] as List<LineSeriesData>
+                                                },
+                                                new LineSeries
+                                                {
+                                                    Name = "Days of Temperature above 30 Degrees",
+                                                    Data = @ViewData["hotData"] as List<LineSeriesData>
+                                                },
+                                                new LineSeries
+                                                {
+                                                    Name = "Number of Rainy Days",
+                                                    Data = @ViewData["rainData"] as List<LineSeriesData>
+                                                }
+                                }
+                            }, "weatherDaysChart")
+                        )
+                    </div>
+                    <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
+                        @using Highsoft.Web.Mvc.Charts
+                        @(Html.Highsoft().Highcharts(
+                                new Highcharts
+                                {
+                                    Title = new Title
+                                    {
+                                        Text = "Avearge Temparature in Months",
+                                        X = -20
+                                    },
+                                    Subtitle = new Subtitle
+                                    {
+                                        Text = "Source: Government Website",
+                                        X = -20
+                                    },
+                                    XAxis = new List<XAxis>
+                                    {
+                                                new XAxis
+                                                {
+                                                    Categories = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+                                                }
+                                    },
+                                    YAxis = new List<YAxis>
+                                    {
+                                                new YAxis
+                                                {
+                                                    Title = new YAxisTitle
+                                                    {
+                                                        Text = "Temperature (°C)"
+                                                    },
+                                                    PlotLines = new List<YAxisPlotLines>
+                                                    {
+                                                            new YAxisPlotLines
+                                                        {
+                                                            Value = 0,
+                                                            Width = 1,
+                                                            Color = "#808080"
+                                                        }
+                                                    }
+                                                }
+                                    },
+                                    Tooltip = new Tooltip
+                                    {
+                                        ValueSuffix = "(°C)"
+                                    },
+                                    Legend = new Legend
+                                    {
+                                        Layout = LegendLayout.Vertical,
+                                        Align = LegendAlign.Right,
+                                        VerticalAlign = LegendVerticalAlign.Middle,
+                                        BorderWidth = 0
+                                    },
+                                    Series = new List<Series>
+                                    {
+                                                new LineSeries
+                                                {
+                                                    Name = "Temparature(°C) at 3pm",
+                                                    Data = @ViewData["temp3Data"] as List<LineSeriesData>
+                                                },
+                                                new LineSeries
+                                                {
+                                                    Name = "Temparature(°C) at 9am",
+                                                    Data = @ViewData["temp9Data"] as List<LineSeriesData>
+                                                }
+                                    }
+                                }, "temparatureChart")
+                        )
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var numItems = $('li.fancyTab').length;
+
+            if (numItems == 3) {
+                $("li.fancyTab").width('33.3%');
+            }
+
+            $('#interestsTable').DataTable({
+                "scrollY": "200px",
+                "responsive": true,
+                "paging": false,
+                "info": false,
+                "searching": false,
+                "lengthChange": false,
+                "displayLength": 50,
+                "order": [[3, "asc"]],
+                "columnDefs": [{
+                    "orderable": false, "targets": 2,
+                }]
+            });
+        });
+
+        $(window).load(function () {
+            $('.fancyTabs').each(function () {
+                var highestBox = 0;
+                $('.fancyTab a', this).each(function () {
+                    if ($(this).height() > highestBox)
+                        highestBox = $(this).height();
+                });
+                $('.fancyTab a', this).height(highestBox);
+            });
+        });
+    </script>
+
+</body>
+
+
