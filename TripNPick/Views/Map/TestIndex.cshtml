@@ -95,7 +95,7 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId)) {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<p>' + information.hostels[i].hostelName + '</p>';
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -139,8 +139,7 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
-                        var interestContent = '<span><h3>' + ints[x].attractionName + '</h3></br>Address: ' + ints[x].attractionAddress + '</br>Rating:' + ints[x].attractionRating+'</span>'
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -190,7 +189,7 @@
             for (i = 0; i < hostelData.length; i++) {
                 if (!hostelFilter.includes(hostelData[i].hostelId)) {
                     hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<p>' + hostelData[i].hostelName + '</p>';
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -214,7 +213,7 @@
             }
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>' + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address + '</p></div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -230,7 +229,7 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -277,7 +276,7 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId)) {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<p>' + information.hostels[i].hostelName + '</p>';
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -301,7 +300,7 @@
             }
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>' + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address + '</p></div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -317,7 +316,7 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -365,7 +364,7 @@
             for (i = 0; i < hostelData.length; i++) {
                 if (!hostelFilter.includes(hostelData[i].hostelId)) {
                     hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<p>' + hostelData[i].hostelId + '</p>';
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -389,7 +388,7 @@
             }
             data = information.farmsAndInterests;
             for (i = 0; i < data.length; i++) {
-                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>' + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address + '</p></div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -405,7 +404,7 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -453,7 +452,7 @@
             for (i = 0; i < hostelData.length; i++) {
                 if (!hostelFilter.includes(hostelData[i].hostelId)) {
                     hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<p>' + hostelData[i].hostelId + '</p>';
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -477,7 +476,7 @@
             }
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>' + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address + '</p></div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -493,7 +492,7 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -541,7 +540,7 @@
             for (i = 0; i < hostelData.length; i++) {
                 if (!hostelFilter.includes(hostelData[i].hostelId)) {
                     hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<p>' + hostelData[i].hostelId + '</p>';
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -565,7 +564,7 @@
             }
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>' + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address + '</p></div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -581,7 +580,7 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -629,7 +628,7 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<p>' + information.hostels[i].hostelName  + '</p>';
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -653,7 +652,7 @@
             }
             var filter = [];
             for (i = 0; i < data.length; i++) {
-                var farmContent = '<p>' + data[i].farm.farmName + '</p>';
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>' + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address + '</p></div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -669,7 +668,7 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<p>' + ints[x].attractionName + '</p>';
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -761,7 +760,7 @@
                                 <option value="August">August</option>
                                 <option value="September">September</option>
                                 <option value="October">October</option>
-                                <option value="Novenmber">Novenmber</option>
+                                <option value="Novenmber">November</option>
                                 <option value="December">December</option>
                             </select>
                         </div>
