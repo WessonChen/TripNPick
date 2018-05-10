@@ -4,8 +4,8 @@
 @model TripNPick.Models.FarmDetailsView
 
 <head>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    @*<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>*@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -18,10 +18,13 @@
 
 
 <body>
-    <div class="container" style="margin-top: 50px">
-        <div class="jumbotron">
+    <div style="margin-top: 50px">
+    </div>
+    <div class="jumbotron">
+        <div class="container">
             <h1>@Model.theFarm.farm_name</h1>
-            <p><b>Farm Rating:</b>
+            <p>
+                <b>Farm Rating:</b>
                 @if (Model.theFarm.farm_rating == 0)
                 {
                     <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this farm yet." /></span>
@@ -58,24 +61,25 @@
                         {
                             <tr>
                                 <td><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
-                                <td>@if (item.attraction_rating == 0)
-                                {
-                                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
-                                }
-                                else
-                                {
-                                    for (double i = 0; i <= item.attraction_rating; i++)
+                                <td>
+                                    @if (item.attraction_rating == 0)
                                     {
-                                        if (item.attraction_rating - i >= 1)
+                                        <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
+                                    }
+                                    else
+                                    {
+                                        for (double i = 0; i <= item.attraction_rating; i++)
                                         {
-                                            <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
-                                        }
-                                        else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
-                                        {
-                                            <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            if (item.attraction_rating - i >= 1)
+                                            {
+                                                <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            }
+                                            else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
+                                            {
+                                                <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
+                                            }
                                         }
                                     }
-                                }
                                 </td>
                                 <td>@item.attraction_address</td>
                                 <td>@item.attraction_distance<span> km</span></td>
@@ -86,17 +90,80 @@
                 </table>
             </div>
         </div>
-        <div id="tabs">
-            <ul>
-                <li><a href="#tabs-4">Demand Details</a></li>
-                <li><a href="#tabs-2">Weather Details</a></li>
-                <li><a href="#tabs-3">Temparature Details</a></li>
+    </div>
 
-            </ul>
-            <div id="tabs-2">
-                @using Highsoft.Web.Mvc.Charts
+    <div>
+        <div class="container">
+            <section id="fancyTabWidget" class="tabs t-tabs">
+                <ul class="nav nav-tabs fancyTabs" role="tablist">
 
-                @(Html.Highsoft().Highcharts(
+                    <li class="tab fancyTab active">
+                        <div class="arrow-down"><div class="arrow-down-inner"></div></div>
+                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-desktop"></span><span class="hidden-xs">Demand Details</span></a>
+                        <div class="whiteBlock"></div>
+                    </li>
+
+                    <li class="tab fancyTab">
+                        <div class="arrow-down"><div class="arrow-down-inner"></div></div>
+                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-firefox"></span><span class="hidden-xs">Weather Details</span></a>
+                        <div class="whiteBlock"></div>
+                    </li>
+
+                    <li class="tab fancyTab">
+                        <div class="arrow-down"><div class="arrow-down-inner"></div></div>
+                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa fa-envira"></span><span class="hidden-xs">Temparature Details</span></a>
+                        <div class="whiteBlock"></div>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+                    <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
+                        <div>
+                            <div style="overflow-x:auto;">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr style="color:white; background: #002233">
+                                            <td>CROP TYPE</td>
+                                            <td>JAN</td>
+                                            <td>FEB</td>
+                                            <td>MAR</td>
+                                            <td>APR</td>
+                                            <td>MAY</td>
+                                            <td>JUN</td>
+                                            <td>JUL</td>
+                                            <td>AUG</td>
+                                            <td>SEP</td>
+                                            <td>OCT</td>
+                                            <td>NOV</td>
+                                            <td>DEC</td>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in Model.demandList)
+                                    {
+                                        <tr>
+                                            <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
+                                            <td class="@item.january">@item.january</td>
+                                            <td class="@item.february">@item.february</td>
+                                            <td class="@item.march">@item.march</td>
+                                            <td class="@item.april">@item.april</td>
+                                            <td class="@item.may">@item.may</td>
+                                            <td class="@item.june">@item.june</td>
+                                            <td class="@item.july">@item.july</td>
+                                            <td class="@item.august">@item.august</td>
+                                            <td class="@item.september">@item.september</td>
+                                            <td class="@item.october">@item.october</td>
+                                            <td class="@item.november">@item.november</td>
+                                            <td class="@item.december">@item.december</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
+                            @using Highsoft.Web.Mvc.Charts
+
+                            @(Html.Highsoft().Highcharts(
                         new Highcharts
                         {
                             Title = new Title
@@ -167,11 +234,11 @@
                                 }
                             }
                         }, "weatherDaysChart")
-                )
-            </div>
-            <div id="tabs-3">
-                @using Highsoft.Web.Mvc.Charts
-                @(Html.Highsoft().Highcharts(
+                            )
+                    </div>
+                    <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
+                        @using Highsoft.Web.Mvc.Charts
+                        @(Html.Highsoft().Highcharts(
                         new Highcharts
                         {
                             Title = new Title
@@ -234,59 +301,25 @@
                                     Name = "Temparature(°C) at 9am",
                                     Data = @ViewData["temp9Data"] as List<LineSeriesData>
                                 }
-                            }}, "temparatureChart")
-                )
-            </div>
-            <div id="tabs-4">
-                <div style="overflow-x:auto;">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr style="color:white; background: #002233">
-                                <td>CROP TYPE</td>
-                                <td>JAN</td>
-                                <td>FEB</td>
-                                <td>MAR</td>
-                                <td>APR</td>
-                                <td>MAY</td>
-                                <td>JUN</td>
-                                <td>JUL</td>
-                                <td>AUG</td>
-                                <td>SEP</td>
-                                <td>OCT</td>
-                                <td>NOV</td>
-                                <td>DEC</td>
-                            </tr>
-                        </thead>
-
-                        @foreach (var item in Model.demandList)
-                         {
-                         <tr>
-                             <td style="color:darkcyan; font-weight:bold">@item.cropName</td>
-                             <td class="@item.january">@item.january</td>
-                             <td class="@item.february">@item.february</td>
-                             <td class="@item.march">@item.march</td>
-                             <td class="@item.april">@item.april</td>
-                             <td class="@item.may">@item.may</td>
-                             <td class="@item.june">@item.june</td>
-                             <td class="@item.july">@item.july</td>
-                             <td class="@item.august">@item.august</td>
-                             <td class="@item.september">@item.september</td>
-                             <td class="@item.october">@item.october</td>
-                             <td class="@item.november">@item.november</td>
-                             <td class="@item.december">@item.december</td>
-                        </tr>
-                        }
-                    </table>
+                            }
+                        }, "temparatureChart")
+                        )
+                    </div>
                 </div>
-            </div>
+
+            </section>
         </div>
     </div>
 
     <script type="text/javascript">
-        $(function () {
-            $("#tabs").tabs({
-                collapsible: true
-            });
+
+        $(document).ready(function () {
+            var numItems = $('li.fancyTab').length;
+
+            if (numItems == 3) {
+                $("li.fancyTab").width('33.3%');
+            }
+
             $('#interestsTable').DataTable({
                 "scrollY": "220px",
                 "responsive": true,
@@ -299,6 +332,17 @@
                 "columnDefs": [{
                     "orderable": false, "targets": 2,
                 }]
+            });
+        });
+
+        $(window).load(function () {
+            $('.fancyTabs').each(function () {
+                var highestBox = 0;
+                $('.fancyTab a', this).each(function () {
+                    if ($(this).height() > highestBox)
+                        highestBox = $(this).height();
+                });
+                $('.fancyTab a', this).height(highestBox);
             });
         });
     </script>
