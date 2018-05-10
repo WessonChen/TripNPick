@@ -715,6 +715,11 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdNjpD2meHBBiquEK62khiotrQ_4u5WpQ&callback=initMap"></script>
 
 <body onload="myFunction()">
+    <div style="padding-top: 50px; background-color: lightgray;">
+        <div class="container">
+            @Html.MvcSiteMap().SiteMapPath()
+        </div>
+    </div>
     <div>
         <div id="mapForm">
             <form action="/Map/TestIndex">
@@ -786,43 +791,43 @@
                 <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
                 <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
                 @if (Model.cInterests != null)
-        {
-            for (int i = 0; i < Model.cInterests.Length; i++)
-            {
-                switch (Model.cInterests[i])
                 {
-                    case "Museums":
-                        <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
-                break;
-            case "Sights and Landmarks":
-                <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
-        break;
-    case "Nature and Parks":
-        <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
-break;
-case "Beaches":
-        <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
-break;
-case "Outdoor Activities and Tours":
-        <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
-break;
-case "Nature and Wildlife Areas":
-        <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
-break;
-case "Hiking Trails":
-        <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
-break;
-case "Fun and Games and Sports":
-        <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
-break;
-case "Zoos and Aquariums":
-        <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
-break;
-default:
-break;
-}
-}
-}
+                    for (int i = 0; i < Model.cInterests.Length; i++)
+                    {
+                        switch (Model.cInterests[i])
+                        {
+                            case "Museums":
+                                <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
+                                break;
+                            case "Sights and Landmarks":
+                                <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
+                                break;
+                            case "Nature and Parks":
+                                <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
+                                break;
+                            case "Beaches":
+                                <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
+                                break;
+                            case "Outdoor Activities and Tours":
+                                <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
+                                break;
+                            case "Nature and Wildlife Areas":
+                                <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
+                                break;
+                            case "Hiking Trails":
+                                <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
+                                break;
+                            case "Fun and Games and Sports":
+                                <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
+                                break;
+                            case "Zoos and Aquariums":
+                                <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
             </div>
         </div>
     </div>
@@ -835,7 +840,7 @@ break;
 
         function showPage() {
             document.getElementById("loader").style.display = "none";
-            document.getElementById("testMap").style.display="block";
+            document.getElementById("testMap").style.display = "block";
         }
     </script>
 
