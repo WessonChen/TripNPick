@@ -7,6 +7,7 @@ p {
     text-justify: inter-word;
     font-size: 115%;
     color: #bfbfbf;
+    font-weight: bold;
 }
 
 p b{
@@ -133,3 +134,28 @@ p img {
     max-height: 18px;
 }
 
+.aboutusbg {
+    background: url(../img/aboutBG.JPG) no-repeat center center;
+    background-size: cover;
+    margin-bottom: 50px;
+}
+
+.aboutusbg h1 {
+    color: white !important;
+    padding: 150px 0 !important;
+}
+
+#formSection {
+    padding-bottom: 50px;
+    background-color: gray;
+}
+
+#formSection h1{
+    color: white;
+}
+
+.ourteam {
+    background-color: #f8f8f8;
+    margin-top: 50px;
+    padding-bottom: 50px !important;
+}

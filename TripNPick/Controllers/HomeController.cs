@@ -67,6 +67,7 @@ namespace TripNPick.Controllers
         public ActionResult AboutUS()
         {
             SuggestionForm newForm = new SuggestionForm();
+            ViewData["info"] = "New";
             return View(newForm);
         }
 
@@ -75,13 +76,14 @@ namespace TripNPick.Controllers
         public ActionResult AboutUS(SuggestionForm newForm)
         {
             if (ModelState.IsValid) {
-                ViewData["error"] = "Your suggestion has been posted. Thanks.";
+                ViewData["info"] = "Success!";
                 ModelState.Clear();
                 SuggestionForm oneForm = new SuggestionForm() { userLastName = string.Empty, userFirstName=string.Empty, userEmail=string.Empty,
                     userSuggestion = string.Empty
                 };
                 return View("AboutUS", oneForm); 
             }
+            ViewData["info"] = "Sorry!";
             return View(newForm);
         }
 

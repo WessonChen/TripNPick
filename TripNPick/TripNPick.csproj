@@ -298,6 +298,7 @@
     <Content Include="Content\SideContent.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="img\aboutBG.JPG" />
     <Content Include="img\Brand.png" />
     <Content Include="img\check.png" />
     <Content Include="img\click.png" />
