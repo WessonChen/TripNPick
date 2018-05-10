@@ -159,3 +159,21 @@ p img {
     margin-top: 50px;
     padding-bottom: 50px !important;
 }
+
+.warningWarper #popupdiv {
+    border: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.warningWarper {
+    background-color: #fcf8e3;
+}
+
+.successWarper #popupdiv {
+    border: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.successWarper {
+    background-color: #dff0d8;
+}
