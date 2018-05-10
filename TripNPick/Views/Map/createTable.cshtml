@@ -20,7 +20,7 @@
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
-    <div class="jumbotron">
+    <div class="jumbotron detailsBG">
         <div class="container">
             <h1>@Model.theFarm.farm_name</h1>
             <p>
@@ -45,6 +45,11 @@
                 }
             </p>
             <p><b>Address:</b> @Model.theFarm.farm_address</p>
+        </div>
+    </div>
+
+    <div class="firsttable">
+        <div class="container">
             <div id="tabcss">
                 <table id="interestsTable">
                     <thead>
@@ -129,19 +134,19 @@
 
                     <li class="tab fancyTab active">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa"><img src="~/img/details/demand.png"/></span><span class="hidden-xs"> Demand Details</span></a>
+                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="demand"><img src="~/img/details/demand.png"/></span><span class="hidden-xs"> Demand Details</span></a>
                         <div class="whiteBlock"></div>
                     </li>
 
                     <li class="tab fancyTab">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa"><img src="~/img/details/weather.png" /></span><span class="hidden-xs"> Weather Details</span></a>
+                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="weather"><img src="~/img/details/weather.png" /></span><span class="hidden-xs"> Weather Details</span></a>
                         <div class="whiteBlock"></div>
                     </li>
 
                     <li class="tab fancyTab">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa"><img src="~/img/details/temperature.png" /></span><span class="hidden-xs"> Temparature Details</span></a>
+                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="temperature"><img src="~/img/details/temperature.png" /></span><span class="hidden-xs"> Temparature Details</span></a>
                         <div class="whiteBlock"></div>
                     </li>
                 </ul>
@@ -351,7 +356,7 @@
             }
 
             $('#interestsTable').DataTable({
-                "scrollY": "220px",
+                "scrollY": "200px",
                 "responsive": true,
                 "paging": false,
                 "info": false,

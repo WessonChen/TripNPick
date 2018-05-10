@@ -47,12 +47,36 @@ thead {
     cursor: pointer;
 }
 
-.jumbotron p img {
-    max-height: 20px;
+.firsttable{
+    background-color: #f8f8f8;
+    padding: 50px 0;
 }
 
-#tabcss {
-    margin-top: 16px;
+.detailsBG {
+    background-color: white !important;
+    background: url(../img/aboutBG.JPG) no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 80px 0;
+}
+.detailsBG p {
+    color: #bfbfbf;
+}
+
+.detailsBG p b{
+    color: white !important;
+}
+
+.detailsBG p img {
+    max-height: 20px;
+    padding-bottom: 2px;
+}
+
+#tabcss table thead tr {
+    font-family: Montserrat-Medium;
+    background-color: rgb(0, 34, 51);
+   color: white;
+   font-weight: bold;
 }
 
 .biggericon span img{
@@ -96,16 +120,11 @@ thead {
 }
 
 .fancyTab a {
-	font-family: 'Source Sans Pro';
 	font-size:1.65em;
 	font-weight:300;
   transition:.2s;
   color:#333;
 }
-
-/*.fancyTab .hidden-xs {
-  white-space:nowrap;
-}*/
 
 .fancyTabs {
 	border-bottom:2px solid #ddd;
@@ -127,10 +146,23 @@ li.fancyTab.active a {
 	width:100%;
 	padding: 15px 0 5px;
   color:#666;
+  back
 }
 
 .fancyTab.active .fa {
   color: #cfb87c;
+}
+
+.fancyTab.active #demand img {
+    content:url("../img/details/demand_orange.png");
+}
+
+.fancyTab.active #weather img {
+    content:url("../img/details/weather_orange.png");
+}
+
+.fancyTab.active #temperature img {
+    content:url("../img/details/temperature_orange.png");
 }
 
 .fancyTab .fa img{
