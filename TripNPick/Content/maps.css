@@ -10,6 +10,16 @@
     font-size: 15px !important;
 }
 
+.leftDD .select2-container--default .select2-selection--multiple {
+    width: 95%;
+}
+
+@media(max-width: 1268px) {
+    .leftDD .select2-container--default .select2-selection--multiple {
+        width: 100%;
+    }
+}
+
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     margin-top: 3px !important;
 }
@@ -33,6 +43,12 @@
 }
 
 #mapForm .btn-success {
+    float: right;
+    margin-left: 16px;
+    margin-top: 24px;
+}
+
+#mapForm .btn-warning {
     float: right;
     margin-top: 24px;
 }
