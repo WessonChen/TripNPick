@@ -52,22 +52,24 @@ thead {
     padding: 50px 0;
 }
 
-.detailsBG {
+#detailsBG {
     background-color: white !important;
-    background: url(../img/aboutBG.JPG) no-repeat center center;
+    background-position: center center;
     background-size: cover;
+    background-repeat: no-repeat;
     color: white;
     padding: 80px 0;
 }
-.detailsBG p {
+
+#detailsBG p {
     color: #bfbfbf;
 }
 
-.detailsBG p b{
+#detailsBG p b{
     color: white !important;
 }
 
-.detailsBG p img {
+#detailsBG p img {
     max-height: 20px;
     padding-bottom: 2px;
 }

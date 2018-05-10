@@ -14,13 +14,14 @@
 </head>
 
 
-<body>
+<body onload="randombg()">
     <div style="padding-top: 50px; background-color: lightgray;">
         <div class="container">
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
-    <div class="jumbotron detailsBG">
+
+    <div class="jumbotron" id="detailsBG">
         <div class="container">
             <h1>@Model.theFarm.farm_name</h1>
             <p>
@@ -380,6 +381,22 @@
                 $('.fancyTab a', this).height(highestBox);
             });
         });
+
+        function randombg() {
+            var random = Math.floor(Math.random() * 10) + 0;
+            var bigSize = ["url(../../img/farms/1.jpg)",
+                           "url(../../img/farms/2.jpg)",
+                           "url(../../img/farms/3.jpg)",
+                           "url(../../img/farms/4.jpg)",
+                           "url(../../img/farms/5.jpg)",
+                           "url(../../img/farms/6.jpg)",
+                           "url(../../img/farms/7.jpg)",
+                           "url(../../img/farms/8.jpg)",
+                           "url(../../img/farms/9.jpg)",
+                           "url(../../img/farms/10.jpg)"];
+            document.getElementById("detailsBG").style.backgroundImage = bigSize[random];
+            debugger
+        }
     </script>
 
 </body>
