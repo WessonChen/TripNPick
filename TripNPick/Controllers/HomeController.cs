@@ -12,35 +12,37 @@ namespace TripNPick.Controllers
 {
     public class HomeController : Controller
     {
+        //The view of the home page
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Dashboard()
+        //The view of the accomodation dashboard
+        public ActionResult Accomodation()
         {
             return View();
         }
 
-        public ActionResult Accomodation() {
-            return View();
-        }
+        //This login function has beed commented because we are not going to use it for now
+        //public ActionResult LogInView()
+        //{
+        //    return View();
+        //}
 
-        public ActionResult LogInView()
-        {
-            return View();
-        }
-
+        //The view of the farm details page
         public ActionResult FarmDetails()
         {
             return View();
         }
 
+        //The view of the information page
         public ActionResult Information()
         {
             return View();
         }
 
+        //The default view of the about us page, with identifier 'new'
         public ActionResult AboutUS()
         {
             SuggestionForm newForm = new SuggestionForm();
@@ -48,7 +50,8 @@ namespace TripNPick.Controllers
             return View(newForm);
         }
 
-
+        //The view of the about us page after user posted their suggestion
+        //With identifier 'Success!' if it is a valid input, or 'Sorry!' if it is an invalid input.
         [HttpPost]
         public ActionResult AboutUS(SuggestionForm newForm)
         {
