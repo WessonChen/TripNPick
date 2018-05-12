@@ -201,12 +201,6 @@
     <Compile Include="Models\crop.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DropdownList.cs" />
-    <Compile Include="Models\ExpFarm.cs" />
-    <Compile Include="Models\ExpHarvest.cs" />
-    <Compile Include="Models\ExpInterest.cs" />
-    <Compile Include="Models\ExpList.cs" />
-    <Compile Include="Models\ExpWeather.cs" />
     <Compile Include="Models\fake_farms.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
@@ -214,13 +208,11 @@
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FarmJson.cs" />
-    <Compile Include="Models\FarmsJson.cs" />
     <Compile Include="Models\FilteredFarmViewModel.cs" />
     <Compile Include="Models\hostel.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\InterestsJson.cs" />
     <Compile Include="Models\interest_attraction.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
@@ -409,10 +401,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="App_Data\farm.json" />
-    <Content Include="App_Data\harvest.json" />
-    <Content Include="App_Data\interest.json" />
-    <Content Include="App_Data\weather.json" />
     <Content Include="Mvc.sitemap" />
     <EntityDeploy Include="Models\TripAndPickModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -427,7 +415,6 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\ErrorPage\ErrorMessage.cshtml" />
     <Content Include="Views\Home\Information.cshtml" />
-    <Content Include="Views\Map\Index.cshtml" />
     <Content Include="Views\Home\AboutUS.cshtml" />
     <None Include="Properties\PublishProfiles\TripAndPick - Web Deploy.pubxml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
@@ -443,7 +430,9 @@
     <Content Include="Views\Map\MapPage.cshtml" />
     <Content Include="Views\Home\Accomodation.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
