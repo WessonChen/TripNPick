@@ -13,14 +13,19 @@
     <link href="~/Content/demandTable.css" type ="text/css" rel="stylesheet" />
 </head>
 
-
+@*The fame details page.
+Because we do not have the image for every farm, currently we are using 10 random backgrounds for each farm.
+The 10 farm images will be replaced by real farm piction of each farm as long as we have it in our database in future iterations.*@
 <body onload="randombg()">
+
+    @*Site Map.*@
     <div style="padding-top: 50px; background-color: lightgray;">
         <div class="container">
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
 
+    @*Basic information about the selected farm which contains farm name, farm rating and farm address.*@
     <div class="jumbotron" id="detailsBG">
         <div class="container">
             <h1>@Model.theFarm.farm_name</h1>
@@ -49,6 +54,7 @@
         </div>
     </div>
 
+    @*A table of attactions based on the interests and distance the user selected.*@
     <div class="firsttable">
         <div class="container">
             <div id="tabcss">
@@ -128,9 +134,12 @@
         </div>
     </div>
 
+    @*Clickable tags to switch between the demands table, weather chart and temperature chart.*@
     <div>
         <div class="container">
             <section id="fancyTabWidget" class="tabs t-tabs">
+
+                @*Tag tile.*@
                 <ul class="nav nav-tabs fancyTabs" role="tablist">
 
                     <li class="tab fancyTab active">
@@ -151,7 +160,11 @@
                         <div class="whiteBlock"></div>
                     </li>
                 </ul>
+
+                @*Tag body.*@
                 <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+
+                    @*Demands table.*@
                     <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
                         <h3>Avearge Demands in Months Around that Area</h3>
                         <div style="overflow-x:auto;">
@@ -196,6 +209,8 @@
                         </div>
 
                     </div>
+
+                    @*Weather chart.*@
                     <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                         @using Highsoft.Web.Mvc.Charts
 
@@ -272,6 +287,8 @@
                             }, "weatherDaysChart")
                         )
                     </div>
+
+                    @*Temparature Chart.*@
                     <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
                         @using Highsoft.Web.Mvc.Charts
                         @(Html.Highsoft().Highcharts(
@@ -342,13 +359,13 @@
                         )
                     </div>
                 </div>
-
             </section>
         </div>
     </div>
 
     <script type="text/javascript">
 
+        //Give the tag title a fixed size.
         $(document).ready(function () {
             var numItems = $('li.fancyTab').length;
 
@@ -371,6 +388,7 @@
             });
         });
 
+        //Give the tag body a size which equals to the content inside.
         $(window).load(function () {
             $('.fancyTabs').each(function () {
                 var highestBox = 0;
@@ -382,6 +400,7 @@
             });
         });
 
+        //The method for random farm image.
         function randombg() {
             var random = Math.floor(Math.random() * 10) + 0;
             var bigSize = ["url(../../img/farms/1.jpg)",

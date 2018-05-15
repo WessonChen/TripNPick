@@ -11,15 +11,18 @@
     
     <script type="text/javascript">
         $(document).ready(function () {
+
+            // Encode data form model so we can use it in JS.
             var months = @Html.Raw(Json.Encode(Model.cMonths));
             var interests = @Html.Raw(Json.Encode(Model.cInterests));
             var distances = @Html.Raw(Json.Encode(Model.cDistance));
 
+            // Get those three dropdown selections.
             var optionsM = document.getElementById('monthDD'), month, i;
             var optionsI = document.getElementById('interetsDD'), interest, i;
             var optionsD = document.getElementById('distanceDD'), distance, i;
 
-
+            // Select default value for user based on their own selections.
             for(i = 0; i < optionsM.length; i++) {
                 month = optionsM[i];
                 if (months.includes(month.value)){
@@ -39,6 +42,7 @@
                 }
             }
 
+            // One Clear All button has been clicked, this method will be called to clean the month dropdown and interests dropdown.
             $("#clearAll").on("click", function () {
                 $("#monthDD").select2().val(null).trigger("change");
                 $("#interetsDD").select2().val(null).trigger("change");
@@ -49,18 +53,23 @@
     <script type="text/javascript" src="~/Scripts/mapIntsDD.js"></script>
 </head>
 <script type="text/javascript">
+
+    //Method for redirecting user to farm details page when user clicked any farm marker.
     function goToFarmPage(farmId) {
         url = "/Map/FarmDetails/?farmInfo=" + farmId;
         window.open(url);
     }
 
+    //Initial Google Map
     function initMap() {
 
+        //Create a Google Map and give it a default zoom level and center
         var map = new google.maps.Map(document.getElementById('testMap'), {
             zoom: 3.9,
             center: { lat: -25.031596581410874, lng: 134.36777208750004 }
         });
 
+        //Create array for each states so farms belong to different states will not be clusted.
         var markersVIC = [];
         var markersNSW = [];
         var markersSA = [];
@@ -73,11 +82,15 @@
         var interests = [];
         var hostels = [];
 
+        //The url for default cluster style.
         var clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
+
+        //The url for markers
         var farmUrl = '/img/markers/Farm.png';
         var hostelUrl = '/img/markers/Hostel.png';
         var interestUrl = '/img/markers/';
 
+        //Url extensiton for diffent types of intersts based on the interest id.
         var interestMap = new Map();
         interestMap.set(1, 'Museum.png');
         interestMap.set(2, 'Sights.png');
@@ -90,8 +103,12 @@
         interestMap.set(9, 'Sports.png');
         interestMap.set(10, 'Zoo.png');
 
-        // "~/img/markers/museum.png"
-
+        //Method for all interest, hostel and farm markers which match the search selections in victoria.
+        //We can do it in controller but it takes too long to show the page. By using javascrite here, we can show the page and map first, and then add markers.
+        //So user won't wait for too long.
+        //And we separate the it to different states because we can load it state by state, instead of loading all after all calculation.
+        //It is all about reducing the waiting time and providing more smooth experience.
+        //All seven methods below are the same, with different state name as parameter.
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (information, status) {
             data = information.farmsAndInterests;
             hostelData = information.hostels;
@@ -184,8 +201,7 @@
                 { imagePath: clusterUrl });
         })
 
-
-
+        //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (information, status) {
             data = information.farmsAndInterests;
             hostelData = information.hostels;
@@ -274,6 +290,7 @@
                 { imagePath: clusterUrl });
         })
 
+        //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (information, status) {
             data = information.farmsAndInterests;
             var hostelFilter = [];
@@ -361,6 +378,7 @@
                 { imagePath: clusterUrl });
         })
 
+        //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (information, status) {
             var filter = [];
             hostelData = information.hostels;
@@ -449,6 +467,7 @@
                 { imagePath: clusterUrl });
         })
 
+        //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (information, status) {
             data = information.farmsAndInterests;
             hostelData = information.hostels;
@@ -537,6 +556,7 @@
                 { imagePath: clusterUrl });
         })
 
+        //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (information, status) {
             data = information.farmsAndInterests;
             hostelData = information.hostels;
@@ -625,6 +645,7 @@
                 { imagePath: clusterUrl });
         })
 
+        //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (information, status) {
 
             data = information.farmsAndInterests;
@@ -713,6 +734,8 @@
                 { imagePath: clusterUrl });
         })
 
+        //Hostels and attractions will be displayed only in some zoom level
+        //Because its too much of them and the map will be crowded.
         google.maps.event.addListener(map, 'zoom_changed', function() {
             var zoom = map.getZoom();
             for (i = 0; i < interests.length; i++) {
@@ -728,17 +751,27 @@
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdNjpD2meHBBiquEK62khiotrQ_4u5WpQ&callback=initMap"></script>
 
 <body onload="myFunction()">
+
+    @*Just a site map*@
     <div style="padding-top: 50px; background-color: lightgray;">
         <div class="container">
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
+
+    @*Search form with three dropdowns, two buttons and one background image*@
     <div>
         <div class="searchBG">
             <div id="mapForm" class="container">
+
+                @*The search form*@
                 <form action="/Map/MapPage">
+
+                    @*Title*@
                     <h2>Select Interests, Search Farms</h2>
                     <label for="interetsDD">Preferred Interests  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select all interests by default." /></span></label>
+                    
+                    @*Interests dropdown*@
                     <select id="interetsDD" multiple="multiple" name="cInterests">
                         <option value="Museums">Museums</option>
                         <option value="Sights and Landmarks">Sights</option>
@@ -750,9 +783,13 @@
                         <option value="Fun and Games and Sports">Games/Sports</option>
                         <option value="Zoos and Aquariums">Zoos/Aquariums</option>
                     </select>
+
+                    @*Responsive layout for those two dropdowns*@
                     <div>
                         <div class="col-lg-6 leftDD">
                             <label for="monthDD">Months to Go  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select current month by default." /></span></label>
+                            
+                            @*Months dropdown*@
                             <select id="monthDD" multiple="multiple" name="cMonths">
                                 <option value="January">January</option>
                                 <option value="February">February</option>
@@ -770,6 +807,8 @@
                         </div>
                         <div class="col-lg-6 rightDD">
                             <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 100 km by default." /></span></label>
+                            
+                            @*Distance dropdown*@
                             <select id="distanceDD" name="cDistance">
                                 <option value="60">60 km</option>
                                 <option value="80">80 km</option>
@@ -782,6 +821,9 @@
                             </select>
                         </div>
                     </div>
+
+                    @*Clear button for clear all selections
+                    And submit button for submit all selections*@
                     <div class="buttonGroup">
                         <input type="submit" class="btn btn-success" value="Search" />
                         <a class="btn btn-warning" id="clearAll">Clear All</a>
@@ -790,6 +832,7 @@
             </div>
         </div>
 
+        @*Guide for interaction with map*@
         <div class="section-center">
             <div class="selection-img">
                 <div class="col-lg-4 intro">
@@ -807,6 +850,8 @@
             </div>
         </div>
 
+        @*Illustrations about what do those markers mean
+        It will be dynamic changed based on the user selection*@
         <div class="example">
             <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
             <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
@@ -849,7 +894,8 @@
                 }
             }
         </div>
-            
+        
+        @*The Google Map div*@    
         <div>
             <div id="loader"></div>
             <div id="testMap" class="animate-bottom" style="height: 550px; width: 100%!important; padding: 0!important; margin:0!important">

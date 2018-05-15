@@ -6,13 +6,20 @@
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/accomodation.css" />
 </head>
+
+@*This is a accomodation page which contains a dashboard. 
+By using the data we visualised here, user can make a decition which is more suitable for themselves.*@
 <body>
+
+    @*Site Map.*@
     <div style="background-color: lightgray; padding-top: 50px;">
         <div class="container">
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
+
     <div class="container">
+        @*A description about the dashboard below.*@
         <div id="accomodationDescription">
             <p>
                 We are sure that in your pursuit of travelling and looking for work in rural Australia, you must have come across situations where you couldn’t find a decent budget accommodation.
@@ -23,6 +30,8 @@
                 <br />
             </p>
         </div>
+
+        @*The dashboard integrated from outsite dashboard generator.*@
         <div class='tableauPlaceholder' id='viz1525763868607' style='position: relative'>
             <noscript>
                 <a href='#'><img alt='seasonal trend of occupancy rate and price of 3 types of accommodation by state  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;ca&#47;cavaran2&#47;caravan2&#47;1_rss.png' style='border: none' /></a>
@@ -45,6 +54,7 @@
         </div>
     </div>
    
+    @*JS to draw the dashboard using the outside dashboard generator.*@
     <script type='text/javascript'>
         var divElement = document.getElementById('viz1525763868607');
         var vizElement = divElement.getElementsByTagName('object')[0];

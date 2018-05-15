@@ -24,12 +24,6 @@ namespace TripNPick.Controllers
             return View();
         }
 
-        //This login function has beed commented because we are not going to use it for now
-        //public ActionResult LogInView()
-        //{
-        //    return View();
-        //}
-
         //The view of the farm details page
         public ActionResult FarmDetails()
         {

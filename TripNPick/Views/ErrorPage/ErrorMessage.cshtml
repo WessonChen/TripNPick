@@ -6,10 +6,15 @@
     <link rel="stylesheet" type="text/css" href="~/Content/404.css" />
 </head>
 
+@*A customised 404 page with much better looking compare to the default one.*@
 <div class="container">
+
+    @*Site Map*@
     <div style="margin-top:66px; margin-left:16px;">
         @Html.MvcSiteMap().SiteMapPath()
     </div>
+
+    @*The content of the 404 page.*@
     <div class='c' style="margin-top: 13px">
         <div class='_404'>404</div>
         <hr>
