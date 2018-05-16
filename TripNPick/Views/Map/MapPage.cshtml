@@ -54,6 +54,10 @@
 </head>
 <script type="text/javascript">
 
+    var allFarms = [];
+    var interests = [];
+    var hostels = [];
+
     //Method for redirecting user to farm details page when user clicked any farm marker.
     function goToFarmPage(farmId) {
         url = "/Map/FarmDetails/?farmInfo=" + farmId;
@@ -62,6 +66,36 @@
 
     //Initial Google Map
     function initMap() {
+        $('#farmBox').click(function () {
+            boxClick(this, allFarms)
+        });
+        $('#attractionBox').click(function () {
+            boxClick(this, interests)
+        });
+        $('#hostelBox').click(function () {
+            boxClick(this, hostels)
+        });
+
+
+        function boxClick(box, category) {
+            if (box.checked) {
+                show(category);
+            } else {
+                hide(category);
+            }
+        }
+
+        function show(category) {
+            for (var i = 0; i < category.length; i++) {
+                category[i].setVisible(true);
+            }
+        }
+        function hide(category) {
+            for (var i = 0; i < category.length; i++) {
+                category[i].setVisible(false);
+            }
+        }
+
 
         //Create a Google Map and give it a default zoom level and center
         var map = new google.maps.Map(document.getElementById('testMap'), {
@@ -77,10 +111,7 @@
         var markersTAS = [];
         var markersQLD = [];
         var markersNT = [];
-        var allFarms = [];
 
-        var interests = [];
-        var hostels = [];
 
         //The url for default cluster style.
         var clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
@@ -155,6 +186,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
+                allFarms.push(marker);
 
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
@@ -244,7 +276,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-
+                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -332,7 +364,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-
+                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -421,7 +453,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-
+                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -510,7 +542,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-
+                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -599,7 +631,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-
+                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -688,7 +720,7 @@
                     infowindow: farmWindow,
                     map: map
                 });
-
+                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -736,15 +768,23 @@
 
         //Hostels and attractions will be displayed only in some zoom level
         //Because its too much of them and the map will be crowded.
-        google.maps.event.addListener(map, 'zoom_changed', function() {
+        google.maps.event.addListener(map, 'zoom_changed', function () {
             var zoom = map.getZoom();
             for (i = 0; i < interests.length; i++) {
                 interests[i].setVisible(zoom >= 10);
+
             }
             for (i = 0; i < hostels.length; i++) {
                 hostels[i].setVisible(zoom >= 10);
             }
+            if (zoom >= 10) {
+                document.getElementById('checkDiv').style.visibility = "visible";
+            }
+            else {
+                document.getElementById('checkDiv').style.visibility = "hidden";
+            }
         });
+
     }
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
@@ -770,7 +810,7 @@
                     @*Title*@
                     <h2>Select Interests, Search Farms</h2>
                     <label for="interetsDD">Preferred Interests  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select all interests by default." /></span></label>
-                    
+
                     @*Interests dropdown*@
                     <select id="interetsDD" multiple="multiple" name="cInterests">
                         <option value="Museums">Museums</option>
@@ -788,7 +828,7 @@
                     <div>
                         <div class="col-lg-6 leftDD">
                             <label for="monthDD">Months to Go  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select current month by default." /></span></label>
-                            
+
                             @*Months dropdown*@
                             <select id="monthDD" multiple="multiple" name="cMonths">
                                 <option value="January">January</option>
@@ -807,7 +847,7 @@
                         </div>
                         <div class="col-lg-6 rightDD">
                             <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 100 km by default." /></span></label>
-                            
+
                             @*Distance dropdown*@
                             <select id="distanceDD" name="cDistance">
                                 <option value="60">60 km</option>
@@ -849,6 +889,18 @@
                 </div>
             </div>
         </div>
+        @*Checkbox filtering farms, interests and hostels getting visible when
+            zoom is equal or more than 10**@
+        <div id="checkDiv" style="visibility:hidden">
+            <form action="#">
+                <input type="checkbox" id="farmBox" checked />Farms
+                &nbsp;
+                <input type="checkbox" id="attractionBox" checked />Attractions
+                &nbsp;
+                <input type="checkbox" id="hostelBox" checked />Hostels<br />
+            </form>
+        </div>
+
 
         @*Illustrations about what do those markers mean
         It will be dynamic changed based on the user selection*@
@@ -856,46 +908,46 @@
             <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
             <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
             @if (Model.cInterests != null)
+        {
+            for (int i = 0; i < Model.cInterests.Length; i++)
             {
-                for (int i = 0; i < Model.cInterests.Length; i++)
+                switch (Model.cInterests[i])
                 {
-                    switch (Model.cInterests[i])
-                    {
-                        case "Museums":
-                            <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
-                            break;
-                        case "Sights and Landmarks":
-                            <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
-                            break;
-                        case "Nature and Parks":
-                            <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
-                            break;
-                        case "Beaches":
-                            <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
-                            break;
-                        case "Outdoor Activities and Tours":
-                            <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
-                            break;
-                        case "Nature and Wildlife Areas":
-                            <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
-                            break;
-                        case "Hiking Trails":
-                            <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
-                            break;
-                        case "Fun and Games and Sports":
-                            <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
-                            break;
-                        case "Zoos and Aquariums":
-                            <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+                    case "Museums":
+                        <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
+                    break;
+                case "Sights and Landmarks":
+                    <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
+                break;
+            case "Nature and Parks":
+                <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
+            break;
+        case "Beaches":
+            <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
+        break;
+    case "Outdoor Activities and Tours":
+        <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
+    break;
+case "Nature and Wildlife Areas":
+    <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
+break;
+case "Hiking Trails":
+    <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
+break;
+case "Fun and Games and Sports":
+    <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
+break;
+case "Zoos and Aquariums":
+    <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
+break;
+default:
+break;
+}
+}
+}
         </div>
-        
-        @*The Google Map div*@    
+
+        @*The Google Map div*@
         <div>
             <div id="loader"></div>
             <div id="testMap" class="animate-bottom" style="height: 550px; width: 100%!important; padding: 0!important; margin:0!important">
