@@ -40,11 +40,11 @@
     <div>
 
         @RenderBody()
-        <footer style="padding: 32px 0 !important">
+        <footer style="padding: 0 !important">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <ul class="list-inline">
+                        <ul class="list-inline" style="padding-top: 32px !important">
                             <li>
                                 <a>@Html.ActionLink("Home", "Index", "Home")</a>
                             </li>
@@ -65,7 +65,7 @@
                                 <a>@Html.ActionLink("Search", "TestIndex", "Map")</a>
                             </li>
                         </ul>
-                        <p class="copyright text-muted small">&copy; @DateTime.Now.Year - TripAndPick</p>
+                        <p class="copyright text-muted small" style="padding-bottom: 32px !important">&copy; @DateTime.Now.Year - TripAndPick</p>
                     </div>
                 </div>
             </div>

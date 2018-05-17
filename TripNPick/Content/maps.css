@@ -88,18 +88,12 @@
     flex-direction: row !important;
 }
 
-.section-center {
+/*.section-center {
     background-color: #f8f8f8;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     padding: 50px 0 !important;
 }
 
 .section-center .selection-img {
-    display:flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
@@ -111,23 +105,7 @@
     align-items: center;
 }
 
-@media(max-width: 767px) {
-    .section-center .selection-img {
-        flex-direction: column;
-    }
-
-    .section-center .selection-img div {
-        margin-top: 16px;
-    }
-}
-
-
-
 .section-center .selection-img div img {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     float: initial;
     max-width: 64px;
     max-height: 64px;
@@ -135,12 +113,73 @@
 }
 
 .section-center .selection-img div p {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     text-align: center;
     width: 85%;
+}*/
+
+.selection-img {
+    display:flex;
+    flex-direction: column;
+    padding: 32px 48px;
+    background-color: #f8f8f8;
+    text-align: center;
+}
+
+.selection-img div{
+    padding: 16px 0;
+}
+
+@media(max-width:1200px) {
+    .selection-img {
+        flex-direction: row;
+    }
+    .selection-img div {
+        width: 33.3333%;
+        padding: 8px 32px;
+    }
+}
+
+@media(max-width:768px) {
+    .selection-img {
+        flex-direction: column;
+        padding: 48px;
+    }
+    .selection-img div {
+        width: 100%;
+        padding: 16px;
+    }
+}
+
+@media(max-width:450px) {
+    .selection-img {
+        padding: 16px 8px;
+    }
+    .selection-img div {
+        padding: 8px 16px;
+    }
+}
+
+.selection-img div img{
+    max-height: 64px;
+    max-width: 64px;
+    padding-bottom: 16px;
+}
+
+#hideandshow {
+    display:flex;
+    flex-direction: row;
+}
+
+#thatmap {
+    height: 550px;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#checkDiv {
+    display: none;
+    width: 64px;
 }
 
 #loader {

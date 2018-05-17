@@ -10,6 +10,18 @@
     <link href="~/Content/SideContent.css" type="text/css" rel="stylesheet" />
     
     <script type="text/javascript">
+        var myVar;
+
+        function myFunction() {
+            myVar = setTimeout(showPage, 3000);
+        }
+
+        function showPage() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("testMap").style.display = "block";
+        }
+    </script>
+    <script type="text/javascript">
         $(document).ready(function () {
 
             // Encode data form model so we can use it in JS.
@@ -76,7 +88,6 @@
             boxClick(this, hostels)
         });
 
-
         function boxClick(box, category) {
             if (box.checked) {
                 show(category);
@@ -84,7 +95,6 @@
                 hide(category);
             }
         }
-
         function show(category) {
             for (var i = 0; i < category.length; i++) {
                 category[i].setVisible(true);
@@ -95,7 +105,6 @@
                 category[i].setVisible(false);
             }
         }
-
 
         //Create a Google Map and give it a default zoom level and center
         var map = new google.maps.Map(document.getElementById('testMap'), {
@@ -778,10 +787,10 @@
                 hostels[i].setVisible(zoom >= 10);
             }
             if (zoom >= 10) {
-                document.getElementById('checkDiv').style.visibility = "visible";
+                document.getElementById('checkDiv').style.display = "block";
             }
             else {
-                document.getElementById('checkDiv').style.visibility = "hidden";
+                document.getElementById('checkDiv').style.display = "none";
             }
         });
 
@@ -792,179 +801,166 @@
 
 <body onload="myFunction()">
 
-    @*Just a site map*@
-    <div style="padding-top: 50px; background-color: lightgray;">
-        <div class="container">
-            @Html.MvcSiteMap().SiteMapPath()
-        </div>
+@*Just a site map*@
+<div style="padding-top: 50px; background-color: lightgray;">
+    <div class="container">
+        @Html.MvcSiteMap().SiteMapPath()
     </div>
+</div>
 
-    @*Search form with three dropdowns, two buttons and one background image*@
-    <div>
-        <div class="searchBG">
-            <div id="mapForm" class="container">
+@*Search form with three dropdowns, two buttons and one background image*@
+<div class="searchBG">
+    <div id="mapForm" class="container">
 
-                @*The search form*@
-                <form action="/Map/MapPage">
+        @*The search form*@
+        <form action="/Map/MapPage">
 
-                    @*Title*@
-                    <h2>Select Interests, Search Farms</h2>
-                    <label for="interetsDD">Preferred Interests  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select all interests by default." /></span></label>
+            @*Title*@
+            <h2>Select Interests, Search Farms</h2>
+            <label for="interetsDD">Preferred Interests  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select all interests by default." /></span></label>
 
-                    @*Interests dropdown*@
-                    <select id="interetsDD" multiple="multiple" name="cInterests">
-                        <option value="Museums">Museums</option>
-                        <option value="Sights and Landmarks">Sights</option>
-                        <option value="Nature and Parks">Parks</option>
-                        <option value="Beaches">Beaches</option>
-                        <option value="Outdoor Activities and Tours">Outdoors</option>
-                        <option value="Nature and Wildlife Areas">Wildlife</option>
-                        <option value="Hiking Trails">Hiking</option>
-                        <option value="Fun and Games and Sports">Games/Sports</option>
-                        <option value="Zoos and Aquariums">Zoos/Aquariums</option>
+            @*Interests dropdown*@
+            <select id="interetsDD" multiple="multiple" name="cInterests">
+                <option value="Museums">Museums</option>
+                <option value="Sights and Landmarks">Sights</option>
+                <option value="Nature and Parks">Parks</option>
+                <option value="Beaches">Beaches</option>
+                <option value="Outdoor Activities and Tours">Outdoors</option>
+                <option value="Nature and Wildlife Areas">Wildlife</option>
+                <option value="Hiking Trails">Hiking</option>
+                <option value="Fun and Games and Sports">Games/Sports</option>
+                <option value="Zoos and Aquariums">Zoos/Aquariums</option>
+            </select>
+
+            @*Responsive layout for those two dropdowns*@
+            <div>
+                <div class="col-lg-6 leftDD">
+                    <label for="monthDD">Months to Go  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select current month by default." /></span></label>
+
+                    @*Months dropdown*@
+                    <select id="monthDD" multiple="multiple" name="cMonths">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="Novenmber">November</option>
+                        <option value="December">December</option>
                     </select>
-
-                    @*Responsive layout for those two dropdowns*@
-                    <div>
-                        <div class="col-lg-6 leftDD">
-                            <label for="monthDD">Months to Go  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select current month by default." /></span></label>
-
-                            @*Months dropdown*@
-                            <select id="monthDD" multiple="multiple" name="cMonths">
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="Novenmber">November</option>
-                                <option value="December">December</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-6 rightDD">
-                            <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 100 km by default." /></span></label>
-
-                            @*Distance dropdown*@
-                            <select id="distanceDD" name="cDistance">
-                                <option value="60">60 km</option>
-                                <option value="80">80 km</option>
-                                <option value="100">100 km</option>
-                                <option value="120">120 km</option>
-                                <option value="140">140 km</option>
-                                <option value="160">160 km</option>
-                                <option value="180">180 km</option>
-                                <option value="200">200 km</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    @*Clear button for clear all selections
-                    And submit button for submit all selections*@
-                    <div class="buttonGroup">
-                        <input type="submit" class="btn btn-success" value="Search" />
-                        <a class="btn btn-warning" id="clearAll">Clear All</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        @*Guide for interaction with map*@
-        <div class="section-center">
-            <div class="selection-img">
-                <div class="col-lg-4 intro">
-                    <img src="~/img/zoom.png" />
-                    <p>Clusters show the number of farms in that area. Click on the clusters or zoom in to check individual farms. </p>
                 </div>
-                <div class="col-lg-4 intro">
-                    <img src="~/img/check.png" />
-                    <p>Mouse over farms, attractions and hostels to check more info. They are marked by different color of icons. </p>
-                </div>
-                <div class="col-lg-4 intro">
-                    <img src="~/img/click.png" />
-                    <p>Click on farm markers to get more details about the farm.</p>
+                <div class="col-lg-6 rightDD">
+                    <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 100 km by default." /></span></label>
+
+                    @*Distance dropdown*@
+                    <select id="distanceDD" name="cDistance">
+                        <option value="60">60 km</option>
+                        <option value="80">80 km</option>
+                        <option value="100">100 km</option>
+                        <option value="120">120 km</option>
+                        <option value="140">140 km</option>
+                        <option value="160">160 km</option>
+                        <option value="180">180 km</option>
+                        <option value="200">200 km</option>
+                    </select>
                 </div>
             </div>
-        </div>
-        @*Checkbox filtering farms, interests and hostels getting visible when
-            zoom is equal or more than 10**@
-        <div id="checkDiv" style="visibility:hidden">
-            <form action="#">
-                <input type="checkbox" id="farmBox" checked />Farms
-                &nbsp;
-                <input type="checkbox" id="attractionBox" checked />Attractions
-                &nbsp;
-                <input type="checkbox" id="hostelBox" checked />Hostels<br />
-            </form>
-        </div>
 
+            @*Clear button for clear all selections
+                And submit button for submit all selections*@
+            <div class="buttonGroup">
+                <input type="submit" class="btn btn-success" value="Search" />
+                <a class="btn btn-warning" id="clearAll">Clear All</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-        @*Illustrations about what do those markers mean
-        It will be dynamic changed based on the user selection*@
-        <div class="example">
-            <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
-            <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
-            @if (Model.cInterests != null)
-        {
-            for (int i = 0; i < Model.cInterests.Length; i++)
+    <div>
+        <div class="col-lg-9" style="padding: 0 !important">
+            @*Illustrations about what do those markers mean
+            It will be dynamic changed based on the user selection*@
+            <div class="example">
+                <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
+                <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
+                @if (Model.cInterests != null)
             {
-                switch (Model.cInterests[i])
+                for (int i = 0; i < Model.cInterests.Length; i++)
                 {
-                    case "Museums":
-                        <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
-                    break;
-                case "Sights and Landmarks":
-                    <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
-                break;
-            case "Nature and Parks":
-                <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
-            break;
-        case "Beaches":
-            <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
-        break;
-    case "Outdoor Activities and Tours":
-        <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
-    break;
-case "Nature and Wildlife Areas":
-    <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
-break;
-case "Hiking Trails":
-    <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
-break;
-case "Fun and Games and Sports":
-    <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
-break;
-case "Zoos and Aquariums":
-    <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
-break;
-default:
-break;
-}
-}
-}
+                    switch (Model.cInterests[i])
+                    {
+                        case "Museums":
+                                <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
+                                break;
+                            case "Sights and Landmarks":
+                                <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
+                                break;
+                            case "Nature and Parks":
+                                <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
+                                break;
+                            case "Beaches":
+                                <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
+                                break;
+                            case "Outdoor Activities and Tours":
+                                <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
+                                break;
+                            case "Nature and Wildlife Areas":
+                                <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
+                                break;
+                            case "Hiking Trails":
+                                <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
+                                break;
+                            case "Fun and Games and Sports":
+                                <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
+                                break;
+                            case "Zoos and Aquariums":
+                                <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            </div>
+            <div id="hideandshow">
+                @*Checkbox filtering farms, interests and hostels getting visible when
+                zoom is equal or more than 10**@
+                <div id="checkDiv">
+                    <form action="#">
+                        <input type="checkbox" id="farmBox" checked />Farms
+                        &nbsp;
+                        <input type="checkbox" id="attractionBox" checked />Attractions
+                        &nbsp;
+                        <input type="checkbox" id="hostelBox" checked />Hostels<br />
+                    </form>
+                </div>
+                @*The Google Map div*@
+                <div id="thatmap">
+                    <div id="loader"></div>
+                    <div id="testMap" class="animate-bottom" style="width: 100%; height: 100%">
+                    </div>
+                </div>
+            </div>
         </div>
-
-        @*The Google Map div*@
-        <div>
-            <div id="loader"></div>
-            <div id="testMap" class="animate-bottom" style="height: 550px; width: 100%!important; padding: 0!important; margin:0!important">
+        
+        @*Guide for interaction with map*@
+        <div class="selection-img col-lg-3">
+            <div>
+                <img src="~/img/Demo_2.gif" />
+                <p>Clusters show the number of farms in that area. Click on the clusters or zoom in to check individual farms. </p>
+            </div>
+            <div>
+                <img src="~/img/check.png" />
+                <p>Mouse over farms, attractions and hostels to check more info. They are marked by different color of icons. </p>
+            </div>
+            <div>
+                <img src="~/img/click.png" />
+                <p>Click on farm markers to get more details about the farm.</p>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        var myVar;
-
-        function myFunction() {
-            myVar = setTimeout(showPage, 3000);
-        }
-
-        function showPage() {
-            document.getElementById("loader").style.display = "none";
-            document.getElementById("testMap").style.display = "block";
-        }
-    </script>
-
 </body>

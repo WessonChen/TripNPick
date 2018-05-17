@@ -34,8 +34,6 @@ h1 {
 }
 
 .section-center .selection-img {
-    display:flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
@@ -47,21 +45,8 @@ h1 {
     align-items: center;
 }
 
-@media(max-width: 767px) {
-    .section-center .selection-img {
-        flex-direction: column;
-    }
-
-    .section-center .selection-img div {
-        margin-top: 16px;
-    }
-}
-
-
 
 .section-center .selection-img div img {
-    display:flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     float: initial;
