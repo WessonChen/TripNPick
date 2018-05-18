@@ -17,8 +17,13 @@ namespace TripNPick.Controllers
 {
     public class MapController : Controller
     {
+        /**
+         * Create a context which connects to the database
+         */
         ColdSpotDBEntities dbContext = new ColdSpotDBEntities();
-
+        /*
+         * Return the Farm Details Page along the model "FarmDetailsView"
+         */
         public ActionResult FarmDetails(string farmInfo)
         {
             var farmList = dbContext.farms.ToList();
@@ -133,6 +138,9 @@ namespace TripNPick.Controllers
             return View(twoModels);
         }
 
+        /*
+         * return the model object "WeatherDays"
+         */
         public WeatherDays getThatList(WeatherView weather) {
             WeatherDays weatherStruct = new WeatherDays();
             List<double> newList = new List<double>();
@@ -153,6 +161,9 @@ namespace TripNPick.Controllers
             return weatherStruct;
      }
 
+        /*
+         * returns an ienumerable object of "DemandView" which provides the demand details of the farm.
+         */
         public IEnumerable<DemandView> getFarmDemands(int suburbId) {
             var harverstList = dbContext.suburb_harvest.ToList();
             var cropList = dbContext.crops.ToList();
@@ -178,6 +189,9 @@ namespace TripNPick.Controllers
             return reqHarvest;
         }
 
+        /*
+         * Checks if the data in the demand details of the farm has "NULL" in the database. 
+         */
         public string formatDemandString(string demandLevel) {
             if (demandLevel.Equals("NULL")) {
                 return "";
@@ -188,6 +202,9 @@ namespace TripNPick.Controllers
             }
         }
 
+        /*
+         * returns an ienumerable object of "WeatherView which states the number of cold days in a particular farm throught the year"
+         */
         public IEnumerable<WeatherView> getColdDays(int stationId)
         {
             var coldList = dbContext.weather_cold_days.ToList();
@@ -213,6 +230,9 @@ namespace TripNPick.Controllers
             return coldView;
         }
 
+        /*
+        * returns an ienumerable object of "WeatherView which states the temperature at 9 am in a particular farm throught the year"
+        */
         public IEnumerable<WeatherView> getTemp9am(int stationId)
         {
             var temp9List = dbContext.weather_temp9am_days.ToList();
@@ -238,6 +258,9 @@ namespace TripNPick.Controllers
             return temp9View;
         }
 
+        /*
+         * returns an ienumerable object of "WeatherView which states the temperature at 3 pm in a particular farm throught the year"
+        */
         public IEnumerable<WeatherView> getTemp3pm(int stationId)
         {
             var temp3List = dbContext.weather_temp3pm_days.ToList();
@@ -263,6 +286,9 @@ namespace TripNPick.Controllers
             return temp3View;
         }
 
+        /*
+        * returns an ienumerable object of "WeatherView which states the number of rainy days in a particular farm throught the year"
+        */
         public IEnumerable<WeatherView> getRainyDays(int stationId)
         {
             var rainyList = dbContext.weather_rainy_days.ToList();
@@ -288,6 +314,9 @@ namespace TripNPick.Controllers
             return rainView;
         }
 
+        /*
+        * returns an ienumerable object of "WeatherView which states the number of hot days in a particular farm throught the year"
+         */
         public IEnumerable<WeatherView> getHotDays(int stationId)
         {
             var hotList = dbContext.weather_hot_days.ToList();
@@ -312,7 +341,9 @@ namespace TripNPick.Controllers
                           };
             return hotView;
         }
-
+        /*
+         * format the provided string to a desired way according to the nature of the input
+         */
         public string formatString(string number) {
 
             if (String.IsNullOrEmpty(number))
@@ -327,7 +358,9 @@ namespace TripNPick.Controllers
                 return formatted;
             }
         }
-        
+        /*
+         * returns the MapPage depending upon the user selection
+         */
         public ActionResult MapPage(string[] cMonths, string[] cInterests, string[] cDistance)
         {
             UserSelections us = new UserSelections();
@@ -401,6 +434,9 @@ namespace TripNPick.Controllers
             return View(us);
         }
 
+        /*
+         * returns a linq query expression depending upon the user selection
+         */
         public Expression<Func<suburb_harvest, bool>> FilterFarms(string combinedString)
         {
             var months = new List<string>();
@@ -477,6 +513,9 @@ namespace TripNPick.Controllers
             return predicate;
         }
 
+        /*
+         * returns an ienumerable object of FilteredFarmViewModel which contents all the farms having medium or high demand during the months user has selected 
+         */
         public IEnumerable<FilteredFarmViewModel> getAllFilteredFarms(string combinedString)
         {
             //var some = dbContext.farms.ToList();
@@ -505,7 +544,9 @@ namespace TripNPick.Controllers
             var getDistinctFarms = farmCountViewModel.DistinctBy(x => x.farmName);
             return getDistinctFarms;
         }
-
+        /*
+         * returns an expression of interest_attraction which is build to query on the basis of interest type.
+         */
         public Expression<Func<interest_attraction, bool>> buildPredForInterestType(string combinedString)
         {
             List<string> selectedInterests = new List<string>();
@@ -570,6 +611,9 @@ namespace TripNPick.Controllers
             return predicate;
         }
 
+        /*
+         * returns an ienumerable object of "Allinterest" depending on the basis of user selection
+         */
         public IEnumerable<AllInterest> getAllInterest2(string combinedString)
         {
             var interestTypes = dbContext.interest_table.ToList();
@@ -599,6 +643,9 @@ namespace TripNPick.Controllers
             return allInterest;
         }
 
+        /*
+         * returns an ienumerable object of SuburbInterestsCount which is a group of interests in a state.
+         */
         public IEnumerable<SuburbInterestsCount> groupInterestsBySuburb(string combinedString, string stateName)
         {
             var suburbs = dbContext.suburb_table.ToList();
@@ -626,6 +673,9 @@ namespace TripNPick.Controllers
             return interestsGrouped;
         }
 
+        /*
+         * returns an iqueryable object of SuburbFarmsCount which is a model that provides the number of farms in a suburb
+         */
         public IQueryable<SuburbFarmsCount> groupFarmsBySuburb(string combinedString, string stateName)
         {
             var allFilteredFarms = getAllFilteredFarms(combinedString).ToList();
@@ -634,6 +684,9 @@ namespace TripNPick.Controllers
             return groupFarmsBySuburbs;
         }
 
+        /*
+         * returns a distance between two points depending on their latitude and longitude
+         */
         private double Haversine(double lat1, double lat2, double lon1, double lon2)
         {
             const double r = 6371;
@@ -646,6 +699,9 @@ namespace TripNPick.Controllers
             return d;
         }
 
+        /*
+         * returns the final desired farms, nearby interests and hostels information in a state depending upon user selection
+         */
         public JsonResult doTheDew(string userInput)
         {
             string[] p = userInput.Split(':');
@@ -721,9 +777,6 @@ namespace TripNPick.Controllers
                                     suburbId = Convert.ToInt32( h.suburb_id),
                                     hostelRating = Convert.ToDouble(h.hostel_rating)
                                 };
-            //var someList = from cu in hostellist
-            //               join id in selectedfarms on cu.suburb_id equals id
-            //               select cu;
             var reqHostels = nearbyHostels.ToList();
             mapInfo.hostels = reqHostels;
 
