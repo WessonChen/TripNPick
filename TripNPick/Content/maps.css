@@ -72,10 +72,14 @@
 }
 
 .example {
-    padding: 0 !important;
+    padding: 10px 0 10px 8px !important;
     margin: 0 !important;
     width: 100%;
-    background-color: lightgray;
+    background-color: #f8f8f8;
+}
+
+.example label {
+    padding-right: 6px;
 }
 
 .example img{
@@ -178,9 +182,14 @@
 }
 
 #checkDiv {
-    padding: 4px 0 0 4px;
+    padding: 16px 0 0 16px;
     display: none;
-    width: 100px;
+    width: 128px;
+    background-color: #f8f8f8;
+}
+
+#checkDiv label {
+    padding-bottom: 6px;
 }
 
 .checklabel {
