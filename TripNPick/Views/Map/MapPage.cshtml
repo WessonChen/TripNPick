@@ -931,11 +931,21 @@
                 zoom is equal or more than 10**@
                 <div id="checkDiv">
                     <form action="#">
-                        <input type="checkbox" id="farmBox" checked />Farms
-                        &nbsp;
-                        <input type="checkbox" id="attractionBox" checked />Attractions
-                        &nbsp;
-                        <input type="checkbox" id="hostelBox" checked />Hostels<br />
+                        <label class="checklabel">
+                            Farms
+                            <input type="checkbox" id="farmBox" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checklabel">
+                            Attractions
+                            <input type="checkbox" id="attractionBox" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checklabel">
+                            Hostels
+                            <input type="checkbox" id="hostelBox" checked>
+                            <span class="checkmark"></span>
+                        </label>
                     </form>
                 </div>
                 @*The Google Map div*@
