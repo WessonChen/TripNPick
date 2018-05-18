@@ -302,6 +302,8 @@
     <Content Include="img\contact\team.png" />
     <Content Include="img\dawn.jpg" />
     <Content Include="img\Demo_2.gif" />
+    <Content Include="img\details\attraction.png" />
+    <Content Include="img\details\attraction_orange.png" />
     <Content Include="img\details\demand.png" />
     <Content Include="img\details\demand_orange.png" />
     <Content Include="img\details\temperature.png" />
