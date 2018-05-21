@@ -188,8 +188,9 @@ p.copyright {
 }
 
 .card-number {
-    font-weight: 700;
-    font-size: 2rem;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -215,6 +216,34 @@ p.copyright {
     margin-top: 1rem;
     margin-bottom: 2rem;
 }
+@media (min-width: 75rem) { 
+    .step-list-dot {
+        background-image: radial-gradient(circle,rgba(43,168,224,.1) 30%,transparent 34%),radial-gradient(circle,rgba(43,168,224,.2) 30%,transparent 34%),radial-gradient(circle,rgba(43,168,224,.3) 30%,transparent 34%),radial-gradient(circle,rgba(43,168,224,.4) 30%,transparent 34%),radial-gradient(circle,rgba(43,168,224,.5) 30%,transparent 34%),radial-gradient(circle,rgba(43,168,224,.6) 30%,transparent 34%),radial-gradient(circle,rgba(43,168,224,.8) 30%,transparent 34%),radial-gradient(circle,#2ba8e0 30%,transparent 34%);
+        background-position: 0,1.5rem,3rem,4.5rem,6rem,7.5rem,9rem,10.5rem;
+        background-repeat: no-repeat;
+        background-size: 2rem 2rem;
+        margin-top: 2.225rem;
+        margin-bottom: 0;
+        width: 20rem;
+        height: 1rem;
+        transform: rotate(0);
+    }
+
+    #dot1 {
+        margin-right: -6rem;
+        margin-left: -2rem;
+    }
+
+    #dot2 {
+        margin-right: -2rem;
+        margin-left: -6rem;
+    }
+
+    #dot3 {
+        margin-right: -6rem;
+        margin-left: -2rem;
+    }
+}
 
 @media(max-width: 75rem) {
     .step-list-dot {
@@ -224,15 +253,16 @@ p.copyright {
         background-position: 0, 1.5rem, 3rem, 4.5rem;
         width: 10rem;
         height: 10rem;
+        margin-bottom: -2rem;
         transform: rotate(90deg);
     }
 }
 
 @media(min-width: 75rem) {
     .step-list {
-    align-items: flex-start;
-    flex-direction: row;
-    flex: 1;
+        align-items: flex-start;
+        flex-direction: row;
+        flex: 1;
     }
 }
 
