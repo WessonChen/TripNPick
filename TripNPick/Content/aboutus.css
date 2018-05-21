@@ -14,6 +14,12 @@ p b{
     color: #000;
 }
 
+#aboutDes {
+    color: initial;
+    padding-bottom: 48px;
+    font-weight: initial;
+}
+
 h1 {
     text-align: center;
     font-weight: bold !important;
@@ -127,16 +133,12 @@ p img {
 
 .aboutusbg h1 {
     color: white !important;
-    padding: 150px 0 !important;
+    padding: 120px 0 !important;
 }
 
 #formSection {
     padding-bottom: 50px;
-    background-color: gray;
-}
-
-#formSection h1{
-    color: white;
+    background-color: #f8f8f8;
 }
 
 .ourteam {

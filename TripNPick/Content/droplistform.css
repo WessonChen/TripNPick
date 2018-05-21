@@ -6,36 +6,56 @@
 .select2 {
     width:400px!important;
 }
-@media(max-width: 990px ) {
-    .intro-message {
-        padding-top: 14%;
-        padding-bottom: 9%;
+@media(max-width: 990px) and (min-width: 768px) {
+    .intro-header h1 {
+        padding-top: 190px !important;
+        padding-bottom: 70px !important;
+        font-size: 330% !important;
+    }
+
+    .intro-header section {
+        padding-bottom: 140px !important;
     }
 }
 
-@media(max-width: 767px) {
-    
-    .intro-message {
-        padding-top: 15%;
-        padding-bottom: 8%;
-    }
+@media(max-width: 767px) and (min-width: 631px) {
 
     .select2 {
         width:400px!important;
     }
-}
+    
+    .intro-header h1 {
+        padding-top: 180px !important;
+        padding-bottom: 65px !important;
+        font-size: 315% !important;
+    }
 
-@media(max-width: 630px ) {
-    .intro-message {
-        padding-top: 16%;
-        padding-bottom: 7%;
+    .intro-header section {
+        padding-bottom: 130px !important;
     }
 }
 
-@media(max-width: 520px ) {
-    .intro-message {
-        padding-top: 17%;
-        padding-bottom: 6%;
+@media(max-width: 630px ) and (min-width: 521px){
+    .intro-header h1 {
+        padding-top: 170px !important;
+        padding-bottom: 60px !important;
+        font-size: 300% !important;
+    }
+
+    .intro-header section {
+        padding-bottom: 120px !important;
+    }
+}
+
+@media(max-width: 520px ) and (min-width: 481px){
+    .intro-header h1 {
+        padding-top: 160px !important;
+        padding-bottom: 55px !important;
+        font-size: 300% !important;
+    }
+
+    .intro-header section {
+        padding-bottom: 110px !important;
     }
 
     .btn-success {
@@ -43,10 +63,15 @@
      }
 }
 
-@media(max-width: 480px) {
-    .intro-message {
-        padding-top: 19%;
-        padding-bottom: 4%;
+@media(max-width: 480px) and (min-width: 351px){
+    .intro-header h1 {
+        padding-top: 150px !important;
+        padding-bottom: 50px !important;
+        font-size: 300% !important;
+    }
+
+    .intro-header section {
+        padding-bottom: 100px !important;
     }
 
     .select2 {
@@ -59,9 +84,14 @@
 }
 
 @media(max-width: 350px) {
-    .intro-message {
-        padding-top: 20%;
-        padding-bottom: 3%;
+    .intro-header h1 {
+        padding-top: 125px !important;
+        padding-bottom: 50px !important;
+        font-size: 300% !important;
+    }
+
+    .intro-header section {
+        padding-bottom: 75px !important;
     }
 
     .select2 {
