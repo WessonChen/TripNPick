@@ -780,11 +780,17 @@
         google.maps.event.addListener(map, 'zoom_changed', function () {
             var zoom = map.getZoom();
             for (i = 0; i < interests.length; i++) {
-                interests[i].setVisible(zoom >= 10);
+                if (document.getElementById('attractionBox').checked) {
+                    interests[i].setVisible(zoom >= 10);
+                }
+                
 
             }
             for (i = 0; i < hostels.length; i++) {
-                hostels[i].setVisible(zoom >= 10);
+                if (document.getElementById('hostelBox').checked) {
+                    hostels[i].setVisible(zoom >= 10);
+                }
+                
             }
             if (zoom >= 10) {
                 document.getElementById('checkDiv').style.display = "block";
