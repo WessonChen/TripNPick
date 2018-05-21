@@ -1,7 +1,7 @@
 ﻿.searchBG {
     background: url(../img/dawn.jpg) no-repeat center center;
     background-size: cover;
-    padding: 50px 0;
+    padding: 32px 0 48px 0;
 }
 
 #mapForm {
@@ -58,7 +58,7 @@
     color: white;
     font-weight: bold;
     padding-top: 0 !important;
-    padding-bottom: 50px !important;
+    padding-bottom: 32px !important;
 }
 
 #mapForm label {
@@ -91,35 +91,6 @@
     display:flex;
     flex-direction: row !important;
 }
-
-/*.section-center {
-    background-color: #f8f8f8;
-    padding: 50px 0 !important;
-}
-
-.section-center .selection-img {
-    justify-content: center;
-    align-items: center;
-}
-
-.section-center .selection-img div {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.section-center .selection-img div img {
-    float: initial;
-    max-width: 64px;
-    max-height: 64px;
-    margin-bottom: 32px;
-}
-
-.section-center .selection-img div p {
-    text-align: center;
-    width: 85%;
-}*/
 
 .selection-img {
     display:flex;

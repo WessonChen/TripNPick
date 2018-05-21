@@ -9,8 +9,20 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css" rel="stylesheet">
 
     <link href="~/Content/demandTable.css" type ="text/css" rel="stylesheet" />
+
+    <script>
+         $(function() {
+             $(".tt").tooltip({
+                 track: true
+             });
+         });
+    </script>
 </head>
 
 @*The fame details page.
@@ -29,11 +41,11 @@ The 10 farm images will be replaced by real farm piction of each farm as long as
     <div class="jumbotron" id="detailsBG">
         <div class="container">
             <h1>@Model.theFarm.farm_name</h1>
-            <p>
+            <p style="cursor: default" class="tt" title="@(@Model.theFarm.farm_rating == 0 ? "Sorry, we do not have rating for this farm yet." : "Rating: " + @Model.theFarm.farm_rating)">
                 <b>Farm Rating:</b>
                 @if (Model.theFarm.farm_rating == 0)
                 {
-                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this farm yet." /></span>
+                    <span><img src="~/img/rating/empty_star.png"/></span>
                 }
                 else
                 {
@@ -41,11 +53,11 @@ The 10 farm images will be replaced by real farm piction of each farm as long as
                     {
                         if (Model.theFarm.farm_rating - i >= 1)
                         {
-                            <span><img src="~/img/rating/full_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                            <span><img src="~/img/rating/full_star.png"/></span>
                         }
                         else if (Model.theFarm.farm_rating - i < 1 && Model.theFarm.farm_rating - i > 0)
                         {
-                            <span><img src="~/img/rating/half_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                            <span><img src="~/img/rating/half_star.png"/></span>
                         }
                     }
                 }
@@ -108,11 +120,11 @@ The 10 farm images will be replaced by real farm piction of each farm as long as
                                     @foreach (var item in Model.nearbyAttractions)
                                     {
                                         <tr>
-                                            <td class="biggericon"><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
-                                            <td class="smallericon">
+                                            <td class="biggericon tt" title="Type: @item.toolTip"><span><img src="@Url.Content(item.interest_type)"></span>@item.attraction_name</td>
+                                            <td class="smallericon tt" style="cursor: default" title="@(item.attraction_rating == 0 ? "Sorry, we do not have rating for this attraction yet." : "Rating: " + item.attraction_rating)">
                                                 @if (item.attraction_rating == 0)
                                                 {
-                                                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
+                                                    <span><img src="~/img/rating/empty_star.png"/></span>
                                                 }
                                                 else
                                                 {
@@ -120,21 +132,21 @@ The 10 farm images will be replaced by real farm piction of each farm as long as
                                                     {
                                                         if (item.attraction_rating - i >= 1)
                                                         {
-                                                            <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
+                                                            <span><img src="~/img/rating/full_star.png"/></span>
                                                         }
                                                         else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
                                                         {
-                                                            <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
+                                                            <span><img src="~/img/rating/half_star.png"/></span>
                                                         }
                                                     }
                                                 }
                                             </td>
                                             <td>@item.attraction_address</td>
                                             <td>@item.attraction_distance<span> km</span></td>
-                                            <td class="smallericon">
+                                            <td class="smallericon tt" style="cursor: default" title="@(item.number_of_reviews == 0 ? "Sorry, we do not have enough information for this attraction yet." : item.number_of_reviews + " people gave reviews to this attraction.")">
                                                 @if (item.number_of_reviews == 0)
                                                 {
-                                                    <span><img src="~/img/rating/empty_person.png" title="Sorry, we do not have enough information for this attraction yet." /></span>
+                                                    <span><img src="~/img/rating/empty_person.png"/></span>
                                                 }
                                                 else
                                                 {
@@ -157,7 +169,7 @@ The 10 farm images will be replaced by real farm piction of each farm as long as
                                                     }
                                                     while (i > 0)
                                                     {
-                                                        <span><img src="~/img/rating/person.png" title="@item.number_of_reviews people gave reviews to this attraction." /></span>
+                                                        <span><img src="~/img/rating/person.png"/></span>
                                                         i--;
                                                     }
                                                 }
