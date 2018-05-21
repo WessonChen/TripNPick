@@ -171,10 +171,9 @@
         //All seven methods below are the same, with different state name as parameter.
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (information, status) {
             data = information.farmsAndInterests;
-            hostelData = information.hostels;
             var hostelFilter = [];
             for (i = 0; i < information.hostels.length; i++) {
-                if (!hostelFilter.includes(information.hostels[i].hostelId)) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
                     var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
                     var hostelWindow = new google.maps.InfoWindow({
@@ -184,9 +183,6 @@
                         position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
                         visible: false,
                         icon: hostelUrl,
-                        hostelName: information.hostels[i].hostelName,
-                        hostelAddress: information.hostels[i].hostelAddress,
-                        hostelRating: information.hostels[i].hostelRating,
                         infowindow: hostelWindow,
                         map: map
                     });
@@ -199,20 +195,13 @@
                 }
             }
             var filter = [];
-
             for (i = 0; i < data.length; i++) {
-                
                 marker = new google.maps.Marker({
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
                     interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
                     map: map
                 });
-               
-
-                allFarms.push(marker);
-
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -244,19 +233,20 @@
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
+                allFarms.push(marker);
                 markersVIC.push(marker);
-                (function (marker,map) {
+                (function (marker, map, farmWindow) {
                     google.maps.event.addListener(marker, 'click', function () {
                         map.setCenter(marker.getPosition());
                         map.setZoom(14);
-                        marker.infowindow.open(map, marker); 
+                        farmWindow.open(map, marker);
                     });
-                })(marker, map);
+                })(marker, map, farmWindow);
             }
             var markersVICCluster = new MarkerClusterer(map, markersVIC,
                 { imagePath: clusterUrl });
         })
-
+        //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (information, status) {
 
             data = information.farmsAndInterests;
@@ -289,12 +279,8 @@
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
                     interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
                     map: map
                 });
-
-
-                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -326,432 +312,24 @@
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
+                allFarms.push(marker);
                 markersSA.push(marker);
-                (function (marker, map) {
+                (function (marker, map, farmWindow) {
                     google.maps.event.addListener(marker, 'click', function () {
                         map.setCenter(marker.getPosition());
                         map.setZoom(14);
-                        marker.infowindow.open(map, marker);
+                        farmWindow.open(map, marker);
                     });
-                })(marker, map);
+                })(marker, map, farmWindow);
             }
             var markersSACluster = new MarkerClusterer(map, markersSA,
                 { imagePath: clusterUrl });
         })
 
-        //The function and reason of this method has been given in the first method
-        @*$.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (information, status) {
-            data = information.farmsAndInterests;
-            hostelData = information.hostels;
-            var hostelFilter = [];
-            for (i = 0; i < hostelData.length; i++) {
-                if (!hostelFilter.includes(hostelData[i].hostelId)) {
-                    hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
-                    var hostelWindow = new google.maps.InfoWindow({
-                        content: hostelContent
-                    });
-                    hMarker = new google.maps.Marker({
-                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
-                        visible: false,
-                        icon: hostelUrl,
-                        infowindow: hostelWindow,
-                        map: map
-                    });
-                    hostels.push(hMarker);
-                    (function (hMarker) {
-                        google.maps.event.addListener(hMarker, 'click', function () {
-                            hMarker.infowindow.open(map, hMarker);
-                        });
-                    })(hMarker);
-                }
-            }
-            var filter = [];
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    icon: farmUrl,
-                    interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
-                    map: map
-                });
-                allFarms.push(marker);
-                var ints = data[i].interests;
-                for (x = 0; x < ints.length; x++) {
-                    if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
-                        var interestWindow = new google.maps.InfoWindow({
-                            content: interestContent
-                        });
-                        iMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
-                            visible: false,
-                            icon: interestUrl + interestMap.get(ints[x].interestId),
-                            infowindow: interestWindow,
-                            map: map
-                        });
-                        interests.push(iMarker);
-                        (function (iMarker) {
-                            google.maps.event.addListener(iMarker, 'click', function () {
-                                iMarker.infowindow.open(map, iMarker);
-                            });
-                        })(iMarker);
-                    }
-                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    marker.interestsString = marker.interestsString + intString;
-                }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
-                var farmWindow = new google.maps.InfoWindow({
-                    content: farmContent
-                });
-                markersVIC.push(marker);
-                (function (marker, map) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        map.setCenter(marker.getPosition());
-                        map.setZoom(14);
-                        marker.infowindow.open(map, marker);
-                    });
-                })(marker, map);
-            }
-            var markersSACluster = new MarkerClusterer(map, markersSA,
-                { imagePath: clusterUrl });
-        })*@
+        
 
         //The function and reason of this method has been given in the first method
         $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (information, status) {
-            data = information.farmsAndInterests;
-            var hostelFilter = [];
-            for (i = 0; i < information.hostels.length; i++) {
-                if (!hostelFilter.includes(information.hostels[i].hostelId)) {
-                    hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
-                    var hostelWindow = new google.maps.InfoWindow({
-                        content: hostelContent
-                    });
-                    hMarker = new google.maps.Marker({
-                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
-                        visible: false,
-                        icon: hostelUrl,
-                        infowindow: hostelWindow,
-                        map: map
-                    });
-                    hostels.push(hMarker);
-                    (function (hMarker) {
-                        google.maps.event.addListener(hMarker, 'click', function () {
-                            hMarker.infowindow.open(map, hMarker);
-                        });
-                    })(hMarker);
-                }
-            }
-            var filter = [];
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    icon: farmUrl,
-                    interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
-                    map: map
-                });
-                
-                allFarms.push(marker);
-                var ints = data[i].interests;
-                for (x = 0; x < ints.length; x++) {
-                    if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
-                        var interestWindow = new google.maps.InfoWindow({
-                            content: interestContent
-                        });
-                        iMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
-                            visible: false,
-                            icon: interestUrl + interestMap.get(ints[x].interestId),
-                            infowindow: interestWindow,
-                            map: map
-                        });
-                        interests.push(iMarker);
-                        (function (iMarker) {
-                            google.maps.event.addListener(iMarker, 'click', function () {
-                                iMarker.infowindow.open(map, iMarker);
-                            });
-                        })(iMarker);
-                    }
-                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    marker.interestsString = marker.interestsString + intString;
-                }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
-                var farmWindow = new google.maps.InfoWindow({
-                    content: farmContent
-                });
-                markersNSW.push(marker);
-                (function (marker, map) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        map.setCenter(marker.getPosition());
-                        map.setZoom(14);
-                        marker.infowindow.open(map, marker);
-                    });
-                })(marker, map);
-            }
-            var markersNSWCluster = new MarkerClusterer(map, markersNSW,
-                { imagePath: clusterUrl });
-        })
-
-        //The function and reason of this method has been given in the first method
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (information, status) {
-            var filter = [];
-            hostelData = information.hostels;
-            var hostelFilter = [];
-            for (i = 0; i < hostelData.length; i++) {
-                if (!hostelFilter.includes(hostelData[i].hostelId)) {
-                    hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
-                    var hostelWindow = new google.maps.InfoWindow({
-                        content: hostelContent
-                    });
-                    hMarker = new google.maps.Marker({
-                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
-                        visible: false,
-                        icon: hostelUrl,
-                        infowindow: hostelWindow,
-                        map: map
-                    });
-                    hostels.push(hMarker);
-                    (function (hMarker) {
-                        google.maps.event.addListener(hMarker, 'click', function () {
-                            hMarker.infowindow.open(map, hMarker);
-                        });
-                    })(hMarker);
-                }
-            }
-            data = information.farmsAndInterests;
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    icon: farmUrl,
-                    interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
-                    map: map
-                });
-
-                
-                allFarms.push(marker);
-                var ints = data[i].interests;
-                for (x = 0; x < ints.length; x++) {
-                    if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
-                        var interestWindow = new google.maps.InfoWindow({
-                            content: interestContent
-                        });
-                        iMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
-                            visible: false,
-                            icon: interestUrl + interestMap.get(ints[x].interestId),
-                            infowindow: interestWindow,
-                            map: map
-                        });
-                        interests.push(iMarker);
-                        (function (iMarker) {
-                            google.maps.event.addListener(iMarker, 'click', function () {
-                                iMarker.infowindow.open(map, iMarker);
-                            });
-                        })(iMarker);
-                    }
-                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    marker.interestsString = marker.interestsString + intString;
-                }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
-                var farmWindow = new google.maps.InfoWindow({
-                    content: farmContent
-                });
-                markersWA.push(marker);
-                (function (marker, map) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        map.setCenter(marker.getPosition());
-                        map.setZoom(14);
-                        marker.infowindow.open(map, marker);
-                    });
-                })(marker, map);
-            }
-            var markersWACluster = new MarkerClusterer(map, markersWA,
-                { imagePath: clusterUrl });
-        })
-
-        //The function and reason of this method has been given in the first method
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (information, status) {
-            data = information.farmsAndInterests;
-            hostelData = information.hostels;
-            var hostelFilter = [];
-            for (i = 0; i < hostelData.length; i++) {
-                if (!hostelFilter.includes(hostelData[i].hostelId)) {
-                    hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
-                    var hostelWindow = new google.maps.InfoWindow({
-                        content: hostelContent
-                    });
-                    hMarker = new google.maps.Marker({
-                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
-                        visible: false,
-                        icon: hostelUrl,
-                        infowindow: hostelWindow,
-                        map: map
-                    });
-                    hostels.push(hMarker);
-                    (function (hMarker) {
-                        google.maps.event.addListener(hMarker, 'click', function () {
-                            hMarker.infowindow.open(map, hMarker);
-                        });
-                    })(hMarker);
-                }
-            }
-            var filter = [];
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    icon: farmUrl,
-                    interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
-                    map: map
-                });
-
-
-                allFarms.push(marker);
-                var ints = data[i].interests;
-                for (x = 0; x < ints.length; x++) {
-                    if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
-                        var interestWindow = new google.maps.InfoWindow({
-                            content: interestContent
-                        });
-                        iMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
-                            visible: false,
-                            icon: interestUrl + interestMap.get(ints[x].interestId),
-                            infowindow: interestWindow,
-                            map: map
-                        });
-                        interests.push(iMarker);
-                        (function (iMarker) {
-                            google.maps.event.addListener(iMarker, 'click', function () {
-                                iMarker.infowindow.open(map, iMarker);
-                            });
-                        })(iMarker);
-                    }
-                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    marker.interestsString = marker.interestsString + intString;
-                }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
-                var farmWindow = new google.maps.InfoWindow({
-                    content: farmContent
-                });
-                markersTAS.push(marker);
-                (function (marker, map) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        map.setCenter(marker.getPosition());
-                        map.setZoom(14);
-                        marker.infowindow.open(map, marker);
-                    });
-                })(marker, map);
-            }
-            var markersTASCluster = new MarkerClusterer(map, markersTAS,
-                { imagePath: clusterUrl });
-        })
-
-        //The function and reason of this method has been given in the first method
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (information, status) {
-            data = information.farmsAndInterests;
-            hostelData = information.hostels;
-            var hostelFilter = [];
-            for (i = 0; i < hostelData.length; i++) {
-                if (!hostelFilter.includes(hostelData[i].hostelId)) {
-                    hostelFilter.push(hostelData[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
-                    var hostelWindow = new google.maps.InfoWindow({
-                        content: hostelContent
-                    });
-                    hMarker = new google.maps.Marker({
-                        position: new google.maps.LatLng(hostelData[i].hostel_lat, hostelData[i].hostel_lng),
-                        visible: false,
-                        icon: hostelUrl,
-                        infowindow: hostelWindow,
-                        map: map
-                    });
-                    hostels.push(hMarker);
-                    (function (hMarker) {
-                        google.maps.event.addListener(hMarker, 'click', function () {
-                            hMarker.infowindow.open(map, hMarker);
-                        });
-                    })(hMarker);
-                }
-            }
-            var filter = [];
-            for (i = 0; i < data.length; i++) {
-                marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
-                    icon: farmUrl,
-                    interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
-                    map: map
-                });
-
-                allFarms.push(marker);
-                var ints = data[i].interests;
-                for (x = 0; x < ints.length; x++) {
-                    if (!filter.includes(ints[x].attractionId)) {
-                        filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
-                        var interestWindow = new google.maps.InfoWindow({
-                            content: interestContent
-                        });
-                        iMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
-                            visible: false,
-                            icon: interestUrl + interestMap.get(ints[x].interestId),
-                            infowindow: interestWindow,
-                            map: map
-                        });
-                        interests.push(iMarker);
-                        (function (iMarker) {
-                            google.maps.event.addListener(iMarker, 'click', function () {
-                                iMarker.infowindow.open(map, iMarker);
-                            });
-                        })(iMarker);
-                    }
-                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
-                    marker.interestsString = marker.interestsString + intString;
-                }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
-                var farmWindow = new google.maps.InfoWindow({
-                    content: farmContent
-                });
-                markersQLD.push(marker);
-                (function (marker, map) {
-                    google.maps.event.addListener(marker, 'click', function () {
-                        map.setCenter(marker.getPosition());
-                        map.setZoom(14);
-                        marker.infowindow.open(map, marker);
-                    });
-                })(marker, map);
-            }
-            var markersQLDCluster = new MarkerClusterer(map, markersQLD,
-                { imagePath: clusterUrl });
-        })
-
-        //The function and reason of this method has been given in the first method
-        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (information, status) {
-
             data = information.farmsAndInterests;
             var hostelFilter = [];
             for (i = 0; i < information.hostels.length; i++) {
@@ -782,12 +360,8 @@
                     position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
                     icon: farmUrl,
                     interestsString: data[i].farm.farmId,
-                    infowindow: farmWindow,
                     map: map
                 });
-
-
-                allFarms.push(marker);
                 var ints = data[i].interests;
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
@@ -819,14 +393,332 @@
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
-                markersNT.push(marker);
-                (function (marker, map) {
+                allFarms.push(marker);
+                markersNSW.push(marker);
+                (function (marker, map, farmWindow) {
                     google.maps.event.addListener(marker, 'click', function () {
                         map.setCenter(marker.getPosition());
                         map.setZoom(14);
-                        marker.infowindow.open(map, marker);
+                        farmWindow.open(map, marker);
                     });
-                })(marker, map);
+                })(marker, map, farmWindow);
+            }
+            var markersNSWCluster = new MarkerClusterer(map, markersNSW,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
+                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
+                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersWA.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersWACluster = new MarkerClusterer(map, markersWA,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
+                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
+                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersTAS.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersTASCluster = new MarkerClusterer(map, markersTAS,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
+                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
+                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersQLD.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersQLDCluster = new MarkerClusterer(map, markersQLD,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
+                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
+                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersNT.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                })(marker, map, farmWindow);
             }
             var markersNTCluster = new MarkerClusterer(map, markersNT,
                 { imagePath: clusterUrl });
