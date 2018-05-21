@@ -8,6 +8,10 @@
     <script type="text/javascript" src="~/Scripts/select2.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
     <link href="~/Content/SideContent.css" type="text/css" rel="stylesheet" />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css" rel="stylesheet">
     
     <script type="text/javascript">
         var myVar;
@@ -60,6 +64,20 @@
                 $("#interetsDD").select2().val(null).trigger("change");
             });
         });
+    </script>
+    <script>
+         $(function() {
+             $("#interestTT").tooltip({
+                 track: true
+             });
+             $("#monthTT").tooltip({
+                 track: true
+             });
+             $("#distanceTT").tooltip({
+                 track: true
+             });
+             $("#clearAll").tooltip();
+         });
     </script>
     <script type="text/javascript" src="~/Scripts/mapDropdown.js"></script>
     <script type="text/javascript" src="~/Scripts/mapIntsDD.js"></script>
@@ -823,7 +841,7 @@
 
             @*Title*@
             <h2>Select Interests, Search Farms</h2>
-            <label for="interetsDD">Preferred Interests  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select all interests by default." /></span></label>
+            <label for="interetsDD"  id="interestTT" title="If you select nothing, we will select all interests by default.">Preferred Interests  <span><img src="~/img/help_icon.png"/></span></label>
 
             @*Interests dropdown*@
             <select id="interetsDD" multiple="multiple" name="cInterests">
@@ -841,7 +859,7 @@
             @*Responsive layout for those two dropdowns*@
             <div>
                 <div class="col-lg-6 leftDD">
-                    <label for="monthDD">Months to Go  <span><img src="~/img/help_icon.png" title="If you select nothing, we will select current month by default." /></span></label>
+                    <label for="monthDD" id="monthTT" title="If you select nothing, we will select current month by default.">Months to Go  <span><img src="~/img/help_icon.png"/></span></label>
 
                     @*Months dropdown*@
                     <select id="monthDD" multiple="multiple" name="cMonths">
@@ -860,7 +878,7 @@
                     </select>
                 </div>
                 <div class="col-lg-6 rightDD">
-                    <label for="distanceDD">Distance from Farm to Interests  <span><img src="~/img/help_icon.png" title="if you select nothing, we will select 100 km by default." /></span></label>
+                    <label for="distanceDD" id="distanceTT" title="if you select nothing, we will select 100 km by default.">Distance from Farm to Interests  <span><img src="~/img/help_icon.png"/></span></label>
 
                     @*Distance dropdown*@
                     <select id="distanceDD" name="cDistance">
@@ -880,7 +898,7 @@
                 And submit button for submit all selections*@
             <div class="buttonGroup">
                 <input type="submit" class="btn btn-success" value="Search" />
-                <a class="btn btn-warning" id="clearAll">Clear All</a>
+                <a class="btn btn-warning" id="clearAll" title="Click to clear all interests and months you selected.">Clear All</a>
             </div>
         </form>
     </div>
