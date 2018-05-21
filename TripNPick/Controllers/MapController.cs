@@ -24,6 +24,16 @@ namespace TripNPick.Controllers
         /*
          * Return the Farm Details Page along the model "FarmDetailsView"
          */
+
+        public ActionResult InterestDetails(string attractionInfo) {
+            var attractionList = dbContext.interest_attraction.ToList();
+            if (attractionInfo == null || attractionInfo.Equals("")) {
+                return RedirectToAction("ErrorMessage", "ErrorPage");
+            }
+            var reqId = Convert.ToInt32(attractionInfo);
+            var oneAttraction = attractionList.AsQueryable().Where(x => x.attraction_id.Equals(reqId));
+            return View(oneAttraction);
+        }
         public ActionResult FarmDetails(string farmInfo)
         {
             var farmList = dbContext.farms.ToList();
