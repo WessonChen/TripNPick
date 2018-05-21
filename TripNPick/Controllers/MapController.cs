@@ -193,11 +193,11 @@ namespace TripNPick.Controllers
          * Checks if the data in the demand details of the farm has "NULL" in the database. 
          */
         public string formatDemandString(string demandLevel) {
-            if (demandLevel.Equals("NULL")) {
+            if (demandLevel.Equals("NULL"))
+            {
                 return "";
             }
-            else
-            {
+            else {
                 return demandLevel;
             }
         }
