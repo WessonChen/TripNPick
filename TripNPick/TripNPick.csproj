@@ -282,6 +282,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\demandTable.css" />
     <Content Include="Content\droplistform.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\landing-page.css" />
     <Content Include="Content\maps.css" />
     <Content Include="Content\PaymentTaxRight.css" />
