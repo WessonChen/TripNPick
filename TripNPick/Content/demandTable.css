@@ -84,7 +84,8 @@ thead {
 }
 
 .biggericon span img{
-    max-height: 20px;
+    max-height: 28px;
+    padding-right: 8px;
 }
 
 .smallericon {

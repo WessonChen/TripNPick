@@ -433,7 +433,6 @@
     <Content Include="Views\Map\FarmDetails.cshtml" />
     <Content Include="Views\Map\MapPage.cshtml" />
     <Content Include="Views\Home\Accomodation.cshtml" />
-    <Content Include="Views\Map\InterestDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
