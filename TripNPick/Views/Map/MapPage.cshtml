@@ -4,14 +4,14 @@
 }
 
 <head>
-    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css" />
-    <script type="text/javascript" src="~/Scripts/select2.js"></script>
-    <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
-    <link href="~/Content/SideContent.css" type="text/css" rel="stylesheet" />
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
             crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css" />
+    <script type="text/javascript" src="~/Scripts/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
+    <link href="~/Content/SideContent.css" type="text/css" rel="stylesheet" />
     
     <script type="text/javascript">
         var myVar;
@@ -67,13 +67,7 @@
     </script>
     <script>
          $(function() {
-             $("#interestTT").tooltip({
-                 track: true
-             });
-             $("#monthTT").tooltip({
-                 track: true
-             });
-             $("#distanceTT").tooltip({
+             $(".tt").tooltip({
                  track: true
              });
              $("#clearAll").tooltip();
@@ -173,7 +167,32 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -192,6 +211,28 @@
                         google.maps.event.addListener(map, 'click', function() {
                             hMarker.infowindow.close();
                         });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                            if($('.iw-content').height() < 140){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
                     })(hMarker);
                 }
             }
@@ -207,7 +248,33 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -226,14 +293,60 @@
                             google.maps.event.addListener(map, 'click', function() {
                                 iMarker.infowindow.close();
                             });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                                if($('.iw-content').height() < 140){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     marker.interestsString = marker.interestsString + intString;
                 }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -247,6 +360,28 @@
                     });
                     google.maps.event.addListener(map, 'click', function() {
                         farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                        if($('.iw-content').height() < 140){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
                     });
                 })(marker, map, farmWindow);
             }
@@ -262,7 +397,32 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -281,6 +441,28 @@
                         google.maps.event.addListener(map, 'click', function() {
                             hMarker.infowindow.close();
                         });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                            if($('.iw-content').height() < 140){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
                     })(hMarker);
                 }
             }
@@ -296,7 +478,33 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -315,14 +523,60 @@
                             google.maps.event.addListener(map, 'click', function() {
                                 iMarker.infowindow.close();
                             });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                                if($('.iw-content').height() < 140){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     marker.interestsString = marker.interestsString + intString;
                 }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -337,6 +591,28 @@
                     google.maps.event.addListener(map, 'click', function() {
                         farmWindow.close();
                     });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                        if($('.iw-content').height() < 140){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
                 })(marker, map, farmWindow);
             }
             var markersSACluster = new MarkerClusterer(map, markersSA,
@@ -350,7 +626,32 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -369,6 +670,28 @@
                         google.maps.event.addListener(map, 'click', function() {
                             hMarker.infowindow.close();
                         });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                            if($('.iw-content').height() < 140){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
                     })(hMarker);
                 }
             }
@@ -384,7 +707,33 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -403,14 +752,60 @@
                             google.maps.event.addListener(map, 'click', function() {
                                 iMarker.infowindow.close();
                             });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                                if($('.iw-content').height() < 140){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     marker.interestsString = marker.interestsString + intString;
                 }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -425,6 +820,28 @@
                     google.maps.event.addListener(map, 'click', function() {
                         farmWindow.close();
                     });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                        if($('.iw-content').height() < 140){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
                 })(marker, map, farmWindow);
             }
             var markersNSWCluster = new MarkerClusterer(map, markersNSW,
@@ -438,7 +855,32 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -457,6 +899,28 @@
                         google.maps.event.addListener(map, 'click', function() {
                             hMarker.infowindow.close();
                         });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                            if($('.iw-content').height() < 140){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
                     })(hMarker);
                 }
             }
@@ -472,7 +936,33 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -491,14 +981,60 @@
                             google.maps.event.addListener(map, 'click', function() {
                                 iMarker.infowindow.close();
                             });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                                if($('.iw-content').height() < 140){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     marker.interestsString = marker.interestsString + intString;
                 }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -513,6 +1049,28 @@
                     google.maps.event.addListener(map, 'click', function() {
                         farmWindow.close();
                     });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                        if($('.iw-content').height() < 140){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
                 })(marker, map, farmWindow);
             }
             var markersWACluster = new MarkerClusterer(map, markersWA,
@@ -526,7 +1084,32 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -545,6 +1128,28 @@
                         google.maps.event.addListener(map, 'click', function() {
                             hMarker.infowindow.close();
                         });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                            if($('.iw-content').height() < 140){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
                     })(hMarker);
                 }
             }
@@ -560,7 +1165,33 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -579,14 +1210,60 @@
                             google.maps.event.addListener(map, 'click', function() {
                                 iMarker.infowindow.close();
                             });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                                if($('.iw-content').height() < 140){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     marker.interestsString = marker.interestsString + intString;
                 }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -601,6 +1278,28 @@
                     google.maps.event.addListener(map, 'click', function() {
                         farmWindow.close();
                     });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                        if($('.iw-content').height() < 140){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
                 })(marker, map, farmWindow);
             }
             var markersTASCluster = new MarkerClusterer(map, markersTAS,
@@ -614,7 +1313,32 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -633,6 +1357,28 @@
                         google.maps.event.addListener(map, 'click', function() {
                             hMarker.infowindow.close();
                         });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                            if($('.iw-content').height() < 140){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
                     })(hMarker);
                 }
             }
@@ -648,7 +1394,33 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -667,14 +1439,60 @@
                             google.maps.event.addListener(map, 'click', function() {
                                 iMarker.infowindow.close();
                             });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                                if($('.iw-content').height() < 140){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     marker.interestsString = marker.interestsString + intString;
                 }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -689,6 +1507,28 @@
                     google.maps.event.addListener(map, 'click', function() {
                         farmWindow.close();
                     });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                        if($('.iw-content').height() < 140){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
                 })(marker, map, farmWindow);
             }
             var markersQLDCluster = new MarkerClusterer(map, markersQLD,
@@ -702,7 +1542,32 @@
             for (i = 0; i < information.hostels.length; i++) {
                 if (!hostelFilter.includes(information.hostels[i].hostelId))  {
                     hostelFilter.push(information.hostels[i].hostelId);
-                    var hostelContent = '<div style="text-align: left !important"><h3>' + information.hostels[i].hostelName + '</h3><p><b>Hostel Rating: </b>' + information.hostels[i].hostelRating + '</p><p><b>Address: </b>' + information.hostels[i].hostelAddress + '</p></div>';
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
                     var hostelWindow = new google.maps.InfoWindow({
                         content: hostelContent
                     });
@@ -721,6 +1586,28 @@
                         google.maps.event.addListener(map, 'click', function() {
                             hMarker.infowindow.close();
                         });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                            if($('.iw-content').height() < 140){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
                     })(hMarker);
                 }
             }
@@ -736,7 +1623,33 @@
                 for (x = 0; x < ints.length; x++) {
                     if (!filter.includes(ints[x].attractionId)) {
                         filter.push(ints[x].attractionId);
-                        var interestContent = '<div style="text-align: left !important"><h3>' + ints[x].attractionName + '</h3><p><b>Rating: </b>' + ints[x].attractionRating + '</p><p><b>Address: </b>' + ints[x].attractionAddress + '</p></div>';
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
                         var interestWindow = new google.maps.InfoWindow({
                             content: interestContent
                         });
@@ -755,14 +1668,60 @@
                             google.maps.event.addListener(map, 'click', function() {
                                 iMarker.infowindow.close();
                             });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                                if($('.iw-content').height() < 140){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
                         })(iMarker);
                     }
                     var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
                     marker.interestsString = marker.interestsString + intString;
                 }
-                var farmContent = '<div style="text-align: left !important"><h3>' + data[i].farm.farmName + '</h3><p><b>Farm Rating: </b>'
-                    + data[i].farm.farm_rating + '</p><p><b>Address: </b>' + data[i].farm.farm_address +
-                    '</p><p><input type="button" value ="Click for more details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" /></p></div>';
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
                 var farmWindow = new google.maps.InfoWindow({
                     content: farmContent
                 });
@@ -776,6 +1735,28 @@
                     });
                     google.maps.event.addListener(map, 'click', function() {
                         farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+
+                        if($('.iw-content').height() < 140){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
                     });
                 })(marker, map, farmWindow);
             }
@@ -828,7 +1809,7 @@
 
             @*Title*@
             <h2>Select Interests, Search Farms</h2>
-            <label for="interetsDD"  id="interestTT" title="If you select nothing, we will select all interests by default.">Preferred Interests  <span><img src="~/img/help_icon.png"/></span></label>
+            <label for="interetsDD"  class="tt" title="If you select nothing, we will select all interests by default.">Preferred Interests  <span><img src="~/img/help_icon.png"/></span></label>
 
             @*Interests dropdown*@
             <select id="interetsDD" multiple="multiple" name="cInterests">
@@ -846,7 +1827,7 @@
             @*Responsive layout for those two dropdowns*@
             <div>
                 <div class="col-lg-6 leftDD">
-                    <label for="monthDD" id="monthTT" title="If you select nothing, we will select current month by default.">Months to Go  <span><img src="~/img/help_icon.png"/></span></label>
+                    <label for="monthDD" class="tt" title="If you select nothing, we will select current month by default.">Months to Go  <span><img src="~/img/help_icon.png"/></span></label>
 
                     @*Months dropdown*@
                     <select id="monthDD" multiple="multiple" name="cMonths">
@@ -865,7 +1846,7 @@
                     </select>
                 </div>
                 <div class="col-lg-6 rightDD">
-                    <label for="distanceDD" id="distanceTT" title="if you select nothing, we will select 100 km by default.">Distance from Farm to Interests  <span><img src="~/img/help_icon.png"/></span></label>
+                    <label for="distanceDD" class="tt" title="if you select nothing, we will select 100 km by default.">Distance from Farm to Interests  <span><img src="~/img/help_icon.png"/></span></label>
 
                     @*Distance dropdown*@
                     <select id="distanceDD" name="cDistance">
