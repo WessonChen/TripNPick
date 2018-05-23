@@ -16,8 +16,8 @@ p b{
 
 #aboutDes {
     color: initial;
-    padding-bottom: 48px;
     font-weight: initial;
+    margin-bottom: 0;
 }
 
 h1 {
@@ -105,7 +105,7 @@ h1 {
 #suggestionBtn {
     background-color: #4CAF50;
     color: white;
-    padding: 12px 20px;
+    padding: 8px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -138,7 +138,6 @@ p img {
 
 #formSection {
     padding-bottom: 50px;
-    background-color: #f8f8f8;
 }
 
 .ourteam {

@@ -1654,7 +1654,6 @@
 	input[type="submit"],
 	input[type="reset"],
 	input[type="button"],
-	button,
 	.button {
 		-moz-appearance: none;
 		-webkit-appearance: none;
@@ -1734,7 +1733,6 @@
 			input[type="submit"],
 			input[type="reset"],
 			input[type="button"],
-			button,
 			.button {
 				padding: 0;
 				width: 100%;
@@ -1745,7 +1743,6 @@
 	input[type="submit"],
 	input[type="reset"],
 	input[type="button"],
-	button,
 	.button {
 		background-color: #3498db;
 		color: #fff !important;
