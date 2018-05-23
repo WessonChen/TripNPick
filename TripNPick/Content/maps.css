@@ -32,6 +32,20 @@
     line-height: 34px;
 }
 
+.select2-container--default .select2-selection--multiple {
+    cursor: pointer;
+}
+
+.select2 input {
+   color: white;
+    text-shadow: 0px 0px 0px #000;
+    -webkit-text-fill-color: transparent;
+}
+.select2 input::-webkit-input-placeholder {
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+}
+
 #mapForm form label img {
     max-height: 18px;
     padding-bottom: 2px;

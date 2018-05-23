@@ -6,6 +6,25 @@
 .select2 {
     width:400px!important;
 }
+
+.select2-container--default .select2-selection--multiple {
+    cursor: pointer !important;
+}
+
+.select2 input{
+    cursor: pointer;
+}
+
+.select2 input {
+   color: white;
+    text-shadow: 0px 0px 0px #000;
+    -webkit-text-fill-color: transparent;
+}
+.select2 input::-webkit-input-placeholder {
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+}
+
 @media(max-width: 990px) and (min-width: 768px) {
     .intro-header h1 {
         padding-top: 190px !important;

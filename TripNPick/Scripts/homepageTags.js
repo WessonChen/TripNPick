@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $("#HomeDD").select2({
         closeOnSelect: false,
-        placeholder: "Tell us when you want to travel..",
+        placeholder: "When you want to travel? (Multichoice)",
         allowClear: true
     });
 
