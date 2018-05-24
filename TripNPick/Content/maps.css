@@ -149,8 +149,8 @@
 }
 
 .selection-img div img{
-    max-height: 64px;
-    max-width: 64px;
+    max-height: 96px;
+    max-width: 96px;
     padding-bottom: 16px;
 }
 
@@ -197,14 +197,25 @@
 	line-height: 18px;
 	font-weight: 400;
 	padding: 12px 6px;
-	max-height: 140px;
+	max-height: 160px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
-.goMore {
+.goMore,
+.closebtn {
     font-size: 12px !important;
     padding: 4px 8px !important;
+}
+
+.closebtn {
+    float: right;
+    margin-right: 20px;
+}
+
+.goMore {
+    float: left;
+    margin-left: 20px;
 }
 
 .iw-subTitle {

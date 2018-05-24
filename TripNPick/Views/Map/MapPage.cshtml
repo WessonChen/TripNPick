@@ -121,7 +121,8 @@
         //Create a Google Map and give it a default zoom level and center
         var map = new google.maps.Map(document.getElementById('testMap'), {
             zoom: 3.9,
-            center: { lat: -25.031596581410874, lng: 134.36777208750004 }
+            center: { lat: -25.031596581410874, lng: 134.36777208750004 },
+            clickableIcons: false
         });
 
         //Create array for each states so farms belong to different states will not be clusted.
@@ -190,6 +191,7 @@
                     '<div class="iw-content">' +
                      hostelRating +
                     '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                   '</div>';
@@ -222,10 +224,10 @@
 
                             var iwCloseBtn = iwOuter.next();
 
-                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                            if($('.iw-content').height() < 140){
+                            if($('.iw-content').height() < 160){
                                 $('.iw-bottom-gradient').css({display: 'none'});
                             }
 
@@ -272,6 +274,7 @@
                         '<div class="iw-content">' +
                          interestRating +
                         '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                         '</div>' +
                         '<div class="iw-bottom-gradient"></div>' +
                       '</div>';
@@ -304,10 +307,10 @@
 
                                 var iwCloseBtn = iwOuter.next();
 
-                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                                if($('.iw-content').height() < 140){
+                                if($('.iw-content').height() < 160){
                                     $('.iw-bottom-gradient').css({display: 'none'});
                                 }
 
@@ -343,6 +346,7 @@
                 '<div class="iw-content">' +
                  farmRating +
                 '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                 '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
                 '</div>' +
                 '<div class="iw-bottom-gradient"></div>' +
@@ -372,10 +376,10 @@
 
                         var iwCloseBtn = iwOuter.next();
 
-                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                        if($('.iw-content').height() < 140){
+                        if($('.iw-content').height() < 160){
                             $('.iw-bottom-gradient').css({display: 'none'});
                         }
 
@@ -386,7 +390,7 @@
                 })(marker, map, farmWindow);
             }
             var markersVICCluster = new MarkerClusterer(map, markersVIC,
-                { imagePath: clusterUrl });
+                { imagePath: clusterUrl, maxZoom: 14});
         })
 
         //The function and reason of this method has been given in the first method
@@ -420,6 +424,7 @@
                     '<div class="iw-content">' +
                      hostelRating +
                     '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                   '</div>';
@@ -452,10 +457,10 @@
 
                             var iwCloseBtn = iwOuter.next();
 
-                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                            if($('.iw-content').height() < 140){
+                            if($('.iw-content').height() < 160){
                                 $('.iw-bottom-gradient').css({display: 'none'});
                             }
 
@@ -502,6 +507,7 @@
                         '<div class="iw-content">' +
                          interestRating +
                         '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                         '</div>' +
                         '<div class="iw-bottom-gradient"></div>' +
                       '</div>';
@@ -534,10 +540,10 @@
 
                                 var iwCloseBtn = iwOuter.next();
 
-                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                                if($('.iw-content').height() < 140){
+                                if($('.iw-content').height() < 160){
                                     $('.iw-bottom-gradient').css({display: 'none'});
                                 }
 
@@ -573,6 +579,7 @@
                 '<div class="iw-content">' +
                  farmRating +
                 '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                 '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
                 '</div>' +
                 '<div class="iw-bottom-gradient"></div>' +
@@ -602,10 +609,10 @@
 
                         var iwCloseBtn = iwOuter.next();
 
-                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                        if($('.iw-content').height() < 140){
+                        if($('.iw-content').height() < 160){
                             $('.iw-bottom-gradient').css({display: 'none'});
                         }
 
@@ -649,6 +656,7 @@
                     '<div class="iw-content">' +
                      hostelRating +
                     '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                   '</div>';
@@ -681,10 +689,10 @@
 
                             var iwCloseBtn = iwOuter.next();
 
-                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                            if($('.iw-content').height() < 140){
+                            if($('.iw-content').height() < 160){
                                 $('.iw-bottom-gradient').css({display: 'none'});
                             }
 
@@ -731,6 +739,7 @@
                         '<div class="iw-content">' +
                          interestRating +
                         '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                         '</div>' +
                         '<div class="iw-bottom-gradient"></div>' +
                       '</div>';
@@ -763,10 +772,10 @@
 
                                 var iwCloseBtn = iwOuter.next();
 
-                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                                if($('.iw-content').height() < 140){
+                                if($('.iw-content').height() < 160){
                                     $('.iw-bottom-gradient').css({display: 'none'});
                                 }
 
@@ -802,6 +811,7 @@
                 '<div class="iw-content">' +
                  farmRating +
                 '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                 '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
                 '</div>' +
                 '<div class="iw-bottom-gradient"></div>' +
@@ -831,10 +841,10 @@
 
                         var iwCloseBtn = iwOuter.next();
 
-                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                        if($('.iw-content').height() < 140){
+                        if($('.iw-content').height() < 160){
                             $('.iw-bottom-gradient').css({display: 'none'});
                         }
 
@@ -878,6 +888,7 @@
                     '<div class="iw-content">' +
                      hostelRating +
                     '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                   '</div>';
@@ -910,10 +921,10 @@
 
                             var iwCloseBtn = iwOuter.next();
 
-                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                            if($('.iw-content').height() < 140){
+                            if($('.iw-content').height() < 160){
                                 $('.iw-bottom-gradient').css({display: 'none'});
                             }
 
@@ -960,6 +971,7 @@
                         '<div class="iw-content">' +
                          interestRating +
                         '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                         '</div>' +
                         '<div class="iw-bottom-gradient"></div>' +
                       '</div>';
@@ -992,10 +1004,10 @@
 
                                 var iwCloseBtn = iwOuter.next();
 
-                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                                if($('.iw-content').height() < 140){
+                                if($('.iw-content').height() < 160){
                                     $('.iw-bottom-gradient').css({display: 'none'});
                                 }
 
@@ -1031,6 +1043,7 @@
                 '<div class="iw-content">' +
                  farmRating +
                 '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                 '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
                 '</div>' +
                 '<div class="iw-bottom-gradient"></div>' +
@@ -1060,10 +1073,10 @@
 
                         var iwCloseBtn = iwOuter.next();
 
-                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                        if($('.iw-content').height() < 140){
+                        if($('.iw-content').height() < 160){
                             $('.iw-bottom-gradient').css({display: 'none'});
                         }
 
@@ -1107,6 +1120,7 @@
                     '<div class="iw-content">' +
                      hostelRating +
                     '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                   '</div>';
@@ -1139,10 +1153,10 @@
 
                             var iwCloseBtn = iwOuter.next();
 
-                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                            if($('.iw-content').height() < 140){
+                            if($('.iw-content').height() < 160){
                                 $('.iw-bottom-gradient').css({display: 'none'});
                             }
 
@@ -1189,6 +1203,7 @@
                         '<div class="iw-content">' +
                          interestRating +
                         '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                         '</div>' +
                         '<div class="iw-bottom-gradient"></div>' +
                       '</div>';
@@ -1221,10 +1236,10 @@
 
                                 var iwCloseBtn = iwOuter.next();
 
-                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                                if($('.iw-content').height() < 140){
+                                if($('.iw-content').height() < 160){
                                     $('.iw-bottom-gradient').css({display: 'none'});
                                 }
 
@@ -1260,6 +1275,7 @@
                 '<div class="iw-content">' +
                  farmRating +
                 '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                 '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
                 '</div>' +
                 '<div class="iw-bottom-gradient"></div>' +
@@ -1289,10 +1305,10 @@
 
                         var iwCloseBtn = iwOuter.next();
 
-                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                        if($('.iw-content').height() < 140){
+                        if($('.iw-content').height() < 160){
                             $('.iw-bottom-gradient').css({display: 'none'});
                         }
 
@@ -1336,6 +1352,7 @@
                     '<div class="iw-content">' +
                      hostelRating +
                     '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                   '</div>';
@@ -1368,10 +1385,10 @@
 
                             var iwCloseBtn = iwOuter.next();
 
-                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                            if($('.iw-content').height() < 140){
+                            if($('.iw-content').height() < 160){
                                 $('.iw-bottom-gradient').css({display: 'none'});
                             }
 
@@ -1418,6 +1435,7 @@
                         '<div class="iw-content">' +
                          interestRating +
                         '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                         '</div>' +
                         '<div class="iw-bottom-gradient"></div>' +
                       '</div>';
@@ -1450,10 +1468,10 @@
 
                                 var iwCloseBtn = iwOuter.next();
 
-                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                                if($('.iw-content').height() < 140){
+                                if($('.iw-content').height() < 160){
                                     $('.iw-bottom-gradient').css({display: 'none'});
                                 }
 
@@ -1489,6 +1507,7 @@
                 '<div class="iw-content">' +
                  farmRating +
                 '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                 '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
                 '</div>' +
                 '<div class="iw-bottom-gradient"></div>' +
@@ -1518,10 +1537,10 @@
 
                         var iwCloseBtn = iwOuter.next();
 
-                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                        if($('.iw-content').height() < 140){
+                        if($('.iw-content').height() < 160){
                             $('.iw-bottom-gradient').css({display: 'none'});
                         }
 
@@ -1565,6 +1584,7 @@
                     '<div class="iw-content">' +
                      hostelRating +
                     '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                   '</div>';
@@ -1597,10 +1617,10 @@
 
                             var iwCloseBtn = iwOuter.next();
 
-                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                            if($('.iw-content').height() < 140){
+                            if($('.iw-content').height() < 160){
                                 $('.iw-bottom-gradient').css({display: 'none'});
                             }
 
@@ -1647,6 +1667,7 @@
                         '<div class="iw-content">' +
                          interestRating +
                         '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                         '</div>' +
                         '<div class="iw-bottom-gradient"></div>' +
                       '</div>';
@@ -1679,10 +1700,10 @@
 
                                 var iwCloseBtn = iwOuter.next();
 
-                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                                if($('.iw-content').height() < 140){
+                                if($('.iw-content').height() < 160){
                                     $('.iw-bottom-gradient').css({display: 'none'});
                                 }
 
@@ -1718,6 +1739,7 @@
                 '<div class="iw-content">' +
                  farmRating +
                 '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                '<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
                 '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
                 '</div>' +
                 '<div class="iw-bottom-gradient"></div>' +
@@ -1747,10 +1769,10 @@
 
                         var iwCloseBtn = iwOuter.next();
 
-                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px'});
-                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px'})
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
 
-                        if($('.iw-content').height() < 140){
+                        if($('.iw-content').height() < 160){
                             $('.iw-bottom-gradient').css({display: 'none'});
                         }
 
