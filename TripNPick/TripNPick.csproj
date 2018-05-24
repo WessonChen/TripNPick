@@ -54,9 +54,6 @@
     <Reference Include="Highcharts.Web.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
       <HintPath>..\packages\Highsoft.Highcharts.6.1.0.7\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="HttpAuthModule, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HttpAuthModule.2.2.2.0\lib\net45\HttpAuthModule.dll</HintPath>
-    </Reference>
     <Reference Include="LinqKit, Version=1.1.15.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqKit.1.1.15\lib\net45\LinqKit.dll</HintPath>
     </Reference>
@@ -201,12 +198,6 @@
     <Compile Include="Models\crop.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DropdownList.cs" />
-    <Compile Include="Models\ExpFarm.cs" />
-    <Compile Include="Models\ExpHarvest.cs" />
-    <Compile Include="Models\ExpInterest.cs" />
-    <Compile Include="Models\ExpList.cs" />
-    <Compile Include="Models\ExpWeather.cs" />
     <Compile Include="Models\fake_farms.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
@@ -214,13 +205,11 @@
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FarmJson.cs" />
-    <Compile Include="Models\FarmsJson.cs" />
     <Compile Include="Models\FilteredFarmViewModel.cs" />
     <Compile Include="Models\hostel.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\InterestsJson.cs" />
     <Compile Include="Models\interest_attraction.cs">
       <DependentUpon>TripAndPickModel.tt</DependentUpon>
     </Compile>
@@ -290,6 +279,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\demandTable.css" />
     <Content Include="Content\droplistform.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\landing-page.css" />
     <Content Include="Content\maps.css" />
     <Content Include="Content\PaymentTaxRight.css" />
@@ -300,6 +290,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="img\aboutBG.JPG" />
+    <Content Include="img\accomodationBG.JPG" />
     <Content Include="img\Brand.png" />
     <Content Include="img\check.png" />
     <Content Include="img\click.png" />
@@ -308,12 +299,27 @@
     <Content Include="img\contact\phone.png" />
     <Content Include="img\contact\schedule.png" />
     <Content Include="img\contact\team.png" />
+    <Content Include="img\dawn.jpg" />
+    <Content Include="img\Demo_2.gif" />
+    <Content Include="img\details\attraction.png" />
+    <Content Include="img\details\attraction_orange.png" />
     <Content Include="img\details\demand.png" />
     <Content Include="img\details\demand_orange.png" />
     <Content Include="img\details\temperature.png" />
     <Content Include="img\details\temperature_orange.png" />
     <Content Include="img\details\weather.png" />
     <Content Include="img\details\weather_orange.png" />
+    <Content Include="img\farms\1.jpg" />
+    <Content Include="img\farms\10.jpg" />
+    <Content Include="img\farms\2.jpg" />
+    <Content Include="img\farms\3.jpg" />
+    <Content Include="img\farms\4.jpg" />
+    <Content Include="img\farms\5.jpg" />
+    <Content Include="img\farms\6.jpg" />
+    <Content Include="img\farms\7.jpg" />
+    <Content Include="img\farms\8.jpg" />
+    <Content Include="img\farms\9.jpg" />
+    <Content Include="img\help_icon.png" />
     <Content Include="img\homeBG.png" />
     <Content Include="img\loadingImage.gif" />
     <Content Include="img\markers\Beach.png" />
@@ -334,7 +340,6 @@
     <Content Include="img\rating\half_star.png" />
     <Content Include="img\rating\person.png" />
     <Content Include="img\Rights.jpg" />
-    <Content Include="img\searchBG.PNG" />
     <Content Include="img\Tax.jpg" />
     <Content Include="img\team\Nupur.jpg" />
     <Content Include="img\team\Shazeed.jpg" />
@@ -392,17 +397,12 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="App_Data\farm.json" />
-    <Content Include="App_Data\harvest.json" />
-    <Content Include="App_Data\interest.json" />
-    <Content Include="App_Data\weather.json" />
     <Content Include="Mvc.sitemap" />
     <EntityDeploy Include="Models\TripAndPickModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -415,17 +415,10 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Project_Readme.html" />
-    <Content Include="Views\Home\FarmDetails.cshtml" />
-    <Content Include="Views\Home\expResults.cshtml" />
-    <Content Include="Views\Home\ExpDetails.cshtml" />
     <Content Include="Views\ErrorPage\ErrorMessage.cshtml" />
     <Content Include="Views\Home\Information.cshtml" />
-    <Content Include="Views\Map\Index.cshtml" />
     <Content Include="Views\Home\AboutUS.cshtml" />
     <None Include="Properties\PublishProfiles\TripAndPick - Web Deploy.pubxml" />
-    <Content Include="Views\Map\doTheDew.cshtml" />
-    <Content Include="Views\Map\testSomething.cshtml" />
-    <Content Include="Views\Map\getFarmCombinedInterest.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
@@ -434,15 +427,13 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
-    <Content Include="Views\Home\Dashboard.cshtml" />
-    <Content Include="Views\Home\LogInView.cshtml" />
-    <Content Include="Views\Map\createTable.cshtml" />
-    <Content Include="Views\Map\TestIndex.cshtml" />
-    <Content Include="Views\Map\dropdownTest.cshtml" />
-    <Content Include="Views\Map\FarmDetailsTest1.cshtml" />
+    <Content Include="Views\Map\FarmDetails.cshtml" />
+    <Content Include="Views\Map\MapPage.cshtml" />
     <Content Include="Views\Home\Accomodation.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

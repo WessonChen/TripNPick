@@ -14,6 +14,12 @@ p b{
     color: #000;
 }
 
+#aboutDes {
+    color: initial;
+    font-weight: initial;
+    margin-bottom: 0;
+}
+
 h1 {
     text-align: center;
     font-weight: bold !important;
@@ -34,8 +40,6 @@ h1 {
 }
 
 .section-center .selection-img {
-    display:flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
@@ -47,21 +51,8 @@ h1 {
     align-items: center;
 }
 
-@media(max-width: 767px) {
-    .section-center .selection-img {
-        flex-direction: column;
-    }
-
-    .section-center .selection-img div {
-        margin-top: 16px;
-    }
-}
-
-
 
 .section-center .selection-img div img {
-    display:flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     float: initial;
@@ -114,7 +105,7 @@ h1 {
 #suggestionBtn {
     background-color: #4CAF50;
     color: white;
-    padding: 12px 20px;
+    padding: 8px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -142,16 +133,11 @@ p img {
 
 .aboutusbg h1 {
     color: white !important;
-    padding: 150px 0 !important;
+    padding: 120px 0 !important;
 }
 
 #formSection {
     padding-bottom: 50px;
-    background-color: gray;
-}
-
-#formSection h1{
-    color: white;
 }
 
 .ourteam {

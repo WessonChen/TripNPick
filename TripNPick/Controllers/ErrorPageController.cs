@@ -8,7 +8,7 @@ namespace TripNPick.Controllers
 {
     public class ErrorPageController : Controller
     {
-        // GET: ErrorPage
+        //The view shows when user enter an invalid path
         public ActionResult ErrorMessage()
         {
             return View();

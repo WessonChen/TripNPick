@@ -1,0 +1,1990 @@
+﻿@model TripNPick.Models.UserSelections
+@{
+    ViewBag.Title = "Searching Result";
+}
+
+<head>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css" />
+    <script type="text/javascript" src="~/Scripts/select2.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/maps.css" />
+    <link href="~/Content/SideContent.css" type="text/css" rel="stylesheet" />
+    
+    <script type="text/javascript">
+        var myVar;
+
+        function myFunction() {
+            myVar = setTimeout(showPage, 6000);
+        }
+
+        function showPage() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("testMap").style.display = "block";
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Encode data form model so we can use it in JS.
+            var months = @Html.Raw(Json.Encode(Model.cMonths));
+            var interests = @Html.Raw(Json.Encode(Model.cInterests));
+            var distances = @Html.Raw(Json.Encode(Model.cDistance));
+
+            // Get those three dropdown selections.
+            var optionsM = document.getElementById('monthDD'), month, i;
+            var optionsI = document.getElementById('interetsDD'), interest, i;
+            var optionsD = document.getElementById('distanceDD'), distance, i;
+
+            // Select default value for user based on their own selections.
+            for(i = 0; i < optionsM.length; i++) {
+                month = optionsM[i];
+                if (months.includes(month.value)){
+                    month.selected = 'selected';
+                }
+            }
+            for(i = 0; i < optionsI.length; i++) {
+                interest = optionsI[i];
+                if (interests.includes(interest.value)){
+                    interest.selected = 'selected';
+                }
+            }
+            for(i = 0; i < optionsD.length; i++) {
+                distance = optionsD[i];
+                if (distances.includes(distance.value)){
+                    distance.selected = 'selected';
+                }
+            }
+
+            // One Clear All button has been clicked, this method will be called to clean the month dropdown and interests dropdown.
+            $("#clearAll").on("click", function () {
+                $("#monthDD").select2().val(null).trigger("change");
+                $("#interetsDD").select2().val(null).trigger("change");
+            });
+        });
+    </script>
+    <script>
+         $(function() {
+             $(".tt").tooltip({
+                 track: true
+             });
+             $("#clearAll").tooltip();
+         });
+    </script>
+    <script type="text/javascript" src="~/Scripts/mapDropdown.js"></script>
+    <script type="text/javascript" src="~/Scripts/mapIntsDD.js"></script>
+</head>
+<script type="text/javascript">
+
+    var allFarms = [];
+    var interests = [];
+    var hostels = [];
+
+    //Method for redirecting user to farm details page when user clicked any farm marker.
+    function goToFarmPage(farmId) {
+        url = "/Map/FarmDetails/?farmInfo=" + farmId;
+        window.open(url);
+    }
+
+    //Initial Google Map
+    function initMap() {
+        $('#farmBox').click(function () {
+            boxClick(this, allFarms)
+        });
+        $('#attractionBox').click(function () {
+            boxClick(this, interests)
+        });
+        $('#hostelBox').click(function () {
+            boxClick(this, hostels)
+        });
+
+        function boxClick(box, category) {
+            if (box.checked) {
+                show(category);
+            } else {
+                hide(category);
+            }
+        }
+        function show(category) {
+            for (var i = 0; i < category.length; i++) {
+                category[i].setVisible(true);
+            }
+        }
+        function hide(category) {
+            for (var i = 0; i < category.length; i++) {
+                category[i].setVisible(false);
+            }
+        }
+
+        //Create a Google Map and give it a default zoom level and center
+        var map = new google.maps.Map(document.getElementById('testMap'), {
+            zoom: 3.9,
+            center: { lat: -25.031596581410874, lng: 134.36777208750004 },
+            clickableIcons: false
+        });
+
+        //Create array for each states so farms belong to different states will not be clusted.
+        var markersVIC = [];
+        var markersNSW = [];
+        var markersSA = [];
+        var markersWA = [];
+        var markersTAS = [];
+        var markersQLD = [];
+        var markersNT = [];
+
+
+        //The url for default cluster style.
+        var clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
+
+        //The url for markers
+        var farmUrl = '/img/markers/Farm.png';
+        var hostelUrl = '/img/markers/Hostel.png';
+        var interestUrl = '/img/markers/';
+
+        //Url extensiton for diffent types of intersts based on the interest id.
+        var interestMap = new Map();
+        interestMap.set(1, 'Museum.png');
+        interestMap.set(2, 'Sights.png');
+        interestMap.set(3, 'Parks.png');
+        interestMap.set(4, 'Sights.png');
+        interestMap.set(5, 'Beach.png');
+        interestMap.set(6, 'Outdoors.png');
+        interestMap.set(7, 'Wildlife.png');
+        interestMap.set(8, 'Hiking.png');
+        interestMap.set(9, 'Sports.png');
+        interestMap.set(10, 'Zoo.png');
+
+        //Method for all interest, hostel and farm markers which match the search selections in victoria.
+        //We can do it in controller but it takes too long to show the page. By using javascrite here, we can show the page and map first, and then add markers.
+        //So user won't wait for too long.
+        //And we separate the it to different states because we can load it state by state, instead of loading all after all calculation.
+        //It is all about reducing the waiting time and providing more smooth experience.
+        //All seven methods below are the same, with different state name as parameter.
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":VIC"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(map, 'click', function() {
+                            hMarker.infowindow.close();
+                        });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                            if($('.iw-content').height() < 160){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(map, 'click', function() {
+                                iMarker.infowindow.close();
+                            });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                                if($('.iw-content').height() < 160){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersVIC.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(map, 'click', function() {
+                        farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                        if($('.iw-content').height() < 160){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersVICCluster = new MarkerClusterer(map, markersVIC,
+                { imagePath: clusterUrl, maxZoom: 14});
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":SA"})", function (information, status) {
+
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(map, 'click', function() {
+                            hMarker.infowindow.close();
+                        });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                            if($('.iw-content').height() < 160){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(map, 'click', function() {
+                                iMarker.infowindow.close();
+                            });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                                if($('.iw-content').height() < 160){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersSA.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(map, 'click', function() {
+                        farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                        if($('.iw-content').height() < 160){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersSACluster = new MarkerClusterer(map, markersSA,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NSW"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(map, 'click', function() {
+                            hMarker.infowindow.close();
+                        });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                            if($('.iw-content').height() < 160){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(map, 'click', function() {
+                                iMarker.infowindow.close();
+                            });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                                if($('.iw-content').height() < 160){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersNSW.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(map, 'click', function() {
+                        farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                        if($('.iw-content').height() < 160){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersNSWCluster = new MarkerClusterer(map, markersNSW,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":WA"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(map, 'click', function() {
+                            hMarker.infowindow.close();
+                        });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                            if($('.iw-content').height() < 160){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(map, 'click', function() {
+                                iMarker.infowindow.close();
+                            });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                                if($('.iw-content').height() < 160){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersWA.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(map, 'click', function() {
+                        farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                        if($('.iw-content').height() < 160){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersWACluster = new MarkerClusterer(map, markersWA,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":TAS"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(map, 'click', function() {
+                            hMarker.infowindow.close();
+                        });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                            if($('.iw-content').height() < 160){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(map, 'click', function() {
+                                iMarker.infowindow.close();
+                            });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                                if($('.iw-content').height() < 160){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersTAS.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(map, 'click', function() {
+                        farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                        if($('.iw-content').height() < 160){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersTASCluster = new MarkerClusterer(map, markersTAS,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":QLD"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(map, 'click', function() {
+                            hMarker.infowindow.close();
+                        });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                            if($('.iw-content').height() < 160){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(map, 'click', function() {
+                                iMarker.infowindow.close();
+                            });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                                if($('.iw-content').height() < 160){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersQLD.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(map, 'click', function() {
+                        farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                        if($('.iw-content').height() < 160){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersQLDCluster = new MarkerClusterer(map, markersQLD,
+                { imagePath: clusterUrl });
+        })
+
+        //The function and reason of this method has been given in the first method
+        $.get("@Url.Action("doTheDew", "Map", new { userInput = Model.combinedString + ":NT"})", function (information, status) {
+            data = information.farmsAndInterests;
+            var hostelFilter = [];
+            for (i = 0; i < information.hostels.length; i++) {
+                if (!hostelFilter.includes(information.hostels[i].hostelId))  {
+                    hostelFilter.push(information.hostels[i].hostelId);
+                    var hostelRating = '';
+                    if (information.hostels[i].hostelRating === 0) {
+                        hostelRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                    } else {
+                        hostelRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                        for (var j = 0; j <= information.hostels[i].hostelRating; j++)
+                        {
+                            
+                            if (information.hostels[i].hostelRating - j >= 1)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                            } else if (information.hostels[i].hostelRating - j < 1 && information.hostels[i].hostelRating - j > 0)
+                            {
+                                hostelRating = hostelRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                            }
+                        }
+                        hostelRating = hostelRating + '</p></div>';
+                    }
+                    var hostelContent = '<div id="iw-container">' +
+                    '<div class="iw-title">' + information.hostels[i].hostelName + '</div>' +
+                    '<div class="iw-content">' +
+                     hostelRating +
+                    '<div class="iw-subTitle">Address: <p>' + information.hostels[i].hostelAddress + '</p></div>' +
+                    //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+                    var hostelWindow = new google.maps.InfoWindow({
+                        content: hostelContent
+                    });
+                    hMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(information.hostels[i].hostel_lat, information.hostels[i].hostel_lng),
+                        visible: false,
+                        icon: hostelUrl,
+                        infowindow: hostelWindow,
+                        map: map
+                    });
+                    hostels.push(hMarker);
+                    (function (hMarker) {
+                        google.maps.event.addListener(hMarker, 'click', function () {
+                            hMarker.infowindow.open(map, hMarker);
+                        });
+                        google.maps.event.addListener(map, 'click', function() {
+                            hMarker.infowindow.close();
+                        });
+                        google.maps.event.addListener(hMarker.infowindow, 'domready', function() {
+
+                            var iwOuter = $('.gm-style-iw');
+                            var iwBackground = iwOuter.prev();
+
+                            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                            var iwCloseBtn = iwOuter.next();
+
+                            iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                            iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                            if($('.iw-content').height() < 160){
+                                $('.iw-bottom-gradient').css({display: 'none'});
+                            }
+
+                            iwCloseBtn.mouseout(function(){
+                                $(this).css({opacity: '1'});
+                            });
+                        });
+                    })(hMarker);
+                }
+            }
+            var filter = [];
+            for (i = 0; i < data.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(data[i].farm.farm_lat, data[i].farm.farm_lng),
+                    icon: farmUrl,
+                    interestsString: data[i].farm.farmId,
+                    map: map
+                });
+                var ints = data[i].interests;
+                for (x = 0; x < ints.length; x++) {
+                    if (!filter.includes(ints[x].attractionId)) {
+                        filter.push(ints[x].attractionId);
+                        var interestRating = '';
+                        if (ints[x].attractionRating === 0) {
+                            interestRating = '<div class="iw-subTitle">Attraction Rating:<p>Sorry, we do not have rating for this attraction yet.</p></div>';
+                        } 
+                        else {
+                            interestRating = '<div class="iw-subTitle"><p><b>Attraction Rating: </b>';
+                            for (var j = 0; j <= ints[x].attractionRating; j++)
+                            {
+                            
+                                if (ints[x].attractionRating - j >= 1)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                                } else if (ints[x].attractionRating - j < 1 && ints[x].attractionRating - j > 0)
+                                {
+                                    interestRating = interestRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                                }
+                            }
+                            interestRating = interestRating + '</p></div>';
+                        }
+                        var interestContent = '<div id="iw-container">' +
+                        '<div class="iw-title">' + ints[x].attractionName + '</div>' +
+                        '<div class="iw-content">' +
+                         interestRating +
+                        '<div class="iw-subTitle">Address: <p>' + ints[x].attractionAddress + '</p></div>' +
+                        //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                        '</div>' +
+                        '<div class="iw-bottom-gradient"></div>' +
+                      '</div>';
+                        var interestWindow = new google.maps.InfoWindow({
+                            content: interestContent
+                        });
+                        iMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(ints[x].interestLat, ints[x].interestLng),
+                            visible: false,
+                            icon: interestUrl + interestMap.get(ints[x].interestId),
+                            infowindow: interestWindow,
+                            map: map
+                        });
+                        interests.push(iMarker);
+                        (function (iMarker) {
+                            google.maps.event.addListener(iMarker, 'click', function () {
+                                iMarker.infowindow.open(map, iMarker);
+                            });
+                            google.maps.event.addListener(map, 'click', function() {
+                                iMarker.infowindow.close();
+                            });
+                            google.maps.event.addListener(iMarker.infowindow, 'domready', function() {
+
+                                var iwOuter = $('.gm-style-iw');
+                                var iwBackground = iwOuter.prev();
+
+                                iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                                var iwCloseBtn = iwOuter.next();
+
+                                iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                                iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                                if($('.iw-content').height() < 160){
+                                    $('.iw-bottom-gradient').css({display: 'none'});
+                                }
+
+                                iwCloseBtn.mouseout(function(){
+                                    $(this).css({opacity: '1'});
+                                });
+                            });
+                        })(iMarker);
+                    }
+                    var intString = ":" + ints[x].attractionId + "," + ints[x].distance;
+                    marker.interestsString = marker.interestsString + intString;
+                }
+                var farmRating = '';
+                if (data[i].farm.farm_rating === 0) {
+                    farmRating = '<div class="iw-subTitle">Hostel Rating:<p>Sorry, we do not have rating for this hostel yet.</p></div>';
+                } else {
+                    farmRating = '<div class="iw-subTitle"><p><b>Hostel Rating: </b>';
+                    for (var j = 0; j <= data[i].farm.farm_rating; j++)
+                    {
+                            
+                        if (data[i].farm.farm_rating - j >= 1)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/full_star.png"/></span>';
+                        } else if (data[i].farm.farm_rating - j < 1 && data[i].farm.farm_rating - j > 0)
+                        {
+                            farmRating = farmRating + '<span><img src="../img/rating/half_star.png"/></span>';
+                        }
+                    }
+                    farmRating = farmRating + '</p></div>';
+                }
+                var farmContent = '<div id="iw-container">' +
+                '<div class="iw-title">' + data[i].farm.farmName + '</div>' +
+                '<div class="iw-content">' +
+                 farmRating +
+                '<div class="iw-subTitle">Address: <p>' + data[i].farm.farm_address + '</p></div>' +
+                //'<input type="button" class="btn btn-primary closebtn" value ="Close" onclick="parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling.click()"/>' +
+                '<input type="button" class="btn btn-success goMore" value ="More details" onClick="goToFarmPage(\'' + marker.interestsString + '\')" />' +
+                '</div>' +
+                '<div class="iw-bottom-gradient"></div>' +
+              '</div>';
+                var farmWindow = new google.maps.InfoWindow({
+                    content: farmContent
+                });
+                allFarms.push(marker);
+                markersNT.push(marker);
+                (function (marker, map, farmWindow) {
+                    google.maps.event.addListener(marker, 'click', function () {
+                        map.setCenter(marker.getPosition());
+                        map.setZoom(14);
+                        farmWindow.open(map, marker);
+                    });
+                    google.maps.event.addListener(map, 'click', function() {
+                        farmWindow.close();
+                    });
+                    google.maps.event.addListener(farmWindow, 'domready', function() {
+
+                        var iwOuter = $('.gm-style-iw');
+                        var iwBackground = iwOuter.prev();
+
+                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+                        var iwCloseBtn = iwOuter.next();
+
+                        iwCloseBtn.css({opacity: '1',top: '3px', right: '41px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9', width: '27px', height: '27px', display: 'none'});
+                        iwCloseBtn.children(':nth-child(1)').css({left: '-2px', top: '-336px', display: 'none'})
+
+                        if($('.iw-content').height() < 160){
+                            $('.iw-bottom-gradient').css({display: 'none'});
+                        }
+
+                        iwCloseBtn.mouseout(function(){
+                            $(this).css({opacity: '1'});
+                        });
+                    });
+                })(marker, map, farmWindow);
+            }
+            var markersNTCluster = new MarkerClusterer(map, markersNT,
+                { imagePath: clusterUrl });
+        })
+
+        //Hostels and attractions will be displayed only in some zoom level
+        //Because its too much of them and the map will be crowded.
+        google.maps.event.addListener(map, 'zoom_changed', function () {
+            var zoom = map.getZoom();
+            for (i = 0; i < interests.length; i++) {
+                if (document.getElementById('attractionBox').checked) {
+                    interests[i].setVisible(zoom >= 10);
+                }
+            }
+            for (i = 0; i < hostels.length; i++) {
+                if (document.getElementById('hostelBox').checked) {
+                    hostels[i].setVisible(zoom >= 10);
+                }
+            }
+            if (zoom >= 10) {
+                document.getElementById('checkDiv').style.display = "block";
+            }
+            else {
+                document.getElementById('checkDiv').style.display = "none";
+            }
+        });
+
+    }
+</script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdNjpD2meHBBiquEK62khiotrQ_4u5WpQ&callback=initMap"></script>
+
+<body onload="myFunction()">
+
+@*Just a site map*@
+<div style="padding: 56px 0 6px 0; background-color: lightgray;">
+    <div class="container">
+        @Html.MvcSiteMap().SiteMapPath()
+    </div>
+</div>
+
+@*Search form with three dropdowns, two buttons and one background image*@
+<div class="searchBG">
+    <div id="mapForm" class="container">
+
+        @*The search form*@
+        <form action="/Map/MapPage">
+
+            @*Title*@
+            <h2>Select Interests, Search Farms</h2>
+            <label for="interetsDD"  class="tt" title="If you select nothing, we will select all interests by default.">Preferred Interests  <span><img src="~/img/help_icon.png"/></span></label>
+
+            @*Interests dropdown*@
+            <select id="interetsDD" multiple="multiple" name="cInterests">
+                <option value="Museums">Museums</option>
+                <option value="Sights and Landmarks">Sights</option>
+                <option value="Nature and Parks">Parks</option>
+                <option value="Beaches">Beaches</option>
+                <option value="Outdoor Activities and Tours">Outdoors</option>
+                <option value="Nature and Wildlife Areas">Wildlife</option>
+                <option value="Hiking Trails">Hiking</option>
+                <option value="Fun and Games and Sports">Games/Sports</option>
+                <option value="Zoos and Aquariums">Zoos/Aquariums</option>
+            </select>
+
+            @*Responsive layout for those two dropdowns*@
+            <div>
+                <div class="col-lg-6 leftDD">
+                    <label for="monthDD" class="tt" title="If you select nothing, we will select current month by default.">Months to Go  <span><img src="~/img/help_icon.png"/></span></label>
+
+                    @*Months dropdown*@
+                    <select id="monthDD" multiple="multiple" name="cMonths">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="Novenmber">November</option>
+                        <option value="December">December</option>
+                    </select>
+                </div>
+                <div class="col-lg-6 rightDD">
+                    <label for="distanceDD" class="tt" title="if you select nothing, we will select 100 km by default.">Distance from Farm to Interests  <span><img src="~/img/help_icon.png"/></span></label>
+
+                    @*Distance dropdown*@
+                    <select id="distanceDD" name="cDistance">
+                        <option value="60">60 km</option>
+                        <option value="80">80 km</option>
+                        <option value="100">100 km</option>
+                        <option value="120">120 km</option>
+                        <option value="140">140 km</option>
+                        <option value="160">160 km</option>
+                        <option value="180">180 km</option>
+                        <option value="200">200 km</option>
+                    </select>
+                </div>
+            </div>
+
+            @*Clear button for clear all selections
+            And submit button for submit all selections*@
+            <div class="buttonGroup">
+                <input type="submit" class="btn btn-success" value="Search" />
+                <a class="btn btn-warning" id="clearAll" title="Click to clear all interests and months you selected.">Clear All</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <div>
+        <div class="col-lg-9" style="padding: 0 !important">
+            @*Illustrations about what do those markers mean
+            It will be dynamic changed based on the user selection*@
+            <div class="example">
+                <label><span><img src="~/img/markers/Farm.png" /></span>Farm  </label>
+                <label><span><img src="~/img/markers/Hostel.png" /></span>Hostel  </label>
+                @if (Model.cInterests != null)
+            {
+                for (int i = 0; i < Model.cInterests.Length; i++)
+                {
+                    switch (Model.cInterests[i])
+                    {
+                        case "Museums":
+                                <label><span><img src="~/img/markers/Museum.png" /></span>Museums  </label>
+                                break;
+                            case "Sights and Landmarks":
+                                <label><span><img src="~/img/markers/Sights.png" /></span>Sights  </label>
+                                break;
+                            case "Nature and Parks":
+                                <label><span><img src="~/img/markers/Parks.png" /></span>Parks  </label>
+                                break;
+                            case "Beaches":
+                                <label><span><img src="~/img/markers/Beach.png" /></span>Beaches  </label>
+                                break;
+                            case "Outdoor Activities and Tours":
+                                <label><span><img src="~/img/markers/Outdoors.png" /></span>Outdoors  </label>
+                                break;
+                            case "Nature and Wildlife Areas":
+                                <label><span><img src="~/img/markers/Wildlife.png" /></span>Wildlife  </label>
+                                break;
+                            case "Hiking Trails":
+                                <label><span><img src="~/img/markers/Hiking.png" /></span>Hiking  </label>
+                                break;
+                            case "Fun and Games and Sports":
+                                <label><span><img src="~/img/markers/Sports.png" /></span>Games/Sports  </label>
+                                break;
+                            case "Zoos and Aquariums":
+                                <label><span><img src="~/img/markers/Zoo.png" /></span>Zoos/Aquariums  </label>
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            </div>
+            <div id="hideandshow">
+                @*Checkbox filtering farms, interests and hostels getting visible when
+                zoom is equal or more than 10**@
+                <div id="checkDiv">
+                    <form action="#">
+                        <label class="checklabel">
+                            Farms
+                            <input type="checkbox" id="farmBox" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checklabel">
+                            Attractions
+                            <input type="checkbox" id="attractionBox" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="checklabel">
+                            Hostels
+                            <input type="checkbox" id="hostelBox" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                    </form>
+                </div>
+                @*The Google Map div*@
+                <div id="thatmap">
+                    <div id="loader"></div>
+                    <div id="testMap" class="animate-bottom" style="width: 100%; height: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        @*Guide for interaction with map*@
+        <div class="selection-img col-lg-3">
+            <div>
+                <img src="~/img/Demo_2.gif" />
+                <p>Clusters show the number of farms in that area. Click on the clusters or zoom in to check individual farms. </p>
+            </div>
+            <div>
+                <img src="~/img/check.png" />
+                <p>Mouse over farms, attractions and hostels to check more info. They are marked by different color of icons. </p>
+            </div>
+            <div>
+                <img src="~/img/click.png" />
+                <p>Click on farm markers to get more details about the farm.</p>
+            </div>
+        </div>
+    </div>
+</body>

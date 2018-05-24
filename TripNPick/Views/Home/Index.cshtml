@@ -18,37 +18,33 @@
     <title>@ViewData["Title"] - Trip&Pick</title>
 </head>
 <body>
+    @*Search part with home page background.*@
     <div class="intro-header">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="intro-message">
-                        <h3>You make your backpacking experience worth the while..</h3>
-                        <h1 class="display-3" style="font-variant: small-caps; font-size: 400%;">While we make your search for farm jobs in Australia easy </h1>
-                        <section class="section-center" style="padding-top: 40px; color: black;">
-                            <form action="/Map/TestIndex" id="hpForm">
-                                <select id="HomeDD" multiple="multiple" name="cMonths">
-                                    <option value="January">January</option>
-                                    <option value="February">February</option>
-                                    <option value="March">March</option>
-                                    <option value="April">April</option>
-                                    <option value="May">May</option>
-                                    <option value="June">June</option>
-                                    <option value="July">July</option>
-                                    <option value="August">August</option>
-                                    <option value="September">September</option>
-                                    <option value="October">October</option>
-                                    <option value="Novenmber">Novenmber</option>
-                                    <option value="December">December</option>
-                                </select>
-                                <input type="submit" class="btn btn-success" value="Search" />
-                            </form>
-                        </section>
-                    </div>
-                </div>
-            </div>
+            <h1>Making farm job search for backpackers easy</h1>
+            <section class="section-center">
+                <form action="/Map/MapPage" id="hpForm">
+                    <select id="HomeDD" multiple="multiple" name="cMonths">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="Novenmber">November</option>
+                        <option value="December">December</option>
+                    </select>
+                    <input type="submit" class="btn btn-success" value="Search" />
+                </form>
+            </section>
         </div>
     </div>
+
+    @*The introduction of how to operate our core function step by step*@
     <section class="section-center" data-waypoint="true" data-waypoint-trigger="true" id="guide">
         <h1 class="guide">
             How does it work?
@@ -58,26 +54,26 @@
                 <div class="step">
                     <div class="card-number step-icon">1</div>
                     <h1 class="step-title">
-                        Select time to go
+                        Select time to travel
                     </h1>
                     <p class="step-content">
-                        Tell us when you would want to travel..
+                        Tell us when you would want to travel.
                     </p>
                 </div>
-                <div class="step-list-dot"></div>
             </div>
+            <div class="step-list-dot" id="dot1"></div>
             <div class="step-list-item">
                 <div class="step">
                     <div class="card-number step-icon">2</div>
                     <h1 class="step-title">
-                        Select activities of interest
+                        Select activities of your interest
                     </h1>
                     <p class="step-content">
-                        Tell us what interests you would want to be around while you work..
+                        Tell us what interests you would want to be around while you work.
                     </p>
                 </div>
-                <div class="step-list-dot"></div>
             </div>
+            <div class="step-list-dot" id="dot2"></div>
             <div class="step-list-item">
                 <div class="step">
                     <div class="card-number step-icon">3</div>
@@ -85,24 +81,28 @@
                         Select Location
                     </h1>
                     <p class="step-content">
-                        Zoom in to the level that interests you..
+                        Zoom in to the level that interests you.
                     </p>
                 </div>
-                <div class="step-list-dot"></div>
             </div>
+            <div class="step-list-dot" id="dot3"></div>
             <div class="step-list-item">
                 <div class="step">
                     <div class="card-number step-icon">4</div>
                     <h1 class="step-title">
                         View details of farms
                     </h1>
+
                     <p class="step-content">
-                        Check more details of the farms, accommodations and interests around that area..
+                        Check more details of the farms, accommodations and interests around that area.
                     </p>
                 </div>
             </div>
         </div>
     </section>
+
+    @*A brife of the information they may need to know before going to Australia.
+    And a shortcut to more details.*@
     <div class="content-section-a">
         <div class="container">
             <div class="row">

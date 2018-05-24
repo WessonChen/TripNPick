@@ -6,35 +6,43 @@
 <head>
     <link rel="stylesheet" type="text/css" href="~/Content/accomodation.css" />
 </head>
+
+@*This is a accomodation page which contains a dashboard. 
+By using the data we visualised here, user can make a decition which is more suitable for themselves.*@
 <body>
-    <div style="background-color: lightgray; padding-top: 50px;">
+
+    @*Site Map.*@
+    <div style="padding: 56px 0 6px 0; background-color: lightgray;">
         <div class="container">
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
-    <div class="container">
-        <div id="accomodationDescription">
+
+    @*A description about the dashboard below.*@
+    <div id="accomodationDescription">
+        <div class="container">
             <p>
                 We are sure that in your pursuit of travelling and looking for work in rural Australia, you must have come across situations where you couldn’t find a decent budget accommodation.
                 We make your life a little bit simpler by showing you trends of caravan accommodation prices throughout Australia by the types of cabins they offer you to stay in.
-                </br>
-                </br>
+            </p>
+            <p>
                 The caravan parks provide you with facilities like washing and cooking for your day to day work. You can choose to stay in a cabin with an in-suite bathroom and basic facilities. You can also choose between powered and unpowered sites which essentially means their ability to be connected to power sources.
-                <br />
             </p>
         </div>
-        <div class='tableauPlaceholder' id='viz1525763868607' style='position: relative'>
+    </div>
+
+    <div class="container">
+        @*The dashboard integrated from outsite dashboard generator.*@
+        <div class='tableauPlaceholder' id='viz1526355402548' style='position: relative'>
             <noscript>
-                <a href='#'><img alt='seasonal trend of occupancy rate and price of 3 types of accommodation by state  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;ca&#47;cavaran2&#47;caravan2&#47;1_rss.png' style='border: none' /></a>
+                <a href='#'><img alt='Dashboard 2 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Q8&#47;Q89HBKX25&#47;1_rss.png' style='border: none' /></a>
             </noscript>
             <object class='tableauViz' style='display:none;'>
                 <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
                 <param name='embed_code_version' value='3' />
-                <param name='site_root' value='' />
-                <param name='name' value='cavaran2&#47;caravan2' />
-                <param name='tabs' value='no' />
+                <param name='path' value='shared&#47;Q89HBKX25' />
                 <param name='toolbar' value='yes' />
-                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;ca&#47;cavaran2&#47;caravan2&#47;1.png' />
+                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Q8&#47;Q89HBKX25&#47;1.png' />
                 <param name='animate_transition' value='yes' />
                 <param name='display_static_image' value='yes' />
                 <param name='display_spinner' value='yes' />
@@ -44,14 +52,25 @@
             </object>
         </div>
     </div>
-   
-    <script type='text/javascript'>
-        var divElement = document.getElementById('viz1525763868607');
-        var vizElement = divElement.getElementsByTagName('object')[0];
-        vizElement.style.width = '100%';
-        vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
-        var scriptElement = document.createElement('script');
-        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-        vizElement.parentNode.insertBefore(scriptElement, vizElement);
-    </script>
+        <script type='text/javascript'>
+            var divElement = document.getElementById('viz1526355402548');
+            var vizElement = divElement.getElementsByTagName('object')[0];
+            if (divElement.offsetWidth > 800)
+            {
+                vizElement.style.width = '100%';
+                vizElement.style.height = '1607px';
+            } else if (divElement.offsetWidth > 500)
+            {
+                vizElement.style.width = '1200px';
+                vizElement.style.height = '1627px';
+            }
+            else
+            {
+                vizElement.style.width = '1200px';
+                vizElement.style.height = '1627px';
+            }
+            var scriptElement = document.createElement('script');
+            scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+            vizElement.parentNode.insertBefore(scriptElement, vizElement);
+        </script>
 </body>

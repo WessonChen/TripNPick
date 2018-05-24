@@ -9,25 +9,43 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.css" />
 
     <link href="~/Content/demandTable.css" type ="text/css" rel="stylesheet" />
+
+    <script>
+         $(function() {
+             $(".tt").tooltip({
+                 track: true
+             });
+         });
+    </script>
 </head>
 
+@*The fame details page.
+Because we do not have the image for every farm, currently we are using 10 random backgrounds for each farm.
+The 10 farm images will be replaced by real farm piction of each farm as long as we have it in our database in future iterations.*@
+<body onload="randombg()">
 
-<body>
-    <div style="padding-top: 50px; background-color: lightgray;">
+    @*Site Map.*@
+    <div style="padding: 56px 0 6px 0; background-color: lightgray;">
         <div class="container">
             @Html.MvcSiteMap().SiteMapPath()
         </div>
     </div>
-    <div class="jumbotron detailsBG">
+
+    @*Basic information about the selected farm which contains farm name, farm rating and farm address.*@
+    <div class="jumbotron" id="detailsBG">
         <div class="container">
             <h1>@Model.theFarm.farm_name</h1>
-            <p>
+            <p style="cursor: default" class="tt" title="@(@Model.theFarm.farm_rating == 0 ? "" : "Rating: " + @Model.theFarm.farm_rating)">
                 <b>Farm Rating:</b>
                 @if (Model.theFarm.farm_rating == 0)
                 {
-                    <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this farm yet." /></span>
+                    <span style="cursor: initial !important">Sorry, we do not have rating for this farm yet.</span>
                 }
                 else
                 {
@@ -35,125 +53,138 @@
                     {
                         if (Model.theFarm.farm_rating - i >= 1)
                         {
-                            <span><img src="~/img/rating/full_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                            <span><img src="~/img/rating/full_star.png"/></span>
                         }
                         else if (Model.theFarm.farm_rating - i < 1 && Model.theFarm.farm_rating - i > 0)
                         {
-                            <span><img src="~/img/rating/half_star.png" title="Rating: @Model.theFarm.farm_rating" /></span>
+                            <span><img src="~/img/rating/half_star.png"/></span>
                         }
                     }
                 }
             </p>
-            <p><b>Address:</b> @Model.theFarm.farm_address</p>
+            <p style="cursor:initial"><b style="cursor:default !important">Address:</b> @Model.theFarm.farm_address</p>
         </div>
     </div>
 
-    <div class="firsttable">
-        <div class="container">
-            <div id="tabcss">
-                <table id="interestsTable">
-                    <thead>
-                        <tr>
-                            <td>Attraction Name</td>
-                            <td>Rating</td>
-                            <td>Address</td>
-                            <td>Distance</td>
-                            <td>Popularity</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.nearbyAttractions)
-                        {
-                            <tr>
-                                <td class="biggericon"><span><img src="@Url.Content(item.interest_type)" title="Type: @item.toolTip"></span> @item.attraction_name</td>
-                                <td class="smallericon">
-                                    @if (item.attraction_rating == 0)
-                                    {
-                                        <span><img src="~/img/rating/empty_star.png" title="Sorry, we do not have rating for this attraction yet." /></span>
-                                    }
-                                    else
-                                    {
-                                        for (double i = 0; i <= item.attraction_rating; i++)
-                                        {
-                                            if (item.attraction_rating - i >= 1)
-                                            {
-                                                <span><img src="~/img/rating/full_star.png" title="Rating: @item.attraction_rating" /></span>
-                                            }
-                                            else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
-                                            {
-                                                <span><img src="~/img/rating/half_star.png" title="Rating: @item.attraction_rating" /></span>
-                                            }
-                                        }
-                                    }
-                                </td>
-                                <td>@item.attraction_address</td>
-                                <td>@item.attraction_distance<span> km</span></td>
-                                <td class="smallericon">
-                                    @if (item.number_of_reviews == 0)
-                                    {
-                                        <span><img src="~/img/rating/empty_person.png" title="Sorry, we do not have enough information for this attraction yet." /></span>
-                                    }
-                                    else
-                                    {
-                                        int i = 5;
-                                        if (item.number_of_reviews < 132)
-                                        {
-                                            i = 4;
-                                        }
-                                        if (item.number_of_reviews < 41)
-                                        {
-                                            i = 3;
-                                        }
-                                        if (item.number_of_reviews < 14)
-                                        {
-                                            i = 2;
-                                        }
-                                        if (item.number_of_reviews < 6)
-                                        {
-                                            i = 1;
-                                        }
-                                        while (i > 0)
-                                        {
-                                            <span><img src="~/img/rating/person.png" title="@item.number_of_reviews people gave reviews to this attraction." /></span>
-                                            i--;
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
+    @*Clickable tags to switch between the demands table, weather chart and temperature chart.*@
     <div>
         <div class="container">
             <section id="fancyTabWidget" class="tabs t-tabs">
+
+                @*Tag tile.*@
                 <ul class="nav nav-tabs fancyTabs" role="tablist">
 
                     <li class="tab fancyTab active">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="demand"><img src="~/img/details/demand.png"/></span><span class="hidden-xs"> Demand Details</span></a>
+                        <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="attraction"><img src="~/img/details/attraction.png" /></span><span class="hidden-xs"> Attractions</span></a>
                         <div class="whiteBlock"></div>
                     </li>
 
                     <li class="tab fancyTab">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="weather"><img src="~/img/details/weather.png" /></span><span class="hidden-xs"> Weather Details</span></a>
+                        <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="demand"><img src="~/img/details/demand.png" /></span><span class="hidden-xs"> Demands</span></a>
                         <div class="whiteBlock"></div>
                     </li>
 
                     <li class="tab fancyTab">
                         <div class="arrow-down"><div class="arrow-down-inner"></div></div>
-                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="temperature"><img src="~/img/details/temperature.png" /></span><span class="hidden-xs"> Temparature Details</span></a>
+                        <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="weather"><img src="~/img/details/weather.png" /></span><span class="hidden-xs"> Weather</span></a>
+                        <div class="whiteBlock"></div>
+                    </li>
+
+                    <li class="tab fancyTab">
+                        <div class="arrow-down"><div class="arrow-down-inner"></div></div>
+                        <a id="tab3" href="#tabBody3" role="tab" aria-controls="tabBody3" aria-selected="true" data-toggle="tab" tabindex="0"><span class="fa" id="temperature"><img src="~/img/details/temperature.png" /></span><span class="hidden-xs"> Temparature</span></a>
                         <div class="whiteBlock"></div>
                     </li>
                 </ul>
+
+                @*Tag body.*@
                 <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+
+                    @*A table of attactions based on the interests and distance the user selected.*@
                     <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
+                        <h3>Attactions based on the interests and distance you selected</h3>
+                        <div id="tabcss">
+                            <table id="interestsTable">
+                                <thead>
+                                    <tr>
+                                        <td>Attraction Name</td>
+                                        <td>Address</td>
+                                        <td class="tt" title="The distance between the farm and the attraction.">Distance(Km)</td>
+                                        <td>Rating</td>
+                                        <td>Popularity</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.nearbyAttractions)
+                                    {
+                                        <tr>
+                                            <td class="biggericon tt" title="Type: @item.toolTip"><span><img src="@Url.Content(item.interest_type)"></span>@item.attraction_name</td>
+                                            <td>@item.attraction_address</td>
+                                            <td>@item.attraction_distance</td>
+                                            <td class="smallericon tt" style="cursor: default" title="@(item.attraction_rating == 0 ? "Sorry, we do not have rating for this attraction yet." : "Rating: " + item.attraction_rating)">
+                                                @if (item.attraction_rating == 0)
+                                                {
+                                                    <span><img src="~/img/rating/empty_star.png" /></span>
+                                                }
+                                                else
+                                                {
+                                                    for (double i = 0; i <= item.attraction_rating; i++)
+                                                    {
+                                                        if (item.attraction_rating - i >= 1)
+                                                        {
+                                                            <span><img src="~/img/rating/full_star.png" /></span>
+                                                        }
+                                                        else if (item.attraction_rating - i < 1 && item.attraction_rating - i > 0)
+                                                        {
+                                                            <span><img src="~/img/rating/half_star.png" /></span>
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+                                            <td class="smallericon tt" style="cursor: default" title="@(item.number_of_reviews == 0 ? "Sorry, we do not have enough information for this attraction yet." : item.number_of_reviews + " people gave positive reviews to this attraction.")">
+                                                @if (item.number_of_reviews == 0)
+                                                {
+                                                    <span><img src="~/img/rating/empty_person.png"/></span>
+                                                }
+                                                else
+                                                {
+                                                    int i = 5;
+                                                    if (item.number_of_reviews < 132)
+                                                    {
+                                                        i = 4;
+                                                    }
+                                                    if (item.number_of_reviews < 41)
+                                                    {
+                                                        i = 3;
+                                                    }
+                                                    if (item.number_of_reviews < 14)
+                                                    {
+                                                        i = 2;
+                                                    }
+                                                    if (item.number_of_reviews < 6)
+                                                    {
+                                                        i = 1;
+                                                    }
+                                                    while (i > 0)
+                                                    {
+                                                        <span><img src="~/img/rating/person.png"/></span>
+                                                        i--;
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    @*Demands table.*@
+                    <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
                         <h3>Avearge Demands in Months Around that Area</h3>
-                        <div style="overflow-x:auto;">
+                        <div id="tableScrollable">
                             <table class="table table-hover">
                                 <thead>
                                     <tr style="color:white; background: #002233">
@@ -195,7 +226,9 @@
                         </div>
 
                     </div>
-                    <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
+
+                    @*Weather chart.*@
+                    <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
                         @using Highsoft.Web.Mvc.Charts
 
                         @(Html.Highsoft().Highcharts(
@@ -271,7 +304,9 @@
                             }, "weatherDaysChart")
                         )
                     </div>
-                    <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
+
+                    @*Temparature Chart.*@
+                    <div class="tab-pane  fade" id="tabBody3" role="tabpanel" aria-labelledby="tab3" aria-hidden="true" tabindex="0">
                         @using Highsoft.Web.Mvc.Charts
                         @(Html.Highsoft().Highcharts(
                                 new Highcharts
@@ -339,37 +374,50 @@
                                     }
                                 }, "temparatureChart")
                         )
-                    </div>
+                    </div>                    
                 </div>
-
             </section>
         </div>
     </div>
 
     <script type="text/javascript">
 
+        //Give the tag title a fixed size.
         $(document).ready(function () {
             var numItems = $('li.fancyTab').length;
 
             if (numItems == 3) {
-                $("li.fancyTab").width('33.3%');
+                $("li.fancyTab").width('33.33%');
+            }
+
+            if (numItems == 4) {
+                $("li.fancyTab").width('25%');
             }
 
             $('#interestsTable').DataTable({
-                "scrollY": "200px",
+                "scrollY": "297px",
                 "responsive": true,
                 "paging": false,
                 "info": false,
                 "searching": false,
                 "lengthChange": false,
                 "displayLength": 50,
-                "order": [[3, "asc"]],
-                "columnDefs": [{
-                    "orderable": false, "targets": 2,
-                }]
+                "order": [[2, "asc"]],
+                "columnDefs": [
+                    {
+                        "orderable": false, "targets": 1
+                    },
+                    {
+                        "orderable": false, "targets": 3
+                    },
+                    {
+                        "orderable": false, "targets": 4
+                    }
+                ]
             });
         });
 
+        //Give the tag body a size which equals to the content inside.
         $(window).load(function () {
             $('.fancyTabs').each(function () {
                 var highestBox = 0;
@@ -380,6 +428,23 @@
                 $('.fancyTab a', this).height(highestBox);
             });
         });
+
+        //The method for random farm image.
+        function randombg() {
+            var random = Math.floor(Math.random() * 10) + 0;
+            var bigSize = ["url(../../img/farms/1.jpg)",
+                           "url(../../img/farms/2.jpg)",
+                           "url(../../img/farms/3.jpg)",
+                           "url(../../img/farms/4.jpg)",
+                           "url(../../img/farms/5.jpg)",
+                           "url(../../img/farms/6.jpg)",
+                           "url(../../img/farms/7.jpg)",
+                           "url(../../img/farms/8.jpg)",
+                           "url(../../img/farms/9.jpg)",
+                           "url(../../img/farms/10.jpg)"];
+            document.getElementById("detailsBG").style.backgroundImage = bigSize[random];
+            debugger
+        }
     </script>
 
 </body>

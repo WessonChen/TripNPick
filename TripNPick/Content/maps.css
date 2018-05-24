@@ -1,18 +1,55 @@
-﻿#mapForm {
+﻿.searchBG {
+    background: url(../img/dawn.jpg) no-repeat center center;
+    background-size: cover;
+    padding: 32px 0 48px 0;
+}
+
+#mapForm {
     display:flex;
     flex-direction: column;
-    background: url(../img/searchBG.PNG) no-repeat center center;
-    background-size: cover;
-    width: 100%;
     font-size: 15px !important;
+}
+
+.leftDD .select2-container--default .select2-selection--multiple {
+    width: 95%;
+}
+
+@media(max-width: 1268px) {
+    .leftDD .select2-container--default .select2-selection--multiple {
+        width: 100%;
+    }
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     margin-top: 3px !important;
 }
 
-#mapForm form {
-    padding: 24px 32px 32px 32px;
+.select2-container .select2-selection--single {
+    height: 34px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 34px;
+}
+
+.select2-container--default .select2-selection--multiple {
+    cursor: pointer;
+}
+
+.select2 input {
+   color: white;
+    text-shadow: 0px 0px 0px #000;
+    -webkit-text-fill-color: transparent;
+}
+.select2 input::-webkit-input-placeholder {
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+}
+
+#mapForm form label img {
+    max-height: 18px;
+    padding-bottom: 2px;
+    padding-left: 5px;
 }
 
 .select2 {
@@ -21,13 +58,21 @@
 
 #mapForm .btn-success {
     float: right;
-    margin-top: 8px;
+    margin-left: 16px;
+    margin-top: 24px;
+}
+
+#mapForm .btn-warning {
+    float: right;
+    margin-top: 24px;
 }
 
 #mapForm h2 {
     text-align: center;
     color: white;
     font-weight: bold;
+    padding-top: 0 !important;
+    padding-bottom: 32px !important;
 }
 
 #mapForm label {
@@ -40,32 +85,235 @@
     padding-right: 0px;
 }
 
-#example {
-    padding: 8px 0 0 0 !important;
+.example {
+    padding: 10px 0 10px 8px !important;
     margin: 0 !important;
-    float: right;
+    width: 100%;
+    background-color: #f8f8f8;
 }
 
-#example img{
-    height: 20px;
+.example label {
+    padding-right: 6px;
 }
 
-.intro {
+.example img{
+    padding-left: 4px;
+    height: 24px;
+}
+
+.mapLayout {
+    display:flex;
+    flex-direction: row !important;
+}
+
+.selection-img {
     display:flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 64px;
-    text-align:justify; 
-    text-justify: inter-word;
+    padding: 32px 48px;
+    background-color: #f8f8f8;
+    text-align: center;
 }
 
-.intro img {
-    max-height: 64px;
-    padding-bottom: 8px;
+.selection-img div{
+    padding: 16px 0;
 }
 
+@media(max-width:1200px) {
+    .selection-img {
+        flex-direction: row;
+    }
+    .selection-img div {
+        width: 33.3333%;
+        padding: 8px 32px;
+    }
+}
 
+@media(max-width:768px) {
+    .selection-img {
+        flex-direction: column;
+        padding: 48px;
+    }
+    .selection-img div {
+        width: 100%;
+        padding: 16px;
+    }
+}
+
+@media(max-width:450px) {
+    .selection-img {
+        padding: 16px 8px;
+    }
+    .selection-img div {
+        padding: 8px 16px;
+    }
+}
+
+.selection-img div img{
+    max-height: 96px;
+    max-width: 96px;
+    padding-bottom: 16px;
+}
+
+#hideandshow {
+    display:flex;
+    flex-direction: row;
+}
+
+#thatmap {
+    height: 550px;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#thatmap img {
+	max-width: none !important;
+}
+
+.gm-style-iw {
+	width: 350px !important;
+	top: 15px !important;
+	left: 0px !important;
+	background-color: #fff;
+	box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+	border: 1px solid rgba(72, 181, 233, 0.6);
+	border-radius: 2px 2px 10px 10px;
+}
+#iw-container {
+	margin-bottom: 10px;
+}
+#iw-container .iw-title {
+	font-size: 20px;
+	font-weight: 400;
+	padding: 8px;
+	background-color: #48b5e9;
+	color: white;
+	margin: 0;
+	border-radius: 2px 2px 0 0;
+    width: 350px;
+}
+#iw-container .iw-content {
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: 400;
+	padding: 12px 6px;
+	max-height: 160px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.goMore,
+.closebtn {
+    font-size: 12px !important;
+    padding: 4px 8px !important;
+}
+
+.closebtn {
+    float: right;
+    margin-right: 20px;
+}
+
+/*.goMore {
+    float: left;
+    margin-left: 20px;
+}*/
+
+.iw-subTitle {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.iw-subTitle p b{
+	font-weight: 700 !important;
+}
+
+.iw-subTitle p {
+    font-weight: initial !important;
+}
+
+.iw-subTitle p img {
+    height: 16px;
+}
+
+.iw-bottom-gradient {
+	position: absolute;
+	width: 326px;
+	height: 25px;
+	bottom: 10px;
+	right: 18px;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+}
+
+#checkDiv {
+    padding: 16px 0 0 16px;
+    display: none;
+    width: 128px;
+    background-color: #f8f8f8;
+}
+
+#checkDiv label {
+    padding-bottom: 6px;
+}
+
+.checklabel {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checklabel input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #eee;
+}
+
+.checklabel:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.checklabel input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checklabel input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checklabel .checkmark:after {
+    left: 5px;
+    top: 4px;
+    width: 5px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
 
 #loader {
     position: absolute;

@@ -22,7 +22,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img alt="Logo" class="navbar-brand topnav" src="@Url.Content("~/img/Brand.png")" style="padding: 0 !important; margin: 0 !important"/>
+                <img alt="Logo" class="navbar-brand topnav" src="@Url.Content("~/img/Brand.png")" style="padding: 6px 0 2px 0 !important; margin: 0 !important; cursor:pointer; max-width: 130px" onclick="javascript: location.href = '/'"/>
                 @*@Html.ActionLink("Trip&Pick", "Index", "Home", new { area = "" }, new { @class = "navbar-brand narTitle" })*@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -31,7 +31,7 @@
                     <li>@Html.ActionLink("Accomodation", "Accomodation", "Home", new { area = ""}, new { @class = "narItem"})</li>
                     <li>@Html.ActionLink("Information", "Information", "Home", new { area = "" }, new { @class = "narItem" })</li>
                     <li>@Html.ActionLink("About Us", "AboutUS", "Home", new { area = "" }, new { @class = "narItem" })</li>
-                    <li>@Html.ActionLink("Search", "TestIndex", "Map", new { area = "" }, new { @class = "narItem" })</li>
+                    <li>@Html.ActionLink("Search", "MapPage", "Map", new { area = "" }, new { @class = "narItem" })</li>
                     @*<li>@Html.Partial("_LoginPartial")</li>*@
                 </ul>
             </div>
@@ -40,11 +40,11 @@
     <div>
 
         @RenderBody()
-        <footer style="padding: 32px 0 !important">
+        <footer style="padding: 0 !important">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <ul class="list-inline">
+                        <ul class="list-inline" style="padding-top: 32px !important">
                             <li>
                                 <a>@Html.ActionLink("Home", "Index", "Home")</a>
                             </li>
@@ -62,10 +62,10 @@
                             </li>
                             <li class="footer-menu-divider">&sdot;</li>
                             <li>
-                                <a>@Html.ActionLink("Search", "Index", "Map")</a>
+                                <a>@Html.ActionLink("Search", "TestIndex", "Map")</a>
                             </li>
                         </ul>
-                        <p class="copyright text-muted small">&copy; @DateTime.Now.Year - TripAndPick</p>
+                        <p class="copyright text-muted small" style="padding-bottom: 32px !important">&copy; @DateTime.Now.Year - TripAndPick</p>
                     </div>
                 </div>
             </div>

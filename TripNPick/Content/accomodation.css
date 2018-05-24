@@ -1,16 +1,17 @@
 ﻿#accomodationDescription p {
     text-align:justify; 
     text-justify: inter-word;
-    font-size: 115%;
-    color: #bfbfbf;
-    font-weight: bold;
+    font-size: 120%;
     line-height: 1.65
 }
 
 #accomodationDescription {
-    padding: 50px 0;
+    padding: 72px 0;
+    background: url(../img/accomodationBG.JPG) no-repeat center center;
+    background-size: cover;
+    color: white;
 }
 
 .tableauPlaceholder {
-    margin-bottom: 50px !important;
+    margin: 72px 0 50px 0 !important;
 }

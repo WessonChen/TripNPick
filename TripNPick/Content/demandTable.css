@@ -8,27 +8,31 @@
 }
 
 .High {
-    color: #D1403B;
-    font-family: Montserrat-Regular;
+    color: #008000;
     font-size: 17px;
-    font-weight: 800;
+    font-weight: 900;
     position: relative;
 }
 
 .Medium {
     color: #69623B;
-    font-family: Montserrat-Regular;
     font-size: 15px;
     position: relative;
 }
 
 thead {
-    font-family: Montserrat-Medium;
     font-weight: 200;
     font-size: medium;
 }
 
-#tabBody0 h3{
+#tableScrollable {
+    overflow: auto;
+    height: 340px;
+}
+
+#tabBody1 h3,
+#tabBody0 h3 {
+    margin-top: 8px !important;
     text-align: center;
     padding-bottom: 16px;
     font-weight: bold;
@@ -44,7 +48,6 @@ thead {
 
 .table tbody tr:hover {
     background: silver;
-    cursor: pointer;
 }
 
 .firsttable{
@@ -52,35 +55,37 @@ thead {
     padding: 50px 0;
 }
 
-.detailsBG {
+#detailsBG {
     background-color: white !important;
-    background: url(../img/aboutBG.JPG) no-repeat center center;
+    background-position: center center;
     background-size: cover;
+    background-repeat: no-repeat;
     color: white;
     padding: 80px 0;
 }
-.detailsBG p {
+
+#detailsBG p {
     color: #bfbfbf;
 }
 
-.detailsBG p b{
+#detailsBG p b{
     color: white !important;
 }
 
-.detailsBG p img {
+#detailsBG p img {
     max-height: 20px;
     padding-bottom: 2px;
 }
 
 #tabcss table thead tr {
-    font-family: Montserrat-Medium;
     background-color: rgb(0, 34, 51);
    color: white;
    font-weight: bold;
 }
 
 .biggericon span img{
-    max-height: 20px;
+    max-height: 28px;
+    padding-right: 8px;
 }
 
 .smallericon {
@@ -146,11 +151,14 @@ li.fancyTab.active a {
 	width:100%;
 	padding: 15px 0 5px;
   color:#666;
-  back
 }
 
 .fancyTab.active .fa {
   color: #cfb87c;
+}
+
+.fancyTab.active #attraction img {
+    content:url("../img/details/attraction_orange.png");
 }
 
 .fancyTab.active #demand img {
