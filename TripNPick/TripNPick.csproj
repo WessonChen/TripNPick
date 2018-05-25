@@ -321,6 +321,7 @@
     <Content Include="img\farms\9.jpg" />
     <Content Include="img\help_icon.png" />
     <Content Include="img\homeBG.png" />
+    <Content Include="img\linkedin.png" />
     <Content Include="img\loadingImage.gif" />
     <Content Include="img\markers\Beach.png" />
     <Content Include="img\markers\Farm.png" />

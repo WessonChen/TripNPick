@@ -1,6 +1,10 @@
 ﻿div {
     line-height: 1.65 !important;
 }
+.linkedin {
+    max-height: 16px;
+    cursor: pointer;
+}
 
 p {
     text-align:justify; 
